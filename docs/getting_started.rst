@@ -1,0 +1,4 @@
+Getting Started
+===============
+
+Install `classy`
