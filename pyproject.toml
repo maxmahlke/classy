@@ -20,8 +20,8 @@ jinja2 = {version = "<3.1", optional = true}
 docs = ["sphinx", "sphinx-redactor-theme"]
 
 [tool.poetry.dev-dependencies]
-sphinx-redactor-theme = {version = "^0.0.1", optional = true}
-jinja2 = {version = "<3.1", optional = true}
+sphinx-redactor-theme = "^0.0.1"
+jinja2 = "<3.1"
 
 [tool.pytest.ini_options]
 addopts = "-v --cov=classy --cov-report html"
