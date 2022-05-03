@@ -42,6 +42,7 @@ extensions = [
     "sphinx.ext.autosectionlabel",
     "sphinx.ext.napoleon",
     "sphinx.ext.graphviz",
+    "hoverxref.extension",
 ]
 
 # Print out todos in documentation?
@@ -57,6 +58,21 @@ exclude_patterns = ["_build", "Thumbs.db", ".DS_Store"]
 
 
 graphviz_output_format = "svg"
+
+# ------
+# hoverxref_role_types = {
+#     "hoverxref": "modal",
+#     "ref": "modal",  # for hoverxref_auto_ref config
+#     "confval": "tooltip",  # for custom object
+#     "mod": "tooltip",  # for Python Sphinx Domain
+#     "class": "tooltip",  # for Python Sphinx Domain
+#     "term": "tooltip",  # for Python Sphinx Domain
+# }
+
+hoverxref_roles = ["numref", "confval", "setting", "term"]
+
+hoverxref_project = "classy"
+hoverxref_version = "latest"
 
 # -- Options for HTML output -------------------------------------------------
 
