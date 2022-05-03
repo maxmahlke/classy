@@ -5,6 +5,7 @@ Install
 -------
 
 ``classy`` is available on the `python package index <https://pypi.org>`_ as *space-classy*:
+The minimum ``python`` version is ``3.8``.
 
 .. code-block:: bash
 
