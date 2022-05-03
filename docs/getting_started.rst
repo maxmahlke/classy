@@ -5,18 +5,18 @@ Install
 -------
 
 ``classy`` is available on the `python package index <https://pypi.org>`_ as *space-classy*:
-The minimum ``python`` version is ``3.8``.
 
 .. code-block:: bash
 
    $ pip install space-classy
 
-The ``classy`` executable is then available system-wide.
+The minimum ``python`` version is ``3.8``.
+After installing, the ``classy`` executable is available system-wide.
 
 .. code-block:: bash
 
    $ classy
-   Usage: cclassy [OPTIONS] COMMAND [ARGS]...
+   Usage: classy [OPTIONS] COMMAND [ARGS]...
 
    CLI for minor body classification.
 
@@ -25,6 +25,7 @@ The ``classy`` executable is then available system-wide.
      --help     Show this message and exit.
 
    Commands:
-     docs  Open the classy documentation in browser.
+     classify    Classify asteroid observations.
+     docs        Open the classy documentation in browser.
      preprocess  Apply the preprocessing routine to data in a CSV file.
 
