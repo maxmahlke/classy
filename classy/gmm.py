@@ -26,17 +26,7 @@ def load_mixture_models():
         gmm_function,
     ) in FIT_CLUSTER_FUNCTIONS.items():
 
-        PATH_GMM = classy.PATH_DATA / f"gmm/gmm_{cluster}.pkl"
-
-        if not PATH_GMM.exists():
-            gmm, classes = gmm_function()
-
-            with PATH_GMM.open("wb") as file_:
-                pickle.dump((gmm, classes), file_)
-
-        else:
-            with PATH_GMM.open("rb") as file_:
-                gmm, classes = pickle.load(file_)
+        gmm, classes = classy.data.load("gmm", cluster)
 
         GMMS[cluster] = gmm
         CLASSES[cluster] = classes

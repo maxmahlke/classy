@@ -504,17 +504,6 @@ def gem_mixnorm_eval(
     return alpha, gamma, loglik
 
 
-def _load_mixnorm():
-    """Load the mixnorm model fit."""
-    with (classy.PATH_DATA / "mixnorm/mixnorm.pkl").open("rb") as file_:
-        return pickle.load(file_)
-
-
-def _load_neighbours():
-    """Load the classy spectra to use in the closest neighbour search."""
-    return pd.read_csv((classy.PATH_DATA / "mixnorm/neighbours.csv"))
-
-
 def normalize_l2(data):
     # L2 norm and extrapolation of missing bins
 

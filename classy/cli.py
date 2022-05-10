@@ -4,7 +4,9 @@ import webbrowser
 import click
 import rich
 
-import classy
+import classy.classify
+import classy.logging
+import classy.preprocessing
 
 
 def _logging_option(func):

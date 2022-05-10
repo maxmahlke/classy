@@ -5,7 +5,10 @@ import sys
 import numpy as np
 import pandas as pd
 
-import classy
+import classy.defs
+import classy.logging
+import classy.spectra
+import classy.tools
 
 
 class Preprocessor:

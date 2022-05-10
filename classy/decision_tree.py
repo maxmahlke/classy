@@ -1,8 +1,9 @@
 import pickle
 
-import classy
 import numpy as np
 import pandas as pd
+
+import classy.gmm
 
 
 def assign_classes(data):
@@ -96,17 +97,7 @@ def assign_classes(data):
     )
 
     # Build class GMM for cluster 29 resolution
-    PATH_GMM29 = classy.PATH_DATA / "gmm/gmm_29.pkl"
-
-    if not PATH_GMM29.exists():
-        GMM_29, CLASSES_29 = classy.decision_tree.resolve_cluster_29(data)
-
-        with open(PATH_GMM29, "wb") as file_:
-            pickle.dump((GMM_29, CLASSES_29), file_)
-
-    else:
-        with open(PATH_GMM29, "rb") as file_:
-            GMM_29, CLASSES_29 = pickle.load(file_)
+    GMM_29, CLASSES_29 = classy.data.load("gmm", "29")
 
     data = data.apply(
         lambda sample: resolve_cluster_29(sample, GMM_29, CLASSES_29), axis=1
@@ -328,12 +319,7 @@ def resolve_cluster_29(sample, GMM, CLASSES):
     for j, class_ in enumerate(CLASSES):
 
         # Add class probabilites scaled by cluster probability
-        if class_ == "E":
-            print(sample.class_E)
         sample[f"class_{class_}"] += probs[0][j] * sample[f"cluster_29"]
-        if class_ == "E":
-            print(sample.class_E)
-            breakpoint()
     return sample
 
 

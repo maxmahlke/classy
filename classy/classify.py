@@ -2,9 +2,11 @@ from collections import Counter
 import logging
 from pathlib import Path
 
-import classy
 import numpy as np
 import pandas as pd
+
+import classy.decision_tree
+import classy.mcfa
 
 
 class Classifier:
@@ -73,9 +75,7 @@ class Classifier:
             for feature, props in classy.defs.FEATURE.items():
                 if sample.class_ in props["candidates"]:
 
-                    # self.spectra[i].detect_features(feature, skip_validation)
-
-                    if sample[feature]:
+                    if sample[feature] == 1:
                         if feature == "h":
                             self.data_classified.loc[i, "class_"] = "Ch"
                             break

@@ -1,9 +1,11 @@
 import logging
 
-import classy
 import numpy as np
 import pandas as pd
 from scipy import interpolate, signal
+
+import classy.mixnorm
+import classy.plotting
 
 
 class Spectrum:
