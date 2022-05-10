@@ -26,7 +26,16 @@ def load_mixture_models():
         gmm_function,
     ) in FIT_CLUSTER_FUNCTIONS.items():
 
-        gmm, classes = classy.data.load("gmm", cluster)
+        gmm, classes = classy.data.load("gmm", cluster=cluster)
+
+        # Not sure that we should be refitting if files are missing
+        # Possibly better to throw an error
+
+        # if gmm is None:
+        #     gmm, classes = gmm_function()
+
+        #     with PATH_GMM.open("wb") as file_:
+        #         pickle.dump((gmm, classes), file_)
 
         GMMS[cluster] = gmm
         CLASSES[cluster] = classes
@@ -386,6 +395,7 @@ FIT_CLUSTER_FUNCTIONS = {
     19: fit_cluster_19,
     23: fit_cluster_23,
     24: fit_cluster_24,
+    29: fit_cluster_29,
     31: fit_cluster_31,
     37: fit_cluster_37,
     41: fit_cluster_41,

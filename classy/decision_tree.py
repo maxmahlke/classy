@@ -97,7 +97,7 @@ def assign_classes(data):
     )
 
     # Build class GMM for cluster 29 resolution
-    GMM_29, CLASSES_29 = classy.data.load("gmm", "29")
+    GMM_29, CLASSES_29 = classy.data.load("gmm", 29)
 
     data = data.apply(
         lambda sample: resolve_cluster_29(sample, GMM_29, CLASSES_29), axis=1

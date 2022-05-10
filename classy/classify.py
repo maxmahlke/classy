@@ -5,8 +5,8 @@ from pathlib import Path
 import numpy as np
 import pandas as pd
 
+import classy.data
 import classy.decision_tree
-import classy.mcfa
 
 
 class Classifier:
@@ -30,7 +30,7 @@ class Classifier:
         # TODO Switch from pd.DataFrame entirely to OOP approach
 
         # Instantiate MCFA model instance if not done yet
-        model = classy.mcfa.load_model()
+        model = classy.data.load("mcfa")
 
         # Get only the classification columns
         data_input = self.data[classy.defs.COLUMNS["all"]].values
