@@ -1,4 +1,4 @@
-# 0.2.1
+# 0.2.1 - 2022-05-10
 - Actually implement the 'classy' executable
 - Fix implementation of data/ directory
 - Simplify import scheme in package

@@ -201,7 +201,7 @@ Via the `python` interface
 
    path_data = "path/to/data.csv"
 
-   preprocessor = classy.preprocessing.Preprocessor(path_data)
+   preprocessor = classy.Preprocessor(path_data)
    preprocessor.preprocess()
    preprocessor.to_file()
 
@@ -255,7 +255,7 @@ Via the `python` interface
    import classy
 
    path_data = "path/to/data_preprocessed.csv"
-   classifier = classy.classify.Classifier(path_data)
+   classifier = classy.Classifier(path_data)
    classifier.classify()
 
    # Optionally
