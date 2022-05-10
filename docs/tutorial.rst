@@ -203,7 +203,7 @@ Via the `python` interface
 
    preprocessor = classy.preprocessing.Preprocessor(path_data)
    preprocessor.preprocess()
-   preproccessor.to_file()
+   preprocessor.to_file()
 
 Classification
 ==============
