@@ -43,7 +43,7 @@ def plot(data):
     fig, axes = plt.subplots(figsize=(15, 12), nrows=3, ncols=3)
 
     # Load classy latent scores for background distribution
-    classy_data = classy.data.load()
+    classy_data = classy.data.load("classy")
 
     # Plot the distribution in latent space
     for i in range(classy.defs.MODEL_PARAMETERS["d"] - 1):

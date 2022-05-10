@@ -1,5 +1,5 @@
-import os
 import logging
+import os
 
 from rich.logging import RichHandler
 
@@ -16,7 +16,7 @@ def init_logging(level):
         The logging level, logging everything [0] to nothing [5]. Default is 2.",
     """
     logging.basicConfig(
-        level=level * 10,
+        level=0,
         format=FORMAT,
         datefmt="[%X]",
         handlers=[RichHandler(rich_tracebacks=True, show_path=False, show_time=False)],

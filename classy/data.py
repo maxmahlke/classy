@@ -10,14 +10,14 @@ def load(resource, cluster=None):
     Parameters
     ----------
     resource : str
-        Type of resource to load. Choose from ['classified', 'gmm', 'mcfa', 'mixnorm'].
+        Type of resource to load. Choose from ['classy', 'gmm', 'mcfa', 'mixnorm'].
 
     cluster : int
         If loading a GMM, specify which cluster should be loaded. Default is None.
     """
 
-    if resource == "classified":
-        _load_classified()
+    if resource == "classy":
+        return _load_classy()
 
     elif resource == "gmm":
         if not isinstance(cluster, int) and cluster != "emp":
@@ -38,7 +38,7 @@ def _get_path_data():
     return importlib.resources.files(__package__) / "data"
 
 
-def _load_classified():
+def _load_classy():
     """Load the classified classy data.
 
     Returns
@@ -46,7 +46,7 @@ def _load_classified():
     pd.DataFrame
         The classified classy data.
     """
-    return pd.read_csv(_get_path_data() / f"data/classy_data_{which}.csv")
+    return pd.read_csv(_get_path_data() / f"classy/classy_data.csv")
 
 
 def _load_mcfa():
