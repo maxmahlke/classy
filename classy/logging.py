@@ -16,7 +16,7 @@ def init_logging(level):
         The logging level, logging everything [0] to nothing [5]. Default is 2.",
     """
     logging.basicConfig(
-        level=0,
+        level=level * 10,
         format=FORMAT,
         datefmt="[%X]",
         handlers=[RichHandler(rich_tracebacks=True, show_path=False, show_time=False)],

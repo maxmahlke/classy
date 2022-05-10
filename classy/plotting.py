@@ -105,7 +105,6 @@ def plot(data):
 
     # And now the class probablities
     for ind, obs in data.iterrows():
-        print({c: obs[f"class_{c}"] for c in classy.defs.CLASSES})
         axes[1, 2].bar(
             classy.defs.CLASSES,
             height=[obs[f"class_{c}"] for c in classy.defs.CLASSES],

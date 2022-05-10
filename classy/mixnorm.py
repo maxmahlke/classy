@@ -1,9 +1,10 @@
 import pickle
 
-import classy
 import numpy as np
 import pandas as pd
 from sklearn import preprocessing
+
+import classy.data
 
 
 def normalize(spec):
@@ -21,10 +22,9 @@ def normalize(spec):
     """
 
     # Load the trained normalization instance
-    normalization = _load_mixnorm()
+    normalization, neighbours = classy.data.load("mixnorm")
 
     # Compute model initalization parameters by nearest neighbour search among classy spectra
-    neighbours = _load_neighbours()
     neighbours_spectra = neighbours[classy.defs.WAVE_GRID_STR].values
     idx_nearest_neighbours = _find_nearest_neighbours(spec, neighbours_spectra, N=5)
 
@@ -87,7 +87,6 @@ def normalize(spec):
     #     np.exp(spec), data_complete
     # )
     alpha_init = np.array(alpha_init)[:, None]
-    print(alpha_init)
 
     # ------
     # Normalize
