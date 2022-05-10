@@ -39,13 +39,17 @@ There are six files, one for each spectrum, following the format of
     2.4500    1.2504       0.0042         4
     2.4550   -1.0000      -1.0000         0
 
+We ignore the uncertainty and flag columns in the following.
+
 Format of Spectrometric Data
 ----------------------------
 
-We ignore the uncertainty and flag columns in the following. ``classy`` expects the input to
-be transposed, i.e. the wavelength as columns and the reflectance of a single spectrum as row. This way,
-we can merge several spectra into a single file, as shown below. Note that the file content below is formatted for
-readability, ``classy`` expects a ``csv`` file, i.e. comma-separated columns.
+``classy`` expects the input to be transposed, i.e. the wavelength as columns
+and the reflectance of a single spectrum as row. The wavelengths at which the
+spectra were observed have to be given as column headers. This way, we can
+merge several spectra into a single file, as shown below. Note that the file
+content below is formatted for readability, ``classy`` expects a ``csv`` file,
+i.e. comma-separated columns.
 
 .. code:: bash
 

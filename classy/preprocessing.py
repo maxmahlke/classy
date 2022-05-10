@@ -1,5 +1,6 @@
 import logging
 from pathlib import Path
+import sys
 
 import numpy as np
 import pandas as pd
@@ -49,6 +50,13 @@ class Preprocessor:
 
         # Are there wavelength columns?
         self.columns_numeric = classy.tools.get_numeric_columns(self.data.columns)
+
+        if not self.columns_numeric:
+            logging.error(
+                "No wavelength columns were found. Ensure that the input data is in the right format, see https://classy.readthedocs.io/en/latest/tutorial.html#format-of-spectrometric-data"
+            )
+            sys.exit()
+
         self.data = self.data.rename(columns={str(n): n for n in self.columns_numeric})
         self.columns = self.data.columns
         logging.debug(f"Identified numeric columns: {self.columns_numeric}")
