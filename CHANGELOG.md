@@ -1,4 +1,5 @@
 # 0.2.1
+- Actually implement the 'classy' executable
 - Fix implementation of data/ directory
 - Simplify import scheme in package
 
