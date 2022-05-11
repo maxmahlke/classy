@@ -1,4 +1,4 @@
-# 0.2.3 - 2022-05
+# 0.2.3 - 2022-05-11
 - Always show the full VISNIR wavelength range in the Classifier plot
 - Pretty-print tracebacks with rich
 - Fix in the numeric column identification
