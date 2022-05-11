@@ -2,6 +2,10 @@ import logging
 import os
 
 from rich.logging import RichHandler
+from rich.traceback import install
+
+# pretty-print tracebacks with rich
+install()
 
 FORMAT = "%(message)s"
 

@@ -1,5 +1,6 @@
 # 0.2.3 - 2022-05
 - Always show the full VISNIR wavelength range in the Classifier plot
+- Pretty-print tracebacks with rich
 
 # 0.2.2 - 2022-05-10
 - Set default logging level back to INFO
