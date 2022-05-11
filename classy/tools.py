@@ -15,7 +15,7 @@ def get_numeric_columns(columns):
 
     for column in columns:
         try:
-            column = float(column)
+            float(column)
         except ValueError:
             continue
         numeric_elements.append(column)

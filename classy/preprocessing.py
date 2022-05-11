@@ -37,7 +37,7 @@ class Preprocessor:
             )
             spectrum = classy.spectra.Spectrum(
                 np.array(sorted(self.columns_numeric)),
-                sample[sorted(self.columns_numeric)],
+                sample[sorted(self.columns_numeric)].array,
                 smooth_degree,
                 smooth_window,
             )
@@ -53,6 +53,10 @@ class Preprocessor:
 
         # Are there wavelength columns?
         self.columns_numeric = classy.tools.get_numeric_columns(self.data.columns)
+        self.data = self.data.rename(
+            columns={c: float(c) for c in self.columns_numeric}
+        )
+        self.columns_numeric = [float(c) for c in self.columns_numeric]
 
         if not self.columns_numeric:
             logging.error(
@@ -60,7 +64,6 @@ class Preprocessor:
             )
             sys.exit()
 
-        self.data = self.data.rename(columns={str(n): n for n in self.columns_numeric})
         self.columns = self.data.columns
         logging.debug(f"Identified numeric columns: {self.columns_numeric}")
 

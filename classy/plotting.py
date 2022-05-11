@@ -89,7 +89,7 @@ def plot(data):
         )
 
     axes[0, 1].legend(frameon=False, ncol=len(data) if len(data) <= 5 else 4)
-    axes[0, 1].set(ylim=(0.6, 2.2), xlim=(0.45, 2.5))
+    axes[0, 1].set(xlim=(0.45, 2.5))
 
     # Add the cluster probabilities
     for ind, obs in data.iterrows():
