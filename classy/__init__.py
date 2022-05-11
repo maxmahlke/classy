@@ -2,4 +2,4 @@
 from .preprocessing import Preprocessor
 from .classify import Classifier
 
-__version__ = "0.2.3"
+__version__ = "0.2.4"
