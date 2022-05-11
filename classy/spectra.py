@@ -47,8 +47,13 @@ class Spectrum:
         # Basic properties
         if isinstance(wave, pd.Series):
             wave = wave.array.astype(float)
+        elif isinstance(wave, pd.core.arrays.numpy_.PandasArray):
+            wave = wave.astype(float)
+
         if isinstance(refl, pd.Series):
             refl = refl.array.astype(float)
+        elif isinstance(refl, pd.core.arrays.numpy_.PandasArray):
+            refl = refl.astype(float)
 
         self.wave = wave
         self.refl = refl
@@ -75,11 +80,22 @@ class Spectrum:
 
             # Run with default parameters to initialize self.refl_smoothed
             self.smooth_window = (
-                self.smooth_window if self.smooth_window is not None else 99
+                self.smooth_window
+                if self.smooth_window is not None
+                else int(len(self.refl) / 4)
             )
+
+            # Make sure the smooth window is odd and larger than smooth degree
+            if self.smooth_window % 2 == 0:
+                self.smooth_window += 1
+
             self.smooth_degree = (
                 self.smooth_degre if self.smooth_degree is not None else 3
             )
+
+            while self.smooth_window <= self.smooth_degree:
+                self.smooth_window += 2
+
             self.refl_smoothed = signal.savgol_filter(
                 self.refl, self.smooth_window, self.smooth_degree
             )

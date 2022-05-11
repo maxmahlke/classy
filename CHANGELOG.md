@@ -1,3 +1,7 @@
+# 0.2.4 - 2022-05-11
+- Fix the pre-settings of the smooth window size, it is now limited by the number of wavelength bins
+- Don't show the undefined probability of being Ch in the Classifier plot
+
 # 0.2.3 - 2022-05-11
 - Always show the full VISNIR wavelength range in the Classifier plot
 - Pretty-print tracebacks with rich

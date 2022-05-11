@@ -104,9 +104,12 @@ def plot(data):
     axes[0, 2].set(ylim=(0, 1))
 
     # And now the class probablities
+    CLASSES = classy.defs.CLASSES
+    CLASSES.remove("Ch")
+
     for ind, obs in data.iterrows():
         axes[1, 2].bar(
-            classy.defs.CLASSES,
+            CLASSES,
             height=[obs[f"class_{c}"] for c in classy.defs.CLASSES],
             facecolor="none",
             edgecolor=COLORS[ind],
