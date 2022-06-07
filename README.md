@@ -41,7 +41,7 @@ The following data files are provided in this repository (format `csv` and `txt`
 | `ref_spectra.csv` | `refspect.txt` | References of spectra | The key to the spectra references used in the classification tables. |
 | `ref_albedo.csv` | `refalbed.txt` | References of albedos |  The key to the albedo references used in the classification tables. |
 
-More information on each file can be found in the data/ReadMe
+More information on each file can be found in the [data/ReadMe](https://github.com/maxmahlke/classy/blob/main/data/ReadMe).
 
 # Documentation
 
