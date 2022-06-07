@@ -4,6 +4,11 @@
   <img width="260" src="https://raw.githubusercontent.com/maxmahlke/classy/main/docs/gfx/logo_classy.png">
 </p>
 
+Note: The classification pipeline is implemented yet the user-interface is
+minimal so far. I am currently writing my PhD thesis and intend to make `classy`
+more user-friendly in July / August of this year. For questions or issues, please use the [Issues](https://github.com/maxmahlke/classy/issues) page of this repository
+or contact me [via email](https://www.oca.eu/en/max-mahlke).
+
 [Features](#features) - [Install](#install) - [Data](#data) - [Documentation](#documentation) - [Development](#development)
 
 # Features
