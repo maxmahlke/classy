@@ -16,22 +16,25 @@ Abstract:
     asteroids, we dis- entangle the X-complex into the E, M, and P classes. We
     further identify a new class Z of extremely-red objects in the Main Belt.
 
-Description: classify.csv contains the preprocessed spectra and visual albedos
-    for each sample in the visible-near-infrared dataset and visible-only
-    dataset. For each sample, we further give the probability to belong to any
-    of the 50 Gaussian clusters and 16 classes (Class Ch does not have a
-    probability) and the latent scores. The depth, centers, and signal-to-noise
-    ratios of the e, h, and k features and the final classifications per sample
-    and asteroid are provided as well. template.csv contains the mean
+Description:
+    Provided are the preprocessed spectra and visual albedos for the samples in
+    the visible-near-infrared dataset and the visible-only dataset. For each
+    sample, we further give the probability to belong to any of the 50 Gaussian
+    clusters and 16 classes (Class Ch does not have a probability) and the
+    latent scores. The depth, centers, and signal-to-noise ratios of the e, h,
+    and k features and the final classifications per sample and asteroid are
+    provided as well. This data is aggregated into a single classification per
+    asteroid in a separate file. Further provided are the mean
     visible-near-infrared spectrum and visual albedo per taxonomic class as
     defined in Mahlke+ 2022. The moments were defined based on all asteroid
     samples which were assigned to the respective class. The first column
     (feature) gives the wavelength bins of the spectra as well as the visual
     albedo (pV) in the last row. The mean values of the 17 classes follow in
     the next column. The spectra are normalized to unity at 0.55micron. Further
-    provided are the mean +- one standard deviation for the spectra and albedos
-    per class, given in the respective '_upper' and '_lower' columns following
-    the mean columns.
+    provided are the upper and lower standard deviation for the spectra and
+    albedos per class, given in the respective '_upper' and '_lower' columns
+    following the mean columns. Finally, there are two tables containing the
+    keys for the bibliographic references of the spectra and visual albedos.
 
 File Summary:
 --------------------------------------------------------------------------------
