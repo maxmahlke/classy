@@ -9,7 +9,7 @@ minimal so far. I am currently writing my PhD thesis and intend to make `classy`
 more user-friendly in July / August of this year. For questions or issues, please use the [Issues](https://github.com/maxmahlke/classy/issues) page of this repository
 or contact me [via email](https://www.oca.eu/en/max-mahlke).
 
-[Features](#features) - [Install](#install) - [Data](#data) - [Documentation](#documentation) - [Development](#development)
+[Features](#features) - [Install](#install) - [Documentation](#documentation) - [Data](#data) - [Development](#development)
 
 # Features
 
@@ -33,6 +33,13 @@ INFO     Looks like we got 2 S, 1 Ee, 1 B, 1 X, 1 Q
 $ pip install space-classy
 ```
 
+# Documentation
+
+Check out the documentation at [classy.readthedocs.io](https://classy.readthedocs.io/en/latest/).
+or run
+
+     $ classy docs
+
 # Data
 
 The following data files are provided in this repository (format `csv` and `txt`) and at the CDS (format `txt`):
@@ -47,13 +54,6 @@ The following data files are provided in this repository (format `csv` and `txt`
 | `ref_albedo.csv` | `refalbed.txt` | References of albedos |  The key to the albedo references used in the classification tables. |
 
 More information on each file can be found in the [data/ReadMe](https://github.com/maxmahlke/classy/blob/main/data/ReadMe).
-
-# Documentation
-
-Check out the documentation at [classy.readthedocs.io](https://classy.readthedocs.io/en/latest/).
-or run
-
-     $ classy docs
 
 # Development
 
