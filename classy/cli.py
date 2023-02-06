@@ -5,7 +5,7 @@ import click
 import rich
 
 import classy.classify
-import classy.logging
+from classy.logging import logger
 import classy.preprocessing
 
 
@@ -38,8 +38,6 @@ def docs():
 @_logging_option
 def preprocess(path_data, log):
     """Apply the preprocessing routine to data in a CSV file."""
-
-    classy.logging.init_logging(log)
     preprocessor = classy.preprocessing.Preprocessor(path_data)
     preprocessor.preprocess()
     preprocessor.to_file()
