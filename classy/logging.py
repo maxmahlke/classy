@@ -1,30 +1,34 @@
+"""Configuration of classy logging messages."""
+
 import logging
-import os
-
 from rich.logging import RichHandler
-from rich.traceback import install
 
-# pretty-print tracebacks with rich
-install()
+# Use rich to have colourful logging messages
+handler = RichHandler(rich_tracebacks=True, show_path=False, show_time=False)
+handler.setFormatter(logging.Formatter("[%(name)s] %(message)s"))
 
-FORMAT = "%(message)s"
+# Configure rocks logger
+logger = logging.getLogger("classy")
+logger.addHandler(handler)
+
+# TODO Set logging level based on CLI flag and module attribute
+logger.setLevel(logging.INFO)
 
 
-def init_logging(level):
-    """
-    Set the global logging level.
+def set_log_level(level):
+    """Set the logging level of rocks.
 
     Parameters
     ----------
-    level : int
-        The logging level, logging everything [0] to nothing [5]. Default is 2.",
+    level : str
+        The logging level. Must be one of ['debug', 'info', 'warning', 'error', 'critical'].
     """
-    logging.basicConfig(
-        level=level * 10,
-        format=FORMAT,
-        datefmt="[%X]",
-        handlers=[RichHandler(rich_tracebacks=True, show_path=False, show_time=False)],
-    )
 
-    # Set the same logging level for tensorflow
-    os.environ["TF_CPP_MIN_LOG_LEVEL"] = str(level)
+    level = level.upper()
+
+    if level not in ["DEBUG", "INFO", "WARNING", "ERROR", "CRITICAL"]:
+        raise ValueError(
+            f"Invalid value for logging value, must be one of ['debug', 'info', 'warning', 'error', 'critical'], got '{level}'."
+        )
+
+    logger.setLevel(level)

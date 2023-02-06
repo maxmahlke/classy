@@ -1,3 +1,6 @@
+# 0.3 -
+- classy logging settings only apply to classy module now
+
 # 0.2.4 - 2022-05-11
 - Fix the pre-settings of the smooth window size, it is now limited by the number of wavelength bins
 - Don't show the undefined probability of being Ch in the Classifier plot
