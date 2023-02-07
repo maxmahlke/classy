@@ -3,4 +3,5 @@ from .preprocessing import Preprocessor
 from .classify import Classifier
 from .logging import set_log_level
 
+# Welcome to classy
 __version__ = "0.2.4"
