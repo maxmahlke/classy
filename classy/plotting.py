@@ -25,7 +25,7 @@ def get_colors(N):
         A list of color-hexcodes.
 
     """
-    COLORS = plt.cm.get_cmap("gnuplot", N)
+    COLORS = plt.cm.get_cmap("turbo", N)
     return [mpl.colors.rgb2hex(COLORS(i)[:3]) for i in range(N)]
 
 
