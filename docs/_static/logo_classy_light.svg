@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   width="23.649464mm"
+   height="6.09161mm"
+   viewBox="0 0 23.649464 6.0916098"
+   version="1.1"
+   id="svg5"
+   inkscape:version="1.0.2 (e86c870879, 2021-01-15)"
+   sodipodi:docname="logo_classy_light.svg">
+  <metadata
+     id="metadata21">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title></dc:title>
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <sodipodi:namedview
+     id="namedview7"
+     pagecolor="#505050"
+     bordercolor="#eeeeee"
+     borderopacity="1"
+     inkscape:pageshadow="0"
+     inkscape:pageopacity="0"
+     inkscape:pagecheckerboard="false"
+     inkscape:document-units="mm"
+     showgrid="false"
+     showguides="true"
+     inkscape:guide-bbox="true"
+     inkscape:zoom="14.299536"
+     inkscape:cx="42.2741"
+     inkscape:cy="5.6645196"
+     inkscape:window-width="1680"
+     inkscape:window-height="1050"
+     inkscape:window-x="0"
+     inkscape:window-y="0"
+     inkscape:window-maximized="0"
+     inkscape:current-layer="layer1"
+     inkscape:document-rotation="0">
+    <sodipodi:guide
+       position="149.12227,-67.586323"
+       orientation="0,-1"
+       id="guide37098" />
+    <sodipodi:guide
+       position="123.57242,75.807027"
+       orientation="0,-1"
+       id="guide37100" />
+    <sodipodi:guide
+       position="-59.433276,92.672691"
+       orientation="1,0"
+       id="guide37102" />
+    <sodipodi:guide
+       position="-105.47207,73.524716"
+       orientation="1,0"
+       id="guide37104" />
+    <sodipodi:guide
+       position="-82.128417,59.140546"
+       orientation="1,0"
+       id="guide37106" />
+    <sodipodi:guide
+       position="-165.93916,65.174196"
+       orientation="1,0"
+       id="guide37108" />
+    <sodipodi:guide
+       position="-59.433276,76.357546"
+       orientation="1,0"
+       id="guide37110" />
+    <sodipodi:guide
+       position="-92.34673,75.071766"
+       orientation="1,0"
+       id="guide37112" />
+    <sodipodi:guide
+       position="-92.34673,75.071766"
+       orientation="1,0"
+       id="guide37114" />
+    <sodipodi:guide
+       position="-74.141966,81.101536"
+       orientation="1,0"
+       id="guide37116" />
+    <sodipodi:guide
+       position="83.517985,18.427109"
+       orientation="0,-1"
+       id="guide987" />
+    <sodipodi:guide
+       position="74.442344,0.40548921"
+       orientation="1,0"
+       id="guide989" />
+  </sodipodi:namedview>
+  <defs
+     id="defs2">
+    <rect
+       x="86.346992"
+       y="536.22894"
+       width="639.38995"
+       height="263.73615"
+       id="rect5570" />
+  </defs>
+  <g
+     inkscape:label="Layer 1"
+     inkscape:groupmode="layer"
+     id="layer1"
+     transform="translate(-31.772582,-189.87135)">
+    <rect
+       style="fill:none;stroke:#000000;stroke-width:0.167538;stroke-opacity:1"
+       id="rect37245"
+       width="0.43683556"
+       height="114.88157"
+       x="-152.08008"
+       y="151.68343" />
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-weight:normal;font-size:6.71775px;line-height:1.25;font-family:sans-serif;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.251915"
+       x="31.426924"
+       y="194.81412"
+       id="text7673"><tspan
+         sodipodi:role="line"
+         id="tspan7671"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:6.71775px;font-family:'JetBrainsMonoExtraBold Nerd Font';-inkscape-font-specification:'JetBrainsMonoExtraBold Nerd Font';fill:#e6e6e6;stroke-width:0.251915"
+         x="31.426924"
+         y="194.81412">classy</tspan></text>
+  </g>
+</svg>

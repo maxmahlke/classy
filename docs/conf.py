@@ -13,19 +13,18 @@
 import os
 import sys
 
-import sphinx_redactor_theme
-
 sys.path.insert(0, os.path.abspath("../classy"))
 
 
 # -- Project information -----------------------------------------------------
 
 project = "classy"
-copyright = "2022, Max Mahlke"
+copyright = "2023, Max Mahlke"
 author = "Max Mahlke"
 
 # The full version, including alpha/beta/rc tags
 release = "0.1"
+html_title = "classy"
 
 
 # -- General configuration ---------------------------------------------------
@@ -43,6 +42,8 @@ extensions = [
     "sphinx.ext.napoleon",
     "sphinx.ext.graphviz",
     "hoverxref.extension",
+    "sphinx_design",
+    "sphinx_copybutton",
 ]
 
 # Print out todos in documentation?
@@ -58,6 +59,7 @@ exclude_patterns = ["_build", "Thumbs.db", ".DS_Store"]
 
 
 graphviz_output_format = "svg"
+
 
 # ------
 # hoverxref_role_types = {
@@ -79,12 +81,26 @@ hoverxref_version = "latest"
 # The theme to use for HTML and HTML Help pages.  See the documentation for
 # a list of builtin themes.
 #
-html_theme = "sphinx_redactor_theme"
-html_theme_path = [sphinx_redactor_theme.get_html_theme_path()]
-html_logo = "gfx/logo_classy.svg"
+# html_theme = "sphinx_redactor_theme"
+# html_theme_path = [sphinx_redactor_theme.get_html_theme_path()]
+html_theme = "furo"
+html_static_path = ["_static"]
+# html_logo = "gfx/logo_classy.svg"
+
+pygments_style = "monokai"
+pygments_dark_style = "monokai"
+
+html_show_copyright = False
+html_show_sphinx = False
+
 
 html_theme_options = {
-    "logo_only": True,
+    "sidebar_hide_name": True,
+    "navigation_with_keys": True,
+    "top_of_page_button": None,
+    "light_logo": "logo_classy.svg",
+    "dark_logo": "logo_classy_light.svg",
+    # "logo_only": True,
     # "display_version": True,
     # "prev_next_buttons_location": "bottom",
     # "style_external_links": False,
@@ -102,8 +118,7 @@ html_theme_options = {
 # Add any paths that contain custom static files (such as style sheets) here,
 # relative to this directory. They are copied after the builtin static files,
 # so a file named "default.css" will overwrite the builtin "default.css".
-html_style = "css/custom.css"
-html_static_path = ["_static"]
+# html_style = "css/custom.css"
 
 # These paths are either relative to html_static_path
 # or fully qualified paths (eg. https://...)
