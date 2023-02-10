@@ -1,6 +1,8 @@
 """Taxonomic classification of asteroid observations following Mahlke+ 2022."""
-from .preprocessing import Preprocessor
-from .classify import Classifier
+import os
+
+os.environ["TF_CPP_MIN_LOG_LEVEL"] = "3"
+
 from .logging import set_log_level
 
 # Welcome to classy
