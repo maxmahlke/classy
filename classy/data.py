@@ -72,19 +72,39 @@ def _load_gmm(cluster):
 
     Returns
     -------
-    tuple of sklearn.mixtures.GaussianMixtureModel, list
+    tuple of sklearn.mixtures.GaussianMixture, list
        The trained GMM instance and a list mapping the model components to the corresponding classes.
     """
 
-    PATH_GMM = _get_path_data() / f"gmm/gmm_{cluster}.pkl"
+    props = gmm.GMM[cluster]
 
-    if not PATH_GMM.exists():
-        return None, None
+    gmm_ = GaussianMixture(
+        n_components=props["n_components"],
+        covariance_type=props["covariance_type"],
+        tol=props["tol"],
+        reg_covar=props["reg_covar"],
+        max_iter=props["max_iter"],
+        n_init=props["n_init"],
+        init_params=props["init_params"],
+        weights_init=props["weights_init"],
+        means_init=props["means_init"],
+        precisions_init=props["precisions_init"],
+        random_state=props["random_state"],
+        warm_start=props["warm_start"],
+        verbose=props["verbose"],
+        verbose_interval=props["verbose_interval"],
+    )
+    gmm_.weights_ = props["weights_"]
+    gmm_.means_ = props["means_"]
+    gmm_.covariances_ = props["covariances_"]
+    gmm_.precisions_ = props["precisions_"]
+    gmm_.precisions_cholesky_ = props["precisions_cholesky_"]
+    gmm_.n_iter_ = props["n_iter_"]
+    gmm_.lower_bound_ = props["lower_bound_"]
 
-    with PATH_GMM.open("rb") as file_:
-        gmm, classes = pickle.load(file_)
+    classes = gmm.GMM[cluster]["classes"]
 
-    return gmm, classes
+    return gmm_, classes
 
 
 def _load_mixnorm():
