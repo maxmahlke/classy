@@ -1,12 +1,18 @@
-import logging
+import sys
 import webbrowser
 
 import click
+import numpy as np
+import pandas as pd
 import rich
+import rocks
 
 import classy.classify
+from classy import core
 from classy.logging import logger
 import classy.preprocessing
+from classy import cache
+from classy import plotting
 
 
 def _logging_option(func):
@@ -34,28 +40,30 @@ def docs():
 
 
 @cli_classy.command()
-@click.argument("path_data", type=str)
-@_logging_option
-def preprocess(path_data, log):
-    """Apply the preprocessing routine to data in a CSV file."""
-    preprocessor = classy.preprocessing.Preprocessor(path_data)
-    preprocessor.preprocess()
-    preprocessor.to_file()
+@click.argument("id_", type=str)
+@click.option("-c", "--classify", is_flag=True, help="Classify the spectra.")
+@click.option("-s", "--source", help="Select a online repository.")
+def spectra(id_, classify, source):
+    """Retrieve and optionally plot spectra of asteroid $id_."""
 
+    name, number = rocks.id(id_)
 
-@cli_classy.command()
-@click.argument("path_data", type=str)
-@click.option("-p", "--plot", is_flag=True, help="Plot the classification result.")
-@_logging_option
-def classify(path_data, plot, log):
-    """Classify asteroid observations."""
+    if name is None:
+        logger.error("Cannot retrieve spectra for unidentified asteroid.")
+        sys.exit()
+    else:
+        logger.info(f"Looking for reflectance spectra of ({number}) {name}")
 
-    classy.logging.init_logging(log)
+    if source is not None:
+        source = source.split(",")
 
-    classifier = classy.classify.Classifier(path_data)
-    classifier.classify()
+    # Load spectra
+    spectra = core.spectra(id_, source=source)
 
-    if plot:
-        classifier.plot()
+    # Classify
+    if classify:
+        for spec in spectra:
+            spec.classify()
 
-    classifier.to_file()
+    # Plot
+    plotting.plot_spectra(spectra, add_classes=classify)
