@@ -22,7 +22,7 @@
         <dc:format>image/svg+xml</dc:format>
         <dc:type
            rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
-        <dc:title></dc:title>
+        <dc:title />
       </cc:Work>
     </rdf:RDF>
   </metadata>
@@ -126,7 +126,7 @@
        id="text7673"><tspan
          sodipodi:role="line"
          id="tspan7671"
-         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:6.71775px;font-family:'JetBrainsMonoExtraBold Nerd Font';-inkscape-font-specification:'JetBrainsMonoExtraBold Nerd Font';fill:#e6e6e6;stroke-width:0.251915"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:6.71775px;font-family:'JetBrainsMono Nerd Font Mono';-inkscape-font-specification:'JetBrainsMono Nerd Font Mono';fill:#e6e6e6;stroke-width:0.251915;"
          x="31.426924"
          y="194.81412">classy</tspan></text>
   </g>
