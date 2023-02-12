@@ -5,25 +5,32 @@ import sys
 import numpy as np
 import pandas as pd
 
-import classy.defs
-import classy.logging
-import classy.spectra
-import classy.tools
+from classy import core
+from classy import defs
+from classy.logging import logger
+from classy import tools
 
 
 class Preprocessor:
     """Preprocessor for spectra and albedo observations."""
 
-    def __init__(self, path_data):
+    def __init__(self, data, verbose=False):
         """Create a preprocessing pipeline directed at a data file.
 
         Parameters
         ----------
-        path_data : str
-            Path to data in a CSV file.
+        data : pd.DataFrame
+            DataFrame containing the observations to classify and optionally metadata.
+        verbose : bool
+            Print logging messages. Default is False.
         """
-        self.path_data = Path(path_data)
-        self.read_and_verify_data()
+        if not isinstance(data, pd.DataFrame):
+            data = pd.read_csv(data)
+        self.data = data
+        self.verify_data()
+
+        if verbose:
+            log = logging.getLogger(__name__)
 
         # Deserialize the spectral data
         self.spectra = []
@@ -35,7 +42,7 @@ class Preprocessor:
             smooth_window = (
                 sample["smooth_window"] if "smooth_window" in self.columns else None
             )
-            spectrum = classy.spectra.Spectrum(
+            spectrum = core.Spectrum(
                 np.array(sorted(self.columns_numeric)),
                 sample[sorted(self.columns_numeric)].array,
                 smooth_degree,
@@ -44,32 +51,31 @@ class Preprocessor:
 
             self.spectra.append(spectrum)
 
-    def read_and_verify_data(self):
-        """Read in user data and do sanitary check."""
+    def verify_data(self):
+        """Do sanitary check on passed user data."""
 
-        # Read into dataframe
-        self.data = pd.read_csv(self.path_data)
+        # Ensure sane indexing
         self.data = self.data.reset_index(drop=True)
 
         # Are there wavelength columns?
-        self.columns_numeric = classy.tools.get_numeric_columns(self.data.columns)
+        self.columns_numeric = tools.get_numeric_columns(self.data.columns)
         self.data = self.data.rename(
             columns={c: float(c) for c in self.columns_numeric}
         )
         self.columns_numeric = [float(c) for c in self.columns_numeric]
 
         if not self.columns_numeric:
-            logging.error(
+            logger.error(
                 "No wavelength columns were found. Ensure that the input data is in the right format, see https://classy.readthedocs.io/en/latest/tutorial.html#format-of-spectrometric-data"
             )
             sys.exit()
 
         self.columns = self.data.columns
-        logging.debug(f"Identified numeric columns: {self.columns_numeric}")
+        logger.debug(f"Identified numeric columns: {self.columns_numeric}")
 
         # Is there a pV column?
-        if not classy.defs.COLUMNS["albedo"] in self.columns:
-            logging.debug(
+        if not defs.COLUMNS["albedo"] in self.columns:
+            logger.debug(
                 f"No albedo column ['{classy.defs.COLUMNS['albedo']}'] found in data. Adding an empty column."
             )
             self.data[classy.defs.COLUMNS["albedo"]] = np.nan
@@ -82,7 +88,7 @@ class Preprocessor:
             and column
             not in [classy.defs.COLUMNS["albedo"]] + classy.defs.COLUMNS["smoothing"]
         ]
-        logging.debug(f"Ignoring columns: {self.columns_meta}")
+        logger.debug(f"Ignoring columns: {self.columns_meta}")
 
     def preprocess(self):
         """Apply entire preprocessing routine to data."""
@@ -141,20 +147,28 @@ class Preprocessor:
                 [self.data_preprocessed, pd.DataFrame(data=data, index=[i])]
             )
 
-    def to_file(self):
-        """Save the preprocessed data to file."""
+    def to_file(self, path):
+        """Save the preprocessed data to file.
+
+        Parameters
+        ----------
+        path : str
+            The path at which to save the output.
+        """
 
         if self.data_preprocessed is None:
             raise NotPreprocessedError(
                 "You have to call the Preprocessor.preprocess() function first."
             )
 
-        path_output = Path(
-            self.path_data.parent
-            / f"{self.path_data.stem}_preprocessed{self.path_data.suffix}"
-        )
-        self.data_preprocessed.to_csv(path_output, index=False)
-        logging.info(f"Stored preprocessed data to {path_output.resolve()}")
+        path = Path(path)
+
+        # path_output = Path(
+        #     self.path_data.parent
+        #     / f"{self.path_data.stem}_preprocessed{self.path_data.suffix}"
+        # )
+        self.data_preprocessed.to_csv(path, index=False)
+        logger.info(f"Stored preprocessed data to {path.resolve()}")
 
 
 class NotPreprocessedError:

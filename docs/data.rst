@@ -47,15 +47,16 @@ The 16 wavelength bands carry photometric flags between 0 and 2 to signal the re
 
   .. tab-item :: python
 
-     The ``classy.spectra()`` function accpets the name, number, or designation of any asteroid and retrieves
-     the available spectra of the asteroid from the online repositories. It returns a list of ``classy.Spectrum``
-     objects, which are discussed :ref:`later<core>`.
-     The data and metadata are accessible via attributes of the same name
+     The ``classy.Spectra()`` class accpets the name, number, or designation of
+     any asteroid and retrieves the available spectra of the asteroid from the
+     online repositories. It returns a list of ``classy.Spectrum``
+     objects, which are discussed :ref:`later<core>`. The data and metadata are
+     accessible via attributes of the same name
 
      .. code-block:: python
 
        >>> import classy
-       >>> spectra = classy.spectra("foshan", source="Gaia")  # 'source' is optional
+       >>> spectra = classy.Spectra("foshan", source="Gaia")  # 'source' is optional
        >>> spec = spectra[0]  # Source 'Gaia' only returns one spectrum
        >>> spec.refl
        array([1.12654897, 0.74284623, 0.86046103, 0.90853702, 1.        ,
@@ -113,7 +114,7 @@ literature spectrum.
      .. code-block:: python
 
        >>> import classy
-       >>> spectra = classy.spectra(21, source="SMASS") # 'SMASS' refers to both SMASS and MITHNEOS
+       >>> spectra = classy.Spectra(21, source="SMASS") # 'SMASS' refers to both SMASS and MITHNEOS
        INFO     [classy] Found 6 spectra in SMASS
        >>> spectra[0].refl
        array([0.9513, 0.9534, 0.963 , 0.9641, 0.9484, 0.9642, 0.9635, 0.961 ,

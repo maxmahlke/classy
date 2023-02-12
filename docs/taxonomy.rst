@@ -67,8 +67,7 @@ Classifying asteroids in this scheme is straight-forward with ``classy``.
 
        >>> import classy
        >>> spectra = classy.spectra("ceres")
-       >>> for spec in spectra:
-       ...     spec.classify()
+       >>> spectra.classify()
 
      The classification results are stored as attributes: the ``.class_``
      attribute contains the most probable class (``str``), while ``.class_A`` contains the

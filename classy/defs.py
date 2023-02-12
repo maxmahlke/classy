@@ -54,9 +54,10 @@ FEATURE = {
 COLUMNS = {
     "albedo": "pV",
     "smoothing": ["smooth_degree", "smooth_window"],
-    "spectra": list(WAVE_GRID),
+    "spectra": list(WAVE_GRID_STR),
 }
 COLUMNS["all"] = COLUMNS["spectra"] + [COLUMNS["albedo"]]
+COLUMNS["all_str"] = [str(c) for c in COLUMNS["spectra"]] + [COLUMNS["albedo"]]
 
 # ------
 # Model Parameters

@@ -1,7 +1,14 @@
 import pickle
 
-import classy
+import numpy as np
 from sklearn.mixture import GaussianMixture
+
+import classy
+
+import warnings
+
+# Hide harmless warning by sklearn
+warnings.filterwarnings("ignore", message="X has feature names")
 
 
 def load_mixture_models():

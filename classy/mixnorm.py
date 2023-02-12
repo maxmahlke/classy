@@ -7,6 +7,10 @@ from sklearn import preprocessing
 import classy.data
 
 
+COLORS = []
+HATCHES = []
+
+
 def normalize(spec):
     """Normalize a spectrum using the mixnorm algorithm.
 
@@ -30,6 +34,36 @@ def normalize(spec):
 
     # Compute most probable alpha as weighted average of the nearest neighbours
     alpha = neighbours.loc[idx_nearest_neighbours, "alpha"].mean()
+
+    # Shift spectral reflectance to the mean level of the reference spectra
+    # import matplotlib.pyplot as plt
+
+    # plt.plot(
+    #     spec.wave,
+    #     spec.refl,
+    #     ls="-",
+    #     c="black",
+    # )
+
+    # for m in idx_nearest_neighbours:
+    #     plt.plot(
+    #         classy.defs.WAVE_GRID[spec.mask],
+    #         neighbours_spectra[m].T,
+    #         ls="--",
+    #         c="red",
+    #     )
+    spec.refl_normalised = (
+        spec.refl_interp
+        / np.nanmean(spec.refl_interp)
+        * np.nanmean(neighbours.loc[idx_nearest_neighbours, classy.defs.WAVE_GRID_STR])
+    )
+    # plt.plot(
+    #     spec.wave,
+    #     spec.refl,
+    #     ls="-",
+    #     c="blue",
+    # )
+    # plt.show()
     return alpha
 
     # Create gamma_init by finidng spectrum closest to the new one
@@ -163,7 +197,7 @@ def _find_nearest_neighbours(spec, neighbours, N):
     )
 
     # Normalize the spectrum and the neighbours using the L2 norm
-    refl_spec = preprocessing.normalize(spec.refl[spec.mask].reshape(1, -1))
+    refl_spec = preprocessing.normalize(spec.refl_interp[spec.mask].reshape(1, -1))
     neighbours[mask_neighbours] = preprocessing.normalize(neighbours[mask_neighbours])
 
     # Find the closest neighbours in L2 distance

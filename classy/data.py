@@ -2,8 +2,54 @@ import importlib.resources
 import pickle
 
 import pandas as pd
+import rocks
+from sklearn.mixture import GaussianMixture
+
+from classy import cache
+from classy import gmm
+from classy.logging import logger
+
+SOURCES = ["Gaia", "SMASS"]
+
+# ------
+# Spectra
+def load_spectra(name, source):
+    """Load spectra of a given asteroid either from cache or from an online repository.
+
+    Parameters
+    ----------
+    name : str
+        The name of the asteroid.
+    source : list of str
+        List of online repositories to check. Must be complete or subset of data.SOURCES.
+
+    Returns
+    -------
+    list of classy.Spectrum
+    """
+
+    index_spectra = pd.DataFrame()
+
+    for s in source:
+        index = cache.load_index(s)
+        index = index.loc[index["name"] == name]
+
+        if not index.empty:
+            N = len(index)
+            logger.info(f"Found {N} spectr{'a' if N > 1 else 'um'} in {s}")
+
+        index["source"] = s
+        index_spectra = pd.concat([index_spectra, index])
+
+    if index_spectra.empty:
+        logger.info(f"Did not find any spectra in repositories: {', '.join(source)} ")
+        return []
+
+    return cache.load_spectra(index_spectra)
 
 
+# ------
+# Products of Mahlke+ 2022
 def load(resource, cluster=None):
     """Load a classy package resource.
 
@@ -124,3 +170,107 @@ def _load_mixnorm():
     neighbours = pd.read_csv(PATH_DATA / "mixnorm/neighbours.csv")
 
     return mixnorm, neighbours
+
+
+def load_gaia(id_):
+    """Load the Gaia spectrum of an asteroid.
+
+    Parameters
+    ----------
+    id_ : int, str
+        Asteroid identifier passed to rocks.id
+
+    Returns
+    -------
+    classy.Observation
+        The Gaia spectrum of the asteroid.
+
+    Notes
+    -----
+    All Gaia metadata is available with the Observation attributes:
+        ['source_id', 'solution_id 'number_mp', 'denomination', 'nb_samples',
+         'num_of_spectra', 'reflectance_spectrum', 'reflectance_spectrum_err',
+         'wavelength', 'reflectance_spectrum_flag']
+    """
+
+    name, number = rocks.id(id_)
+
+    index = cache.load_gaia_index()
+    index = index.loc[index["name"] == name]
+
+    if index.empty:
+        logger.error(f"No spectrum of ({number}) {name} is in Gaia DR3.")
+        return None
+
+    return cache.load_gaia_spectrum(index.squeeze(axis=0))
+
+
+TAXONOMIES = {
+    "tholen": {
+        "wave": {  # Table 1, Tholen 1984
+            "s": 0.337,
+            "u": 0.359,
+            "b": 0.437,
+            "v": 0.550,
+            "w": 0.701,
+            "x": 0.853,
+            "P": 0.948,
+            "z": 1.041,
+        },  # Table 4, Tholen 1984
+        "eigenvalues": [4.737, 1.879, 0.180, 0.118, 0.045, 0.032, 0.010],
+        "eigenvectors": [
+            # s-v, u-v, b-v, v-w, v-x, v-p, v-z
+            [0.346, 0.373, 0.415, 0.433, 0.399, 0.336, 0.330],
+            [-0.463, -0.416, -0.289, 0.000, 0.320, 0.475, 0.448],
+            [0.231, 0.207, 0.028, -0.622, -0.290, -0.002, 0.657],
+            [-0.207, -0.103, 0.028, 0.586, -0.399, -0.460, 0.481],
+            [0.442, 0.044, -0.707, 0.094, 0.398, -0.347, 0.124],
+            [-0.303, -0.039, 0.398, -0.271, 0.580, -0.574, 0.100],
+            [0.531, -0.795, 0.292, -0.016, -0.010, -0.022, 0.031],
+        ],
+    }
+}
+
+# should be function of spec
+def convert_to_ecas_colours():
+    R = [  # reflectances at subwxpz
+        0.5485295139412031,
+        0.6742174675762443,
+        0.8774047879567534,
+        1.081433951297938,
+        0.8566432555816557,
+        0.7812679345516048,
+        1.003690930920097,
+    ]
+    refl_v = 1
+
+    colors = []
+
+    for filt in ["s", "u", "b"]:
+        refl = R.pop(0)
+        colors.append(-2.5 * np.log10(refl / refl_v))
+    for filt in ["w", "x", "p", "z"]:
+        refl = R.pop(0)
+        colors.append(-2.5 * np.log10(refl_v / refl))
+
+
+ecas = {
+    "ceres": {
+        "s-v": 0.43,
+        "u-v": 0.263,
+        "b-v": 0.047,
+        "v-w": 0,
+        "v-x": -0.005,
+        "v-p": -0.022,
+        "v-z": -0.031,
+    },
+    "vesta": {
+        "s": 0.652,
+        "u": 0.428,
+        "b": 0.142,
+        "w": 0.085,
+        "x": -0.168,
+        "p": -0.268,
+        "z": 0.004,
+    },
+}

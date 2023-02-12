@@ -121,12 +121,26 @@ Note that, in the example above, the ``asteroid_number`` as well as ``pV`` and `
 automatically filled in using `rocks <https://github.com/maxmahlke/rocks>`_ as
 the provided ``asteroid_name`` can be resolved using ``rocks.id`` as (21) Lutetia.
 
+Using many Spectra
+------------------
+
+The ``classy.Spectra`` class creates a list of ``classy.Spectrum`` instances by querying
+the online repositories for spectra of the provided id.
 Combining your observations with literature ones is straight-forward.
 
 .. code-block:: python
 
    lutetia_literature = classy.data.load_spectra(21)  # returns a list of classy.Spectrum objects
    lutetia_spectra = [my_lutetia] + [lutetia_literature]  # add my_lutetia to the literature results
+
+Shortcuts for classying, plotting, and storing the results (see below) are implemented:
+
+
+.. code-block:: python
+
+   lutetia_spectra.classify()
+   lutetia_spectra.plot(add_classes=True)
+   lutetia_spectra.to_csv('classes_lutetia.csv')
 
 .. A special role is given to the ``.flag`` attribute, which can be used to flag
 .. noisy data as done in the Gaia spectra. Any datapoint flagged with 0 is
@@ -204,7 +218,23 @@ Combining your observations with literature ones is straight-forward.
 ..          >>> classy.plotting.plot(spectra, add_classes=True)
 ..
 ..
-.. Storing results to file
-.. -----------------------
-..
-.. To be done.
+Storing results to file
+-----------------------
+
+Both ``Spectrum`` and ``Spectra`` have a ``to_csv`` method which allows storing
+the classification results to ``csv`` format.
+
+.. code-block:: python
+
+   >>> import classy
+   >>> spectra = classy.Spectra(3)
+   ...  [classy] Found 1 spectrum in Gaia
+   ...  [classy] Found 5 spectra in SMASS
+   >>> spectra.classify()
+   ...  [classy] [(3) Juno] - [Gaia]: S
+   ...  [classy] [(3) Juno] - [spex/sp96]: S
+   ...  [classy] [(3) Juno] - [smass/smassir]: S
+   ...  [classy] [(3) Juno] - [smass/smass1]: S
+   ...  [classy] [(3) Juno] - [smass/smass2]: S
+   ...  [classy] [(3) Juno] - [smass/smass2]: S
+   >>> spectra.to_csv('class_juno.csv')

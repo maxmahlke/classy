@@ -44,7 +44,7 @@ def docs():
 @click.option("-c", "--classify", is_flag=True, help="Classify the spectra.")
 @click.option("-s", "--source", help="Select a online repository.")
 def spectra(id_, classify, source):
-    """Retrieve and optionally plot spectra of asteroid $id_."""
+    """Retrieve, plot, classify spectra of an individual asteroid."""
 
     name, number = rocks.id(id_)
 
