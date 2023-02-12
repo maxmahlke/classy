@@ -22,6 +22,7 @@ pandas = "^1.4.2"
 numpy = "^1.22.3"
 click = "^8.1.2"
 rich = "^12.2.0"
+sphinx_design = "^0.3.0"
 
 [tool.poetry.extras]
 docs = ["sphinx", "sphinx-redactor-theme"]
