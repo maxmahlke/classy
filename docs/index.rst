@@ -28,67 +28,70 @@ public repositories (e.g. Gaia, SMASS, MITHNEOS).\ [#f1]_
  :class: only-dark
  :width: 900
 
-:ref:`Take a guided tour through the documentation <Install>` or click on a topic below to learn more.
+:ref:`Take a guided tour through the documentation here. <Install>`
 
-.. highlight:: python
-
-|br|
-:octicon:`beaker;1em` **Taxonomic classification of reflectance spectra.**
-
-.. grid:: 2
-
-    .. grid-item-card::
-      :link: getting_values
-      :link-type: ref
-
-      Classify your own and public observations.
-
-
-    .. grid-item-card::
-      :link: thermal_barbarians
-      :link-type: ref
-
-      Visualize the classification results and store them to file.
-
-|br|
-
-:octicon:`telescope;1em` **Quick query and download of reflectance spectra in public repositories**.
-
-
-.. grid:: 2
-
-    .. grid-item-card::
-      :link: name_resolution
-      :link-type: ref
-
-      Quick look-up and visualization of public spectra in different repositories.
-
-
-    .. grid-item-card::
-      :link: aliases
-      :link-type: ref
-
-      Automatic ingestion of relevant metadata such as flags and bibliographic
-      references.
-
-|br|
-
-:octicon:`zap;1em` **And more!**
-
-.. grid:: 2
-
-    .. grid-item-card::
-      :link: who
-      :link-type: ref
-
-      Automatic retrieval of most-likely visual albedo to improve classification
-      accuracy.
-
-    .. grid-item-card::
-      :link: author
-      :link-type: ref
-
-      Are my spectra available through ``classy``?
+.. :ref:`Take a guided tour through the documentation <Install>` or click on a
+.. topic below to learn more.
+..
+.. .. highlight:: python
+..
+.. |br|
+.. :octicon:`beaker;1em` **Taxonomic classification of reflectance spectra.**
+..
+.. .. grid:: 2
+..
+..     .. grid-item-card::
+..       :link: getting_values
+..       :link-type: ref
+..
+..       Classify your own and public observations.
+..
+..
+..     .. grid-item-card::
+..       :link: thermal_barbarians
+..       :link-type: ref
+..
+..       Visualize the classification results and store them to file.
+..
+.. |br|
+..
+.. :octicon:`telescope;1em` **Quick query and download of reflectance spectra in public repositories**.
+..
+..
+.. .. grid:: 2
+..
+..     .. grid-item-card::
+..       :link: name_resolution
+..       :link-type: ref
+..
+..       Quick look-up and visualization of public spectra in different repositories.
+..
+..
+..     .. grid-item-card::
+..       :link: aliases
+..       :link-type: ref
+..
+..       Automatic ingestion of relevant metadata such as flags and bibliographic
+..       references.
+..
+.. |br|
+..
+.. :octicon:`zap;1em` **And more!**
+..
+.. .. grid:: 2
+..
+..     .. grid-item-card::
+..       :link: who
+..       :link-type: ref
+..
+..       Automatic retrieval of most-likely visual albedo to improve classification
+..       accuracy.
+..
+..     .. grid-item-card::
+..       :link: author
+..       :link-type: ref
+..
+..       Are my spectra available through ``classy``?
 
 .. rubric:: Footnotes
    :caption:
