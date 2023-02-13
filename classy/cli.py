@@ -60,6 +60,9 @@ def spectra(id_, classify, source):
     # Load spectra
     spectra = core.Spectra(id_, source=source)
 
+    if not spectra:
+        sys.exit()
+
     # Classify
     if classify:
         spectra.classify()
