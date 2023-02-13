@@ -616,32 +616,50 @@ class Spectra(list):
         else:
             source = data.SOURCES
 
-        name, number = rocks.id(id_)
+        # Need this check for __add__
+        if not isinstance(id_, list):
+            id_ = [id_]
 
-        if name is None:
-            raise ValueError(
-                f"Could not resolve '{id_}'. A recognisable name, number, or designation is required."
-            )
+        spectra = []
 
-        return super().__init__(data.load_spectra(name, source=source))
+        for i in id_:
 
-    def __setitem__(self, index, item):
-        super().__setitem__(index, str(item))
+            if isinstance(i, Spectrum):
+                spectra.append(i)
+                continue
 
-    def insert(self, index, item):
-        super().insert(index, str(item))
+            name, number = rocks.id(id_)
 
-    def append(self, item):
-        super().append(str(item))
+            if name is None:
+                raise ValueError(
+                    f"Could not resolve '{id_}'. A recognisable name, number, or designation is required."
+                )
+            spectra += data.load_spectra(name, source=source)
+        return super().__init__(spectra)
 
-    def extend(self, other):
-        if isinstance(other, type(self)):
-            super().extend(other)
-        else:
-            super().extend(str(item) for item in other)
-
+    # def __setitem__(self, index, item):
+    #     super().__setitem__(index, str(item))
+    #
+    # def insert(self, index, item):
+    #     super().insert(index, str(item))
+    #
+    # def append(self, item):
+    #     super().append(str(item))
+    #
+    # def extend(self, other):
+    #     if isinstance(other, type(self)):
+    #         super().extend(other)
+    #     else:
+    #         super().extend(str(item) for item in other)
+    #
     def __add__(self, rhs):
-        return Spectra(list.__add__(self, rhs))
+        if not isinstance(rhs, list):
+            raise TypeError("Expected a list of classy.Spectrum instances.")
+        if not all(isinstance(entry, Spectrum) for entry in rhs):
+            raise ValueError(
+                "Can only add a list of classy.Spectrum instances or a classy.Spectra instance to another classy.Spectra instance."
+            )
+        return Spectra([*self, *rhs])
 
     def plot(self, add_classes=False):
         plotting.plot_spectra(list(self), add_classes)

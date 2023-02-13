@@ -130,7 +130,7 @@ Combining your observations with literature ones is straight-forward.
 
 .. code-block:: python
 
-   lutetia_literature = classy.data.load_spectra(21)  # returns a list of classy.Spectrum objects
+   lutetia_literature = classy.Spectra(21)  # returns a list of classy.Spectrum objects
    lutetia_spectra = [my_lutetia] + [lutetia_literature]  # add my_lutetia to the literature results
 
 Shortcuts for classying, plotting, and storing the results (see below) are implemented:
