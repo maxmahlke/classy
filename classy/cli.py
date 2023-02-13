@@ -58,12 +58,11 @@ def spectra(id_, classify, source):
         source = source.split(",")
 
     # Load spectra
-    spectra = core.spectra(id_, source=source)
+    spectra = core.Spectra(id_, source=source)
 
     # Classify
     if classify:
-        for spec in spectra:
-            spec.classify()
+        spectra.classify()
 
     # Plot
-    plotting.plot_spectra(spectra, add_classes=classify)
+    spectra.plot(add_classes=classify)

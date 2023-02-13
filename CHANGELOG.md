@@ -1,5 +1,8 @@
-# 0.3 -
-- classy logging settings only apply to classy module now
+# 0.3.1 - 2023-02-13
+- Bugfix in $ classy spectra
+
+# 0.3 - 2023-02-13
+- Major revision of classy, adding Spectrum and Spectra classes
 
 # 0.2.4 - 2022-05-11
 - Fix the pre-settings of the smooth window size, it is now limited by the number of wavelength bins
