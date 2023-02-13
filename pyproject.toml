@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "space-classy"
-version = "0.3.1"
+version = "0.3.2"
 description = "classification tool for minor bodies using reflectance spectra and visual albedos"
 authors = ["Max Mahlke <max.mahlke@oca.eu>"]
 license = "MIT"
@@ -26,6 +26,7 @@ sphinx_design = "^0.3.0"
 sphinx-copybutton = "^0.5.0"
 furo = "^2022.9.15"
 scikit-learn = "^1.2.1"
+space-rocks = "^1.7.2"
 
 [tool.poetry.extras]
 docs = ["sphinx", "sphinx-redactor-theme"]
