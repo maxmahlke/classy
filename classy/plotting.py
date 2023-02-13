@@ -12,9 +12,6 @@ import numpy as np
 
 from classy import cache
 
-# Ensure uniform plot appearance
-mpl.rcParams.update(mpl.rcParamsDefault)
-
 
 def get_colors(N, cmap="turbo"):
     """
@@ -344,6 +341,8 @@ def plot_spectra(spectra, add_classes=False, system="Mahlke+ 2022"):
     add_classes : bool
         Add axes showing classification preprocessing and results.
     """
+    # Ensure uniform plot appearance
+    mpl.rcParams.update(mpl.rcParamsDefault)
 
     # Add color information to spectrum for simplicity
     # n_smass = sum([1 for spec in spectra if spec.source == "SMASS"])

@@ -1,3 +1,9 @@
+# 0.3.3 -
+- Do not reset matplotlib rcParams when importing classy
+
+# 0.3.2 - 2023-02-13
+- Bump rocks version to match rich dependency requirement
+
 # 0.3.1 - 2023-02-13
 - Bugfix in $ classy spectra
 
