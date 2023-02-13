@@ -22,7 +22,7 @@ Tutorials
         >>> for _, asteroid in gaia.iterrows():
         ...     spec = classy.spectra(asteroid['name'], source="Gaia")[0]
         ...     spec.classify()
-
-.. dropdown:: Store results to ``csv`` table
-
-   To be implemented.
+..
+.. .. dropdown:: Store results to ``csv`` table
+..
+..    To be implemented.
