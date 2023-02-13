@@ -22,9 +22,6 @@ INFO     Looks like we got 2 S, 1 Ee, 1 B, 1 X, 1 Q
 
 ```
 
-<!-- Tip: Check out [rocks](https://github.com/maxmahlke/rocks) to easily add IAU -->
-<!-- names, numbers, designations, and literature parameters to the observations. -->
-
 # Install
 
 `classy` is available on the [python package index](https://pypi.org) as *space-classy*:
@@ -55,12 +52,12 @@ The following data files are provided in this repository (format `csv` and `txt`
 
 More information on each file can be found in the [data/ReadMe](https://github.com/maxmahlke/classy/blob/main/data/ReadMe).
 
-# Development
-
-To be implemented:
-
-- [ ] Graphical User Interface
-- [ ] Optional automatic addition of SMASS spectra to observations
+<!-- # Development -->
+<!---->
+<!-- To be implemented: -->
+<!---->
+<!-- - [ ] Graphical User Interface -->
+<!-- - [ ] Optional automatic addition of SMASS spectra to observations -->
 <!-- - [ ] Automatic determination of best smoothing parameters -->
 
 <!-- # Contribute -->
