@@ -1,4 +1,10 @@
-import importlib.resources
+import sys
+
+if sys.version_info[1] < 9:
+    # this PyPI package is required for 3.7 and 3.8
+    import importlib_resources as resources
+else:
+    import importlib.resources as resources
 import pickle
 
 import pandas as pd
@@ -81,7 +87,7 @@ def load(resource, cluster=None):
 
 def _get_path_data():
     """Return the absolute path to the classy data directory."""
-    return importlib.resources.files(__package__) / "data"
+    return resources.files(__package__) / "data"
 
 
 def _load_classy():

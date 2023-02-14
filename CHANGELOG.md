@@ -1,4 +1,6 @@
-# 0.3.3 -
+# 0.3.3 - 2023-02-14
+- Exit classy spectra if no spectra were found
+- Add importlib_resources dependency for python 3.8
 - Do not reset matplotlib rcParams when importing classy
 
 # 0.3.2 - 2023-02-13
