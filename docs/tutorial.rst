@@ -20,7 +20,7 @@ Tutorials
         >>> import classy
         >>> gaia = classy.cache.load_gaia_index() # Get list of asteroids in Gaia
         >>> for _, asteroid in gaia.iterrows():
-        ...     spec = classy.spectra(asteroid['name'], source="Gaia")[0]
+        ...     spec = classy.Spectra(asteroid['name'], source="Gaia")[0]
         ...     spec.classify()
 ..
 .. .. dropdown:: Store results to ``csv`` table
