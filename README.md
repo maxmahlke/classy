@@ -1,25 +1,63 @@
-![PyPI](https://img.shields.io/pypi/v/space-classy) [![arXiv](https://img.shields.io/badge/arXiv-2203.11229-f9f107.svg)](https://arxiv.org/abs/2203.11229) [![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
-
 <p align="center">
-  <img width="260" src="https://raw.githubusercontent.com/maxmahlke/classy/main/docs/gfx/logo_classy.png">
+  <img width="260" src="https://raw.githubusercontent.com/maxmahlke/classy/master/docs/_static/logo_classy.svg">
 </p>
 
-Note: The classification pipeline is implemented yet the user-interface is
-minimal so far. I am currently writing my PhD thesis and intend to make `classy`
-more user-friendly in July / August of this year. For questions or issues, please use the [Issues](https://github.com/maxmahlke/classy/issues) page of this repository
-or contact me [via email](https://www.oca.eu/en/max-mahlke).
+<p align="center">
+  <a href="https://github.com/maxmahlke/classy#features"> Features </a> - <a href="https://github.com/maxmahlke/classy#install"> Install </a> - <a href="https://github.com/maxmahlke/classy#documentation"> Documentation </a>
+</p>
 
-[Features](#features) - [Install](#install) - [Documentation](#documentation) - [Data](#data) - [Development](#development)
+<br>
+
+<div align="center">
+  <a href="https://img.shields.io/pypi/pyversions/space-classy">
+    <img src="https://img.shields.io/pypi/pyversions/space-classy"/>
+  </a>
+  <a href="https://img.shields.io/pypi/v/space-classy">
+    <img src="https://img.shields.io/pypi/v/space-classy"/>
+  </a>
+  <a href="https://readthedocs.org/projects/classy/badge/?version=latest">
+    <img src="https://readthedocs.org/projects/classy/badge/?version=latest"/>
+  </a>
+  <a href="https://arxiv.org/abs/2203.11229">
+    <img src="https://img.shields.io/badge/arXiv-2203.11229-f9f107.svg"/>
+  </a>
+</div>
+
+<br>
+
+![Classification of (1) Ceres using data from Gaia/SMASS/MITHNEOS](https://classy.readthedocs.io/en/latest/_images/ceres_classification_dark.png)
 
 # Features
 
-Classify asteroids in the taxonomic scheme by [Mahlke, Carry, Mattei 2022](https://arxiv.org/abs/2203.11229).
+- Classify asteroid reflectance spectra in the taxonomic scheme by [Mahlke, Carry, and Mattei 2022](https://arxiv.org/abs/2203.11229).
+
+- Add spectra from public repositories for comparison
+
+- Explore data via the command line, build an analysis with the ``python`` interface
+
+- Simple syntax: specify the asteroid to analyse, ``classy`` takes care of the rest
 
 ``` sh
 
-$ classy classify path/to/observations.csv
-INFO     Looks like we got 2 S, 1 Ee, 1 B, 1 X, 1 Q
+$ classy spectra juno --classify
 
+```
+
+or
+
+``` python
+>>> import classy
+>>> spectra = classy.Spectra(3)
+... [classy] Found 1 spectrum in Gaia
+... [classy] Found 5 spectra in SMASS
+>>> spectra.classify()
+... [classy] [(3) Juno] - [Gaia]: S
+... [classy] [(3) Juno] - [spex/sp96]: S
+... [classy] [(3) Juno] - [smass/smassir]: S
+... [classy] [(3) Juno] - [smass/smass1]: S
+... [classy] [(3) Juno] - [smass/smass2]: S
+... [classy] [(3) Juno] - [smass/smass2]: S
+>>> spectra.to_csv('class_juno.csv')
 ```
 
 # Install
@@ -50,7 +88,7 @@ The following data files are provided in this repository (format `csv` and `txt`
 | `ref_spectra.csv` | `refspect.txt` | References of spectra | The key to the spectra references used in the classification tables. |
 | `ref_albedo.csv` | `refalbed.txt` | References of albedos |  The key to the albedo references used in the classification tables. |
 
-More information on each file can be found in the [data/ReadMe](https://github.com/maxmahlke/classy/blob/main/data/ReadMe).
+More information on each file can be found in the [data/mahlke2022/ReadMe](https://github.com/maxmahlke/classy/blob/main/data/ReadMe).
 
 <!-- # Development -->
 <!---->
