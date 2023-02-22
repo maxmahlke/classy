@@ -1,3 +1,6 @@
+# 0.3.4 - 2023-02-22
+- Set albedo to NaN if not provided and asteroid ID is unknown
+
 # 0.3.3 - 2023-02-14
 - Exit classy spectra if no spectra were found
 - Add importlib_resources dependency for python 3.8

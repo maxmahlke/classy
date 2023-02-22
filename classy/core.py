@@ -94,6 +94,9 @@ class Spectrum:
             rock = rocks.Rock(self.asteroid_name)
             self.pV = rock.albedo.value
             self.pV_err = rock.albedo.error_
+        elif self.pV is None:
+            self.pV = np.nan
+            self.pV_err = np.nan
 
         # Has it been preprocessed already?
         self.preprocessed = preprocessed
@@ -144,7 +147,6 @@ class Spectrum:
             self.smooth_window = window
 
         if interactive:
-
             # Run with default parameters to initialize self.refl_smoothed
             self.smooth_window = self.smooth_window if window is not None else 99
             self.smooth_degree = self.smooth_degre if degree is not None else 3
@@ -218,7 +220,6 @@ class Spectrum:
         self.mask = np.array([np.isfinite(r) for r in self.refl_interp])
 
     def classify(self, system="Mahlke+ 2022"):
-
         # Find out which system
         if "mahlke" in system.lower():
             system = "Mahlke+ 2022"
@@ -319,7 +320,6 @@ class Spectrum:
             features = list(feature)
 
         for feature in features:
-
             feature_instance = Feature(name=feature)
             feature_instance.fit(self.wave, self.refl, skip_validation=skip_validation)
 
@@ -331,7 +331,6 @@ class Spectrum:
         for i, sample in data_classified.reset_index(drop=True).iterrows():
             for feature, props in defs.FEATURE.items():
                 if sample.class_ in props["candidates"]:
-
                     if getattr(self, feature).is_present:
                         if feature == "h":
                             data_classified.loc[i, "class_"] = "Ch"
@@ -545,7 +544,6 @@ class Feature:
         return self.refl / slope(self.wave)
 
     def _fit_band(self, refl_no_continuum):
-
         # Define fit parameters
         FIT_DEGREE = 4
 
@@ -623,7 +621,6 @@ class Spectra(list):
         spectra = []
 
         for i in id_:
-
             if isinstance(i, Spectrum):
                 spectra.append(i)
                 continue
@@ -678,7 +675,6 @@ class Spectra(list):
             "class_",
             *[f"class_{letter}" for letter in defs.CLASSES],
         ]:
-
             column = []
 
             for spec in self:
