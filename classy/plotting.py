@@ -437,33 +437,20 @@ def plot_spectra(spectra, add_classes=False, system="Mahlke+ 2022"):
     # 2. Add pV axis
     if add_classes:
 
-        # Are all albedos the same?
-        if len(set(spec.pV for spec in spectra)) == 1:
+        for i, spec in enumerate(spectra):
             ax_pv.errorbar(
-                0,
-                spectra[0].pV,
-                yerr=spectra[0].pV_err,
-                capsize=3,
-                marker=".",
-                c="dimgray",
+                i, spec.pV, yerr=spec.pV_err, capsize=3, marker=".", c=spec.color
             )
-            ax_pv.set_xticks([], [])
 
-        else:
-            for i, spec in enumerate(spectra):
-                ax_pv.errorbar(
-                    i, spec.pV, yerr=spec.pV_err, capsize=3, marker=".", c=spec.color
-                )
-
-            ax_pv.set_xticks(
-                range(len(spectra)), [f"{spec.name}" for spec in spectra], rotation=90
-            )
+        ax_pv.set_xticks(
+            range(len(spectra)), [f"{spec.name}" for spec in spectra], rotation=90
+        )
 
         ymin, ymax = ax_pv.get_ylim()
         ymin = 0 if ymin < 0.1 else ymin
         ymax += 0.051
 
-        ax_pv.set(xlabel="pV", ylim=(ymin, ymax))
+        ax_pv.set(xlabel="pV", ylim=(ymin, ymax), xlim=(-0.5, len(spectra)-0.5))
 
     # 3. Add classes
     if add_classes:
