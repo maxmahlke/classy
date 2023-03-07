@@ -183,10 +183,20 @@ class Spectrum:
         self.refl_preprocessed = np.log(self.refl_normalised) - alpha
         self.alpha = alpha
 
-    def preprocess(self):
-        """Preprocess spectrum for classification."""
+    def preprocess(self, smooth_degree=None, smooth_window=None):
+        """Preprocess spectrum for classification.
+
+        Parameters
+        ----------
+        smooth_degree : int
+            Optional. Degree of the smoothing function applied in the Savtizky-Golay filter.
+            Default is None, which sets the degree to 3.
+        smooth_window : int
+            Optional. Size of data point window in data points applied in the Savtizky-Golay filter.
+            Default is None, which sets the window to a fifth of the number of data points.
+        """
         self.detect_features()
-        self.smooth()
+        self.smooth(degree=smooth_degree, window=smooth_window)
         self.resample()
         self.normalize()
 
