@@ -377,7 +377,9 @@ def plot_spectra(spectra, add_classes=False, system="Mahlke+ 2022"):
                 gaia_lines, gaia_labels = plot_gaia_spectrum(ax_spec, spec)
 
         else:
-            user_lines, user_labels = plot_user_spectrum(ax_spec, spec)
+            user_line, user_label = plot_user_spectrum(ax_spec, spec)
+            user_lines.append(*user_line)
+            user_labels.append(*user_label)
 
     # Axis setup
     # Construct legend
