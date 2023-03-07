@@ -146,19 +146,23 @@ class Spectrum:
             self.smooth_degree = degree
             self.smooth_window = window
 
+        # user might have set refl values to nan
+        self.wave_smoothed = self.wave[~np.isnan(self.refl)]
+        self.refl_smoothed = self.refl[~np.isnan(self.refl)]
+
         if interactive:
             # Run with default parameters to initialize self.refl_smoothed
             self.smooth_window = self.smooth_window if window is not None else 99
             self.smooth_degree = self.smooth_degre if degree is not None else 3
             self.refl_smoothed = signal.savgol_filter(
-                self.refl, self.smooth_window, self.smooth_degree
+                self.refl_smoothed, self.smooth_window, self.smooth_degree
             )
             self._smooth_interactive()
 
         # self.refl_original = self.refl
 
         self.refl_smoothed = signal.savgol_filter(
-            self.refl, self.smooth_window, self.smooth_degree
+            self.refl_smoothed, self.smooth_window, self.smooth_degree
         )
 
     def truncate(self, wave_min, wave_max):
@@ -221,7 +225,7 @@ class Spectrum:
             )
 
         refl_interp = interpolate.interp1d(
-            self.wave, self.refl_smoothed, bounds_error=False
+            self.wave_smoothed, self.refl_smoothed, bounds_error=False
         )
 
         # Update basic properties
@@ -351,20 +355,22 @@ class Spectrum:
                             )
         return data_classified
 
-    def plot(self, show=True):
-        """Plot the spectrum.
-
-        Parameters
-        ----------
-        show : bool
-            Open the plot. Default is True.
-
-        Returns
-        -------
-        matplolib.figures.Figure
-        matplotlib.axes.Axis
-        """
-        return plotting._plot_spectrum(self, show)
+    def plot(self, add_classes=False):
+        plotting.plot_spectra([self], add_classes)
+    # def plot(self, show=True):
+    #     """Plot the spectrum.
+    #
+    #     Parameters
+    #     ----------
+    #     show : bool
+    #         Open the plot. Default is True.
+    #
+    #     Returns
+    #     -------
+    #     matplolib.figures.Figure
+    #     matplotlib.axes.Axis
+    #     """
+    #     return plotting._plot_spectrum(self, show)
 
     def to_csv(self, path_out=None):
         """Store the classification results to file."""
