@@ -375,8 +375,8 @@ def plot_spectra(spectra, add_classes=False, system="Mahlke+ 2022"):
                 spec.color = "black"
                 gaia_lines, gaia_labels = plot_gaia_spectrum(ax_spec, spec)
 
-        elif spec.source == "user":
-            raise Error  # to be implemented
+        else:
+            user_lines, user_labels = plot_user_spectrum(ax_spec, spec)
 
     # Axis setup
     # Construct legend
@@ -390,6 +390,10 @@ def plot_spectra(spectra, add_classes=False, system="Mahlke+ 2022"):
         (dummy,) = ax_spec.plot([], [], alpha=0)
         lines += [dummy, dummy] + smass_lines
         labels += ["", "SMASS"] + smass_labels
+    if user_lines:
+        (dummy,) = ax_spec.plot([], [], alpha=0)
+        lines += [dummy, dummy] + user_lines
+        labels += ["", "User Provided"] + user_labels
 
     if add_classes:
 
@@ -601,3 +605,49 @@ def plot_gaia_spectrum(ax, spec):
     # )
     # ax.add_artist(leg)
     return lines, labels
+
+
+def plot_user_spectrum(ax, spec):
+    """Plot a user provided spectrum.
+
+    Parameters
+    ----------
+    ax : matplotlib.axes.Axis
+        The axis to plot to.
+    spec : classy.spectra.Spectrum
+        The SMASS spectrum to plot.
+    """
+
+    # Error-interval
+
+    if hasattr(spec, "refl_interp"):
+        l1 = ax.errorbar(
+            spec.wave,
+            spec.refl,
+            yerr=spec.refl_err,
+            c=spec.color,
+            label=f"{spec.source}",
+            alpha=0.4,
+            capsize=3,
+            ls="",
+        )
+        ax.plot(classy.defs.WAVE_GRID, spec.refl_interp, c=spec.color)
+
+    else:
+        # Line
+        (l1,) = ax.plot(
+            spec.wave, spec.refl, c=spec.color, label=f"{spec.source}", ls="-", alpha=0.5
+        )
+
+        ax.fill_between(
+            spec.wave,
+            spec.refl + spec.refl_err / 2,
+            spec.refl - spec.refl_err / 2,
+            color=spec.color,
+            alpha=0.3,
+            ec="none",
+        )
+
+    line = [l1]
+    label = [spec.name]
+    return line, label
