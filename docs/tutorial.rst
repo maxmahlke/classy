@@ -5,6 +5,40 @@ Tutorials
 .. role:: raw-html(raw)
     :format: html
 
+.. dropdown:: Excluding points from literature spectra
+
+   To exclude a reflectance value from the classification, you can set it to ``NaN``.
+
+   .. code-block:: python
+
+        import numpy as np
+
+        import classy
+
+        # Get Gaia spectrum of Ceres
+        ceres = classy.Spectra(1, source="Gaia")  # returns classy.Spectra instance
+
+        # "ceres" is now a list of classy.Spectrum entries which only one element, the Gaia spectrum
+        # We simplify by removing the list and getting the first entry
+        ceres = ceres[0]  # returns classy.Spectrum instance
+
+        # Preprocess, classify and plot the result
+        ceres.preprocess()
+        ceres.classify()
+        ceres.plot(add_classes=True)
+
+        # There are sketchy data points
+        # Exclude points where the flag is not 0
+        ceres.refl[ceres.flag != 0] = np.nan
+
+        # Exclude the last point
+        ceres.refl[-1] = np.nan
+
+        # Preprocess, classify and plot again
+        ceres.preprocess()
+        ceres.classify()
+        ceres.plot(add_classes=True)
+
 .. dropdown:: Classifying all asteroids in Gaia
 
     ``Lines of code: 5``
