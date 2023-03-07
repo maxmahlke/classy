@@ -361,6 +361,7 @@ def plot_spectra(spectra, add_classes=False, system="Mahlke+ 2022"):
     # 1. Plot spectra
     smass_lines, smass_labels = [], []
     gaia_lines, gaia_labels = [], []
+    user_lines, user_labels = [], []
     for spec in spectra:
 
         if spec.source in ["SMASS", "Gaia"]:
