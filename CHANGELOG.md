@@ -1,3 +1,6 @@
+# 0.3.6 - 2023-03-07
+- Fix smoothing of spectra in case of NaN reflectance values
+
 # 0.3.5 - 2023-03-07
 - The smooth_window and smooth_degree parameters can now be set in the preprocess() method call
 - Add function to plot user-defined spectra
