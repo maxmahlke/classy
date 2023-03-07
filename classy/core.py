@@ -586,6 +586,14 @@ class Feature:
         else:
             return True
 
+    def remove_slope(self):
+
+        # Fit first-order polynomial
+        slope = np.polyfit(wave[range_fit], refl[range_fit], 1)
+
+        # Turn into callable polynomial function
+        return np.poly1d(slope)
+
 
 class Spectra(list):
     """List of several spectra of individual asteroid."""

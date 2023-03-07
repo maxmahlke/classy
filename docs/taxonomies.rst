@@ -78,6 +78,48 @@ classification results (e.g. 70% S, 30% A).
 DeMeo+ 2009
 -----------
 
+This classification uses the PCA+decision tree from DeMeo rather than comparing
+the spectra to the templates via chi2.
+
+Note that the implementation here is based on the principal components analysis
+and the decision tree outlined in DeMeo+ 2009 rather than using a Chi2
+comparison to the class templates.
+
+Preprocessing
++++++++++++++
+
+The preprocessing of observations requires resampling, removing the slope, and
+normalizing to 0.55µm.
+
+Sidenote: The missing data mean
++++++++++++++++++++++++++++++++
+
+As DeMeo+ 2009 demeaned the reflectance spectra prior to the PCA, **the same
+mean value** of each reflectance bin has to subtracted from new reflectance
+spectra to be projected into the same principal space. I could not find the
+original mean values in the source publication\ [#f1]_, so I computed it myself
+using the spectra from DeMeo+ 2009 and give it here for completeness:
+
+.. code-block:: python
+
+   [0.8840578, 0.94579985, 1.04016798, 1.07630094, 1.10387232, 1.10729138,
+    1.07101476, 1.02252107, 0.99167561, 0.98766575, 1.00292349, 1.02223844,
+    1.04660108, 1.07201578, 1.08967345, 1.10014259, 1.11101667, 1.12359452,
+    1.13128556, 1.13642896, 1.13467689, 1.12810013, 1.11471935, 1.09802574,
+    1.07842635, 1.06127665, 1.04536074, 1.03360292, 1.02395605, 1.01587389,
+    1.01034821, 1.00915786, 1.01078308, 1.01245031, 1.01298133, 1.01314109,
+    1.01236654, 1.01140562, 1.01090655, 1.00955344]
+
+Note that this is not the exact mean as I did not have the original spectra of
+(41) *Daphne*, (82) *Alkmene*, and (3788) *Steyaert*. However, compared to the
+published scores, I get an average difference of 0.0003 using scores I compute
+with this data mean, which is sufficiently accurate for any purposes.
+
+
+Classes
++++++++
+
+
 PCA
 Reflectance spectra
 Complete between 0.45 to 2.45
@@ -112,3 +154,10 @@ Albedo
 PCA + decision tree
 Complete spectra
 14 classes
+
+
+.. rubric:: Footnotes
+   :caption:
+
+
+.. [#f1] In case you found it, `let me know! <https://github.com/maxmahlke/classy/blob/master/CHANGELOG.md>`_  | Comment, bug or feature request? Open an issue on `GitHub <https://github.com/maxmahlke/classy/issues>`_
