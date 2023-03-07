@@ -1,3 +1,7 @@
+# 0.3.5 - 2023-03-07
+- The smooth_window and smooth_degree parameters can now be set in the preprocess() method call
+- Add function to plot user-defined spectra
+
 # 0.3.4 - 2023-02-22
 - Set albedo to NaN if not provided and asteroid ID is unknown
 
