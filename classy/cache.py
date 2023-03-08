@@ -15,14 +15,27 @@ from classy import core
 # Indeces of spectra
 def load_index(which):
     """Load an index file."""
-    if which == "Gaia":
+    if which == "AKARI":
+        return load_akari_index()
+    elif which == "Gaia":
         return load_gaia_index()
-    elif which == "SMASS":
-        return load_smass_index()
     elif which == "Mahlke":
         return load_mahlke_index()
+    elif which == "SMASS":
+        return load_smass_index()
     else:
         raise ValueError(f"Unknown index '{which}'. Choose one of ['SMASS', 'Gaia'].")
+
+
+def load_akari_index():
+    """Load the Gaia DR3 reflectance spectra index."""
+
+    PATH_INDEX = config.PATH_CACHE / "akari/AcuA_1.0/index.csv"
+
+    if not PATH_INDEX.is_file():
+        retrieve_akari_spectra()
+
+    return pd.read_csv(PATH_INDEX, dtype={"number": "Int64"})
 
 
 def load_gaia_index():
@@ -72,7 +85,9 @@ def load_spectra(idx_spectra):
 
     for _, spec in idx_spectra.iterrows():
 
-        if spec.source == "Gaia":
+        if spec.source == "AKARI":
+            spec = load_akari_spectrum(spec)
+        elif spec.source == "Gaia":
             spec = load_gaia_spectrum(spec)
         elif spec.source == "SMASS":
             spec = load_smass_spectrum(spec)
@@ -80,6 +95,65 @@ def load_spectra(idx_spectra):
         spectra.append(spec)
 
     return spectra
+
+
+def load_akari_spectrum(spec):
+    """Load a cached AKARI spectrum.
+
+    Parameters
+    ----------
+    spec : pd.Series
+
+    Returns
+    -------
+    astro.core.Spectrum
+
+    """
+    PATH_SPEC = config.PATH_CACHE / f"akari/AcuA_1.0/reflectance/{spec.filename}"
+
+    # Load spectrum
+    data = pd.read_csv(
+        PATH_SPEC,
+        delimiter="\s+",
+        names=[
+            "wave",
+            "refl",
+            "refl_err",
+            "flag_err",
+            "flag_saturation",
+            "flag_thermal",
+            "flag_stellar",
+        ],
+    )
+
+    # Add a joint flag, it's 1 if any other flag is 1
+    data["flag"] = data.apply(
+        lambda point: 1
+        if any(
+            bool(point[flag])
+            for flag in ["flag_err", "flag_saturation", "flag_thermal", "flag_stellar"]
+        )
+        else 0,
+        axis=1,
+    )
+
+    spec = core.Spectrum(
+        wave=data.wave.values,
+        refl=data.refl.values,
+        refl_err=data.refl_err.values,
+        flag=data.flag.values,
+        source="AKARI",
+        name=f"Gaia",
+        asteroid_name=spec["name"],
+        asteroid_number=spec.number,
+        reference="Usui+ 2019",
+        flag_err=data.flag_err.values,
+        flag_saturation=data.flag_saturation.values,
+        flag_thermal=data.flag_thermal.values,
+        flag_stellar=data.flag_stellar.values,
+    )
+
+    return spec
 
 
 def load_gaia_spectrum(spec):
@@ -236,3 +310,41 @@ def retrieve_smass_spectrum(spec):
     # Store to file
     obs.to_csv(PATH_OUT, index=False)
     logger.info(f"Retrieved spectrum {spec.run}/{spec.filename} from SMASS")
+
+
+def retrieve_akari_spectra():
+    """Download the AcuA-spec archive to cache."""
+
+    import tarfile
+    import requests
+
+    URL = "https://darts.isas.jaxa.jp/pub/akari/AKARI-IRC_Spectrum_Pointed_AcuA_1.0/AcuA_1.0.tar.gz"
+    PATH_AKARI = config.PATH_CACHE / "akari"
+
+    PATH_AKARI.mkdir(parents=True, exist_ok=True)
+
+    # Retrieve spectra
+    logger.info("Retrieving AKARI AcuA-spec reflectance spectra [1.7MB] to cache...")
+    with requests.get(URL, stream=True) as file_:
+        with tarfile.open(fileobj=file_.raw, mode="r:gz") as archive:
+
+            archive.extractall(PATH_AKARI)
+
+    # Create index
+    index = pd.read_csv(
+        PATH_AKARI / "AcuA_1.0/target.txt",
+        delimiter="\s+",
+        names=["number", "name", "obs_id", "date", "ra", "dec"],
+        dtype={"numbe}": int},
+    )
+    index = index.drop_duplicates("number")
+
+    # Drop (4) Vesta and (4015) Wilson-Harrington as there are no spectra of them
+    index = index[~index.number.isin([4, 15])]
+
+    # Add filenames
+    index["filename"] = index.apply(
+        lambda row: f"{row.number:>04}_{row['name']}.txt", axis=1
+    )
+
+    index.to_csv(PATH_AKARI / "AcuA_1.0/index.csv", index=False)
