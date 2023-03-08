@@ -361,10 +361,11 @@ def plot_spectra(spectra, add_classes=False, system="Mahlke+ 2022"):
     # 1. Plot spectra
     smass_lines, smass_labels = [], []
     gaia_lines, gaia_labels = [], []
+    akari_lines, akari_labels = [], []
     user_lines, user_labels = [], []
     for spec in spectra:
 
-        if spec.source in ["SMASS", "Gaia"]:
+        if spec.source in ["AKARI", "SMASS", "Gaia"]:
 
             spec.color = colors.pop()
             if spec.source == "SMASS":
@@ -372,9 +373,11 @@ def plot_spectra(spectra, add_classes=False, system="Mahlke+ 2022"):
                 smass_lines.append(*smass_line)
                 smass_labels.append(*smass_label)
 
-            else:
+            elif spec.source == "Gaia":
                 spec.color = "black"
                 gaia_lines, gaia_labels = plot_gaia_spectrum(ax_spec, spec)
+            elif spec.source == "AKARI":
+                akari_lines, akari_labels = plot_akari_spectrum(ax_spec, spec)
 
         else:
             user_line, user_label = plot_user_spectrum(ax_spec, spec)
@@ -385,6 +388,10 @@ def plot_spectra(spectra, add_classes=False, system="Mahlke+ 2022"):
     # Construct legend
     lines, labels = [], []
 
+    if akari_lines:
+        (dummy,) = ax_spec.plot([], [], alpha=0)
+        lines += [dummy, dummy] + akari_lines
+        labels += ["", "AKARI"] + akari_labels
     if gaia_lines:
         (dummy,) = ax_spec.plot([], [], alpha=0)
         lines += [dummy, dummy] + gaia_lines
@@ -453,7 +460,7 @@ def plot_spectra(spectra, add_classes=False, system="Mahlke+ 2022"):
         ymin = 0 if ymin < 0.1 else ymin
         ymax += 0.051
 
-        ax_pv.set(xlabel="pV", ylim=(ymin, ymax), xlim=(-0.5, len(spectra)-0.5))
+        ax_pv.set(xlabel="pV", ylim=(ymin, ymax), xlim=(-0.5, len(spectra) - 0.5))
 
     # 3. Add classes
     if add_classes:
@@ -597,6 +604,61 @@ def plot_gaia_spectrum(ax, spec):
     return lines, labels
 
 
+def plot_akari_spectrum(ax, spec):
+    """Plot an AKARI spectrum.
+
+    Parameters
+    ----------
+    ax : matplotlib.axes.Axis
+        The axis to plot to.
+    spec : classy.spectra.Spectrum
+        The Gaia spectrum to plot.
+    """
+
+    # Line to guide the eye
+    ax.plot(spec.wave, spec.refl, ls=":", lw=1, c=spec.color, zorder=100)
+
+    # Errorbars colour-coded by photometric flag
+    props = dict(lw=1, capsize=3, ls="", zorder=100)
+    l0 = ax.errorbar(spec.wave, spec.refl, yerr=spec.refl_err, c=spec.color, **props)
+
+    lines = [l0]  # to construct AKARI-specific legend
+
+    f1 = spec.flag == 1
+
+    if any(f1):
+        l1 = ax.errorbar(
+            spec.wave[f1], spec.refl[f1], yerr=spec.refl_err[f1], c="red", **props
+        )
+        lines.append(l1)
+
+    labels = [f"Flag {i}" for i, _ in enumerate(lines)]
+
+    if hasattr(spec, "refl_interp"):
+        (l3,) = ax.plot(
+            classy.defs.WAVE_GRID,
+            spec.refl_interp,
+            ls="-",
+            lw=1,
+            c=spec.color,
+            zorder=100,
+        )
+    # lines.append(l3)
+
+    # Add Gaia-specific legend
+    # labels += ["Preprocessed"]
+    # leg = ax.legend(
+    #     lines,
+    #     labels,
+    #     facecolor="white",
+    #     edgecolor="none",
+    #     loc="lower center",
+    #     title="Gaia",
+    # )
+    # ax.add_artist(leg)
+    return lines, labels
+
+
 def plot_user_spectrum(ax, spec):
     """Plot a user provided spectrum.
 
@@ -626,7 +688,12 @@ def plot_user_spectrum(ax, spec):
     else:
         # Line
         (l1,) = ax.plot(
-            spec.wave, spec.refl, c=spec.color, label=f"{spec.source}", ls="-", alpha=0.5
+            spec.wave,
+            spec.refl,
+            c=spec.color,
+            label=f"{spec.source}",
+            ls="-",
+            alpha=0.5,
         )
 
         ax.fill_between(
