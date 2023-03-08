@@ -352,7 +352,7 @@ def plot_spectra(spectra, add_classes=False, system="Mahlke+ 2022"):
     # Build figure instance
     if add_classes:
         fig, axes = plt.subplots(
-            ncols=3, figsize=(14, 5), gridspec_kw={"width_ratios": [4, 1, 4]}
+            ncols=3, figsize=(16, 7), gridspec_kw={"width_ratios": [4, 1, 4]}
         )
         ax_spec, ax_pv, ax_classes = axes
     else:
@@ -468,6 +468,8 @@ def plot_spectra(spectra, add_classes=False, system="Mahlke+ 2022"):
         width = 0.8 / len(spectra)
 
         for i, spec in enumerate(spectra):
+            if not hasattr(spec, "class_A"):
+                continue  # spec was not classified following Mahlke+ 2022
             for x, class_ in enumerate(classy.defs.CLASSES):
                 ax_classes.bar(
                     x - 0.3 + i * width,

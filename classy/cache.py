@@ -143,7 +143,7 @@ def load_akari_spectrum(spec):
         refl_err=data.refl_err.values,
         flag=data.flag.values,
         source="AKARI",
-        name=f"Gaia",
+        name=f"AKARI - {spec['name']}",
         asteroid_name=spec["name"],
         asteroid_number=spec.number,
         reference="Usui+ 2019",

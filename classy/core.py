@@ -244,6 +244,17 @@ class Spectrum:
         elif "demeo" in system.lower():
             system = "Tholen 1984"
 
+        if (
+            system == "Mahlke+ 2022"
+            and self.wave.min() >= 2.45
+            or self.wave.max() <= 0.45
+        ):
+            logger.info(
+                f"{self.name}:  Cannot classify following Mahlke+ 2022 - insufficient wavelength coverage."
+            )
+            self.class_mahlke = ""
+            return
+
         if system == "Mahlke+ 2022" and not self.preprocessed:
             self.preprocess()
 
@@ -357,6 +368,7 @@ class Spectrum:
 
     def plot(self, add_classes=False):
         plotting.plot_spectra([self], add_classes)
+
     # def plot(self, show=True):
     #     """Plot the spectrum.
     #
