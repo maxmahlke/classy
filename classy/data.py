@@ -16,7 +16,11 @@ from classy import cache
 from classy import gmm
 from classy.logging import logger
 
-SOURCES = [ "AKARI", "Gaia", "SMASS"]
+SOURCES = [
+    "Gaia",
+    "SMASS",
+    "AKARI",
+]
 
 # ------
 # Spectra

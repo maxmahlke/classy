@@ -622,7 +622,13 @@ def plot_akari_spectrum(ax, spec):
 
     # Errorbars colour-coded by photometric flag
     props = dict(lw=1, capsize=3, ls="", zorder=100)
-    l0 = ax.errorbar(spec.wave, spec.refl, yerr=spec.refl_err, c=spec.color, **props)
+    l0 = ax.errorbar(
+        spec.wave[spec.flag != 1],
+        spec.refl[spec.flag != 1],
+        yerr=spec.refl_err[spec.flag != 1],
+        c=spec.color,
+        **props,
+    )
 
     lines = [l0]  # to construct AKARI-specific legend
 
@@ -630,7 +636,12 @@ def plot_akari_spectrum(ax, spec):
 
     if any(f1):
         l1 = ax.errorbar(
-            spec.wave[f1], spec.refl[f1], yerr=spec.refl_err[f1], c="red", **props
+            spec.wave[f1],
+            spec.refl[f1],
+            yerr=spec.refl_err[f1],
+            c=spec.color,
+            **props,
+            alpha=0.3,
         )
         lines.append(l1)
 
