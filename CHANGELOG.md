@@ -1,3 +1,6 @@
+# 0.3.7 - 
+- Add label for each user spectrum
+
 # 0.3.6 - 2023-03-07
 - Fix smoothing of spectra in case of NaN reflectance values
 
