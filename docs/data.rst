@@ -126,6 +126,16 @@ literature spectrum.
        'Lutetia'
 
 
+AKARI
+-----
+
+The `AKARI AcuA-spec
+catalogue<https://darts.isas.jaxa.jp/astro/akari/data/AKARI-IRC_Spectrum_Pointed_AcuA_1.0.html>`_
+contains reflectance spectra between 2.5-5.0µm of 64 asteroids. Each spectrum has different flag attributes
+following the original catalogue (`flag_refl`, `flag_thermal`, `flag_satuartuion`, `flag_stellar`), where `1` marks
+possibly affected data points and `0` refers to good data points. `classy` adds the simplified `flag` attribute, which is
+`0` if all other flag attributes are `0` as well.
+
 SsODNet
 -------
 
