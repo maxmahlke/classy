@@ -1,4 +1,5 @@
-# 0.3.7 - 
+# 0.3.7 - 2023-03-08
+- Add AKARI AcuA-spec catalogue
 - Add label for each user spectrum
 
 # 0.3.6 - 2023-03-07
