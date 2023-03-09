@@ -155,6 +155,39 @@ PCA + decision tree
 Complete spectra
 14 classes
 
+The Transformation
+==================
+
+Tholen 1984 applied standardization to the ECAS colours prior to computing the PCA.
+The same standardization has to be applied to new observations to classify them in the Tholen scheme.
+This requires the mean and standard deviation of the 405 asteroids in the seven ECAS colours Tholen used.
+These values are given in Table II of Tholen 1984:
+
+.. code-block:: python
+
+   ecas_mean = {
+   "s-v": 0.325,
+   "u-v": 0.234,
+   "b-v": 0.089,
+   "v-w": 0.091,
+   "v-x": 0.105,
+   "v-p": 0.103,
+   "v-z": 0.111,
+   }
+
+   ecas_std = {
+   "s-v": 0.221,
+   "u-v": 0.173,
+   "b-v": 0.092,
+   "v-w": 0.081,
+   "v-x": 0.091,
+   "v-p": 0.104,
+   "v-z": 0.120,
+   }
+mean and std
+
+np.dot((colors - mean) / std),  evs)
+
 
 .. rubric:: Footnotes
    :caption:

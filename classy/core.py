@@ -241,8 +241,10 @@ class Spectrum:
             system = "DeMeo+ 2009"
         elif "bus" in system.lower():
             system = "Bus and Binzel"
-        elif "demeo" in system.lower():
+        elif "tholen" in system.lower():
             system = "Tholen 1984"
+            self.classify_tholen()
+            return
 
         if (
             system == "Mahlke+ 2022"
@@ -314,6 +316,9 @@ class Spectrum:
         logger.info(
             f"[({self.asteroid_number}) {self.asteroid_name}] - [{self.name}]: {results_str}"
         )
+
+    def classify_tholen():
+        pass
 
     def detect_features(self, feature="all", skip_validation=False):
         """Run automatic recognition of e-, h-, and/or k-feature.
