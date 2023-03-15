@@ -208,7 +208,7 @@ class Spectrum:
 
         self.preprocessed = True
 
-    def resample(self):
+    def resample(self, grid=defs.WAVE_GRID, extrapolate=False):
         """Resample the spectrum to the classy wavelength grid."""
 
         # Little hack: If the first point is exactly 0.45 or the last point
@@ -219,18 +219,25 @@ class Spectrum:
         if self.wave[-1] == defs.LIMIT_NIR:
             self.wave[-1] = defs.LIMIT_NIR + 0.0001
 
-        if self.refl_smoothed is None:
-            logger.warning(
-                "Interpolating the original spectrum, consider smoothing it first."
-            )
+        # if self.refl_smoothed is None:
+        #     logger.warning(
+        #         "Interpolating the original spectrum, consider smoothing it first."
+        #     )
+        if not hasattr(self, "refl_smoothed"):
+            # occurs for tholen classification
+            self.wave_smoothed = self.wave[~np.isnan(self.refl)]
+            self.refl_smoothed = self.refl[~np.isnan(self.refl)]
 
         refl_interp = interpolate.interp1d(
-            self.wave_smoothed, self.refl_smoothed, bounds_error=False
+            self.wave_smoothed,
+            self.refl_smoothed,
+            bounds_error=False,
+            fill_value="extrapolate" if extrapolate else np.nan,
         )
 
         # Update basic properties
-        self.wave_interp = defs.WAVE_GRID
-        self.refl_interp = refl_interp(defs.WAVE_GRID)
+        self.wave_interp = grid
+        self.refl_interp = refl_interp(grid)
         self.mask = np.array([np.isfinite(r) for r in self.refl_interp])
 
     def classify(self, system="Mahlke+ 2022"):
@@ -317,8 +324,30 @@ class Spectrum:
             f"[({self.asteroid_number}) {self.asteroid_name}] - [{self.name}]: {results_str}"
         )
 
-    def classify_tholen():
-        pass
+    def classify_tholen(self):
+        """Classify a spectrum following Tholen 1984."""
+
+        # Compute reflectance at ECAS filters
+        self.resample(
+            list(data.TAXONOMIES["tholen"]["wave"].values()), extrapolate=True
+        )
+
+        # Convert to ECAS colours
+        self.colors_ecas = data.convert_to_ecas_colors(self.refl_interp)
+        # self.colors_ecas = np.array([0.43, 0.263, 0.047, 0, -0.005, -0.022, -0.031])
+
+        # Compute Tholen scores
+        mean = np.array(list(data.TAXONOMIES["tholen"]["data_mean"].values()))
+        std = np.array(list(data.TAXONOMIES["tholen"]["data_std"].values()))
+        self.colors_ecas_preprocessed = (self.colors_ecas - mean) / std
+
+        loadings = np.array(data.TAXONOMIES["tholen"]["eigenvectors"])
+        self.scores_tholen = np.dot(self.colors_ecas_preprocessed, loadings.T)
+
+        # Apply decision tree
+        # ... there is no decision tree
+
+        # V, Q, R -> closest point in pc space
 
     def detect_features(self, feature="all", skip_validation=False):
         """Run automatic recognition of e-, h-, and/or k-feature.
