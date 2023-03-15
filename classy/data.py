@@ -228,7 +228,7 @@ TAXONOMIES = {
             "P": 0.948,
             "z": 1.041,
         },  # Table 2, Tholen 1984
-        mean: {
+        "data_mean": {
             "s-v": 0.325,
             "u-v": 0.234,
             "b-v": 0.089,
@@ -237,7 +237,7 @@ TAXONOMIES = {
             "v-p": 0.103,
             "v-z": 0.111,
         },
-        std: {
+        "data_std": {
             "s-v": 0.221,
             "u-v": 0.173,
             "b-v": 0.092,
@@ -519,16 +519,17 @@ TAXONOMIES = {
 }
 
 # should be function of spec
-def convert_to_ecas_colours():
-    R = [  # reflectances at subwxpz
-        0.5485295139412031,
-        0.6742174675762443,
-        0.8774047879567534,
-        1.081433951297938,
-        0.8566432555816557,
-        0.7812679345516048,
-        1.003690930920097,
-    ]
+def convert_to_ecas_colors(refl):
+    # R = [  # reflectances at subwxpz
+    #     0.5485295139412031,
+    #     0.6742174675762443,
+    #     0.8774047879567534,
+    #     1.081433951297938,
+    #     0.8566432555816557,
+    #     0.7812679345516048,
+    #     1.003690930920097,
+    # ]
+    R = list(refl)
     refl_v = 1
 
     colors = []
@@ -539,6 +540,7 @@ def convert_to_ecas_colours():
     for filt in ["w", "x", "p", "z"]:
         refl = R.pop(0)
         colors.append(-2.5 * np.log10(refl_v / refl))
+    return np.array(colors)
 
 
 ecas = {
