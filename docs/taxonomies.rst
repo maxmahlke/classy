@@ -188,6 +188,16 @@ mean and std
 
 np.dot((colors - mean) / std),  evs)
 
+The Decision Tree
+=================
+Tholen used a minimal-tree algorithm to gradually identify clusters and define
+classes. This means that not all classes have well defined boxes in the principal space
+and I have to come up with a decision tree.
+
+Flagging unsual or noisy data: do I keep U and :?
+
+
+
 
 .. rubric:: Footnotes
    :caption:
