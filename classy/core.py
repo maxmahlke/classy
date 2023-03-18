@@ -12,7 +12,7 @@ tf.get_logger().setLevel("ERROR")
 from classy import data
 from classy import decision_tree
 from classy import defs
-from classy.logging import logger
+from classy.log import logger
 from classy import mixnorm
 from classy import plotting
 
@@ -649,7 +649,6 @@ class Feature:
             return True
 
     def remove_slope(self):
-
         # Fit first-order polynomial
         slope = np.polyfit(wave[range_fit], refl[range_fit], 1)
 

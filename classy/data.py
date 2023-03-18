@@ -14,13 +14,15 @@ from sklearn.mixture import GaussianMixture
 
 from classy import cache
 from classy import gmm
-from classy.logging import logger
+from classy.log import logger
 
 SOURCES = [
     "Gaia",
     "SMASS",
     "AKARI",
+    "ECAS",
 ]
+
 
 # ------
 # Spectra
@@ -518,7 +520,8 @@ TAXONOMIES = {
     },
 }
 
-# should be function of spec
+
+# should be method of Spectrum
 def convert_to_ecas_colors(refl):
     # R = [  # reflectances at subwxpz
     #     0.5485295139412031,

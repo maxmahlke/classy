@@ -3,7 +3,7 @@ import os
 
 os.environ["TF_CPP_MIN_LOG_LEVEL"] = "3"
 
-from .logging import set_log_level
+from .log import set_log_level
 from .core import Spectrum
 from .core import Spectra
 

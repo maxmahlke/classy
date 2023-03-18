@@ -9,7 +9,7 @@ import rocks
 
 import classy.classify
 from classy import core
-from classy.logging import logger
+from classy.log import logger
 import classy.preprocessing
 from classy import cache
 from classy import plotting

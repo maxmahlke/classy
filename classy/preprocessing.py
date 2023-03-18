@@ -1,4 +1,3 @@
-import logging
 from pathlib import Path
 import sys
 
@@ -7,30 +6,25 @@ import pandas as pd
 
 from classy import core
 from classy import defs
-from classy.logging import logger
+from classy.log import logger
 from classy import tools
 
 
 class Preprocessor:
     """Preprocessor for spectra and albedo observations."""
 
-    def __init__(self, data, verbose=False):
+    def __init__(self, data):
         """Create a preprocessing pipeline directed at a data file.
 
         Parameters
         ----------
         data : pd.DataFrame
             DataFrame containing the observations to classify and optionally metadata.
-        verbose : bool
-            Print logging messages. Default is False.
         """
         if not isinstance(data, pd.DataFrame):
             data = pd.read_csv(data)
         self.data = data
         self.verify_data()
-
-        if verbose:
-            log = logging.getLogger(__name__)
 
         # Deserialize the spectral data
         self.spectra = []
@@ -113,7 +107,6 @@ class Preprocessor:
 
         # Fill the output dataframe with the input samples as rows
         for i, sample in self.data.iterrows():
-
             spectrum = self.spectra[i]
 
             # Resampled, smoothed reflectance
