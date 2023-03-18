@@ -53,7 +53,6 @@ def plot(data):
     # Plot the distribution in latent space
     for i in range(classy.defs.MODEL_PARAMETERS["d"] - 1):
         for j in range(classy.defs.MODEL_PARAMETERS["d"] - 1):
-
             dx = j  # latent dimension on x-axis
             dy = i + 1  # latent dimension on y-axis
 
@@ -248,7 +247,6 @@ def fit_feature():
     )
 
     def update_lower(lower_limit):
-
         # Update limit value
         FEATURE["lower"] = lower_limit
 
@@ -286,7 +284,6 @@ def fit_feature():
         fig.canvas.draw_idle()
 
     def update_upper(upper_limit):
-
         # Update limit value
         FEATURE["upper"] = upper_limit
 
@@ -332,7 +329,7 @@ def fit_feature():
 
 
 def plot_spectra(spectra, add_classes=False, system="Mahlke+ 2022"):
-    """Plot spectra. Called by 'classy spectra [id] -p'.
+    """Plot spectra. Called by 'classy spectra [id]'.
 
     Parameters
     ----------
@@ -362,11 +359,10 @@ def plot_spectra(spectra, add_classes=False, system="Mahlke+ 2022"):
     smass_lines, smass_labels = [], []
     gaia_lines, gaia_labels = [], []
     akari_lines, akari_labels = [], []
+    ecas_lines, ecas_labels = [], []
     user_lines, user_labels = [], []
     for spec in spectra:
-
-        if spec.source in ["AKARI", "SMASS", "Gaia"]:
-
+        if spec.source in ["AKARI", "ECAS", "SMASS", "Gaia"]:
             spec.color = colors.pop()
             if spec.source == "SMASS":
                 smass_line, smass_label = plot_smass_spectrum(ax_spec, spec)
@@ -378,6 +374,8 @@ def plot_spectra(spectra, add_classes=False, system="Mahlke+ 2022"):
                 gaia_lines, gaia_labels = plot_gaia_spectrum(ax_spec, spec)
             elif spec.source == "AKARI":
                 akari_lines, akari_labels = plot_akari_spectrum(ax_spec, spec)
+            elif spec.source == "ECAS":
+                ecas_lines, ecas_labels = plot_ecas_spectrum(ax_spec, spec)
 
         else:
             user_line, user_label = plot_user_spectrum(ax_spec, spec)
@@ -392,6 +390,10 @@ def plot_spectra(spectra, add_classes=False, system="Mahlke+ 2022"):
         (dummy,) = ax_spec.plot([], [], alpha=0)
         lines += [dummy, dummy] + akari_lines
         labels += ["", "AKARI"] + akari_labels
+    if ecas_lines:
+        (dummy,) = ax_spec.plot([], [], alpha=0)
+        lines += [dummy, dummy] + ecas_lines
+        labels += ["", "ECAS"] + ecas_labels
     if gaia_lines:
         (dummy,) = ax_spec.plot([], [], alpha=0)
         lines += [dummy, dummy] + gaia_lines
@@ -406,7 +408,6 @@ def plot_spectra(spectra, add_classes=False, system="Mahlke+ 2022"):
         labels += ["", "User Provided"] + user_labels
 
     if add_classes:
-
         (dummy,) = ax_spec.plot([], [], alpha=0)
         l1 = ax_spec.errorbar(
             [], [], yerr=[], capsize=3, ls="", c="black", lw=1, alpha=0.3
@@ -442,11 +443,10 @@ def plot_spectra(spectra, add_classes=False, system="Mahlke+ 2022"):
     xmin, xmax = ax_spec.get_xlim()
     xmax += 1 / 2.8 * (xmax - xmin)
 
-    ax_spec.set(xlabel=r"Wavelength / $\mu$m", ylabel="Reflectance", xlim=(xmin, xmax))
+    ax_spec.set(xlabel=r"Wavelength / µm", ylabel="Reflectance", xlim=(xmin, xmax))
 
     # 2. Add pV axis
     if add_classes:
-
         for i, spec in enumerate(spectra):
             ax_pv.errorbar(
                 i, spec.pV, yerr=spec.pV_err, capsize=3, marker=".", c=spec.color
@@ -464,7 +464,6 @@ def plot_spectra(spectra, add_classes=False, system="Mahlke+ 2022"):
 
     # 3. Add classes
     if add_classes:
-
         width = 0.8 / len(spectra)
 
         for i, spec in enumerate(spectra):
@@ -622,6 +621,73 @@ def plot_akari_spectrum(ax, spec):
 
     # Errorbars colour-coded by photometric flag
     props = dict(lw=1, capsize=3, ls="", zorder=100)
+    l0 = ax.errorbar(
+        spec.wave[spec.flag != 1],
+        spec.refl[spec.flag != 1],
+        yerr=spec.refl_err[spec.flag != 1],
+        c=spec.color,
+        **props,
+    )
+
+    lines = [l0]  # to construct AKARI-specific legend
+
+    f1 = spec.flag == 1
+
+    if any(f1):
+        l1 = ax.errorbar(
+            spec.wave[f1],
+            spec.refl[f1],
+            yerr=spec.refl_err[f1],
+            c=spec.color,
+            **props,
+            alpha=0.3,
+        )
+        lines.append(l1)
+
+    labels = [f"Flag {i}" for i, _ in enumerate(lines)]
+
+    if hasattr(spec, "refl_interp"):
+        (l3,) = ax.plot(
+            classy.defs.WAVE_GRID,
+            spec.refl_interp,
+            ls="-",
+            lw=1,
+            c=spec.color,
+            zorder=100,
+        )
+    # lines.append(l3)
+
+    # Add Gaia-specific legend
+    # labels += ["Preprocessed"]
+    # leg = ax.legend(
+    #     lines,
+    #     labels,
+    #     facecolor="white",
+    #     edgecolor="none",
+    #     loc="lower center",
+    #     title="Gaia",
+    # )
+    # ax.add_artist(leg)
+    return lines, labels
+
+
+def plot_ecas_spectrum(ax, spec):
+    """Plot an ECAS spectrum.
+
+    Parameters
+    ----------
+    ax : matplotlib.axes.Axis
+        The axis to plot to.
+    spec : classy.spectra.Spectrum
+        The Gaia spectrum to plot.
+    """
+
+    # Line to guide the eye
+    ax.plot(spec.wave, spec.refl, ls="--", lw=1, c=spec.color, zorder=100)
+
+    # Errorbars colour-coded by photometric flag
+    props = dict(lw=1, capsize=3, ls="", zorder=100)
+
     l0 = ax.errorbar(
         spec.wave[spec.flag != 1],
         spec.refl[spec.flag != 1],
