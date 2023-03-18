@@ -136,6 +136,27 @@ following the original catalogue (`flag_refl`, `flag_thermal`, `flag_satuartuion
 possibly affected data points and `0` refers to good data points. `classy` adds the simplified `flag` attribute, which is
 `0` if all other flag attributes are `0` as well.
 
+ECAS
+----
+The `Eight Color Asteroid Survey<https://ui.adsabs.harvard.edu/abs/1985Icar...61..355Z>`_ contains ultra-violet and visible colours
+of 589 asteroids, between 0.337µm and 1.041µm. Compared to the original catalogue, cells with value `-9.999` were replaced with `np.nan`
+values.
+
+
+.. table:: Metadata Attributes
+
+   +-------------------------------------------------+------+----------------------------------------------------------------+
+   | Name                                            | Type | Description                                                    |
+   +-----------+-------------------------------------+------+----------------------------------------------------------------+
+   | `flag_S_V`, `flag_U_V`, `flag_B_V`,             | int  | Flag is 0 if the uncertainty of the respective colour is below |
+   | `flag_V_W`, `flag_V_X`, `flag_V_P`, `flag_V_Z`  |      | the limit defined in Tholen 1984 for high-quality data, else 1.|
+   +-------------------------------------------------+------+----------------------------------------------------------------+
+   | `flag`                                          | int  | 1 if any of the individual colour flags is 1, else 0.          |
+   +-------------------------------------------------+------+----------------------------------------------------------------+
+   | `nights`                                        | int  | The number of averaged nights to observe the colour.           |
+   +-------------------------------------------------+------+----------------------------------------------------------------+
+
+
 SsODNet
 -------
 
