@@ -458,9 +458,12 @@ def retrieve_ecas_spectra():
 
     # extract mean colors
     mean = "gbo.ast.ecas.phot/data/ecasmean.tab"
+    scores = "gbo.ast.ecas.phot/data/ecaspc.tab"
 
     f.extract(mean, PATH_ECAS)
+    f.extract(scores, PATH_ECAS)
     path_mean = PATH_ECAS / mean
+    path_scores = PATH_ECAS / scores
 
     mean = pd.read_fwf(
         path_mean,
@@ -555,12 +558,48 @@ def retrieve_ecas_spectra():
     mean.to_csv(PATH_ECAS / "ecas_mean.csv", index=False)
 
     # TODO Add tholen classifcation resutls parsing
-    tholen_pc = (
-        pd.read_csv("/home/mmahlke/astro/cclassy/develop/tholen.csv")
-        .replace(-9.999, np.nan)
-        .dropna(subset="PC1")
-        .reset_index()
+    scores = pd.read_fwf(
+        path_scores,
+        colspecs=[
+            (0, 6),
+            (7, 25),
+            (26, 32),
+            (33, 39),
+            (40, 46),
+            (47, 53),
+            (54, 60),
+            (61, 67),
+            (68, 74),
+            (75, 76),
+        ],
+        names=[
+            "AST_NUMBER",
+            "AST_NAME",
+            "PC1",
+            "PC2",
+            "PC3",
+            "PC4",
+            "PC5",
+            "PC6",
+            "PC7",
+            "NOTE",
+        ],
     )
+
+    names, numbers = zip(*rocks.identify(scores.AST_NAME))
+
+    scores["name"] = names
+    scores["number"] = numbers
+
+    for ind, row in scores.iterrows():
+        r = rocks.Rock(row["name"], datacloud="taxonomies")
+        class_ = r.taxonomies[r.taxonomies.shortbib == "Tholen+1989"]
+        class_ = class_.class_.values[0]
+        scores.loc[ind, "class_"] = class_
+
+    # Remove (152) Atala as it was misidentified in ECAS and thus has NaN scores
+    scores = scores.replace(-9.999, np.nan).dropna(subset="PC1")
+    scores.to_csv(PATH_ECAS / "ecas_scores.csv", index=False)
 
 
 if __name__ == "__main__":

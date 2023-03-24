@@ -11,6 +11,7 @@ from matplotlib.widgets import Button, TextBox
 import numpy as np
 
 from classy import cache
+from classy import taxonomies
 
 
 def get_colors(N, cmap="turbo"):
@@ -440,7 +441,8 @@ def plot_spectra(spectra, add_classes=False, system="mahlke"):
     #     )
 
     if add_classes:
-        lower, upper = classy.data.TAXONOMIES[system]["wave_limits"]
+        wave = getattr(taxonomies, system).WAVE
+        lower, upper = min(wave), max(wave)
         ax_spec.axvline(lower, ls=":", zorder=-10, c="gray")
         ax_spec.axvline(upper, ls=":", zorder=-10, c="gray")
 

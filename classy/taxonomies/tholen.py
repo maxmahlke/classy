@@ -1,5 +1,8 @@
 """Classification of asteroids following Tholen 1984."""
-from functools import cache
+from functools import lru_cache
+
+import numpy as np
+import pandas as pd
 
 from classy import cache
 from classy import config
@@ -9,28 +12,30 @@ from classy.log import logger
 # Defintions
 
 # Central wavelengths of the ECAS colours
-WAVE = [0.337, 0.359, 0.437, 0.550, 0.701, 0.853, 0.948, 1.041]
+WAVE = np.array([0.337, 0.359, 0.437, 0.550, 0.701, 0.853, 0.948, 1.041])
 
 # Mean and standard deviation of ECAS colours, Tholen 1984 Table II
-ECAS_MEAN = [0.325, 0.234, 0.089, 0.091, 0.105, 0.103, 0.111]
-ECAS_STD = [0.221, 0.173, 0.092, 0.081, 0.091, 0.104, 0.120]
+ECAS_MEAN = np.array([0.325, 0.234, 0.089, 0.091, 0.105, 0.103, 0.111])
+ECAS_STD = np.array([0.221, 0.173, 0.092, 0.081, 0.091, 0.104, 0.120])
 
 
 # Eigenvalues and eigenvectors of PCA, Tholen 1984 Table IV
-EIGENVALUES = [4.737, 1.879, 0.180, 0.118, 0.045, 0.032, 0.010]
-EIGENVECTORS = [
-    [0.346, 0.373, 0.415, 0.433, 0.399, 0.336, 0.330],
-    [-0.463, -0.416, -0.289, 0.000, 0.320, 0.475, 0.448],
-    [0.231, 0.207, 0.028, -0.622, -0.290, -0.002, 0.657],
-    [-0.207, -0.103, 0.028, 0.586, -0.399, -0.460, 0.481],
-    [0.442, 0.044, -0.707, 0.094, 0.398, -0.347, 0.124],
-    [-0.303, -0.039, 0.398, -0.271, 0.580, -0.574, 0.100],
-    [0.531, -0.795, 0.292, -0.016, -0.010, -0.022, 0.031],
-]
+EIGENVALUES = np.array([4.737, 1.879, 0.180, 0.118, 0.045, 0.032, 0.010])
+EIGENVECTORS = np.array(
+    [
+        [0.346, 0.373, 0.415, 0.433, 0.399, 0.336, 0.330],
+        [-0.463, -0.416, -0.289, 0.000, 0.320, 0.475, 0.448],
+        [0.231, 0.207, 0.028, -0.622, -0.290, -0.002, 0.657],
+        [-0.207, -0.103, 0.028, 0.586, -0.399, -0.460, 0.481],
+        [0.442, 0.044, -0.707, 0.094, 0.398, -0.347, 0.124],
+        [-0.303, -0.039, 0.398, -0.271, 0.580, -0.574, 0.100],
+        [0.531, -0.795, 0.292, -0.016, -0.010, -0.022, 0.031],
+    ]
+)
 
 # ------
 # Functions for classification
-@cache
+@lru_cache(maxsize=None)
 def load_classification():
     """Load the Tholen 1984 classification results like PC scores and classes from file.
 
@@ -69,7 +74,7 @@ def decision_tree(spec):
 
     # Find the classification of the closest asteroid in PC space
     distances = [
-        np.linalg.norm(spec.tholen_scores - ecas_scores)
+        np.linalg.norm(spec.scores_tholen - ecas_scores)
         for ecas_scores in tholen_scores
     ]
     class_ = tholen.loc[np.argmin(distances), "class_"]
@@ -161,8 +166,8 @@ def plot_pc_space(ax, spectra):
             continue
 
         ax.scatter(
-            spec.tholen_scores[0],
-            spec.tholen_scores[1],
+            spec.scores_tholen[0],
+            spec.scores_tholen[1],
             marker="d",
             c=spec.color,
             s=40,

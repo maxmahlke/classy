@@ -15,6 +15,7 @@ from classy import defs
 from classy.log import logger
 from classy import mixnorm
 from classy import plotting
+from classy import taxonomies
 
 
 class Spectrum:
@@ -382,26 +383,23 @@ class Spectrum:
             )
             return
 
-        self.resample(
-            list(data.TAXONOMIES["tholen"]["wave"].values()), extrapolate=extrapolate
-        )
+        self.resample(taxonomies.tholen.WAVE, extrapolate=extrapolate)
 
         # Convert to ECAS colours
         self.colors_ecas = self.convert_to_ecas_colors(self.refl_interp)
         # self.colors_ecas = np.array([0.43, 0.263, 0.047, 0, -0.005, -0.022, -0.031])
 
         # Compute Tholen scores
-        mean = np.array(list(data.TAXONOMIES["tholen"]["data_mean"].values()))
-        std = np.array(list(data.TAXONOMIES["tholen"]["data_std"].values()))
-        self.colors_ecas_preprocessed = (self.colors_ecas - mean) / std
+        self.colors_ecas_preprocessed = (
+            self.colors_ecas - taxonomies.tholen.ECAS_MEAN
+        ) / taxonomies.tholen.ECAS_STD
 
-        loadings = np.array(data.TAXONOMIES["tholen"]["eigenvectors"])
-        self.scores_tholen = np.dot(self.colors_ecas_preprocessed, loadings.T)
+        self.scores_tholen = np.dot(
+            self.colors_ecas_preprocessed, taxonomies.tholen.EIGENVECTORS.T
+        )
 
         # Apply decision tree
-        self.class_tholen = taxonomies.tholen.closest_neighbour(
-            self.scores_tholen, self.pV
-        )
+        self.class_tholen = taxonomies.tholen.decision_tree(self)
 
     def detect_features(self, feature="all", skip_validation=False):
         """Run automatic recognition of e-, h-, and/or k-feature.
