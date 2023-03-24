@@ -54,8 +54,17 @@ def docs():
     multiple=True,
     help="Select one or more online repositories.",
 )
-def spectra(id_, classify, system, source):
+@click.option("-v", is_flag=True, help="Set verbose output.")
+@click.option("-vv", is_flag=True, help="Set even more verbose output.")
+def spectra(id_, classify, system, source, v, vv):
     """Retrieve, plot, classify spectra of an individual asteroid."""
+
+    if vv:
+        classy.set_log_level("DEBUG")
+    elif v:
+        classy.set_log_level("INFO")
+    else:
+        classy.set_log_level("WARNING")
 
     name, number = rocks.id(id_)
 
