@@ -328,7 +328,7 @@ def fit_feature():
     plt.show()
 
 
-def plot_spectra(spectra, add_classes=False, system="Mahlke+ 2022"):
+def plot_spectra(spectra, add_classes=False, system="mahlke"):
     """Plot spectra. Called by 'classy spectra [id]'.
 
     Parameters
@@ -338,6 +338,10 @@ def plot_spectra(spectra, add_classes=False, system="Mahlke+ 2022"):
     add_classes : bool
         Add axes showing classification preprocessing and results.
     """
+
+    # Give user some degree of freedom in system specification
+    system = system.lower()
+
     # Ensure uniform plot appearance
     mpl.rcParams.update(mpl.rcParamsDefault)
 
@@ -436,8 +440,9 @@ def plot_spectra(spectra, add_classes=False, system="Mahlke+ 2022"):
     #     )
 
     if add_classes:
-        ax_spec.axvline(0.45, ls=":", zorder=-10, c="dimgray")
-        ax_spec.axvline(2.45, ls=":", zorder=-10, c="dimgray")
+        lower, upper = classy.data.TAXONOMIES[system]["wave_limits"]
+        ax_spec.axvline(lower, ls=":", zorder=-10, c="gray")
+        ax_spec.axvline(upper, ls=":", zorder=-10, c="gray")
 
     # ensure that there is space for the legend by adding empty space
     xmin, xmax = ax_spec.get_xlim()
@@ -464,33 +469,88 @@ def plot_spectra(spectra, add_classes=False, system="Mahlke+ 2022"):
 
     # 3. Add classes
     if add_classes:
-        width = 0.8 / len(spectra)
+        if "mahlke" in system:
+            width = 0.8 / len(spectra)
 
-        for i, spec in enumerate(spectra):
-            if not hasattr(spec, "class_A"):
-                continue  # spec was not classified following Mahlke+ 2022
-            for x, class_ in enumerate(classy.defs.CLASSES):
-                ax_classes.bar(
-                    x - 0.3 + i * width,
-                    getattr(spec, f"class_{class_}"),
-                    fill=True,
-                    color=spec.color,
-                    width=width,
-                    alpha=0.7,
-                    label=f"{spec.name}: {spec.class_}" if x == 0 else None,
+            for i, spec in enumerate(spectra):
+                if not hasattr(spec, "class_A"):
+                    continue  # spec was not classified following Mahlke+ 2022
+                for x, class_ in enumerate(classy.defs.CLASSES):
+                    ax_classes.bar(
+                        x - 0.3 + i * width,
+                        getattr(spec, f"class_{class_}"),
+                        fill=True,
+                        color=spec.color,
+                        width=width,
+                        alpha=0.7,
+                        label=f"{spec.name}: {spec.class_}" if x == 0 else None,
+                    )
+            ax_classes.set(ylim=(0, 1))
+            ax_classes.set_xticks(
+                [i for i, _ in enumerate(classy.defs.CLASSES)], classy.defs.CLASSES
+            )
+            ax_classes.legend(title="Most Likely Class", frameon=True, edgecolor="none")
+            ax_classes.grid(c="gray", alpha=0.4, zorder=-100)
+        elif "tholen" in system:
+
+            for class_, data in classy.data.tholen_pc.groupby("class_tholen"):
+                ax_classes.scatter(data["PC1"], data["PC2"], marker="o", alpha=0)
+
+                for _, point in data.iterrows():
+                    if np.isnan(point["PC1"]):
+                        continue
+                    ax_classes.text(
+                        point["PC1"],
+                        point["PC2"],
+                        str(point["number"]),
+                        ha="center",
+                        va="center",
+                        clip_on=True,
+                        color="lightgray",
+                    )
+            for class_, pcs in classy.data.TAXONOMIES["tholen"]["pc_mean"].items():
+                if class_ in ["E"]:
+                    off_x, off_y = 0.05, 0
+                elif class_ in ["P"]:
+                    off_x, off_y = 0.09, 0
+                else:
+                    off_x, off_y = 0, 0
+                ax_classes.text(
+                    pcs[0] + off_x,
+                    pcs[1] + off_y,
+                    class_,
+                    size=14,
+                    color="black",
+                    va="center",
+                    ha="center",
+                    clip_on=True,
                 )
-        ax_classes.set(ylim=(0, 1))
-        ax_classes.set_xticks(
-            [i for i, _ in enumerate(classy.defs.CLASSES)], classy.defs.CLASSES
-        )
-        ax_classes.legend(title="Most Likely Class", frameon=True, edgecolor="none")
-        ax_classes.grid(c="gray", alpha=0.4, zorder=-100)
+
+            for spec in spectra:
+                if not spec.class_tholen:
+                    continue
+                ax_classes.scatter(
+                    spec.scores_tholen[0],
+                    spec.scores_tholen[1],
+                    marker="d",
+                    c=spec.color,
+                    s=40,
+                    label=f"{spec.name}: {spec.class_tholen}",
+                    zorder=100,
+                )
+            ax_classes.axvline(0, ls=":", c="gray")
+            ax_classes.axhline(0, ls=":", c="gray")
+            ax_classes.legend()
 
     if spec.asteroid_name is not None:
         ax_spec.set_title(
             f"({spec.asteroid_number}) {spec.asteroid_name}", loc="left", size=10
         )
     if add_classes:
+        if system == "tholen":
+            system = "Tholen 1984"
+        if system == "mahlke":
+            system = "Mahlke+ 2022"
         ax_classes.set_title(f"Classification following {system}", loc="left", size=10)
 
     fig.tight_layout()
@@ -521,7 +581,7 @@ def plot_smass_spectrum(ax, spec):
             capsize=3,
             ls="",
         )
-        ax.plot(classy.defs.WAVE_GRID, spec.refl_interp, c=spec.color)
+        ax.plot(spec.wave_interp, spec.refl_interp, c=spec.color)
 
     else:
         # Line
@@ -582,7 +642,8 @@ def plot_gaia_spectrum(ax, spec):
 
     if hasattr(spec, "refl_interp"):
         (l3,) = ax.plot(
-            classy.defs.WAVE_GRID,
+            # classy.defs.WAVE_GRID,
+            spec.wave_interp,
             spec.refl_interp,
             ls="-",
             lw=1,
@@ -648,7 +709,7 @@ def plot_akari_spectrum(ax, spec):
 
     if hasattr(spec, "refl_interp"):
         (l3,) = ax.plot(
-            classy.defs.WAVE_GRID,
+            spec.wave_interp,
             spec.refl_interp,
             ls="-",
             lw=1,
@@ -715,7 +776,8 @@ def plot_ecas_spectrum(ax, spec):
 
     if hasattr(spec, "refl_interp"):
         (l3,) = ax.plot(
-            classy.defs.WAVE_GRID,
+            # classy.defs.WAVE_GRID,
+            spec.wave_interp,
             spec.refl_interp,
             ls="-",
             lw=1,
