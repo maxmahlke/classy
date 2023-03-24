@@ -1,3 +1,5 @@
+import numpy as np
+
 defs = {
     "demeo": {
         "wave": np.arange(0.45, 2.5, 0.05),

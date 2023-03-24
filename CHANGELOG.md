@@ -1,3 +1,6 @@
+# 0.3.8 - 2023-03-24
+- Convert class probabilities from BCP to Ch if h feature is present
+
 # 0.3.7 - 2023-03-08
 - Add AKARI AcuA-spec catalogue
 - Add label for each user spectrum
