@@ -161,9 +161,24 @@ class Spectrum:
 
         # self.refl_original = self.refl
 
-        self.refl_smoothed = signal.savgol_filter(
-            self.refl_smoothed, self.smooth_window, self.smooth_degree
-        )
+        if True:
+            self.refl_smoothed = signal.savgol_filter(
+                self.refl_smoothed, self.smooth_window, self.smooth_degree
+            )
+        # else:
+        #     weights = [
+        #         1 / err**2 if not np.isnan(self.refl[i]) else 0
+        #         for i, err in enumerate(self.refl_err)
+        #     ]
+        #     print(self.source)
+        #     print(weights)
+        #     self.refl_smoothed[
+        #         np.isnan(self.refl_smoothed)
+        #     ] = 0  # temporarily replace, they are 0 weighed anyway
+        #     spline = interpolate.UnivariateSpline(
+        #         self.wave_smoothed, self.refl_smoothed, w=weights
+        #     )
+        #     self.refl_smoothed = spline(self.wave_smoothed)
 
     def truncate(self, wave_min, wave_max):
         """Truncate wavelength range to minimum and maximum value.
@@ -232,7 +247,9 @@ class Spectrum:
             self.wave_smoothed,
             self.refl_smoothed,
             bounds_error=False,
-            fill_value="extrapolate" if extrapolate else np.nan,
+            fill_value=(self.refl_smoothed[0], self.refl_smoothed[-1])
+            if extrapolate
+            else np.nan,
         )
 
         # Update basic properties
@@ -247,16 +264,14 @@ class Spectrum:
         elif "demeo" in system.lower():
             system = "DeMeo+ 2009"
         elif "bus" in system.lower():
-            system = "Bus and Binzel"
+            system = "Bus and Binzel 2002"
         elif "tholen" in system.lower():
             system = "Tholen 1984"
             self.classify_tholen()
             return
 
-        if (
-            system == "Mahlke+ 2022"
-            and self.wave.min() >= 2.45
-            or self.wave.max() <= 0.45
+        if system == "Mahlke+ 2022" and (
+            self.wave.min() >= 2.45 or self.wave.max() <= 0.45
         ):
             logger.info(
                 f"{self.name}:  Cannot classify following Mahlke+ 2022 - insufficient wavelength coverage."
@@ -310,6 +325,8 @@ class Spectrum:
         self.data_classified = self.add_feature_flags(self.data_classified)
         setattr(self, "class_", self.data_classified["class_"].values[0])
 
+        print("Add feature flag -> probability conversion here")
+
         # Class per asteroid
         # self.data_classified = _compute_class_per_asteroid(self.data_classified)
 
@@ -328,8 +345,20 @@ class Spectrum:
         """Classify a spectrum following Tholen 1984."""
 
         # Compute reflectance at ECAS filters
+        extrapolate = True
+
+        if self.wave.min() > 0.437 or self.wave.max() < 0.948:
+            self.class_tholen = ""
+            self.scores_tholen = [np.nan] * 7
+            self.colors_ecas = [np.nan] * 7
+            self.colors_ecas_preprocessed = [np.nan] * 7
+            logger.error(
+                f"{self.name}:  Cannot classify following Tholen 1984 - insufficient wavelength coverage."
+            )
+            return
+
         self.resample(
-            list(data.TAXONOMIES["tholen"]["wave"].values()), extrapolate=True
+            list(data.TAXONOMIES["tholen"]["wave"].values()), extrapolate=extrapolate
         )
 
         # Convert to ECAS colours
@@ -345,9 +374,7 @@ class Spectrum:
         self.scores_tholen = np.dot(self.colors_ecas_preprocessed, loadings.T)
 
         # Apply decision tree
-        # ... there is no decision tree
-
-        # V, Q, R -> closest point in pc space
+        self.class_tholen = closest_neighbour(self.scores_tholen, self.pV)
 
     def detect_features(self, feature="all", skip_validation=False):
         """Run automatic recognition of e-, h-, and/or k-feature.
@@ -400,8 +427,8 @@ class Spectrum:
                             )
         return data_classified
 
-    def plot(self, add_classes=False):
-        plotting.plot_spectra([self], add_classes)
+    def plot(self, add_classes=False, system="mahlke"):
+        plotting.plot_spectra([self], add_classes, system)
 
     # def plot(self, show=True):
     #     """Plot the spectrum.
@@ -564,10 +591,18 @@ class Feature:
         xrange = np.arange(0.45, 2.45, 0.0001)
         xrange_fit = (self.lower < xrange) & (self.upper > xrange)
 
-        if (
-            xrange[xrange_fit].min() < wave.min()
-            or xrange[xrange_fit].max() > wave.max()
-        ):
+        # Cut data down to region of interest
+        self.refl = refl[(wave > self.lower - 0.3) & (wave < self.upper + 0.3)]
+        self.wave = wave[(wave > self.lower - 0.3) & (wave < self.upper + 0.3)]
+
+        range_fit = (self.lower < self.wave) & (self.upper > self.wave)
+
+        # if (
+        #     xrange[xrange_fit].min() < wave.min()
+        #     or xrange[xrange_fit].max() > wave.max()
+        #     or len(xrange[xrange_fit]) < 5
+        # ):
+        if len(self.wave[range_fit]) < 4:  # we need at least 4 data points
             logger.debug(
                 f"Passed spectrum does not cover the {self.name}-feature wavelength region."
             )
@@ -576,10 +611,6 @@ class Feature:
             return
         else:
             self.is_observed = True
-
-        # Cut data down to region of interest
-        self.refl = refl[(wave > self.lower - 0.3) & (wave < self.upper + 0.3)]
-        self.wave = wave[(wave > self.lower - 0.3) & (wave < self.upper + 0.3)]
 
         slope = self._fit_continuum()
         refl_no_continuum = self._remove_continuum(slope)
@@ -727,12 +758,12 @@ class Spectra(list):
             )
         return Spectra([*self, *rhs])
 
-    def plot(self, add_classes=False):
-        plotting.plot_spectra(list(self), add_classes)
+    def plot(self, add_classes=False, system="mahlke"):
+        plotting.plot_spectra(list(self), add_classes, system)
 
-    def classify(self):
+    def classify(self, system="mahlke"):
         for spec in self:
-            spec.classify()
+            spec.classify(system)
 
     def to_csv(self, path_out=None):
         results = {}
@@ -761,3 +792,64 @@ class Spectra(list):
                 "No 'path_out' provided, storing results to ./classy_spectra.csv"
             )
             df.to_csv("./classy_spectra.csv", index=False)
+
+
+def closest_class(pcs, alb):
+
+    pc_mean = data.TAXONOMIES["tholen"]["pc_mean"]
+    distances = [np.linalg.norm(pcs - class_mean) for class_mean in pc_mean.values()]
+
+    class_ = list(pc_mean.keys())[np.argmin(distances)]
+
+    if class_ in ["E", "M", "P", "X"]:
+        if np.isnan(alb):
+            return "X"
+        elif -2.5 * np.log10(alb) > 3:
+            return "P"
+
+        elif -2.5 * np.log10(alb) > 1.4:
+            return "M"
+        return "E"
+
+    if class_ in ["C", "B"]:
+        if -2.5 * np.log10(alb) > 3:
+            return "C"
+        return "B"
+
+    return class_
+
+
+def closest_neighbour(pcs, alb):
+
+    pcs_tholen = data.tholen_pc[
+        ["PC1", "PC2", "PC3", "PC4", "PC5", "PC6", "PC7"]
+    ].values
+
+    distances = [np.linalg.norm(pcs - tholen) for tholen in pcs_tholen]
+
+    class_ = data.tholen_pc.loc[np.argmin(distances), "class_tholen"]
+
+    if len(class_) == 2:
+        class_ = class_[0]  # resolve ambiguity the simple way
+
+    if class_ in ["E", "M", "P", "X"]:
+        if np.isnan(alb):
+            return "X"
+        elif -2.5 * np.log10(alb) > 3:
+            return "P"
+
+        elif -2.5 * np.log10(alb) > 1.4:
+            return "M"
+        return "E"
+
+    if class_ in ["C", "F", "B", "G"]:
+
+        if -2.5 * np.log10(alb) <= 1.4:
+            return "E"
+
+    if class_ in ["C", "B"]:
+        if -2.5 * np.log10(alb) > 3:
+            return "C"
+        return "B"
+
+    return class_
