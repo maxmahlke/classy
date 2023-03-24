@@ -149,53 +149,88 @@ Complete between 0.45 to ?
 Tholen 1984
 -----------
 
-Reflectance spectra - UV
-Albedo
-PCA + decision tree
-Complete spectra
-14 classes
+`Tholen 1984 <https://ui.adsabs.harvard.edu/abs/1984PhDT.........3T/abstract>`_
+derived a milestone taxonomy consisting of 14 classes based on 405 asteroids
+observed in the framework of the `Eight Color Asteroid Survey
+<https://ui.adsabs.harvard.edu/abs/1985Icar...61..355Z/abstract>`_. It uses
+ultraviolet and visible colours as well as the visual albedo.
 
-The Transformation
-==================
++-------------------+------------------------------------+
+| Observables       | Reflectance Spectra, Visual Albedo |
++-------------------+------------------------------------+
+| Wavelength Range  | 0.337 - 1.041µm                    |
++-------------------+------------------------------------+
+| Number of Classes | 14                                 |
++-------------------+------------------------------------+
+| Class Assignment  | Absolute                           |
++-------------------+------------------------------------+
 
-Tholen 1984 applied standardization to the ECAS colours prior to computing the PCA.
-The same standardization has to be applied to new observations to classify them in the Tholen scheme.
-This requires the mean and standard deviation of the 405 asteroids in the seven ECAS colours Tholen used.
-These values are given in Table II of Tholen 1984:
+.. tab-set::
 
-.. code-block:: python
+  .. tab-item:: Classes
 
-   ecas_mean = {
-   "s-v": 0.325,
-   "u-v": 0.234,
-   "b-v": 0.089,
-   "v-w": 0.091,
-   "v-x": 0.105,
-   "v-p": 0.103,
-   "v-z": 0.111,
-   }
+    .. image:: gfx/tholen1984_classes.png
+       :align: center
+       :class: only-light
+       :width: 800
 
-   ecas_std = {
-   "s-v": 0.221,
-   "u-v": 0.173,
-   "b-v": 0.092,
-   "v-w": 0.081,
-   "v-x": 0.091,
-   "v-p": 0.104,
-   "v-z": 0.120,
-   }
-mean and std
+    .. image:: gfx/tholen1984_classes_dark.png
+       :align: center
+       :class: only-dark
+       :width: 800
 
-np.dot((colors - mean) / std),  evs)
+  .. tab-item :: Data Transformation
 
-The Decision Tree
-=================
-Tholen used a minimal-tree algorithm to gradually identify clusters and define
-classes. This means that not all classes have well defined boxes in the principal space
-and I have to come up with a decision tree.
+    Tholen 1984 applied standardization to the ECAS colours prior to computing the PCA.
+    The same standardization has to be applied to new observations to classify them in the Tholen scheme.
+    This requires the mean and standard deviation of the 405 asteroids in the seven ECAS colours Tholen used.
+    These values are given in Table II of Tholen 1984:
 
-Flagging unsual or noisy data: do I keep U and :?
+    .. code-block:: python
 
+       ecas_mean = {
+       "s-v": 0.325,
+       "u-v": 0.234,
+       "b-v": 0.089,
+       "v-w": 0.091,
+       "v-x": 0.105,
+       "v-p": 0.103,
+       "v-z": 0.111,
+       }
+
+       ecas_std = {
+       "s-v": 0.221,
+       "u-v": 0.173,
+       "b-v": 0.092,
+       "v-w": 0.081,
+       "v-x": 0.091,
+       "v-p": 0.104,
+       "v-z": 0.120,
+       }
+
+  .. tab-item:: Decision Tree
+
+    Tholen used a minimal-tree algorithm to gradually identify clusters and define
+    classes. This means that not all classes have well defined boxes in the principal space
+    and I have to come up with a decision tree.
+
+    Following the minimal-tree principle, new observations asteroids are assigned to the class
+    of the closest asteroid from the ECAS dataset in principal component space.
+    An issue may arise for A, Q, V, which occupy a similar small volume. If you think a different
+    algorithm is more appropriate, let's discuss.
+
+    Flagging unsual or noisy data: do I keep U and :?
+
+  .. tab-item:: Example
+
+
+    Via the command line:
+
+    .. code-block:: shell
+
+        $ classy spectra nysa --classify --system tholen
+
+    Via ``python``:
 
 
 
