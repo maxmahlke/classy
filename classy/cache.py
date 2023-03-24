@@ -554,6 +554,14 @@ def retrieve_ecas_spectra():
     # Add quality flag following Tholen+ 1984
     mean.to_csv(PATH_ECAS / "ecas_mean.csv", index=False)
 
+    # TODO Add tholen classifcation resutls parsing
+    tholen_pc = (
+        pd.read_csv("/home/mmahlke/astro/cclassy/develop/tholen.csv")
+        .replace(-9.999, np.nan)
+        .dropna(subset="PC1")
+        .reset_index()
+    )
+
 
 if __name__ == "__main__":
     retrieve_ecas_spectra()

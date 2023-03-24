@@ -341,6 +341,31 @@ class Spectrum:
             f"[({self.asteroid_number}) {self.asteroid_name}] - [{self.name}]: {results_str}"
         )
 
+    # should be method of Spectrum
+    def convert_to_ecas_colors(self, refl):
+        # R = [  # reflectances at subwxpz
+        #     0.5485295139412031,
+        #     0.6742174675762443,
+        #     0.8774047879567534,
+        #     1.081433951297938,
+        #     0.8566432555816557,
+        #     0.7812679345516048,
+        #     1.003690930920097,
+        # ]
+        R = list(refl)
+        refl_v = 1
+
+        colors = []
+
+        for filt in ["s", "u", "b"]:
+            refl = R.pop(0)
+            colors.append(-2.5 * np.log10(refl / refl_v))
+        R.pop(0)
+        for filt in ["w", "x", "p", "z"]:
+            refl = R.pop(0)
+            colors.append(-2.5 * np.log10(refl_v / refl))
+        return np.array(colors)
+
     def classify_tholen(self):
         """Classify a spectrum following Tholen 1984."""
 
@@ -362,7 +387,7 @@ class Spectrum:
         )
 
         # Convert to ECAS colours
-        self.colors_ecas = data.convert_to_ecas_colors(self.refl_interp)
+        self.colors_ecas = self.convert_to_ecas_colors(self.refl_interp)
         # self.colors_ecas = np.array([0.43, 0.263, 0.047, 0, -0.005, -0.022, -0.031])
 
         # Compute Tholen scores
@@ -374,7 +399,9 @@ class Spectrum:
         self.scores_tholen = np.dot(self.colors_ecas_preprocessed, loadings.T)
 
         # Apply decision tree
-        self.class_tholen = closest_neighbour(self.scores_tholen, self.pV)
+        self.class_tholen = taxonomies.tholen.closest_neighbour(
+            self.scores_tholen, self.pV
+        )
 
     def detect_features(self, feature="all", skip_validation=False):
         """Run automatic recognition of e-, h-, and/or k-feature.
@@ -792,64 +819,3 @@ class Spectra(list):
                 "No 'path_out' provided, storing results to ./classy_spectra.csv"
             )
             df.to_csv("./classy_spectra.csv", index=False)
-
-
-def closest_class(pcs, alb):
-
-    pc_mean = data.TAXONOMIES["tholen"]["pc_mean"]
-    distances = [np.linalg.norm(pcs - class_mean) for class_mean in pc_mean.values()]
-
-    class_ = list(pc_mean.keys())[np.argmin(distances)]
-
-    if class_ in ["E", "M", "P", "X"]:
-        if np.isnan(alb):
-            return "X"
-        elif -2.5 * np.log10(alb) > 3:
-            return "P"
-
-        elif -2.5 * np.log10(alb) > 1.4:
-            return "M"
-        return "E"
-
-    if class_ in ["C", "B"]:
-        if -2.5 * np.log10(alb) > 3:
-            return "C"
-        return "B"
-
-    return class_
-
-
-def closest_neighbour(pcs, alb):
-
-    pcs_tholen = data.tholen_pc[
-        ["PC1", "PC2", "PC3", "PC4", "PC5", "PC6", "PC7"]
-    ].values
-
-    distances = [np.linalg.norm(pcs - tholen) for tholen in pcs_tholen]
-
-    class_ = data.tholen_pc.loc[np.argmin(distances), "class_tholen"]
-
-    if len(class_) == 2:
-        class_ = class_[0]  # resolve ambiguity the simple way
-
-    if class_ in ["E", "M", "P", "X"]:
-        if np.isnan(alb):
-            return "X"
-        elif -2.5 * np.log10(alb) > 3:
-            return "P"
-
-        elif -2.5 * np.log10(alb) > 1.4:
-            return "M"
-        return "E"
-
-    if class_ in ["C", "F", "B", "G"]:
-
-        if -2.5 * np.log10(alb) <= 1.4:
-            return "E"
-
-    if class_ in ["C", "B"]:
-        if -2.5 * np.log10(alb) > 3:
-            return "C"
-        return "B"
-
-    return class_

@@ -492,55 +492,7 @@ def plot_spectra(spectra, add_classes=False, system="mahlke"):
             ax_classes.legend(title="Most Likely Class", frameon=True, edgecolor="none")
             ax_classes.grid(c="gray", alpha=0.4, zorder=-100)
         elif "tholen" in system:
-
-            for class_, data in classy.data.tholen_pc.groupby("class_tholen"):
-                ax_classes.scatter(data["PC1"], data["PC2"], marker="o", alpha=0)
-
-                for _, point in data.iterrows():
-                    if np.isnan(point["PC1"]):
-                        continue
-                    ax_classes.text(
-                        point["PC1"],
-                        point["PC2"],
-                        str(point["number"]),
-                        ha="center",
-                        va="center",
-                        clip_on=True,
-                        color="lightgray",
-                    )
-            for class_, pcs in classy.data.TAXONOMIES["tholen"]["pc_mean"].items():
-                if class_ in ["E"]:
-                    off_x, off_y = 0.05, 0
-                elif class_ in ["P"]:
-                    off_x, off_y = 0.09, 0
-                else:
-                    off_x, off_y = 0, 0
-                ax_classes.text(
-                    pcs[0] + off_x,
-                    pcs[1] + off_y,
-                    class_,
-                    size=14,
-                    color="black",
-                    va="center",
-                    ha="center",
-                    clip_on=True,
-                )
-
-            for spec in spectra:
-                if not spec.class_tholen:
-                    continue
-                ax_classes.scatter(
-                    spec.scores_tholen[0],
-                    spec.scores_tholen[1],
-                    marker="d",
-                    c=spec.color,
-                    s=40,
-                    label=f"{spec.name}: {spec.class_tholen}",
-                    zorder=100,
-                )
-            ax_classes.axvline(0, ls=":", c="gray")
-            ax_classes.axhline(0, ls=":", c="gray")
-            ax_classes.legend()
+            ax_classes = taxonomies.tholen.plot_pc_space(ax_classes, spectra)
 
     if spec.asteroid_name is not None:
         ax_spec.set_title(
