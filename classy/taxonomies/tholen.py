@@ -15,8 +15,8 @@ from classy.log import logger
 WAVE = np.array([0.337, 0.359, 0.437, 0.550, 0.701, 0.853, 0.948, 1.041])
 
 # Mean and standard deviation of ECAS colours, Tholen 1984 Table II
-ECAS_MEAN = np.array([0.325, 0.234, 0.089, 0.091, 0.105, 0.103, 0.111])
-ECAS_STD = np.array([0.221, 0.173, 0.092, 0.081, 0.091, 0.104, 0.120])
+DATA_MEAN = np.array([0.325, 0.234, 0.089, 0.091, 0.105, 0.103, 0.111])
+DATA_STD = np.array([0.221, 0.173, 0.092, 0.081, 0.091, 0.104, 0.120])
 
 
 # Eigenvalues and eigenvectors of PCA, Tholen 1984 Table IV

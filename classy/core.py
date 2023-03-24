@@ -391,8 +391,8 @@ class Spectrum:
 
         # Compute Tholen scores
         self.colors_ecas_preprocessed = (
-            self.colors_ecas - taxonomies.tholen.ECAS_MEAN
-        ) / taxonomies.tholen.ECAS_STD
+            self.colors_ecas - taxonomies.tholen.DATA_MEAN
+        ) / taxonomies.tholen.DATA_STD
 
         self.scores_tholen = np.dot(
             self.colors_ecas_preprocessed, taxonomies.tholen.EIGENVECTORS.T
