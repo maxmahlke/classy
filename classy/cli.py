@@ -42,8 +42,19 @@ def docs():
 @cli_classy.command()
 @click.argument("id_", type=str)
 @click.option("-c", "--classify", is_flag=True, help="Classify the spectra.")
-@click.option("-s", "--source", help="Select a online repository.")
-def spectra(id_, classify, source):
+@click.option(
+    "--system",
+    default="mahlke",
+    help="Specify the taxonomic system.",
+    type=click.Choice(["mahlke", "demeo", "tholen"]),
+)
+@click.option(
+    "--source",
+    type=click.Choice(classy.data.SOURCES),
+    multiple=True,
+    help="Select one or more online repositories.",
+)
+def spectra(id_, classify, system, source):
     """Retrieve, plot, classify spectra of an individual asteroid."""
 
     name, number = rocks.id(id_)
@@ -54,8 +65,8 @@ def spectra(id_, classify, source):
     else:
         logger.info(f"Looking for reflectance spectra of ({number}) {name}")
 
-    if source is not None:
-        source = source.split(",")
+    if not source:
+        source = classy.data.SOURCES
 
     # Load spectra
     spectra = core.Spectra(id_, source=source)
@@ -65,7 +76,7 @@ def spectra(id_, classify, source):
 
     # Classify
     if classify:
-        spectra.classify()
+        spectra.classify(system=system)
 
     # Plot
-    spectra.plot(add_classes=classify)
+    spectra.plot(add_classes=classify, system=system)
