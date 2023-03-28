@@ -1,3 +1,16 @@
+import numpy as np
+
+
+def find_nearest(array, value):
+    """Return index of closest value to target value in array.
+
+    https://stackoverflow.com/a/2566508
+    """
+    array = np.asarray(array)
+    idx = (np.abs(array - value)).argmin()
+    return idx
+
+
 def get_numeric_columns(columns):
     """Identify numeric string elements in a list.
 
