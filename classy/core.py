@@ -15,7 +15,10 @@ from classy import defs
 from classy.log import logger
 from classy import mixnorm
 from classy import plotting
+from classy import preprocessing
+from classy import tools
 from classy import taxonomies
+from classy import sources
 
 
 class Spectrum:
@@ -90,6 +93,17 @@ class Spectrum:
         ):
             self.asteroid_name, self.asteroid_number = rocks.id(asteroid_number)
 
+        # ------
+        # Classification Results
+        self.class_tholen = ""
+        self.scores_tholen = []
+
+        self.class_demeo = ""
+        self.scores_demeo = []
+
+        self.class_mahlke = ""
+        self.scores_mahlke = []
+
         # Look up pV if it is not provided and we know the asteroid
         if self.pV is None and self.asteroid_name is not None:
             rock = rocks.Rock(self.asteroid_name)
@@ -99,16 +113,11 @@ class Spectrum:
             self.pV = np.nan
             self.pV_err = np.nan
 
-        # Has it been preprocessed already?
-        self.preprocessed = preprocessed
-
-        if self.preprocessed:
-            self.wave_preprocessed = self.wave
-            self.refl_preprocessed = self.refl
-            self.pV_preprocessed = self.pV
-
         # Assign arbitrary arguments
         self.__dict__.update(**kwargs)
+
+        # Attribute to differentiate user-provided and online spectra
+        self._source = "user"
 
     def __len__(self):
         return len(self.wave)
@@ -160,8 +169,6 @@ class Spectrum:
             )
             self._smooth_interactive()
 
-        # self.refl_original = self.refl
-
         if True:
             self.refl_smoothed = signal.savgol_filter(
                 self.refl_smoothed, self.smooth_window, self.smooth_degree
@@ -197,209 +204,150 @@ class Spectrum:
         if self.wave.size == 0:
             logger.error("No wavelength bins left in spectrum after truncating.")
 
-    def normalize(self):
-        """Normalize the reflectance using the mixnorm algorithm."""
-        alpha = mixnorm.normalize(self)
-        self.refl_preprocessed = np.log(self.refl_normalised) - alpha
-        self.alpha = alpha
-
-    def preprocess(self, smooth_degree=None, smooth_window=None):
-        """Preprocess spectrum for classification.
+    def normalize(self, method="l2", at=None):
+        """Normalize the spectrum.
 
         Parameters
         ----------
-        smooth_degree : int
-            Optional. Degree of the smoothing function applied in the Savtizky-Golay filter.
-            Default is None, which sets the degree to 3.
-        smooth_window : int
-            Optional. Size of data point window in data points applied in the Savtizky-Golay filter.
-            Default is None, which sets the window to a fifth of the number of data points.
+        method : str
+            The method to use for the normalization. Choose from ["l2", "mixnorm"].
+            Default is "l2" unless "at" is not None.
+        at : float
+            The wavelength at which to normalize. If not None, the spectrum is
+            normalized to unity at the wavelength which is closest to the pass
+            value.
         """
-        self.detect_features()
-        self.smooth(degree=smooth_degree, window=smooth_window)
-        self.resample()
-        self.normalize()
-
-        self.pV_preprocessed = np.log10(self.pV)
-
-        self.preprocessed = True
-
-    def resample(self, grid=defs.WAVE_GRID, extrapolate=False):
-        """Resample the spectrum to the classy wavelength grid."""
-
-        # Little hack: If the first point is exactly 0.45 or the last point
-        # is exactly 2.45, the spline regards it as extrapolation.
-        # Move it slightly outside to get a value there
-        if self.wave[0] == defs.LIMIT_VIS:
-            self.wave[0] = defs.LIMIT_VIS - 0.0001
-        if self.wave[-1] == defs.LIMIT_NIR:
-            self.wave[-1] = defs.LIMIT_NIR + 0.0001
-
-        # if self.refl_smoothed is None:
-        #     logger.warning(
-        #         "Interpolating the original spectrum, consider smoothing it first."
-        #     )
-        if not hasattr(self, "refl_smoothed"):
-            # occurs for tholen classification
-            self.wave_smoothed = self.wave[~np.isnan(self.refl)]
-            self.refl_smoothed = self.refl[~np.isnan(self.refl)]
-
-        refl_interp = interpolate.interp1d(
-            self.wave_smoothed,
-            self.refl_smoothed,
-            bounds_error=False,
-            fill_value=(self.refl_smoothed[0], self.refl_smoothed[-1])
-            if extrapolate
-            else np.nan,
-        )
-
-        # Update basic properties
-        self.wave_interp = grid
-        self.refl_interp = refl_interp(grid)
-        self.mask = np.array([np.isfinite(r) for r in self.refl_interp])
-
-    def classify(self, system="Mahlke+ 2022"):
-        # Find out which system
-        if "mahlke" in system.lower():
-            system = "Mahlke+ 2022"
-        elif "demeo" in system.lower():
-            system = "DeMeo+ 2009"
-        elif "bus" in system.lower():
-            system = "Bus and Binzel 2002"
-        elif "tholen" in system.lower():
-            system = "Tholen 1984"
-            self.classify_tholen()
-            return
-
-        if system == "Mahlke+ 2022" and (
-            self.wave.min() >= 2.45 or self.wave.max() <= 0.45
-        ):
-            logger.info(
-                f"{self.name}:  Cannot classify following Mahlke+ 2022 - insufficient wavelength coverage."
-            )
-            self.class_mahlke = ""
-            return
-
-        if system == "Mahlke+ 2022" and not self.preprocessed:
-            self.preprocess()
-
-        # Instantiate MCFA model instance if not done yet
-        model = data.load("mcfa")
-
-        # Get only the classification columns
-        data_input = np.concatenate([self.refl_preprocessed, [self.pV_preprocessed]])[
-            :, np.newaxis
-        ].T
-
-        input_data = pd.DataFrame(
-            {col: val for col, val in zip(defs.COLUMNS["all"], data_input[0])},
-            index=[0],
-        )
-
-        # Compute responsibility matrix based on observed values only
-        self.responsibility = model.predict_proba(data_input)
-
-        # Compute latent scores
-        self.data_imputed = model.impute(data_input)
-        self.data_latent = model.transform(self.data_imputed)
-
-        # Add latent scores and responsibility to input data
-        for factor in range(model.n_factors):
-            input_data[f"z{factor}"] = self.data_latent[:, factor]
-
-        input_data["cluster"] = np.argmax(self.responsibility, axis=1)
-
-        for i in range(model.n_components):
-            input_data[f"cluster_{i}"] = self.responsibility[:, i]
-
-        # Add asteroid classes based on decision tree
-        self.data_classified = decision_tree.assign_classes(input_data)
-
-        for class_ in defs.CLASSES:
-            setattr(
-                self,
-                f"class_{class_}",
-                self.data_classified[f"class_{class_}"].values[0],
-            )
-
-        # Detect features
-        self.data_classified = self.add_feature_flags(self.data_classified)
-        setattr(self, "class_", self.data_classified["class_"].values[0])
-
-        print("Add feature flag -> probability conversion here")
-
-        # Class per asteroid
-        # self.data_classified = _compute_class_per_asteroid(self.data_classified)
-
-        # Print results
-        from collections import Counter
-
-        classes = Counter(self.data_classified.class_)
-        results_str = ", ".join(
-            [f"{class_}" for class_, count in classes.most_common()]
-        )
-        logger.info(
-            f"[({self.asteroid_number}) {self.asteroid_name}] - [{self.name}]: {results_str}"
-        )
-
-    # should be method of Spectrum
-    def convert_to_ecas_colors(self, refl):
-        # R = [  # reflectances at subwxpz
-        #     0.5485295139412031,
-        #     0.6742174675762443,
-        #     0.8774047879567534,
-        #     1.081433951297938,
-        #     0.8566432555816557,
-        #     0.7812679345516048,
-        #     1.003690930920097,
-        # ]
-        R = list(refl)
-        refl_v = 1
-
-        colors = []
-
-        for filt in ["s", "u", "b"]:
-            refl = R.pop(0)
-            colors.append(-2.5 * np.log10(refl / refl_v))
-        R.pop(0)
-        for filt in ["w", "x", "p", "z"]:
-            refl = R.pop(0)
-            colors.append(-2.5 * np.log10(refl_v / refl))
-        return np.array(colors)
-
-    def classify_tholen(self):
-        """Classify a spectrum following Tholen 1984."""
-
-        # Compute reflectance at ECAS filters
-        extrapolate = True
-
-        if self.wave.min() > 0.437 or self.wave.max() < 0.948:
-            self.class_tholen = ""
-            self.scores_tholen = [np.nan] * 7
-            self.colors_ecas = [np.nan] * 7
-            self.colors_ecas_preprocessed = [np.nan] * 7
-            logger.error(
-                f"{self.name}:  Cannot classify following Tholen 1984 - insufficient wavelength coverage."
+        if at is not None:
+            self.refl_pre = preprocessing._normalize_at(
+                self.wave_pre, self.refl_pre, at
             )
             return
 
-        self.resample(taxonomies.tholen.WAVE, extrapolate=extrapolate)
+        if method == "l2":
+            self.refl_pre = preprocessing._normalize_l2(self.refl_pre)
 
-        # Convert to ECAS colours
-        self.colors_ecas = self.convert_to_ecas_colors(self.refl_interp)
-        # self.colors_ecas = np.array([0.43, 0.263, 0.047, 0, -0.005, -0.022, -0.031])
+        elif method == "mixnorm":
+            alpha = mixnorm.normalize(self)
+            self.refl_pre = np.log(self.refl_pre) - alpha
+            self.alpha = alpha
 
-        # Compute Tholen scores
-        self.colors_ecas_preprocessed = (
-            self.colors_ecas - taxonomies.tholen.DATA_MEAN
-        ) / taxonomies.tholen.DATA_STD
+    def preprocess(
+        self,
+        smooth_method="savgol",
+        smooth_params=None,
+        resample_params=None,
+        taxonomy="mahlke",
+    ):
+        """Preprocess a spectrum for classification in a given taxonomic system.
 
-        self.scores_tholen = np.dot(
-            self.colors_ecas_preprocessed, taxonomies.tholen.EIGENVECTORS.T
+        Parameters
+        ----------
+        smooth_method : str or None
+            Optional. The smoothing method to apply to the spectrum. Choose
+            from ['savgol', 'spline']. Default is 'savgol'. If set to None, no
+            smoothing is applied.
+        smooth_params : dict
+            Optional. The smoothing parameters passed to the respective
+            smoothing functions. Must be valid arguments of the
+            ``scipy.signal.savgol_filter`` or ``scipy.interpolate.UnivariateSpline``
+            functions depending on the chosen smoothing method.
+        resample_params : dict
+            Optional. The resampling parameters passed to the ``scipy.interpolate.interp1d`` function.
+        taxonomy : str
+            Optional. The taxonomic system to prepare the spectrum for. Choose from
+            ['mahlke', 'demeo', 'bus', 'tholen']. Default is 'mahlke'.
+        """
+
+        # ------
+        # Smoothing is universal and the first step
+        if smooth_method == "savgol":
+            self.refl_pre = preprocessing.savitzky_golay(self.refl, smooth_params)
+            self.refl_plot = self.refl_pre
+        elif smooth_method == "spline":
+            self.refl_pre = preprocessing.univariate_spline(
+                self.wave, self.refl, smooth_params
+            )
+            self.refl_plot = self.refl_pre
+        else:
+            # No smoothing
+            self.refl_plot = self.refl  # for plotting only
+            self.refl_pre = self.refl  # for classification only
+
+        # Never change the original wave and refl attributes
+        # Only change the _pre suffixed ones
+        self.wave_pre = self.wave
+        self.wave_plot = self.wave
+
+        # ------
+        # Remaining steps depend on the taxonomic scheme
+        if "mahlke" in taxonomy.lower():
+            taxonomies.mahlke.preprocess(self, resample_params)
+
+        elif "demeo" in taxonomy.lower():
+            taxonomies.demeo.preprocess(self, resample_params)
+
+        elif "bus" in taxonomy.lower():
+            taxonomies.bus.preprocess(self, resample_params)
+
+        elif "tholen" in taxonomy.lower():
+            taxonomies.tholen.preprocess(self, resample_params)
+
+    def classify(self, preprocessing=None, taxonomy="mahlke"):
+        """Classify a spectrum in a given taxonomic system.
+
+        Parameters
+        ----------
+        taxonomy : str
+            The taxonomic system to use. Choose from ['mahlke', 'demeo', 'bus', 'tholen'].
+            Default is 'mahlke'.
+
+        Notes
+        -----
+        The classification result is added as 'class_{taxonomy}' attribute to the
+        spectrum instance. Some taxonomies add more than one result as attribute.
+        Refer to the documentation for more information.
+        """
+
+        # Argument check
+        if taxonomy not in taxonomies.SYSTEMS:
+            raise ValueError(
+                f"Unknown taxonomy '{taxonomy}'. Choose from {taxonomies.SYSTEMS}."
+            )
+
+        # For spectra from online sources: can they be classified in
+        # the requested taxonomy?
+        if self._source != "user":
+            if not getattr(sources, self._source.lower()).IS_CLASSIFIABLE[taxonomy]:
+
+                tax = taxonomies.resolve_system(taxonomy)
+                logger.error(
+                    f"{self.name}: Spectra from '{self._source}' cannot be classified in the {tax} taxonomy."
+                )
+                getattr(taxonomies, taxonomy).add_classification_results(
+                    self, results=None
+                )
+
+        if preprocessing is not None:
+            self.preprocess(**preprocessing, taxonomy=taxonomy)
+            getattr(taxonomies, taxonomy).classify(self)
+
+    def remove_slope(self, translate_to=None):
+        """Fit a linear function to the spectrum and divide by the fit.
+
+        Parameters
+        ----------
+        translate_to : float
+            Translate the fitted slope to pass trough unity at given wavelength.
+            Useful for DeMeo+ 2009 classification, where the slope should pass
+            through (0.55, 1). Default is None.
+
+        Note
+        ----
+        The fit [slope, intercept] is recorded as ``slope`` attribute.
+        """
+        self.refl, self.slope = preprocessing.remove_slope(
+            self, wave, refl, translate_to
         )
-
-        # Apply decision tree
-        self.class_tholen = taxonomies.tholen.decision_tree(self)
 
     def detect_features(self, feature="all", skip_validation=False):
         """Run automatic recognition of e-, h-, and/or k-feature.
@@ -452,23 +400,30 @@ class Spectrum:
                             )
         return data_classified
 
-    def plot(self, add_classes=False, system="mahlke"):
-        plotting.plot_spectra([self], add_classes, system)
+    def plot(self, add_classes=False, taxonomy="mahlke"):
+        plotting.plot_spectra([self], add_classes, taxonomy)
 
-    # def plot(self, show=True):
-    #     """Plot the spectrum.
-    #
-    #     Parameters
-    #     ----------
-    #     show : bool
-    #         Open the plot. Default is True.
-    #
-    #     Returns
-    #     -------
-    #     matplolib.figures.Figure
-    #     matplotlib.axes.Axis
-    #     """
-    #     return plotting._plot_spectrum(self, show)
+    def resample(self, grid, params=None):
+        """Resample the spectrum to another wavelength grid.
+
+        Parameters
+        ----------
+        grid : list
+            The target wavelength values.
+        params : dict
+            Optional. Parameters passed to the ``scipy.interpoalte.interp`` function.
+        """
+
+        if params is None:
+            params = {}
+
+        self.refl_pre = preprocessing.resample(
+            self.wave_pre, self.refl_pre, grid, params
+        )
+        self.wave_pre = grid
+
+        self.wave_plot = grid
+        self.refl_plot = self.refl_pre
 
     def to_csv(self, path_out=None):
         """Store the classification results to file."""
@@ -494,40 +449,6 @@ class Spectrum:
 
     # ------
     # Utility functions, not to be called directly
-    def _normalize_l2(self):
-        """Normalize the reflectance using the L2 norm."""
-        self.refl = preprocessing.normalize(self.refl.reshape(1, -1))[0]
-
-        if hasattr(self, "refl_original"):
-            self.refl_original = preprocessing.normalize(
-                self.refl_original.reshape(1, -1)
-            )[0]
-
-    def _smooth_interactive(self):
-        """Helper to smooth spectrum interactively. Call the 'smooth' function instead."""
-
-        _, ax = self.plot()
-
-        # Include widgets
-        def update_smooth(_):
-            """Read the GUI values and re-smooth the spectrum."""
-            self.smooth_degree = int(degree_box.text)
-            self.smooth_window = int(window_box.text)
-
-            self.smooth(interactive=False)
-            ax.get_lines()[1].set_ydata(self.refl_smoothed)
-            plt.draw()
-
-        ax_win = plt.axes([0.25, 0.90, 0.05, 0.03])
-        window_box = TextBox(ax_win, "Smoothing Window", initial=self.smooth_window)
-
-        ax_deg = plt.axes([0.45, 0.90, 0.05, 0.03])
-        degree_box = TextBox(ax_deg, "Smoothing Degree", initial=self.smooth_degree)
-
-        window_box.on_submit(lambda x: update_smooth(x))
-        degree_box.on_submit(lambda x: update_smooth(x))
-
-        plt.show()
 
 
 def _basic_checks(wave, refl, unc, flag):
@@ -724,7 +645,7 @@ class Spectra(list):
             The name, number, or designation of the asteroid.
         source : str, list of string
             Only return spectrum from specified sources. Choose one or more
-            from classy.data.SOURCES. Default is None, which returns all spectra.
+            from classy.sources.SOURCES. Default is None, which returns all spectra.
         """
 
         if source is not None:
@@ -732,12 +653,12 @@ class Spectra(list):
                 source = [source]
 
             for s in source:
-                if s not in data.SOURCES:
+                if s not in sources.SOURCES:
                     raise ValueError(
-                        f"Unknown source '{s}'. Choose from {data.SOURCES}."
+                        f"Unknown source '{s}'. Choose from {sources.SOURCES}."
                     )
         else:
-            source = data.SOURCES
+            source = sources.SOURCES
 
         # Need this check for __add__
         if not isinstance(id_, list):
@@ -783,12 +704,36 @@ class Spectra(list):
             )
         return Spectra([*self, *rhs])
 
-    def plot(self, add_classes=False, system="mahlke"):
-        plotting.plot_spectra(list(self), add_classes, system)
+    def plot(self, add_classes=False, taxonomy="mahlke"):
+        plotting.plot_spectra(list(self), add_classes, taxonomy)
 
-    def classify(self, system="mahlke"):
+    # def preprocess(
+    #     self,
+    #     smooth_method="savgol",
+    #     smooth_params=None,
+    #     resample_params=None,
+    #     taxonomy="mahlke",
+    # ):
+    #     for spec in self:
+    #
+    #         if spec.source in sources.SOURCES:
+    #             # Get the source-specific preprocessing settings for this taxonomy
+    #             preprocess_params = getattr(
+    #                 sources, spec.source.lower()
+    #             ).PREPROCESS_PARAMS[taxonomy]
+    #
+    #         spec.preprocess(**preprocess_params, taxonomy=taxonomy)
+
+    def classify(self, taxonomy="mahlke"):
         for spec in self:
-            spec.classify(system)
+
+            if spec.source in sources.SOURCES:
+                # Get the source-specific preprocessing settings for this taxonomy
+                preprocess_params = getattr(
+                    sources, spec.source.lower()
+                ).PREPROCESS_PARAMS[taxonomy]
+
+            spec.classify(preprocessing=preprocess_params, taxonomy=taxonomy)
 
     def to_csv(self, path_out=None):
         results = {}

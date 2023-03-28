@@ -11,8 +11,8 @@ import classy.classify
 from classy import core
 from classy.log import logger
 import classy.preprocessing
-from classy import cache
-from classy import plotting
+from classy import taxonomies
+from classy import sources
 
 
 def _logging_option(func):
@@ -43,20 +43,22 @@ def docs():
 @click.argument("id_", type=str)
 @click.option("-c", "--classify", is_flag=True, help="Classify the spectra.")
 @click.option(
-    "--system",
+    "-t",
+    "--taxonomy",
     default="mahlke",
     help="Specify the taxonomic system.",
-    type=click.Choice(["mahlke", "demeo", "tholen"]),
+    type=click.Choice(taxonomies.SYSTEMS),
 )
 @click.option(
+    "-s",
     "--source",
-    type=click.Choice(classy.data.SOURCES),
+    type=click.Choice(sources.SOURCES),
     multiple=True,
     help="Select one or more online repositories.",
 )
 @click.option("-v", is_flag=True, help="Set verbose output.")
 @click.option("-vv", is_flag=True, help="Set even more verbose output.")
-def spectra(id_, classify, system, source, v, vv):
+def spectra(id_, classify, taxonomy, source, v, vv):
     """Retrieve, plot, classify spectra of an individual asteroid."""
 
     if vv:
@@ -75,7 +77,7 @@ def spectra(id_, classify, system, source, v, vv):
         logger.info(f"Looking for reflectance spectra of ({number}) {name}")
 
     if not source:
-        source = classy.data.SOURCES
+        source = classy.sources.SOURCES
 
     # Load spectra
     spectra = core.Spectra(id_, source=source)
@@ -85,7 +87,7 @@ def spectra(id_, classify, system, source, v, vv):
 
     # Classify
     if classify:
-        spectra.classify(system=system)
+        spectra.classify(taxonomy=taxonomy)
 
     # Plot
-    spectra.plot(add_classes=classify, system=system)
+    spectra.plot(add_classes=classify, taxonomy=taxonomy)
