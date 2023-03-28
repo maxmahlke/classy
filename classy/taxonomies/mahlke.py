@@ -4,6 +4,30 @@ import pandas as pd
 from classy import data
 from classy import defs
 from classy import decision_tree
+from classy.log import logger
+
+
+def is_classifiable(spec):
+    """Check if spectrum can be classified based on the wavelength range.
+
+    Parameters
+    ----------
+    taxonomy : str
+        The taxonomic scheme to check.
+
+    Returns
+    -------
+    bool
+        True if the spectrum can be classified, else False.
+    """
+
+    # We need at least one observed data point
+    if any(WAVE.min() <= w <= WAVE.max() for w in spec.wave) or not np.isnan(spec.pV):
+        return True
+    logger.debug(
+        f"[{spec.name}]: Insufficient wavelength range for Mahlke taxonomy ({spec.wave.min()} - {spec.wave.max()})"
+    )
+    return False
 
 
 def preprocess(spec, resample_params):

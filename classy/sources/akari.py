@@ -4,13 +4,6 @@ import pandas as pd
 from classy import config
 from classy import core
 
-IS_CLASSIFIABLE = {
-    "tholen": False,
-    "bus": False,
-    "demeo": False,
-    "mahlke": False,
-}
-
 PREPROCESS_PARAMS = {
     "tholen": None,
     "bus": None,

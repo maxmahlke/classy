@@ -5,13 +5,6 @@ from classy import config
 from classy import core
 
 
-IS_CLASSIFIABLE = {
-    "tholen": True,
-    "bus": False,
-    "demeo": False,
-    "mahlke": True,
-}
-
 PREPROCESS_PARAMS = {
     "tholen": {"smooth_method": None},
     "demeo": None,

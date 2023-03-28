@@ -10,6 +10,30 @@ from classy.log import logger
 from classy import taxonomies
 
 
+def is_classifiable(spec):
+    """Check if spectrum can be classified based on the wavelength range.
+
+    Parameters
+    ----------
+    taxonomy : str
+        The taxonomic scheme to check.
+
+    Returns
+    -------
+    bool
+        True if the spectrum can be classified, else False.
+    """
+    if spec._source == "Gaia":
+        return True  # requires minor extrapolation
+
+    if spec.wave.min() > WAVE.min() or spec.wave.max() < WAVE.max():
+        logger.debug(
+            f"[{spec.name}]: Insufficient wavelength range for Tholen taxonomy ({spec.wave.min()} - {spec.wave.max()})"
+        )
+        return False
+    return True
+
+
 # ------
 # Functions for preprocessing
 def preprocess(spec, resample_params):

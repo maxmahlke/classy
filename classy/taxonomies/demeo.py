@@ -8,6 +8,28 @@ from classy import cache
 from classy import config
 from classy.log import logger
 
+
+def is_classifiable(spec):
+    """Check if spectrum can be classified based on the wavelength range.
+
+    Parameters
+    ----------
+    taxonomy : str
+        The taxonomic scheme to check.
+
+    Returns
+    -------
+    bool
+        True if the spectrum can be classified, else False.
+    """
+    if spec.wave.min() > WAVE.min() or spec.wave.max() < WAVE.max():
+        logger.debug(
+            f"[{spec.name}]: Insufficient wavelength range for DeMeo taxonomy ({spec.wave.min()} - {spec.wave.max()})"
+        )
+        return False
+    return True
+
+
 # ------
 # Functions for preprocessing
 def preprocess(spec, smooth=False):
