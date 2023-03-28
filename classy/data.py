@@ -16,13 +16,6 @@ from classy import cache
 from classy import gmm
 from classy.log import logger
 
-SOURCES = [
-    "Gaia",
-    "SMASS",
-    "AKARI",
-    "ECAS",
-]
-
 
 # ------
 # Spectra
@@ -183,43 +176,3 @@ def _load_mixnorm():
     neighbours = pd.read_csv(PATH_DATA / "mixnorm/neighbours.csv")
 
     return mixnorm, neighbours
-
-
-def load_gaia(id_):
-    """Load the Gaia spectrum of an asteroid.
-
-    Parameters
-    ----------
-    id_ : int, str
-        Asteroid identifier passed to rocks.id
-
-    Returns
-    -------
-    classy.Observation
-        The Gaia spectrum of the asteroid.
-
-    Notes
-    -----
-    All Gaia metadata is available with the Observation attributes:
-        ['source_id', 'solution_id 'number_mp', 'denomination', 'nb_samples',
-         'num_of_spectra', 'reflectance_spectrum', 'reflectance_spectrum_err',
-         'wavelength', 'reflectance_spectrum_flag']
-    """
-
-    name, number = rocks.id(id_)
-
-    index = cache.load_gaia_index()
-    index = index.loc[index["name"] == name]
-
-    if index.empty:
-        logger.error(f"No spectrum of ({number}) {name} is in Gaia DR3.")
-        return None
-
-    return cache.load_gaia_spectrum(index.squeeze(axis=0))
-
-
-TAXONOMIES = {
-    "mahlke": {
-        "wave_limits": [0.45, 2.45],
-    },
-}
