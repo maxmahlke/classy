@@ -367,6 +367,10 @@ def plot_spectra(spectra, add_classes=False, system="mahlke"):
     ecas_lines, ecas_labels = [], []
     user_lines, user_labels = [], []
     for spec in spectra:
+
+        if not hasattr(spec, "wave_plot"):
+            spec.wave_plot = spec.wave
+            spec.refl_plot = spec.refl
         if spec.source in ["AKARI", "ECAS", "SMASS", "Gaia"]:
             spec.color = colors.pop()
             if spec.source == "SMASS":
@@ -418,8 +422,9 @@ def plot_spectra(spectra, add_classes=False, system="mahlke"):
             [], [], yerr=[], capsize=3, ls="", c="black", lw=1, alpha=0.3
         )
         (l2,) = ax_spec.plot([], [], ls="-", c="black")
-        lines += [dummy, l1, l2]
-        labels += ["", "Observed", "Preprocessed"]
+        (l3,) = ax_spec.plot([], [], ls=":", c="gray")
+        lines += [dummy, l1, l2, dummy, l3]
+        labels += ["", "Observed", "Preprocessed", "", "Taxonomy Limits"]
     leg = ax_spec.legend(
         lines,
         labels,
@@ -445,6 +450,17 @@ def plot_spectra(spectra, add_classes=False, system="mahlke"):
         lower, upper = min(wave), max(wave)
         ax_spec.axvline(lower, ls=":", zorder=-10, c="gray")
         ax_spec.axvline(upper, ls=":", zorder=-10, c="gray")
+        # ax_spec.text(
+        #     upper,
+        #     ax_spec.get_ylim()[1],
+        #     "Classification Limits",
+        #     color="gray",
+        #     clip_on=True,
+        #     va="top",
+        #     ha="right",
+        #     size=7,
+        #     rotation=90,
+        # )
 
     # ensure that there is space for the legend by adding empty space
     xmin, xmax = ax_spec.get_xlim()
@@ -495,6 +511,8 @@ def plot_spectra(spectra, add_classes=False, system="mahlke"):
             ax_classes.grid(c="gray", alpha=0.4, zorder=-100)
         elif "tholen" in system:
             ax_classes = taxonomies.tholen.plot_pc_space(ax_classes, spectra)
+        elif "demeo" in system:
+            ax_classes = taxonomies.demeo.plot_pc_space(ax_classes, spectra)
 
     if spec.asteroid_name is not None:
         ax_spec.set_title(
@@ -523,7 +541,6 @@ def plot_smass_spectrum(ax, spec):
     """
 
     # Error-interval
-
     if hasattr(spec, "refl_interp"):
         l1 = ax.errorbar(
             spec.wave,
@@ -569,11 +586,17 @@ def plot_gaia_spectrum(ax, spec):
     """
 
     # Line to guide the eye
-    ax.plot(spec.wave, spec.refl, ls=":", lw=1, c=spec.color, zorder=100)
+    ax.plot(spec.wave_plot, spec.refl_plot, ls=":", lw=1, c=spec.color, zorder=100)
 
     # Errorbars colour-coded by photometric flag
     props = dict(lw=1, capsize=3, ls="", zorder=100)
-    l0 = ax.errorbar(spec.wave, spec.refl, yerr=spec.refl_err, c=spec.color, **props)
+    l0 = ax.errorbar(
+        spec.wave,
+        spec.refl,
+        yerr=spec.refl_err,
+        c=spec.color,
+        **props,
+    )
 
     lines = [l0]  # to construct Gaia-specific legend
 
@@ -582,13 +605,21 @@ def plot_gaia_spectrum(ax, spec):
 
     if any(f1):
         l1 = ax.errorbar(
-            spec.wave[f1], spec.refl[f1], yerr=spec.refl_err[f1], c="orange", **props
+            spec.wave[f1],
+            spec.refl[f1],
+            yerr=spec.refl_err[f1],
+            c="orange",
+            **props,
         )
         lines.append(l1)
 
     if any(f2):
         l2 = ax.errorbar(
-            spec.wave[f2], spec.refl[f2], yerr=spec.refl_err[f2], c="red", **props
+            spec.wave[f2],
+            spec.refl[f2],
+            yerr=spec.refl_err[f2],
+            c="red",
+            **props,
         )
         lines.append(l2)
 
