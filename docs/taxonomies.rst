@@ -74,6 +74,11 @@ classification results (e.g. 70% S, 30% A).
        ...     spec.classify() # system="Mahlke+ 2022" is the default
        >>> classy.plotting.plot_spectra(spectra, add_classes=True)
 
+Preprocessing
++++++++++++++
+
+Classification
+++++++++++++++
 
 DeMeo+ 2009
 -----------
@@ -90,6 +95,9 @@ Preprocessing
 
 The preprocessing of observations requires resampling, removing the slope, and
 normalizing to 0.55µm.
+
+Classification
+++++++++++++++
 
 Sidenote: The missing data mean
 +++++++++++++++++++++++++++++++

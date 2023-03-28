@@ -121,6 +121,56 @@ Note that, in the example above, the ``asteroid_number`` as well as ``pV`` and `
 automatically filled in using `rocks <https://github.com/maxmahlke/rocks>`_ as
 the provided ``asteroid_name`` can be resolved using ``rocks.id`` as (21) Lutetia.
 
+Preprocessing
++++++++++++++
+
+.. autofunction:: classy.Spectrum.preprocess
+
+In most cases, reflectance spectra need to be preprocessed in different ways
+prior to the classifcation in the different taxonomic systems. This consists
+generally of three steps: (1) smoothing, (2) resampling, (3) normalisation.
+Steps (2) and (3) are defined by the taxonomic system that's applied and do not
+require user interaction. Details on these steps are outlined for each system
+in the :ref:`taxonomies` section.
+
+`classy` offers two different smoothing methods: a Savtizky-Golay filter and a
+Spline interpolation.
+Parameters can be passed
+Alternatively, the user can apply their own smoothing and disable it in the preprocessing
+by setting smooth_method=None.
+
+Extrapolation
+
+.. tab-set::
+
+  .. tab-item:: Spline
+
+    Note the weights. By default, set to 1/err**2
+
+    https://docs.scipy.org/doc/scipy/reference/generated/scipy.interpolate.UnivariateSpline.html
+
+    .. autofunction:: classy.preprocessing.univariate_spline
+
+  .. tab-item:: Savitzky-Golay Filter
+
+    No weight based on error possible.
+
+    https://docs.scipy.org/doc/scipy/reference/generated/scipy.signal.savgol_filter.html
+
+    .. autofunction:: classy.preprocessing.savitzky_golay
+
+
+Resampling: allows to extrapolate as well
+
+Feature fitting
++++++++++++++++
+Done when the spectrum is instantiated.
+Can be rerun by user, eg after smoothing.
+
+Generally, set reflectance values to nan instead of removing
+them. This makes it easier as otherwise you have to truncate flag and other
+equal length attributes.
+
 Using many Spectra
 ------------------
 
