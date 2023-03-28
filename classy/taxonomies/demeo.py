@@ -9,6 +9,408 @@ from classy import config
 from classy.log import logger
 
 # ------
+# Functions for preprocessing
+def preprocess(spec, smooth=False):
+    """Preprocess a spectrum for classification following DeMeo+ 2009.
+
+    Parameters
+    ----------
+    spec : classy.Spectrum
+        The spectrum to preprocess.
+    smooth : bool
+        Whether the spectrum should be smoothed. Default is False.
+
+    Returns
+    ----------
+    classy.Spectrum
+        The preprocessed spectrum.
+
+    Notes
+    -----
+    Preprocessing steps include smoothing, slope removal, renormalization, and resampling.
+    """
+
+    # Smooth
+    if smooth:
+        spec.smooth()
+
+    # Remove slope and renormalize
+    spec.normalize(at=0.55)
+    spec.remove_slope(translate_to=0.55)
+
+    # Resample to DeMeo+ 2009 wavelength grid
+    spec.resample(WAVE)
+    breakpoint()
+
+    spec.is_preprocessed_demeo = True
+
+
+# ------
+# Functions for classification
+def classify(spec):
+    """Classify a spectrum in the system of DeMeo+ 2009.
+
+    Parameters
+    ----------
+    spec : classy.Spectrum
+        The spectrum to classify.
+
+    Returns
+    ----------
+    classy.Spectrum
+        The spectrum which added classification attributes: ['class_demeo', 'scores_demeo'].
+    """
+
+    # Check if it can be classified in this scheme
+    # Check if it has been preprocessed for this scheme
+
+    if not spec.is_preprocessed_demeo:
+        logger.warning(
+            f"[{spec.name}]: Classifying following DeMeo+ 2009 but not preprocessed yet."
+        )
+
+        if spec.wave != WAVE:
+            raise ValueError(
+                f"[{spec.name}]: The wavelength bins do not match the DeMeo+ 2009 sampling."
+            )
+
+    # Extract the reflectance and demean following DeMeo+ 2009
+    refl = np.concatenate([spec.refl[:2], spec.refl[3:]])
+    breakpoint()
+    refl -= DATA_MEAN.T
+
+    # Compute scores
+    spec.scores_demeo = EIGENVECTORS @ data.T
+
+    # And compute the class
+    spec.class_demeo = decision_tree(spec)
+    add_classification_results(spec)
+
+
+def decision_tree(spec):
+    """Implements the class decision tree given in Table B in Appendix B of DeMeo+ 2009."""
+
+    # Align with DeMeo's notation but dropping the '
+    pc1, pc2, pc3, pc4 = spec.scores_demeo[:4]
+    # pc1 = spec.pc0_demeo
+    # pc2 = spec.pc1_demeo
+    # pc3 = spec.pc2_demeo
+    # pc4 = spec.pc3_demeo
+    slope = spec.slope[0]
+
+    # Lines
+    alpha = lambda pc2: -3 * pc2 - 0.28  # = pc1
+    beta = lambda pc2: -3 * pc2 + 0.35  # = pc1
+    gamma = lambda pc2: -3 * pc2 + 1.0  # = pc1
+    delta = lambda pc2: -3 * pc2 + 1.5  # = pc1
+    epsilon = lambda pc2: 1 / 3 * pc2 + 0.55  # = pc1
+    zeta = lambda pc2: 1 / 3 * pc2 - 0.10  # = pc1
+    eta = lambda pc2: 1 / 3 * pc2 - 0.40  # = pc1
+    theta = lambda pc2: -3 * pc2 + 0.7  # = pc1
+
+    # Vis-IR step 1
+    if (pc1 < -0.3) and (pc2 >= 0.2) and (slope >= 0.4):
+        if 0.55 <= slope < 1.5:
+            spec.class_demeo = "A"
+            return
+        elif 0.4 <= slope < 0.55:
+            spec.class_demeo = "Sa"
+            return
+        else:
+            classy.logging.logger.warning(
+                "DeMeo class is indeterminate after VisIR step 1"
+            )
+            spec.class_demeo = ""
+
+    # Vis-IR step 2
+    if pc1 > alpha(pc2):  # lies above alpha line
+        if pc1 >= gamma(pc2):
+            if slope >= 0.25:
+                spec.class_demeo = "Vw"
+                return
+            else:
+                spec.class_demeo = "V"
+                return
+        if pc1 <= eta(pc2) and pc1 >= theta(pc2) and pc1 < delta(pc2):
+            spec.class_demeo = "O"
+            return
+        if pc1 <= eta(pc2) and pc1 >= alpha(pc2) and pc1 < theta(pc2):
+            if slope >= 0.25:
+                spec.class_demeo = "Qw"
+                return
+            else:
+                spec.class_demeo = "Q"
+                return
+        if pc1 >= eta(pc2) and pc1 >= gamma(pc2) and pc1 < delta(pc2):
+            spec.class_demeo = "R"
+            return
+        return demeo_s_complex(spec)
+
+    # Vis-IR step 3
+    if 0.38 <= slope < 1.5 and -0.44 < pc1 < 0.4:
+        spec.class_demeo = "D"
+        classy.logging.logger.warning(
+            f"{spec.name}: DeMeo+ 09 class is either D (no 1mu feature) or A type (1 mu feature)"
+        )
+        return
+
+    if 0.25 < slope < 0.38 and -0.28 < pc2 < -0.2 and -0.2 < pc3 < -0.12:
+        spec.class_demeo = "T"
+        return
+
+    if 0.07 < pc1 < 1.0 and -0.5 < pc2 < -0.15:
+        spec.class_demeo = "L"
+        classy.logging.logger.warning(
+            f"{spec.name}: DeMeo+ 09 class is either L (no 0.49mu feature) or Xe type (0.49 mu feature)"
+        )
+        return
+
+    if -0.075 < pc3 < 0.14 and -0.2 <= pc2 < -0.1 and -0.8 < pc1 < -0.1:
+        spec.class_demeo = "K"
+        classy.logging.logger.warning(
+            f"{spec.name}: DeMeo+ 09 class is either K (no 0.49mu feature) or Xe type (0.49 mu feature)"
+        )
+        return
+
+    return demeo_c_and_x_complexes(spec)
+
+
+def demeo_s_complex(spec):
+
+    # Align with DeMeo's notation but dropping the '
+    pc1 = spec.pc0_demeo
+    pc2 = spec.pc1_demeo
+    pc3 = spec.pc2_demeo
+    pc4 = spec.pc3_demeo
+    slope = spec.slope[0]
+
+    # Lines
+    alpha = lambda pc2: -3 * pc2 - 0.28  # = pc1
+    beta = lambda pc2: -3 * pc2 + 0.35  # = pc1
+    gamma = lambda pc2: -3 * pc2 + 1.0  # = pc1
+    delta = lambda pc2: -3 * pc2 + 1.5  # = pc1
+    epsilon = lambda pc2: 1 / 3 * pc2 + 0.55  # = pc1
+    zeta = lambda pc2: 1 / 3 * pc2 - 0.10  # = pc1
+    eta = lambda pc2: 1 / 3 * pc2 - 0.40  # = pc1
+    theta = lambda pc2: -3 * pc2 + 0.7  # = pc1
+
+    if pc1 < beta(pc2) and pc1 > delta(pc2):
+        if slope >= 0.25:
+            spec.class_demeo = "Sw"
+            return
+        else:
+            spec.class_demeo = "S"
+            return
+    if pc1 >= alpha(pc2) and pc1 < beta(pc2) and pc1 > eta(pc2) and pc1 <= zeta(pc2):
+        if slope >= 0.25:
+            spec.class_demeo = "Sqw"
+            return
+        else:
+            spec.class_demeo = "Sq"
+            return
+    if pc1 >= beta(pc2) and pc1 < gamma(pc2) and pc1 > eta(pc2) and pc1 <= epsilon(pc2):
+        if slope >= 0.25:
+            spec.class_demeo = "Srw"
+            return
+        else:
+            spec.class_demeo = "Sr"
+            return
+    if pc1 >= beta(pc2) and pc1 > epsilon(pc2) and pc1 < gamma(pc2):
+        if slope >= 0.25:
+            spec.class_demeo = "Svw"
+            return
+        else:
+            spec.class_demeo = "Sv"
+            return
+
+    spec.class_demeo = "S"
+    classy.logging.logger.warning(
+        "DeMeo class is indeterminate S-complex member after VisIR resolution"
+    )
+    return
+
+
+def demeo_c_and_x_complexes(spec):
+
+    # Align with DeMeo's notation but dropping the '
+    pc1 = spec.pc0_demeo
+    pc2 = spec.pc1_demeo
+    pc3 = spec.pc2_demeo
+    pc4 = spec.pc3_demeo
+    pc5 = spec.pc4_demeo
+    slope = spec.slope[0]
+
+    # Lines
+    alpha = lambda pc2: -3 * pc2 - 0.28  # = pc1
+    beta = lambda pc2: -3 * pc2 + 0.35  # = pc1
+    gamma = lambda pc2: -3 * pc2 + 1.0  # = pc1
+    delta = lambda pc2: -3 * pc2 + 1.5  # = pc1
+    epsilon = lambda pc2: 1 / 3 * pc2 + 0.55  # = pc1
+    zeta = lambda pc2: 1 / 3 * pc2 - 0.10  # = pc1
+    eta = lambda pc2: 1 / 3 * pc2 - 0.40  # = pc1
+    theta = lambda pc2: -3 * pc2 + 0.7  # = pc1
+
+    if -0.2 < slope < 0 and -1.2 < pc1 < 0 and pc4 < 0:
+        spec.class_demeo = "B"
+        return
+    if 0.2 < slope < 0.38:
+        spec.class_demeo = "X"
+        classy.logging.logger.warning(
+            f"{spec.name}: DeMeo+ 09 class is either X (no feature), Xk (0.8-1mu feature), Xe (0.49 mu feature), or C (1-1.3mu feature)"
+        )
+        return
+    if 0.01 < pc4 < 0.14 and -0.75 < pc1 < -0.27 and spec.refl[0] < 0.92:
+        if spec.wave[0] != 0.45:
+            print("First wavelength bin has to be at 0.45mu in DeMeo classification.")
+            spec.class_demeo = ""
+            return
+        spec.class_demeo = "Cgh"
+        classy.logging.logger.warning(
+            f"{spec.name}: DeMeo+ 09 class is either Cgh (feature at 0.7mu) or Xk (0.8-1mu feature)"
+        )
+        return
+    if 0.01 < pc4 < 0.14 and -0.75 < pc1 < -0.27:
+        spec.class_demeo = "Ch"
+        classy.logging.logger.warning(
+            f"{spec.name}: DeMeo+ 09 class is either Ch (feature at 0.7mu) or Xk (0.8-1mu feature)"
+        )
+        return
+    if -0.04 < pc4 < 0.02 and -0.07 < pc5 < -0.04:
+        spec.class_demeo = "Cb"
+        return
+    if -0.85 < pc1 < -0.45 and -0.06 < pc5 < -0.02:
+        spec.class_demeo = "C"
+        classy.logging.logger.warning(
+            f"{spec.name}: DeMeo+ 09 class is either C (no feature), Ch (feature at 0.7mu), or Xk (0.8-1mu feature)"
+        )
+        return
+    if 0.02 <= pc5 < 0.1 and -0.6 < pc1 < -0.16:
+        spec.class_demeo = "Cg"
+        classy.logging.logger.warning(
+            f"{spec.name}: DeMeo+ 09 class is either Cg (no feature), Cgh (feature at 0.7mu), or Xk (0.8-1mu feature)"
+        )
+        return
+    if -0.45 <= pc1 < 0.1 and -0.06 < pc5 < 0.05:
+        spec.class_demeo = "Xk"
+        classy.logging.logger.warning(
+            f"{spec.name}: DeMeo+ 09 class is either Xk, Xc, Xe, X, Ch."
+        )
+        return
+    if -0.1 <= pc1 < 0.3 and -0.5 < pc2 < -0.2:
+        spec.class_demeo = "Xe"
+        classy.logging.logger.warning(
+            f"{spec.name}: DeMeo+ 09 class is either Xe or L."
+        )
+        return
+    spec.class_demeo = ""
+    classy.logging.logger.warning(
+        "DeMeo class is indeterminate C/X-complex member after VisIR resolution"
+    )
+    return
+
+
+def add_classification_results(spec, results=None):
+    pass
+
+
+# ------
+# Functions for plotting
+# Functions for classification
+@lru_cache(maxsize=None)
+def load_classification():
+    """Load the DeMeo+ 2009 classification results like PC scores and classes from file.
+
+    Returns
+    -------
+    pd.DataFrame
+        The classification results of the 371 SMASS spectra.
+    """
+
+    # Launch same ECAS method if data not present
+    PATH_DATA = config.PATH_CACHE / "demeo2009/scores.csv"
+
+    print("Implement data retrieval method")
+    # if not PATH_DATA.is_file():
+    # cache.retrieve_ecas_spectra()
+
+    return pd.read_csv(PATH_DATA, dtype={"number": "Int64"})
+
+
+def plot_pc_space(ax, spectra):
+    """Plot the distribution of classified spectra and the SMASS spectra in the DeMeo PC space.
+
+    Parameters
+    ----------
+    ax : matplotlib.axes.Axes
+        The matplotlib axis instance to plot to.
+    spectra : classy.Spectra or list of classy.Spectrum
+        One or more spectra which were previously classified in the DeMeo system.
+
+    Returns
+    -------
+    matplotlib.axes.Axes
+        The matplotlib axis with the plotted classification results.
+    """
+
+    opts_text = dict(va="center", ha="center", clip_on=True)
+
+    # ------
+    # Add the distribution of the ECAS asteroids
+    demeo = load_classification()
+
+    for _, ast in demeo.iterrows():
+        # Dummy to ensure proper plot limits
+        ax.scatter(ast.PC1, ast.PC2, alpha=0)
+
+        # Add asteroid position in PC space represented by its number
+        ax.text(ast.PC1, ast.PC2, str(ast.number), color="lightgray", **opts_text)
+
+    # ------
+    # Add the mean positions of the main classes
+    for class_, pcs in demeo.groupby("class_"):
+        # Only add the core classe
+        if len(class_) > 1:
+            continue
+
+        pc0 = np.mean(pcs.PC1)
+        pc1 = np.mean(pcs.PC2)
+
+        # Small offsets for readability
+        if class_ == "E":
+            pc0 += 0.05
+        elif class_ == "P":
+            pc0 += 0.09
+
+        # Add class indicator
+        ax.text(pc0, pc1, class_, size=14, color="black", **opts_text)
+
+    # ------
+    # Add classified spectra
+    for spec in spectra:
+        if not spec.class_demeo:
+            logger.warning(f"[{spec.name}]: Not classifiend in DeMeo+ 2009 system.")
+            continue
+
+        ax.scatter(
+            spec.scores_tholen[0],
+            spec.scores_tholen[1],
+            marker="d",
+            c=spec.color,
+            s=40,
+            label=f"{spec.name}: {spec.class_tholen}",
+            zorder=100,
+        )
+
+    # ------
+    # Final additions et voila
+    ax.axvline(0, ls=":", c="gray")
+    ax.axhline(0, ls=":", c="gray")
+    ax.legend()
+
+    return ax
+
+
+# ------
 # Defintions
 
 # Central wavelengths of the VisNIR spectra
