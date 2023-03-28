@@ -52,9 +52,9 @@ def normalize(spec):
     #         ls="--",
     #         c="red",
     #     )
-    spec.refl_normalised = (
-        spec.refl_interp
-        / np.nanmean(spec.refl_interp)
+    spec.refl_pre = (
+        spec.refl_pre
+        / np.nanmean(spec.refl_pre)
         * np.nanmean(neighbours.loc[idx_nearest_neighbours, classy.defs.WAVE_GRID_STR])
     )
     # plt.plot(
@@ -66,7 +66,7 @@ def normalize(spec):
     # plt.show()
     return alpha
 
-    # Create gamma_init by finidng spectrum closest to the new one
+    # Create gamma_init by finding spectrum closest to the new one
     data_complete = ml_master[classy.ML_SETUP.COLUMNS["spectra"]].values
 
     gamma_init = []
@@ -189,6 +189,7 @@ def _find_nearest_neighbours(spec, neighbours, N):
     """
 
     # Mask the neighbours to the observed wavelength range
+    spec.mask = np.array([np.isfinite(r) for r in spec.refl_pre])
     neighbours = neighbours[:, spec.mask]
 
     # We cannot compare with neighbours which do not have all bins observed
@@ -197,7 +198,7 @@ def _find_nearest_neighbours(spec, neighbours, N):
     )
 
     # Normalize the spectrum and the neighbours using the L2 norm
-    refl_spec = preprocessing.normalize(spec.refl_interp[spec.mask].reshape(1, -1))
+    refl_spec = preprocessing.normalize(spec.refl_pre[spec.mask].reshape(1, -1))
     neighbours[mask_neighbours] = preprocessing.normalize(neighbours[mask_neighbours])
 
     # Find the closest neighbours in L2 distance
