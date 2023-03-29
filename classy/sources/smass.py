@@ -3,6 +3,7 @@ import pandas as pd
 
 from classy import config
 from classy import core
+from classy.log import logger
 
 PREPROCESS_PARAMS = {
     "tholen": {"smooth_method": None},
@@ -35,7 +36,7 @@ def load_spectrum(spec):
     PATH_SPEC = config.PATH_CACHE / f"smass/{spec.inst}/{spec.run}/{spec.filename}"
 
     if not PATH_SPEC.is_file():
-        retrieve_smass_spectrum(spec)
+        retrieve_spectrum(spec)
 
     data = pd.read_csv(PATH_SPEC)
 
@@ -58,6 +59,7 @@ def load_spectrum(spec):
         asteroid_name=spec["name"],
         asteroid_number=spec.number,
     )
+    spec._source = "SMASS"
     return spec
 
 
