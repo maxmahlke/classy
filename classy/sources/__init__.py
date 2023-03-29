@@ -1,4 +1,4 @@
-from . import akari, ecas, gaia
+from . import akari, ecas, gaia, smass
 
 SOURCES = [
     "Gaia",
