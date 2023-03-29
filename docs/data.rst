@@ -4,35 +4,28 @@ Public Data
 ===========
 
 Reflectance spectra of asteroids may vary due to observational circumanstances,
-subjective data processing, and physical processes on the minor body. It is
+differences in data processing, and physical processes on the minor body. It is
 generally worthwhile to compare spectral observations of individual asteroids
 reported by different surveys. ``classy`` sources the databases listed below to
 allow for quick comparisons between literature data and your observations.
 
-You can download and visualize a spectrum using the command line via ``classy spectra``. The ``python``
-interface allows more advanced analyses and access to the metadata. Examples
-are given for each data collection below. The :ref:`next part<core>` shows how you can add your own
-observations to the data.
+You can download and visualize a spectrum using the command line via the ``$
+classy spectra`` command. The ``python`` interface allows more advanced
+analyses and access to the metadata. Examples are given for each data
+collection below.
 
 Gaia DR3
 --------
 
-Gaia DR3 contains reflectance spectra of 60,518 Solar System objects between 0.374µm and 1.034µm, see
-`Galluccio+ 2022 <https://ui.adsabs.harvard.edu/abs/2022arXiv220612174G/abstract>`_.
-The 16 wavelength bands carry photometric flags between 0 and 2 to signal the reliability.
-
 .. tab-set::
 
-  .. tab-item:: Command Line
+  .. tab-item:: Basics
 
-      Spectra of any asteroid can be downloaded and plotted using the ``spectra`` command.
-      Providing the optional ``--source`` argument let's you select one or more specific sources for the spectrum.
-
-      .. code-block:: bash
-
-          $ classy spectra 2789 --source Gaia  # or Gaia,SMASS to combine sources
-          INFO     [classy] Looking for reflectance spectra of (2789) Foshan
-          INFO     [classy] Found 1 spectrum in Gaia
+    +-------------------+-----------------------+------------------------+-------------------------------------------------------------------------------------+
+    | Number of Spectra | :math:`\lambda_{min}` | :math:`\lambda_{max}`  | Reference                                                                           |
+    +-------------------+-----------------------+------------------------+-------------------------------------------------------------------------------------+
+    | 60 518            | 0.374µm               | 1.034µm                | `Galluccio+ 2022 <https://ui.adsabs.harvard.edu/abs/2022arXiv220612174G/abstract>`_ |
+    +-------------------+-----------------------+------------------------+-------------------------------------------------------------------------------------+
 
     .. image:: gfx/gaia_foshan.png
        :class: only-light
@@ -44,16 +37,67 @@ The 16 wavelength bands carry photometric flags between 0 and 2 to signal the re
        :align: center
        :width: 600
 
+  .. tab-item:: Data
 
-  .. tab-item :: python
+    When the first Gaia spectrum is requested, ``classy`` downloads the entire
+    database (in gzip format, 13MB) to the `cache directory`_ for quick access.
 
-     The ``classy.Spectra()`` class accpets the name, number, or designation of
-     any asteroid and retrieves the available spectra of the asteroid from the
-     online repositories. It returns a list of ``classy.Spectrum``
-     objects, which are discussed :ref:`later<core>`. The data and metadata are
-     accessible via attributes of the same name
+    The following attributes are copied from the Gaia archive and added to each spectrum.
+    See `Galluccio+ 2022 <https://ui.adsabs.harvard.edu/abs/2022arXiv220612174G/abstract>`_ for details.
 
-     .. code-block:: python
+    +------------------------------+-------------------------------------------------------------------------+
+    | Attribute                    | Description                                                             |
+    +------------------------------+-------------------------------------------------------------------------+
+    | ``wavelength``               | Wavelength of observation (same as ``wave``).                           |
+    +------------------------------+-------------------------------------------------------------------------+
+    | ``reflectance_spectrum``     | Reflectance values (same as ``refl``).                                  |
+    +------------------------------+-------------------------------------------------------------------------+
+    | ``reflectance_spectrum_err`` | Reflectance error values (same as ``refl_err``).                        |
+    +------------------------------+-------------------------------------------------------------------------+
+    | ``flag``                     | Photometric quality flag ( ``0`` = good, ``1`` = mediore, ``2`` = bad). |
+    +------------------------------+-------------------------------------------------------------------------+
+    | ``source_id``                | Gaia source ID.                                                         |
+    +------------------------------+-------------------------------------------------------------------------+
+    | ``number_mp``                | Number of target asteroid.                                              |
+    +------------------------------+-------------------------------------------------------------------------+
+    | ``solution_id``              | Gaia solution ID.                                                       |
+    +------------------------------+-------------------------------------------------------------------------+
+    | ``denomination``             | Denomination of target asteroid.                                        |
+    +------------------------------+-------------------------------------------------------------------------+
+    | ``nb_samples``               |                                                                         |
+    +------------------------------+-------------------------------------------------------------------------+
+    | ``num_of_spectra``           | Number of individual spectra averaged here.                             |
+    +------------------------------+-------------------------------------------------------------------------+
+
+    .. important::
+        The Gaia spectra show artifical reddening towards the UV. ``classy``
+        automatically applies the correction proposed by `Tinaut-Ruano+ 2023
+        <https://arxiv.org/abs/2301.02157>`_.
+
+
+  .. tab-item:: Taxonomies
+
+    Gaia observations can be classified in the following taxonomic schemes.
+
+    +-----------------------------------+-------------+---------------------------------+
+    | Tholen 1984                       | DeMeo+ 2009 | Mahlke+ 2022                    |
+    +-----------------------------------+-------------+---------------------------------+
+    | Yes (after minimal extrapolation) | No          | Yes (:math:`\lambda \geq 0.45`) |
+    +-----------------------------------+-------------+---------------------------------+
+
+  .. tab-item:: Usage
+
+    From the command line:
+
+    .. code-block:: bash
+
+        $ classy spectra 2789 --source Gaia
+        INFO     [classy] Looking for reflectance spectra of (2789) Foshan
+        INFO     [classy] Found 1 spectrum in Gaia
+
+    In a script:
+
+    .. code-block:: python
 
        >>> import classy
        >>> spectra = classy.Spectra("foshan", source="Gaia")  # 'source' is optional
@@ -68,12 +112,11 @@ The 16 wavelength bands carry photometric flags between 0 and 2 to signal the re
        >>> spec.num_of_spectra
        21
 
+  .. tab-item:: Tutorials
 
-When the first Gaia spectrum is requested, ``classy`` downloads the entire
-database (in gzip format, 13MB) to the `cache directory`_ for quick access. As
-the spectra show artifical reddening towards the UV, ``classy`` automatically
-applies the correction proposed by `Tinaut-Ruano+
-2023 <https://arxiv.org/abs/2301.02157>`_.
+    Relevant tutorials are
+
+    - :ref:`Excluding points based on SNR or flag values<excluding_refl>`
 
 SMASS and MITHNEOS
 ------------------

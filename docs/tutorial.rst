@@ -5,7 +5,9 @@ Tutorials
 .. role:: raw-html(raw)
     :format: html
 
-.. dropdown:: Excluding points from literature spectra
+.. _excluding_refl:
+
+.. dropdown:: Excluding points based on SNR or flag values
 
    To exclude a reflectance value from the classification, you can set it to ``NaN``.
 

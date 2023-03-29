@@ -37,4 +37,4 @@ After installing, the ``classy`` executable is available system-wide and the
 
        >>> import classy
 
-The command line interface hase one main function: ``classy spectra``. :ref:`Let's try it out.<available_data>`
+The command line interface has one main function: ``classy spectra``. :ref:`Let's try it out.<available_data>`

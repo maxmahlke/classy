@@ -106,9 +106,9 @@ public repositories (e.g. Gaia, SMASS, MITHNEOS).\ [#f1]_
 
    Home<self>
    Install<getting_started>
-   Public Data<data>
-   Adding Your Data<core>
-   Classifying Asteroids<taxonomy>
    Taxonomic Systems<taxonomies>
+   Public Data<data>
+   Your Data<core>
+   Classifying Asteroids<taxonomy>
    Tutorials<tutorial>
 .. glossary
