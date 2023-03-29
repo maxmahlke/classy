@@ -314,22 +314,30 @@ class Spectrum:
                 f"Unknown taxonomy '{taxonomy}'. Choose from {taxonomies.SYSTEMS}."
             )
 
-        # For spectra from online sources: can they be classified in
-        # the requested taxonomy?
-        if self._source != "user":
-            if not getattr(sources, self._source.lower()).IS_CLASSIFIABLE[taxonomy]:
-
-                tax = taxonomies.resolve_system(taxonomy)
-                logger.error(
-                    f"{self.name}: Spectra from '{self._source}' cannot be classified in the {tax} taxonomy."
-                )
-                getattr(taxonomies, taxonomy).add_classification_results(
-                    self, results=None
-                )
+        # Can the spectrum be classified in the requested taxonomy?
+        if not self.is_classifiable(taxonomy):
+            getattr(taxonomies, taxonomy).add_classification_results(self, results=None)
+            return
 
         if preprocessing is not None:
             self.preprocess(**preprocessing, taxonomy=taxonomy)
             getattr(taxonomies, taxonomy).classify(self)
+
+    def is_classifiable(self, taxonomy):
+        """Check if spectrum can be classified in taxonomic scheme based
+        on the wavelength range.
+
+        Parameters
+        ----------
+        taxonomy : str
+            The taxonomic scheme to check.
+
+        Returns
+        -------
+        bool
+            True if the spectrum can be classified, else False.
+        """
+        return getattr(taxonomies, taxonomy.lower()).is_classifiable(self)
 
     def remove_slope(self, translate_to=None):
         """Fit a linear function to the spectrum and divide by the fit.
