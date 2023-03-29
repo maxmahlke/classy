@@ -98,6 +98,7 @@ def load_spectrum(spec):
         flags.append(flag_value)
 
     spec.flag = np.array(flags)
+    spec.flag = spec.flag[~np.isnan(refl)]
     spec._source = "ECAS"
     return spec
 
