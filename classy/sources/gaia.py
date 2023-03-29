@@ -56,6 +56,7 @@ def load_spectrum(spec):
         refl=refl,
         reflectance_spectrum=refl,
         refl_err=obs.reflectance_spectrum_err.values,
+        reflectance_spectrum_err=obs.reflectance_spectrum_err.values,
         flag=obs.reflectance_spectrum_flag.values,
         reflectance_spectrum_flag=obs.reflectance_spectrum_flag.values,
         source="Gaia",
