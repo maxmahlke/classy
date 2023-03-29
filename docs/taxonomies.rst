@@ -5,80 +5,108 @@ Taxonomic Systems
 
 ``classy`` is developed to facilitate the application of the `Mahlke+ 2022
 <https://arxiv.org/abs/2203.11229>`_ taxonomy to asteroid reflectance spectra.
-Nevertheless, it can also be used to classify observations in three other
-systems: `Tholen 1984
-<https://ui.adsabs.harvard.edu/abs/1984PhDT.........3T/abstract>`_, `Bus and
-Binzel 2002 <https://ui.adsabs.harvard.edu/abs/2002Icar..158..146B/abstract>`_,
-`DeMeo+ 2009
-<https://ui.adsabs.harvard.edu/abs/2009Icar..202..160D/abstract>`_. The main properties of all four
-systems are summarized below, focusing on their applicability to data with given properties.
+Nevertheless, it can also be used to classify observations in other
+systems: `Tholen 1984 <https://ui.adsabs.harvard.edu/abs/1984PhDT.........3T/abstract>`_
+and `DeMeo+ 2009
+<https://ui.adsabs.harvard.edu/abs/2009Icar..202..160D/abstract>`_.\ [#f1]_ The
+main properties of all systems are summarized below, focusing on their
+applicability to data with given properties.
 
-For an in-depth overview of the history of asteroid taxonomies, you can have a look `at this timeline <https://raw.githubusercontent.com/maxmahlke/maxmahlke/main/docs/mahlke_taxonomy_timeline.pdf>`_.
+.. `Bus and Binzel 2002 <https://ui.adsabs.harvard.edu/abs/2002Icar..158..146B/abstract>`_
 
 Mahlke+ 2022
 ------------
 
-+-------------------+------------------------------------------+
-| Observables       | Reflectance Spectra, Visual Albedo       |
-+-------------------+------------------------------------------+
-| Wavelength Range  | 0.45-2.45µm, or any subset of this range |
-+-------------------+------------------------------------------+
-| Number of Classes |                                          |
-+-------------------+------------------------------------------+
-| Class Assignment  | Probabilistic                            |
-+-------------------+------------------------------------------+
-
-The three main advantages of the Mahlke+ 2022 taxonomies are the large number
-of observables (visible and near-infrared spectra and the visual albedo),
-the ability to classify partial observations (e.g. visible-only spectra), and the probabilistic
-classification results (e.g. 70% S, 30% A).
-
-
-.. image:: gfx/class_overview.png
-   :align: center
-   :class: only-light
-   :width: 600
-
-
-.. image:: gfx/class_overview_dark.png
-   :align: center
-   :class: only-dark
-   :width: 600
-
-
 .. tab-set::
 
-  .. tab-item:: Command Line
+  .. tab-item:: Basics
 
-      .. code-block:: bash
+    +-------------------+------------------------------------------+
+    | Observables       | Reflectance Spectra, Visual Albedo       |
+    +-------------------+------------------------------------------+
+    | Wavelength Range  | 0.45-2.45µm, or any subset of this range |
+    +-------------------+------------------------------------------+
+    | Number of Classes |                                          |
+    +-------------------+------------------------------------------+
+    | Class Assignment  | Probabilistic                            |
+    +-------------------+------------------------------------------+
 
-          $ classy spectra ceres --classify
 
-      .. image:: gfx/ceres_classification.png
-         :align: center
-         :class: only-light
-         :width: 600
+    .. code-block:: bash
 
-      .. image:: gfx/ceres_classification_dark.png
-         :align: center
-         :class: only-dark
-         :width: 600
+       $ classy spectra ceres --classify
 
-  .. tab-item :: python
+    .. image:: gfx/ceres_classification.png
+       :align: center
+       :class: only-light
+       :width: 800
 
-     .. code-block:: python
+    .. image:: gfx/ceres_classification_dark.png
+       :align: center
+       :class: only-dark
+       :width: 800
 
-       >>> import classy
-       >>> spectra = classy.spectra("ceres")
-       >>> for spec in spectra:
-       ...     spec.classify() # system="Mahlke+ 2022" is the default
-       >>> classy.plotting.plot_spectra(spectra, add_classes=True)
 
-Preprocessing
-+++++++++++++
+  .. tab-item:: Classes
 
-Classification
-++++++++++++++
+    There are 16 classes plus the common placeholder class ``X`` for asteroids
+    of either ``E``, ``M``, or ``P`` type without albedo information.
+
+    .. image:: gfx/class_overview.png
+       :align: center
+       :class: only-light
+       :width: 600
+
+
+    .. image:: gfx/class_overview_dark.png
+       :align: center
+       :class: only-dark
+       :width: 600
+
+    Any asteroid classified as ``B``, ``C``, or ``P`` type is classified as ``Ch`` if the ``h`` feature is present.
+    The classes ``E``, ``M``, ``P`` (and ``X``) can further carry the feature flags ``e`` and ``k``. can further carry the feature flags ``e`` and ``k``
+    if the features below are present.
+
+    .. image:: gfx/feature_flags.png
+       :align: center
+       :class: only-light
+       :width: 600
+
+    .. image:: gfx/feature_flags_dark.png
+       :align: center
+       :class: only-dark
+       :width: 600
+
+  .. tab-item:: Preprocessing
+
+    [TBD: Describe feature detection, normalisation, wavelength grid, log-transforms.]
+
+    [TBD: Feature flags are general and should be described elsewhere]
+
+  .. tab-item:: Classification
+
+    The classification results are probabilistic, meaning that the classified
+    spectrum has a certain probability to belong to a given class. These probabilities
+    are accessible via the ``class_CLASS`` attributes, where ``CLASS`` should
+    be replaced by the respective class letter. The most probable class is
+    assigned to the ``class_`` attribute.
+
+    .. code-block:: python
+
+        >>> import classy
+        >>> ceres = classy.Spectra(1, source="ECAS")[0] # get ECAS spectrum of (1) Ceres
+        >>> ceres.classify()  # taxonomy='mahlke' is default
+        >>> ceres.class_
+        'C'
+        >>> ceres.class_C
+        0.9597002617708775
+        >>> ceres.class_B
+        0.03962395712733269
+
+  .. tab-item:: Tutorials
+
+    TBD
+
 
 DeMeo+ 2009
 -----------
@@ -105,7 +133,7 @@ Sidenote: The missing data mean
 As DeMeo+ 2009 demeaned the reflectance spectra prior to the PCA, **the same
 mean value** of each reflectance bin has to subtracted from new reflectance
 spectra to be projected into the same principal space. I could not find the
-original mean values in the source publication\ [#f1]_, so I computed it myself
+original mean values in the source publication\ [#f2]_, so I computed it myself
 using the spectra from DeMeo+ 2009 and give it here for completeness:
 
 .. code-block:: python
@@ -246,4 +274,6 @@ ultraviolet and visible colours as well as the visual albedo.
    :caption:
 
 
-.. [#f1] In case you found it, `let me know! <https://github.com/maxmahlke/classy/blob/master/CHANGELOG.md>`_  | Comment, bug or feature request? Open an issue on `GitHub <https://github.com/maxmahlke/classy/issues>`_
+
+.. [#f1] More systems are to come. In the meantime, for an in-depth overview of the history of asteroid taxonomies, you can have a look `at this timeline <https://raw.githubusercontent.com/maxmahlke/maxmahlke/main/docs/mahlke_taxonomy_timeline.pdf>`_.
+.. [#f2] In case you found it, `let me know! <https://github.com/maxmahlke/classy/blob/master/CHANGELOG.md>`_
