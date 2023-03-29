@@ -87,8 +87,11 @@ def classify(spec):
     spec.data_classified = spec.add_feature_flags(spec.data_classified)
     setattr(spec, "class_", spec.data_classified["class_"].values[0])
 
-    print("Add feature flag -> probability conversion here")
-    print("Ch -> C, B, P")
+    if spec.h.is_present:
+        spec.class_Ch = spec.class_C + spec.class_B + spec.class_P
+        spec.class_C = 0
+        spec.class_B = 0
+        spec.class_P = 0
 
     # Class per asteroid
     # self.data_classified = _compute_class_per_asteroid(self.data_classified)
