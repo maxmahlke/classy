@@ -1,4 +1,7 @@
-# 0.3.8 - 2023-03-24
+# 0.3.8 - 2023-03-
+- Add classification following DeMeo+ 09 taxonomy
+- Add classification following 984 taxonomy
+- Add pre-defined preprocessing parameters for source/taxonomy pairs (eg Gaia and Tholen 1984)
 - Convert class probabilities from BCP to Ch if h feature is present
 
 # 0.3.7 - 2023-03-08
