@@ -319,6 +319,12 @@ class Spectrum:
             getattr(taxonomies, taxonomy).add_classification_results(self, results=None)
             return
 
+        if preprocessing is None and self.source in sources.SOURCES:
+            # Get the source-specific preprocessing settings for this taxonomy
+            preprocessing = getattr(sources, self.source.lower()).PREPROCESS_PARAMS[
+                taxonomy
+            ]
+
         if preprocessing is not None:
             self.preprocess(**preprocessing, taxonomy=taxonomy)
             getattr(taxonomies, taxonomy).classify(self)
