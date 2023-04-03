@@ -188,6 +188,22 @@ class Spectrum:
         #     )
         #     self.refl_smoothed = spline(self.wave_smoothed)
 
+    @property
+    def albedo(self):
+        return self.pV
+
+    @property.setter
+    def albedo(self, value):
+        self.pV = value
+
+    @property
+    def albedo_err(self):
+        return self.pV_err
+
+    @property.setter
+    def albedo_err(self, value):
+        self.pV_err = value
+
     def truncate(self, wave_min, wave_max):
         """Truncate wavelength range to minimum and maximum value.
 
@@ -740,7 +756,6 @@ class Spectra(list):
 
     def classify(self, taxonomy="mahlke"):
         for spec in self:
-
             if spec.source in sources.SOURCES:
                 # Get the source-specific preprocessing settings for this taxonomy
                 preprocess_params = getattr(
