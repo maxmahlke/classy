@@ -31,8 +31,7 @@ class Spectrum:
         pV=None,
         pV_err=None,
         name=None,
-        asteroid_name=None,
-        asteroid_number=None,
+        number=None,
         preprocessed=False,
         **kwargs,
     ):
@@ -54,10 +53,8 @@ class Spectrum:
         pV_err : float
             The albedo uncertainty value. Default is None.
         name : str
-            A unique identifier for this spectrum.
-        asteroid_name : str
             The name of the asteroid the spectrum is referring to.
-        asteroid_number : int
+        number : int
             The number of the asteroid the spectrum is referring to.
         preprocessed : bool
             Whether the reflectance bins and albedo have already been preprocessed
@@ -84,14 +81,13 @@ class Spectrum:
 
         # Assign metadata
         self.name = name
-        self.asteroid_name = asteroid_name
-        self.asteroid_number = asteroid_number
+        self.number = number
 
         # Look up name, number, albedo, if not provided
-        if (asteroid_name is None and asteroid_number is not None) or (
-            asteroid_name is not None and asteroid_number is None
+        if (name is None and number is not None) or (
+            name is not None and number is None
         ):
-            self.asteroid_name, self.asteroid_number = rocks.id(asteroid_number)
+            self.name, self.number = rocks.id(number)
 
         # ------
         # Classification Results
@@ -105,8 +101,8 @@ class Spectrum:
         self.scores_mahlke = []
 
         # Look up pV if it is not provided and we know the asteroid
-        if self.pV is None and self.asteroid_name is not None:
-            rock = rocks.Rock(self.asteroid_name)
+        if self.pV is None and self.name is not None:
+            rock = rocks.Rock(self.name)
             self.pV = rock.albedo.value
             self.pV_err = rock.albedo.error_
         elif self.pV is None:
@@ -192,7 +188,7 @@ class Spectrum:
     def albedo(self):
         return self.pV
 
-    @property.setter
+    @albedo.setter
     def albedo(self, value):
         self.pV = value
 
@@ -200,7 +196,7 @@ class Spectrum:
     def albedo_err(self):
         return self.pV_err
 
-    @property.setter
+    @albedo_err.setter
     def albedo_err(self, value):
         self.pV_err = value
 
@@ -460,9 +456,8 @@ class Spectrum:
         result = {}
 
         for attr in [
-            "asteroid_name",
-            "asteroid_number",
             "name",
+            "number",
             "class_",
             *[f"class_{letter}" for letter in defs.CLASSES],
         ]:
@@ -768,9 +763,8 @@ class Spectra(list):
         results = {}
 
         for attr in [
-            "asteroid_name",
-            "asteroid_number",
             "name",
+            "number",
             "class_",
             *[f"class_{letter}" for letter in defs.CLASSES],
         ]:
