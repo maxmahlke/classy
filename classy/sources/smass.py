@@ -1,5 +1,10 @@
+import tarfile
+import re
+from urllib.request import urlretrieve
+
 import numpy as np
 import pandas as pd
+import rocks
 
 from classy import config
 from classy import core
@@ -21,26 +26,20 @@ def load_index():
     PATH_INDEX = config.PATH_CACHE / "smass/index.csv"
 
     if not PATH_INDEX.is_file():
-        logger.info("Retrieving index of SMASS spectra...")
-
-        URL_INDEX = "https://raw.githubusercontent.com/maxmahlke/classy/main/data/smass/index.csv"
-        index = pd.read_csv(URL_INDEX)
-        PATH_INDEX.parent.mkdir(parents=True, exist_ok=True)
-        index.to_csv(PATH_INDEX, index=False)
+        retrieve_spectra()
 
     return pd.read_csv(PATH_INDEX, dtype={"number": "Int64"})
 
 
 def load_spectrum(spec):
     """Load a cached SMASS spectrum."""
-    PATH_SPEC = config.PATH_CACHE / f"smass/{spec.inst}/{spec.run}/{spec.filename}"
+    PATH_SPEC = config.PATH_CACHE / f"smass/{spec.filename}"
 
-    if not PATH_SPEC.is_file():
-        retrieve_spectrum(spec)
+    data = pd.read_csv(
+        PATH_SPEC, names=["wave", "refl", "err", "flag"], delimiter="\s+"
+    )
 
-    data = pd.read_csv(PATH_SPEC)
-
-    if spec.run == "smass1":
+    if "smass1/" in spec.filename:
         data.wave /= 10000
 
     # 2 - reject. This is flag 0 in SMASS
@@ -52,42 +51,108 @@ def load_spectrum(spec):
         refl_err=data["err"],
         flag=flags,
         source="SMASS",
-        run=spec.run,
-        inst=spec.inst,
-        name=f"{spec.inst}/{spec.run}",
-        filename=spec.filename,
-        asteroid_name=spec["name"],
-        asteroid_number=spec.number,
+        run=spec.filename.split("."),
+        name=spec["name"],
+        number=spec.number,
+        bibcode=spec.bibcode,
+        shortbib=spec.shortbib,
     )
     spec._source = "SMASS"
     return spec
 
 
-def retrieve_spectrum(spec):
-    """Retrieve a SMASS spectra from smass.mit.edu.
+def retrieve_spectra():
+    """Retrieve all SMASS spectra to smass/ the cache directory."""
 
-    Parameters
-    ----------
-    spec : pd.Series
-        Entry of the SMASS index containing metadata of spectrum to retrieve.
-
-    Notes
-    -----
-    Spectrum is stored in the cache directory.
-    """
-
-    URL_BASE = "http://smass.mit.edu/data"
+    URL = "http://smass.mit.edu/data/smass"
 
     # Create directory structure and check if the spectrum is already cached
-    PATH_OUT = config.PATH_CACHE / f"smass/{spec.inst}/{spec.run}/{spec.filename}"
+    PATH_SMASS = config.PATH_CACHE / "smass/"
+    PATH_SMASS.mkdir(parents=True, exist_ok=True)
 
-    # Ensure directory structure exists
-    PATH_OUT.parent.mkdir(parents=True, exist_ok=True)
+    FILE_REF_BIB = [
+        ("smass1data_new", "Xu+ 1995", "1995Icar..115....1X"),
+        ("smass2data", "Bus and Binzel+ 2002", "2002Icar..158..106B"),
+        ("smassirdata", "Burbine and Binzel 2002", "2002Icar..159..468B"),
+        ("smassneodata", "Binzel+ 2001", "2001Icar..151..139B"),
+        ("smassref5", "Binzel+ 2001", "2001M&PS...36.1167B"),
+        ("smassref6", "Binzel+ 2004", "2004P&SS...52..291B"),
+        ("smassref7", "Binzel+ 2004", "2004M&PS...39..351B"),
+        ("smassref8", "Binzel+ 2004", "2004Icar..170..259B"),
+        ("smassref9", "Rivkin+ 2004", "2004Icar..172..408R"),
+    ]
 
-    # Download spectrum
-    URL = f"{URL_BASE}/{spec.inst}/{spec.run}/{spec.filename}"
-    obs = pd.read_csv(URL, delimiter="\s+", names=["wave", "refl", "err", "flag"])
+    logger.info("Retrieving all SMASS reflectance spectra [2.8MB] to cache...")
 
-    # Store to file
-    obs.to_csv(PATH_OUT, index=False)
-    logger.info(f"Retrieved spectrum {spec.run}/{spec.filename} from SMASS")
+    for file_, ref, bib in FILE_REF_BIB:
+        url_archive = f"{URL}/{file_}.tar.gz"
+        urlretrieve(url_archive, PATH_SMASS / f"{file_}.tar.gz")
+
+        with tarfile.open(PATH_SMASS / f"{file_}.tar.gz", mode="r:gz") as archive:
+            archive.extractall(PATH_SMASS)
+
+    # Create index
+    index = pd.DataFrame()
+
+    DIR_REF_BIB = [
+        ("smass1", "Xu+ 1995", "1995Icar..115....1X"),
+        ("smass2", "Bus and Binzel+ 2002", "2002Icar..158..106B"),
+        ("smassir", "Burbine and Binzel 2002", "2002Icar..159..468B"),
+        ("smassneo", "Binzel+ 2001", "2001Icar..151..139B"),
+        ("sf36ref5", "Binzel+ 2001", "2001M&PS...36.1167B"),
+        ("meudonnereusref6", "Binzel+ 2004", "2004P&SS...52..291B"),
+        ("neotargetsref7", "Binzel+ 2004", "2004M&PS...39..351B"),
+        ("smassneoref8", "Binzel+ 2004", "2004Icar..170..259B"),
+        ("hermesref9", "Rivkin+ 2004", "2004Icar..172..408R"),
+    ]
+
+    for dir, ref, bib in DIR_REF_BIB:
+        PATH_DIR = PATH_SMASS / dir
+
+        for file_ in PATH_DIR.iterdir():
+            # Skip splined fit ones
+            if "spfit" in file_.name:
+                continue
+
+            # ------
+            # Extract target from filename
+            id_smass = file_.name.split(".")[0]
+
+            # Asteroid Unnumbered: extract designation
+            if id_smass.startswith("au"):
+                id_smass = id_smass.lstrip("au")
+                designation = re.match(
+                    r"([1A][8-9][0-9]{2}[ _]?[A-Za-z]{2}[0-9]{0,3})|"
+                    r"(20[0-9]{2}[_ ]?[A-Za-z]{2}[0-9]{0,3})",
+                    id_smass,
+                )
+                match = designation.group(0)
+            # Asteroid: extract number
+            elif id_smass.startswith("a"):
+                id_smass = id_smass.lstrip("a")
+                number = re.match(r"(\d\d\d\d\d\d)", id_smass)
+                match = number.group(0)
+
+            # typo in the filename
+            if "hermesref9" in str(file_):
+                if match == "069320":
+                    match = 69230
+
+            name, number = rocks.id(match)
+
+            # ------
+            # Append to index
+            entry = pd.DataFrame(
+                {
+                    "name": name,
+                    "number": number,
+                    "filename": f"{dir}/{file_.name}",
+                    "shortbib": ref,
+                    "bibcode": bib,
+                },
+                index=[0],
+            )
+            index = pd.concat([index, entry], ignore_index=True)
+
+    index["number"] = index["number"].astype("Int64")
+    index.to_csv(PATH_SMASS / "index.csv", index=False)

@@ -79,12 +79,13 @@ def load_spectrum(spec):
         wave=wave,
         refl=refl,
         refl_err=refl_err,
-        source="ECAS",
-        name=f"ECAS - {spec['name']}",
-        asteroid_name=spec["name"],
-        asteroid_number=spec.number,
+        name=spec["name"],
+        number=spec.number,
         nights=obs["NIGHTS"].values[0],
         note=obs["NOTE"].values[0],
+        shortbib="Zellner+ 1985",
+        bibcode="1985Icar...61..355Z",
+        source="ECAS",
     )
 
     flags = []
