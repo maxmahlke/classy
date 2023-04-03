@@ -14,6 +14,8 @@ applicability to data with given properties.
 
 .. `Bus and Binzel 2002 <https://ui.adsabs.harvard.edu/abs/2002Icar..158..146B/abstract>`_
 
+.. _mahlke:
+
 Mahlke+ 2022
 ------------
 
@@ -181,6 +183,8 @@ PCA
 Reflectance spectra
 Complete between 0.45 to ?
 22 classes
+
+.. _tholen:
 
 Tholen 1984
 -----------

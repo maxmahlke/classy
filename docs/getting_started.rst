@@ -38,3 +38,22 @@ After installing, the ``classy`` executable is available system-wide and the
        >>> import classy
 
 The command line interface has one main function: ``classy spectra``. :ref:`Let's try it out.<available_data>`
+
+.. _cache_directory:
+
+Cache Directory
+---------------
+
+``classy`` caches data from online repositories of reflectance spectra on your
+machine. The location depends on your platform and system language. For English
+systems:
+
++----------+-------------------------------------------------------+
+| Platform | Directory                                             |
++----------+-------------------------------------------------------+
+| Linux    | ``/home/$USER/.cache/classy``                         |
++----------+-------------------------------------------------------+
+| Mac      | ``/Users/$USER/Library/Caches/classy``                |
++----------+-------------------------------------------------------+
+| Windows  | ``'C:\\Users\\$USER\\AppData\\Local\\classy\\Cache'`` |
++----------+-------------------------------------------------------+
