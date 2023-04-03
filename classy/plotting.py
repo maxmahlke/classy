@@ -367,13 +367,12 @@ def plot_spectra(spectra, add_classes=False, system="mahlke"):
     ecas_lines, ecas_labels = [], []
     user_lines, user_labels = [], []
     for spec in spectra:
-
         if not hasattr(spec, "wave_plot"):
             spec.wave_plot = spec.wave
             spec.refl_plot = spec.refl
-        if spec.source in ["AKARI", "ECAS", "SMASS", "Gaia"]:
+        if spec.source in classy.sources.SOURCES:
             spec.color = colors.pop()
-            if spec.source == "SMASS":
+            if spec.source in ["SMASS", "MITHNEOS"]:
                 smass_line, smass_label = plot_smass_spectrum(ax_spec, spec)
                 smass_lines.append(*smass_line)
                 smass_labels.append(*smass_label)
@@ -547,7 +546,6 @@ def plot_smass_spectrum(ax, spec):
             spec.refl,
             yerr=spec.refl_err,
             c=spec.color,
-            label=f"{spec.run}",
             alpha=0.4,
             capsize=3,
             ls="",
@@ -557,7 +555,11 @@ def plot_smass_spectrum(ax, spec):
     else:
         # Line
         (l1,) = ax.plot(
-            spec.wave, spec.refl, c=spec.color, label=f"{spec.run}", ls="-", alpha=0.5
+            spec.wave,
+            spec.refl,
+            c=spec.color,
+            ls="-",
+            alpha=0.5,
         )
 
         ax.fill_between(
@@ -570,7 +572,7 @@ def plot_smass_spectrum(ax, spec):
         )
 
     line = [l1]
-    label = [spec.name]
+    label = [spec.shortbib]
     return line, label
 
 
