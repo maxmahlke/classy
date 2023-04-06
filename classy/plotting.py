@@ -513,10 +513,8 @@ def plot_spectra(spectra, add_classes=False, system="mahlke"):
         elif "demeo" in system:
             ax_classes = taxonomies.demeo.plot_pc_space(ax_classes, spectra)
 
-    if spec.asteroid_name is not None:
-        ax_spec.set_title(
-            f"({spec.asteroid_number}) {spec.asteroid_name}", loc="left", size=10
-        )
+    if spec.name is not None:
+        ax_spec.set_title(f"({spec.number}) {spec.name}", loc="left", size=10)
     if add_classes:
         if system == "tholen":
             system = "Tholen 1984"
