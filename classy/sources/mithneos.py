@@ -66,7 +66,7 @@ def retrieve_spectra():
     PATH_MITHNEOS = config.PATH_CACHE / "mithneos/"
     PATH_MITHNEOS.mkdir(parents=True, exist_ok=True)
 
-    logger.info("Retrieving all MITHNEOS reflectance spectra [X.YMB] to cache...")
+    logger.info("Retrieving all MITHNEOS reflectance spectra [34MB] to cache...")
 
     # Get data from smass.mit.edu
     for run, spectra in RUNS.items():
@@ -74,6 +74,7 @@ def retrieve_spectra():
         PATH_OUT.mkdir(parents=True, exist_ok=True)
 
         for spec in spectra:
+            continue
             print("Retrieving ", run, spec)
 
             url_archive = f"{URL}/{run}/{spec}"
@@ -104,7 +105,12 @@ def retrieve_spectra():
             elif id_mithneos.startswith("a"):
                 id_mithneos = id_mithneos.lstrip("a")
                 number = re.match(r"(\d\d\d\d\d\d)", id_mithneos)
-                match = number.group(0)
+                try:
+                    match = number.group(0)
+                except AttributeError:
+                    print(id_mithneos)
+                    print(match)
+                    continue
 
             name, number = rocks.id(match)
 

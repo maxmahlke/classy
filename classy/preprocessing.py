@@ -120,7 +120,7 @@ def univariate_spline(wave, refl, params):
     return refl
 
 
-def resample(wave, refl, grid, params):
+def resample(wave, refl, grid, **kwargs):
     """Resample a spectrum to another wavelength grid.
 
     Parameters
@@ -131,14 +131,15 @@ def resample(wave, refl, grid, params):
         List of reflectance values.
     grid : list
         The target wavelength values.
-    params : dict
-        Optional. Parameters passed to the ``scipy.interpoalte.interp``
-        function.
 
     Returns
     -------
     np.ndarray
         The reflectance values sampled on the target wavelength grid.
+
+    Notes
+    -----
+    Any additional parameters are passed to the ``scipy.interpoalte.interp1d`` function.
     """
 
     # Little hack: If the first or the last point are exactly
@@ -149,7 +150,7 @@ def resample(wave, refl, grid, params):
     if wave[-1] == grid[-1]:
         wave[-1] += 0.0001
 
-    if "fill_value" in params:
+    if "fill_value" in kwargs:
         if params["fill_value"] == "bounds":
             params["bounds_error"] = False
             params["fill_value"] = (refl[0], refl[-1])

@@ -46,7 +46,7 @@ def preprocess(spec, resample_params):
     resample_params : dict
         Optional. The resampling parameters passed to the ``scipy.interpolate.interp1d`` function.
     """
-    spec.resample(WAVE, resample_params)
+    spec.resample(WAVE, **resample_params)
     spec.normalize(at=0.55)
     spec.is_preprocessed_tholen = True
 
@@ -118,7 +118,6 @@ def classify(spec):
 
 
 def add_classification_results(spec, results=None):
-
     if results is None:
         spec.class_tholen = ""
         return
