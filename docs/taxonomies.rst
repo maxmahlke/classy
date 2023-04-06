@@ -1,7 +1,7 @@
 .. _available_taxonomies:
 
-Taxonomic Systems
-=================
+Taxonomies
+==========
 
 ``classy`` is developed to facilitate the application of the `Mahlke+ 2022
 <https://arxiv.org/abs/2203.11229>`_ taxonomy to asteroid reflectance spectra.
@@ -104,6 +104,19 @@ Mahlke+ 2022
         0.9597002617708775
         >>> ceres.class_B
         0.03962395712733269
+
+  .. tab-item:: Results
+
+    The classification results are stored as attributes: the ``.class_``
+    attribute contains the most probable class (``str``), while ``.class_A`` contains the
+    probability of the spectrum to belong to class A, ``class_B`` to class B,
+    and so forth.
+
+    .. code-block:: python
+
+       >>> for spec in spectra:
+       ...     print(f"[{spec.name}] Most likely class: {spec.class_}")
+       ...     print(f"[{spec.name}] Probability to be a B-type: {spec.class_B}")
 
   .. tab-item:: Tutorials
 

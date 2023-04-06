@@ -26,7 +26,7 @@ MITHNEOS
   .. tab-item:: Data
 
     When the first MITHNEOS spectrum is requested, ``classy`` downloads the entire
-    database (X.YMB) to the :ref:`cache directory<cache_directory>` for quick access.
+    database (34MB) to the :ref:`cache directory<cache_directory>` for quick access.
 
     The following attributes are copied from the MITHNEOS website and added to each spectrum.
     The following attributes are copied from the SMASS website and added to each spectrum.
