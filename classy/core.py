@@ -216,18 +216,16 @@ class Spectrum:
         if self.wave.size == 0:
             logger.error("No wavelength bins left in spectrum after truncating.")
 
-    def normalize(self, method="l2", at=None):
+    def normalize(self, method="wave", at=None):
         """Normalize the spectrum.
 
         Parameters
         ----------
         method : str
-            The method to use for the normalization. Choose from ["l2", "mixnorm"].
-            Default is "l2" unless "at" is not None.
+            The method to use for the normalization. Choose from ["wave", "l2", "mixnorm"].
+            Default is "wave".
         at : float
-            The wavelength at which to normalize. If not None, the spectrum is
-            normalized to unity at the wavelength which is closest to the pass
-            value.
+            The wavelength at which to normalize. Only relevant when method == "wave".
         """
         if at is not None:
             self.refl_pre = preprocessing._normalize_at(
@@ -304,7 +302,7 @@ class Spectrum:
         elif "tholen" in taxonomy.lower():
             taxonomies.tholen.preprocess(self, resample_params)
 
-    def classify(self, preprocessing=None, taxonomy="mahlke"):
+    def classify(self, preprocessing={}, taxonomy="mahlke"):
         """Classify a spectrum in a given taxonomic system.
 
         Parameters
@@ -331,11 +329,14 @@ class Spectrum:
             getattr(taxonomies, taxonomy).add_classification_results(self, results=None)
             return
 
-        if preprocessing is None and self.source in sources.SOURCES:
+        if preprocessing is {} and self.source in sources.SOURCES:
             # Get the source-specific preprocessing settings for this taxonomy
             preprocessing = getattr(sources, self.source.lower()).PREPROCESS_PARAMS[
                 taxonomy
             ]
+
+        if preprocessing is {}:
+            preprocessing = None
 
         if preprocessing is not None:
             self.preprocess(**preprocessing, taxonomy=taxonomy)
@@ -429,22 +430,21 @@ class Spectrum:
     def plot(self, add_classes=False, taxonomy="mahlke"):
         plotting.plot_spectra([self], add_classes, taxonomy)
 
-    def resample(self, grid, params=None):
+    def resample(self, grid, **kwargs):
         """Resample the spectrum to another wavelength grid.
 
         Parameters
         ----------
         grid : list
             The target wavelength values.
-        params : dict
-            Optional. Parameters passed to the ``scipy.interpoalte.interp`` function.
+
+        Notes
+        -----
+        Any additional parameters are passed to the ``scipy.interpoalte.interp1d`` function.
         """
 
-        if params is None:
-            params = {}
-
         self.refl_pre = preprocessing.resample(
-            self.wave_pre, self.refl_pre, grid, params
+            self.wave_pre, self.refl_pre, grid, **kwargs
         )
         self.wave_pre = grid
 
@@ -749,15 +749,15 @@ class Spectra(list):
     #
     #         spec.preprocess(**preprocess_params, taxonomy=taxonomy)
 
-    def classify(self, taxonomy="mahlke"):
+    def classify(self, preprocessing={}, taxonomy="mahlke"):
         for spec in self:
-            if spec.source in sources.SOURCES:
+            if spec.source in sources.SOURCES and not preprocessing:
                 # Get the source-specific preprocessing settings for this taxonomy
-                preprocess_params = getattr(
-                    sources, spec.source.lower()
-                ).PREPROCESS_PARAMS[taxonomy]
+                preprocessing = getattr(sources, spec.source.lower()).PREPROCESS_PARAMS[
+                    taxonomy
+                ]
 
-            spec.classify(preprocessing=preprocess_params, taxonomy=taxonomy)
+            spec.classify(preprocessing=preprocessing, taxonomy=taxonomy)
 
     def to_csv(self, path_out=None):
         results = {}
