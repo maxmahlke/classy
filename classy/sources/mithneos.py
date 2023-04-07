@@ -74,9 +74,6 @@ def retrieve_spectra():
         PATH_OUT.mkdir(parents=True, exist_ok=True)
 
         for spec in spectra:
-            continue
-            print("Retrieving ", run, spec)
-
             url_archive = f"{URL}/{run}/{spec}"
             urlretrieve(url_archive, PATH_OUT / spec)
 
