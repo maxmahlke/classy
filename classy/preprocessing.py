@@ -151,11 +151,11 @@ def resample(wave, refl, grid, **kwargs):
         wave[-1] += 0.0001
 
     if "fill_value" in kwargs:
-        if params["fill_value"] == "bounds":
-            params["bounds_error"] = False
-            params["fill_value"] = (refl[0], refl[-1])
+        if kwargs["fill_value"] == "bounds":
+            kwargs["bounds_error"] = False
+            kwargs["fill_value"] = (refl[0], refl[-1])
 
-    refl_interp = interpolate.interp1d(wave, refl, **params)
+    refl_interp = interpolate.interp1d(wave, refl, **kwargs)
     return refl_interp(grid)
 
 
