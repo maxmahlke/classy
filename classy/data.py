@@ -48,7 +48,10 @@ def load_spectra(name, source):
         index_spectra = pd.concat([index_spectra, index])
 
     if index_spectra.empty:
-        logger.info(f"Did not find any spectra in repositories: {', '.join(source)} ")
+        name, number = rocks.id(name)
+        logger.warning(
+            f"Did not find any spectra of ({number}) {name} in {', '.join(source)} "
+        )
         return []
 
     return cache.load_spectra(index_spectra)
