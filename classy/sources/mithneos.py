@@ -108,8 +108,6 @@ def retrieve_spectra():
                 try:
                     match = number.group(0)
                 except AttributeError:
-                    print(id_mithneos)
-                    print(match)
                     continue
 
             name, number = rocks.id(match)
