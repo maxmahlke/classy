@@ -1,8 +1,10 @@
 import numpy as np
 import pandas as pd
+import rocks
 
 from classy import config
 from classy import core
+from classy.log import logger
 
 
 PREPROCESS_PARAMS = {
