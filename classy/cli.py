@@ -57,7 +57,7 @@ def docs():
     help="Select one or more online repositories.",
 )
 @click.option("-v", is_flag=True, help="Set verbose output.")
-def spectra(id_, classify, taxonomy, source, v, vv):
+def spectra(id_, classify, taxonomy, source, v):
     """Retrieve, plot, classify spectra of an individual asteroid."""
 
     if v:
