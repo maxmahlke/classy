@@ -23,8 +23,8 @@ def is_classifiable(spec):
         True if the spectrum can be classified, else False.
     """
     if spec.wave.min() > WAVE.min() or spec.wave.max() < WAVE.max():
-        logger.debug(
-            f"[{spec.name}]: Insufficient wavelength range for DeMeo taxonomy ({spec.wave.min()} - {spec.wave.max()})"
+        logger.warning(
+            f"[{spec.source + '/' if hasattr(spec, 'source') else ''}{spec.name}]: Insufficient wavelength range for DeMeo taxonomy ({spec.wave.min()} - {spec.wave.max()})."
         )
         return False
     return True
@@ -198,7 +198,6 @@ def decision_tree(spec):
 
 
 def demeo_s_complex(spec):
-
     # Align with DeMeo's notation but dropping the '
     pc1 = spec.pc0_demeo
     pc2 = spec.pc1_demeo
@@ -253,7 +252,6 @@ def demeo_s_complex(spec):
 
 
 def demeo_c_and_x_complexes(spec):
-
     # Align with DeMeo's notation but dropping the '
     pc1 = spec.pc0_demeo
     pc2 = spec.pc1_demeo

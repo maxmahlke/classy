@@ -28,8 +28,8 @@ def is_classifiable(spec):
         return True  # requires minor extrapolation
 
     if spec.wave.min() > WAVE.min() or spec.wave.max() < WAVE.max():
-        logger.debug(
-            f"[{spec.name}]: Insufficient wavelength range for Tholen taxonomy ({spec.wave.min()} - {spec.wave.max()})"
+        logger.warning(
+            f"[{spec.source + '/' if hasattr(spec, 'source') else ''}{spec.name}]: Insufficient wavelength range for Tholen taxonomy ({spec.wave.min()} - {spec.wave.max()})"
         )
         return False
     return True
