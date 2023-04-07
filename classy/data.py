@@ -42,7 +42,7 @@ def load_spectra(name, source):
 
         if not index.empty:
             N = len(index)
-            logger.info(f"Found {N} spectr{'a' if N > 1 else 'um'} in {s}")
+            logger.debug(f"Found {N} spectr{'a' if N > 1 else 'um'} in {s}")
 
         index["source"] = s
         index_spectra = pd.concat([index_spectra, index])
