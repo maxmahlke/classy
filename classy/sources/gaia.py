@@ -1,8 +1,10 @@
 import numpy as np
 import pandas as pd
+import rocks
 
 from classy import config
 from classy import core
+from classy.log import logger
 
 PREPROCESS_PARAMS = {
     "tholen": {
@@ -91,7 +93,6 @@ def retrieve_spectra():
     index = {}
 
     # Observations are split into 20 parts
-    logger.info("Creating index of Gaia spectra...")
     for idx in range(20):
         # Retrieve the spectra
         part = pd.read_csv(f"{URL}{idx:02}.csv.gz", compression="gzip", comment="#")
