@@ -23,7 +23,7 @@ def load_index():
     PATH_INDEX = config.PATH_CACHE / "ecas/ecas_mean.csv"
 
     if not PATH_INDEX.is_file():
-        retrieve_ecas_spectra()
+        retrieve_spectra()
 
     return pd.read_csv(PATH_INDEX, dtype={"number": "Int64"})
 
