@@ -494,7 +494,7 @@ def plot_spectra(spectra, add_classes=False, system="mahlke"):
                     continue  # spec was not classified following Mahlke+ 2022
                 for x, class_ in enumerate(classy.defs.CLASSES):
                     ax_classes.bar(
-                        x - 0.3 + i * width,
+                        x - 0.3 + i * width if len(spectra) > 1 else x,
                         getattr(spec, f"class_{class_}"),
                         fill=True,
                         color=spec.color,
