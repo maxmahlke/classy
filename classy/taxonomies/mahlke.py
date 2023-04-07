@@ -24,8 +24,9 @@ def is_classifiable(spec):
     # We need at least one observed data point
     if any(WAVE.min() <= w <= WAVE.max() for w in spec.wave) or not np.isnan(spec.pV):
         return True
+
     logger.debug(
-        f"[{spec.name}]: Insufficient wavelength range for Mahlke taxonomy ({spec.wave.min()} - {spec.wave.max()})"
+        f"[{spec.name}]: Insufficient wavelength range for Mahlke taxonomy ({spec.wave.min()} - {spec.wave.max()}) and no visual albedo value."
     )
     return False
 
@@ -39,13 +40,6 @@ def preprocess(spec, resample_params):
 
 
 def classify(spec):
-    if spec.wave.min() >= 2.45 or spec.wave.max() <= 0.45:
-        logger.info(
-            f"{spec.name}:  Cannot classify following Mahlke+ 2022 - insufficient wavelength coverage."
-        )
-        spec.class_mahlke = ""
-        return
-
     # Instantiate MCFA model instance if not done yet
     model = data.load("mcfa")
 
