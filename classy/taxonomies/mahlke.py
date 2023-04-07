@@ -32,7 +32,7 @@ def is_classifiable(spec):
 
 def preprocess(spec, resample_params):
     spec.detect_features()
-    spec.resample(WAVE, resample_params)
+    spec.resample(WAVE, **resample_params)
     spec.normalize(method="mixnorm")
 
     spec.pV_pre = np.log10(spec.pV)

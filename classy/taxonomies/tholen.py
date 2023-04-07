@@ -7,6 +7,7 @@ import pandas as pd
 from classy import cache
 from classy import config
 from classy.log import logger
+from classy import sources
 from classy import taxonomies
 
 
@@ -67,7 +68,7 @@ def load_classification():
     PATH_DATA = config.PATH_CACHE / "ecas/ecas_scores.csv"
 
     if not PATH_DATA.is_file():
-        cache.retrieve_ecas_spectra()
+        sources.ecas.retrieve_spectra()
 
     return pd.read_csv(PATH_DATA, dtype={"number": "Int64"})
 
