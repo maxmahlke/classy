@@ -1,5 +1,6 @@
 """Classification of asteroids following DeMeo+ 2009."""
 from functools import lru_cache
+from urllib.request import urlretrieve
 
 import numpy as np
 import pandas as pd
@@ -349,11 +350,17 @@ def load_classification():
     # Launch same ECAS method if data not present
     PATH_DATA = config.PATH_CACHE / "demeo2009/scores.csv"
 
-    print("Implement data retrieval method")
-    # if not PATH_DATA.is_file():
-    # cache.retrieve_ecas_spectra()
+    if not PATH_DATA.is_file():
+        retrieve_scores()
 
     return pd.read_csv(PATH_DATA, dtype={"number": "Int64"})
+
+
+def retrieve_scores():
+    logger.info("Retrieving DeMeo+ 2009 PC scores.")
+    URL = "https://raw.githubusercontent.com/maxmahlke/classy/main/data/demeo2009/scores.csv"
+    PATH_DATA = config.PATH_CACHE / "demeo2009/scores.csv"
+    urlretrieve(URL, PATH_DATA)
 
 
 def plot_pc_space(ax, spectra):
@@ -408,7 +415,7 @@ def plot_pc_space(ax, spectra):
     # Add classified spectra
     for spec in spectra:
         if not spec.class_demeo:
-            logger.warning(f"[{spec.name}]: Not classifiend in DeMeo+ 2009 system.")
+            logger.debug(f"[{spec.name}]: Not classified in DeMeo+ 2009 system.")
             continue
 
         ax.scatter(
@@ -417,7 +424,7 @@ def plot_pc_space(ax, spectra):
             marker="d",
             c=spec.color,
             s=40,
-            label=f"{spec.name}: {spec.class_tholen}",
+            label=f"{spec.source + ': ' if hasattr(spec, 'source') else ''}{spec.class_demeo}",
             zorder=100,
         )
 
