@@ -24,6 +24,8 @@ def normalize(spec):
     alpha : float
         The normalization constat to subtract from the spectrum after log-transform.
     """
+    if all(np.isnan(r) for r in spec.refl_pre):
+        return np.nan
 
     # Load the trained normalization instance
     normalization, neighbours = classy.data.load("mixnorm")
@@ -72,7 +74,6 @@ def normalize(spec):
     gamma_init = []
     alpha_init = []
     for ind, spec in data.iterrows():
-
         mask = np.isnan(spec)
         reference = data_complete[:, ~mask]
         reference_normed = reference[~np.isnan(reference).any(axis=1), :]
@@ -288,14 +289,12 @@ def gem_mixnorm(
     # GEM algorithm (GM step followed by E step)
 
     while (it <= nit_em) & (reldiff > eps):
-
         it = it + 1
 
         # GM step
         log_pis = np.log(np.sum(gamma, 0)) - np.log(n)  # class proportions
 
         for h in range(nit_ca):  # coordinate ascent loop
-
             Xminusalpha = X - alpha
 
             for k in range(K):
@@ -374,7 +373,6 @@ def mixnorm(
     eps=1e-5,
     verbose=False,
 ):
-
     """Runs the GEM algorithm using multiple random initialisations
 
     INPUT
@@ -495,7 +493,6 @@ def gem_mixnorm_eval(
 
     # GEM algorithm (M step followed by E step)
     while (it <= nit_em) & (reldiff > eps):
-
         it = it + 1
 
         # M step
@@ -548,7 +545,6 @@ def normalize_l2(data):
 
     # handle the missing bins
     for i, sample in enumerate(data_specs):
-
         index = data.index.values[i]
 
         # get incomplete values
