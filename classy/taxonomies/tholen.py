@@ -236,7 +236,7 @@ def plot_pc_space(ax, spectra):
     # Add classified spectra
     for spec in spectra:
         if not spec.class_tholen:
-            logger.warning(f"[{spec.name}]: Not classifiend in Tholen 1984 system.")
+            logger.debug(f"[{spec.name}]: Not classified in Tholen 1984 system.")
             continue
 
         ax.scatter(
@@ -245,7 +245,7 @@ def plot_pc_space(ax, spectra):
             marker="d",
             c=spec.color,
             s=40,
-            label=f"{spec.name}: {spec.class_tholen}",
+            label=f"{spec.source + ': ' if hasattr(spec, 'source') else ''}{spec.class_tholen}",
             zorder=100,
         )
 
