@@ -69,7 +69,7 @@ def spectra(id_, classify, taxonomy, source, v):
         logger.error("Cannot retrieve spectra for unidentified asteroid.")
         sys.exit()
     else:
-        logger.info(f"Looking for reflectance spectra of ({number}) {name}")
+        logger.debug(f"Looking for reflectance spectra of ({number}) {name}")
 
     if not source:
         source = classy.sources.SOURCES
