@@ -88,6 +88,8 @@ class Spectrum:
             name is not None and number is None
         ):
             self.name, self.number = rocks.id(number)
+        elif name is not None and number is None:
+            self.name, self.number = rocks.id(name)
 
         # ------
         # Classification Results
