@@ -329,6 +329,8 @@ def plot_spectra(spectra, add_classes=False, taxonomy="mahlke"):
         if not hasattr(spec, "wave_plot"):
             spec.wave_plot = spec.wave
             spec.refl_plot = spec.refl
+
+        spec.color = colors.pop()
         if spec.source in classy.sources.SOURCES:
             spec.color = colors.pop()
             if spec.source in ["SMASS", "MITHNEOS"]:
