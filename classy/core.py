@@ -675,8 +675,12 @@ class Spectra(list):
     #         super().extend(str(item) for item in other)
     #
     def __add__(self, rhs):
+        if isinstance(rhs, Spectrum):
+            rhs = [rhs]
         if not isinstance(rhs, list):
-            raise TypeError("Expected a list of classy.Spectrum instances.")
+            raise TypeError(
+                "Expected a list of classy.Spectrum or a single classy.Spectrum."
+            )
         if not all(isinstance(entry, Spectrum) for entry in rhs):
             raise ValueError(
                 "Can only add a list of classy.Spectrum instances or a classy.Spectra instance to another classy.Spectra instance."
