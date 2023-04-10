@@ -11,7 +11,7 @@ from classy import defs
 from classy.log import logger
 from classy import tools
 
-EXTRAPOLATION_LIMIT = 90
+EXTRAPOLATION_LIMIT = 10
 
 
 # ------
@@ -45,6 +45,12 @@ def savitzky_golay(refl, **kwargs):
             "No window_length supplied to Savitzky-Golay filter. Using a fifth of the number of values."
         )
         kwargs["window_length"] = int(len(refl) // 5)
+    else:
+        if not isinstance(kwargs["window_length"], int):
+            logger.debug(
+                "Savitzky-Golay filter window length must be integer. Converting with int()."
+            )
+            kwargs["window_length"] = int(kwargs["window_length"])
 
     if "polyorder" not in kwargs:
         logger.debug("No polyorder supplied to Savitzky-Golay filter. Using 3.")
@@ -174,7 +180,6 @@ def remove_slope(wave, refl, translate_to=None):
     list of float
         The parameters of the fitted 1d polynomial [slope, intercept].
     """
-    print(wave, refl)
 
     slope_params = np.polyfit(wave, refl, 1)
 
