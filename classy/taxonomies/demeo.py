@@ -44,13 +44,13 @@ def preprocess(spec):
         Whether the spectrum should be smoothed. Default is False.
 
     Returns
-    ----------
+    -------
     classy.Spectrum
         The preprocessed spectrum.
 
     Notes
     -----
-    Preprocessing steps include smoothing, slope removal, renormalization, and resampling.
+    Preprocessing steps include slope removal, renormalization, and resampling.
     """
 
     # Remove slope and renormalize
@@ -59,6 +59,7 @@ def preprocess(spec):
 
     # Resample to DeMeo+ 2009 wavelength grid
     spec.resample(WAVE)
+    spec.detect_features()
 
 
 # ------
@@ -88,8 +89,10 @@ def classify(spec):
     spec.scores_demeo = EIGENVECTORS @ refl.T
 
     # And compute the class
-    spec.class_demeo = decision_tree(spec)
-    add_classification_results(spec)
+    class_ = decision_tree(spec)
+    add_classification_results(
+        spec, results={"class_demeo": class_, "scores_demeo": spec.scores_demeo}
+    )
 
 
 def decision_tree(spec):
@@ -97,10 +100,6 @@ def decision_tree(spec):
 
     # Align with DeMeo's notation but dropping the '
     pc1, pc2, pc3, pc4 = spec.scores_demeo[:4]
-    # pc1 = spec.pc0_demeo
-    # pc2 = spec.pc1_demeo
-    # pc3 = spec.pc2_demeo
-    # pc4 = spec.pc3_demeo
     slope = spec.slope[0]
 
     # Lines
@@ -116,76 +115,60 @@ def decision_tree(spec):
     # Vis-IR step 1
     if (pc1 < -0.3) and (pc2 >= 0.2) and (slope >= 0.4):
         if 0.55 <= slope < 1.5:
-            spec.class_demeo = "A"
-            return
+            return "A"
         elif 0.4 <= slope < 0.55:
-            spec.class_demeo = "Sa"
-            return
+            return "Sa"
         else:
-            classy.logging.logger.warning(
-                "DeMeo class is indeterminate after VisIR step 1"
-            )
+            logger.warning("DeMeo class is indeterminate after VisIR step 1")
             spec.class_demeo = ""
 
     # Vis-IR step 2
     if pc1 > alpha(pc2):  # lies above alpha line
         if pc1 >= gamma(pc2):
             if slope >= 0.25:
-                spec.class_demeo = "Vw"
-                return
+                return "Vw"
             else:
-                spec.class_demeo = "V"
-                return
+                return "V"
+
         if pc1 <= eta(pc2) and pc1 >= theta(pc2) and pc1 < delta(pc2):
-            spec.class_demeo = "O"
-            return
+            return "O"
         if pc1 <= eta(pc2) and pc1 >= alpha(pc2) and pc1 < theta(pc2):
             if slope >= 0.25:
-                spec.class_demeo = "Qw"
-                return
+                return "Qw"
             else:
-                spec.class_demeo = "Q"
-                return
+                return "Q"
         if pc1 >= eta(pc2) and pc1 >= gamma(pc2) and pc1 < delta(pc2):
-            spec.class_demeo = "R"
-            return
+            return "R"
         return demeo_s_complex(spec)
 
     # Vis-IR step 3
     if 0.38 <= slope < 1.5 and -0.44 < pc1 < 0.4:
-        spec.class_demeo = "D"
-        classy.logging.logger.warning(
+        logger.warning(
             f"{spec.name}: DeMeo+ 09 class is either D (no 1mu feature) or A type (1 mu feature)"
         )
-        return
+        return "DA"
 
     if 0.25 < slope < 0.38 and -0.28 < pc2 < -0.2 and -0.2 < pc3 < -0.12:
-        spec.class_demeo = "T"
-        return
+        return "T"
 
     if 0.07 < pc1 < 1.0 and -0.5 < pc2 < -0.15:
-        spec.class_demeo = "L"
-        classy.logging.logger.warning(
+        logger.warning(
             f"{spec.name}: DeMeo+ 09 class is either L (no 0.49mu feature) or Xe type (0.49 mu feature)"
         )
-        return
+        return "LXe"
 
     if -0.075 < pc3 < 0.14 and -0.2 <= pc2 < -0.1 and -0.8 < pc1 < -0.1:
-        spec.class_demeo = "K"
-        classy.logging.logger.warning(
+        logger.warning(
             f"{spec.name}: DeMeo+ 09 class is either K (no 0.49mu feature) or Xe type (0.49 mu feature)"
         )
-        return
+        return "KXe"
 
     return demeo_c_and_x_complexes(spec)
 
 
 def demeo_s_complex(spec):
     # Align with DeMeo's notation but dropping the '
-    pc1 = spec.pc0_demeo
-    pc2 = spec.pc1_demeo
-    pc3 = spec.pc2_demeo
-    pc4 = spec.pc3_demeo
+    pc1, pc2, pc3, pc4 = spec.scores_demeo[:4]
     slope = spec.slope[0]
 
     # Lines
@@ -200,47 +183,34 @@ def demeo_s_complex(spec):
 
     if pc1 < beta(pc2) and pc1 > delta(pc2):
         if slope >= 0.25:
-            spec.class_demeo = "Sw"
-            return
+            return "Sw"
         else:
-            spec.class_demeo = "S"
-            return
+            return "S"
     if pc1 >= alpha(pc2) and pc1 < beta(pc2) and pc1 > eta(pc2) and pc1 <= zeta(pc2):
         if slope >= 0.25:
-            spec.class_demeo = "Sqw"
-            return
+            return "Sqw"
         else:
-            spec.class_demeo = "Sq"
-            return
+            return "Sq"
     if pc1 >= beta(pc2) and pc1 < gamma(pc2) and pc1 > eta(pc2) and pc1 <= epsilon(pc2):
         if slope >= 0.25:
-            spec.class_demeo = "Srw"
-            return
+            return "Srw"
         else:
-            spec.class_demeo = "Sr"
-            return
+            return "Sr"
     if pc1 >= beta(pc2) and pc1 > epsilon(pc2) and pc1 < gamma(pc2):
         if slope >= 0.25:
-            spec.class_demeo = "Svw"
-            return
+            return "Svw"
         else:
-            spec.class_demeo = "Sv"
-            return
+            return "Sv"
 
-    spec.class_demeo = "S"
-    classy.logging.logger.warning(
+    logger.warning(
         "DeMeo class is indeterminate S-complex member after VisIR resolution"
     )
-    return
+    return "S"
 
 
 def demeo_c_and_x_complexes(spec):
     # Align with DeMeo's notation but dropping the '
-    pc1 = spec.pc0_demeo
-    pc2 = spec.pc1_demeo
-    pc3 = spec.pc2_demeo
-    pc4 = spec.pc3_demeo
-    pc5 = spec.pc4_demeo
+    pc1, pc2, pc3, pc4, pc5 = spec.scores_demeo[:5]
     slope = spec.slope[0]
 
     # Lines
@@ -254,66 +224,58 @@ def demeo_c_and_x_complexes(spec):
     theta = lambda pc2: -3 * pc2 + 0.7  # = pc1
 
     if -0.2 < slope < 0 and -1.2 < pc1 < 0 and pc4 < 0:
-        spec.class_demeo = "B"
-        return
+        return "B"
     if 0.2 < slope < 0.38:
-        spec.class_demeo = "X"
-        classy.logging.logger.warning(
+        logger.warning(
             f"{spec.name}: DeMeo+ 09 class is either X (no feature), Xk (0.8-1mu feature), Xe (0.49 mu feature), or C (1-1.3mu feature)"
         )
-        return
+        return "XXeXk"
     if 0.01 < pc4 < 0.14 and -0.75 < pc1 < -0.27 and spec.refl[0] < 0.92:
         if spec.wave[0] != 0.45:
             print("First wavelength bin has to be at 0.45mu in DeMeo classification.")
-            spec.class_demeo = ""
-            return
-        spec.class_demeo = "Cgh"
-        classy.logging.logger.warning(
+            return ""
+        logger.warning(
             f"{spec.name}: DeMeo+ 09 class is either Cgh (feature at 0.7mu) or Xk (0.8-1mu feature)"
         )
-        return
+        return "CghXk"
     if 0.01 < pc4 < 0.14 and -0.75 < pc1 < -0.27:
-        spec.class_demeo = "Ch"
-        classy.logging.logger.warning(
+        logger.warning(
             f"{spec.name}: DeMeo+ 09 class is either Ch (feature at 0.7mu) or Xk (0.8-1mu feature)"
         )
-        return
+        return "ChXk"
     if -0.04 < pc4 < 0.02 and -0.07 < pc5 < -0.04:
         spec.class_demeo = "Cb"
         return
     if -0.85 < pc1 < -0.45 and -0.06 < pc5 < -0.02:
-        spec.class_demeo = "C"
-        classy.logging.logger.warning(
+        logger.warning(
             f"{spec.name}: DeMeo+ 09 class is either C (no feature), Ch (feature at 0.7mu), or Xk (0.8-1mu feature)"
         )
-        return
+        return "CChXk"
     if 0.02 <= pc5 < 0.1 and -0.6 < pc1 < -0.16:
-        spec.class_demeo = "Cg"
-        classy.logging.logger.warning(
+        logger.warning(
             f"{spec.name}: DeMeo+ 09 class is either Cg (no feature), Cgh (feature at 0.7mu), or Xk (0.8-1mu feature)"
         )
-        return
+        return "CgCghXk"
     if -0.45 <= pc1 < 0.1 and -0.06 < pc5 < 0.05:
-        spec.class_demeo = "Xk"
-        classy.logging.logger.warning(
-            f"{spec.name}: DeMeo+ 09 class is either Xk, Xc, Xe, X, Ch."
-        )
-        return
+        logger.warning(f"{spec.name}: DeMeo+ 09 class is either Xk, Xc, Xe, X, Ch.")
+        return "XkXcXeXCh"
     if -0.1 <= pc1 < 0.3 and -0.5 < pc2 < -0.2:
-        spec.class_demeo = "Xe"
-        classy.logging.logger.warning(
-            f"{spec.name}: DeMeo+ 09 class is either Xe or L."
-        )
-        return
-    spec.class_demeo = ""
-    classy.logging.logger.warning(
+        logger.warning(f"{spec.name}: DeMeo+ 09 class is either Xe or L.")
+        return "XeL"
+    logger.warning(
         "DeMeo class is indeterminate C/X-complex member after VisIR resolution"
     )
-    return
+    return ""
 
 
 def add_classification_results(spec, results=None):
-    pass
+    if results is None:
+        spec.class_demeo = ""
+        spec.scores_demeo = [np.nan] * 7
+        return
+
+    for key, val in results.items():
+        setattr(spec, key, val)
 
 
 # ------
