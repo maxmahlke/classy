@@ -319,7 +319,7 @@ def plot_spectra(spectra, add_classes=False, taxonomy="mahlke"):
         fig, ax_spec = plt.subplots(figsize=(12, 7))
 
     # 1. Plot spectra, grouped by _source
-    _sources = set(spec._source for spec in spectra)
+    _sources = sorted(set(spec._source for spec in spectra))
 
     for source in _sources:
         lines_source, labels_source = [], []
