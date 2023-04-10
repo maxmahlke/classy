@@ -84,23 +84,13 @@ class Spectrum:
         self.number = number
 
         # Look up name, number, albedo, if not provided
-        if (name is None and number is not None) or (
-            name is not None and number is None
-        ):
+        if name is None and number is not None:
             self.name, self.number = rocks.id(number)
         elif name is not None and number is None:
             self.name, self.number = rocks.id(name)
 
-        # ------
-        # Classification Results
-        self.class_tholen = ""
-        self.scores_tholen = []
-
-        self.class_demeo = ""
-        self.scores_demeo = []
-
-        self.class_mahlke = ""
-        self.scores_mahlke = []
+        self._refl_original = self.refl.copy()
+        self._wave_original = self.wave.copy()
 
         # Look up pV if it is not provided and we know the asteroid
         if self.pV is None and self.name is not None:
@@ -128,6 +118,7 @@ class Spectrum:
         method : str
             The smoothing method. Choose from ['savgol', 'spline']. Default is 'savgol'.
         """
+
         if method == "savgol":
             self.refl = preprocessing.savitzky_golay(self.refl, **kwargs)
         elif method == "spline":
@@ -182,15 +173,26 @@ class Spectrum:
         """
         if at is not None:
             self.refl = preprocessing._normalize_at(self.wave, self.refl, at)
+
+            if hasattr(self, "_refl_original"):
+                self._refl_original = preprocessing._normalize_at(
+                    self._wave_original, self._refl_original, at
+                )
             return
 
         if method == "l2":
             self.refl = preprocessing._normalize_l2(self.refl)
 
+            if hasattr(self, "_refl_original"):
+                self._refl_original = preprocessing._normalize_l2(self._refl_original)
+
         elif method == "mixnorm":
             alpha = mixnorm.normalize(self)
             self.refl = np.log(self.refl) - alpha
             self.alpha = alpha
+
+            if hasattr(self, "_refl_original"):
+                self._refl_original = np.log(self._refl_original) - alpha
 
     #
     # def preprocess(
@@ -290,16 +292,16 @@ class Spectrum:
         #         getattr(self, func)(**params)
 
         # Store for resetting after classification
-        self._wave_original = self.wave.copy()
-        self._refl_original = self.refl.copy()
+        self._wave_pre_class = self.wave.copy()
+        self._refl_pre_class = self.refl.copy()
 
         # Preprocess and classify as defined by scheme
         getattr(taxonomies, taxonomy).preprocess(self)
         getattr(taxonomies, taxonomy).classify(self)
 
         # Reset wavelength and reflectance
-        self.wave = self._wave_original
-        self.refl = self._refl_original
+        self.wave = self._wave_pre_class
+        self.refl = self._refl_pre_class
 
     def is_classifiable(self, taxonomy):
         """Check if spectrum can be classified in taxonomic scheme based
