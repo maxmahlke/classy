@@ -692,23 +692,6 @@ class Spectra(list):
     def plot(self, add_classes=False, taxonomy="mahlke"):
         plotting.plot_spectra(list(self), add_classes, taxonomy)
 
-    # def preprocess(
-    #     self,
-    #     smooth_method="savgol",
-    #     smooth_params=None,
-    #     resample_params=None,
-    #     taxonomy="mahlke",
-    # ):
-    #     for spec in self:
-    #
-    #         if spec.source in sources.SOURCES:
-    #             # Get the source-specific preprocessing settings for this taxonomy
-    #             preprocess_params = getattr(
-    #                 sources, spec.source.lower()
-    #             ).PREPROCESS_PARAMS[taxonomy]
-    #
-    #         spec.preprocess(**preprocess_params, taxonomy=taxonomy)
-
     def classify(self, taxonomy="mahlke", preprocess_remote=False):
         for spec in self:
             spec.classify(taxonomy=taxonomy, preprocess_remote=preprocess_remote)
