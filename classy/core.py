@@ -692,9 +692,9 @@ class Spectra(list):
     def plot(self, add_classes=False, taxonomy="mahlke"):
         plotting.plot_spectra(list(self), add_classes, taxonomy)
 
-    def classify(self, taxonomy="mahlke", preprocess_remote=False):
+    def classify(self, taxonomy="mahlke"):
         for spec in self:
-            spec.classify(taxonomy=taxonomy, preprocess_remote=preprocess_remote)
+            spec.classify(taxonomy=taxonomy)
 
     def to_csv(self, path_out=None):
         results = {}
