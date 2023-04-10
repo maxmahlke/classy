@@ -97,7 +97,7 @@ public repositories (e.g. Gaia, SMASS, MITHNEOS).\ [#f1]_
    :caption:
 
 
-.. [#f1] Latest version: 0.4  - `What's new? <https://github.com/maxmahlke/classy/blob/master/CHANGELOG.md>`_  | Comment, bug or feature request? Open an issue on `GitHub <https://github.com/maxmahlke/classy/issues>`_.
+.. [#f1] Latest version: 0.4.1  - `What's new? <https://github.com/maxmahlke/classy/blob/master/CHANGELOG.md>`_  | Comment, bug or feature request? Open an issue on `GitHub <https://github.com/maxmahlke/classy/issues>`_.
 
 .. toctree::
    :maxdepth: 2

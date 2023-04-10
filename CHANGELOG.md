@@ -1,3 +1,8 @@
+# 0.4.1 - 2023-04-10
+- Bugfixes in preprocessing module
+- Bugfixes in DeMeo classification module
+- Refinements in the plotting module
+
 # 0.4 - 2023-04-07
 - Add classification following DeMeo+ 09 taxonomy
 - Add classification following Tholen 1984 taxonomy
