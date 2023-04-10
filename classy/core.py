@@ -118,71 +118,22 @@ class Spectrum:
     def __len__(self):
         return len(self.wave)
 
-    def smooth(self, degree=None, window=None, interactive=False):
-        """Smooth spectrum using a Savitzky-Golay filter."""
-        # from scipy.interpolate import UnivariateSpline
-        #
-        # transform = {0: 1, 1: 0.5, 2: 0}
-        #
-        # weights = [transform[f] for f in self.flag]
-        #
-        # if len(self) > 40:
-        #     s = 0.2
-        # else:
-        #     s = 0.2
-        #
-        # spline = UnivariateSpline(x=self.wave, y=self.refl, w=weights, k=5, s=s)
-        # self.refl_smoothed = spline(self.wave)
+    def smooth(self, method="savgol", **kwargs):
+        """Smooth spectrum using a Savitzky-Golay filter or univariate spline.
 
-        if degree is None:
-            degree = 3
-        if window is None:
-            window = int(len(self) // 5)
-
-            if window % 2 == 0:
-                window += 1
-            window = window if window > 5 else 5
-
-        if not interactive and degree is None and window is None:
-            logger.warning(
-                "Smoothing is set to non-interactive but no smoothing parameters are set. Running smoothing interactively."
-            )
-            interactive = True
+        Parameters
+        ----------
+        method : str
+            The smoothing method. Choose from ['savgol', 'spline']. Default is 'savgol'.
+        """
+        if method == "savgol":
+            self.refl = preprocessing.savitzky_golay(self.refl, **kwargs)
+        elif method == "spline":
+            self.refl = preprocessing.univariate_spline(self.wave, self.refl, **kwargs)
         else:
-            self.smooth_degree = degree
-            self.smooth_window = window
-
-        # user might have set refl values to nan
-        self.wave_smoothed = self.wave[~np.isnan(self.refl)]
-        self.refl_smoothed = self.refl[~np.isnan(self.refl)]
-
-        if interactive:
-            # Run with default parameters to initialize self.refl_smoothed
-            self.smooth_window = self.smooth_window if window is not None else 99
-            self.smooth_degree = self.smooth_degre if degree is not None else 3
-            self.refl_smoothed = signal.savgol_filter(
-                self.refl_smoothed, self.smooth_window, self.smooth_degree
+            raise ValueError(
+                f"Unknown smoothing method '{method}'. Choose from ['savgol', 'spline']."
             )
-            self._smooth_interactive()
-
-        if True:
-            self.refl_smoothed = signal.savgol_filter(
-                self.refl_smoothed, self.smooth_window, self.smooth_degree
-            )
-        # else:
-        #     weights = [
-        #         1 / err**2 if not np.isnan(self.refl[i]) else 0
-        #         for i, err in enumerate(self.refl_err)
-        #     ]
-        #     print(self.source)
-        #     print(weights)
-        #     self.refl_smoothed[
-        #         np.isnan(self.refl_smoothed)
-        #     ] = 0  # temporarily replace, they are 0 weighed anyway
-        #     spline = interpolate.UnivariateSpline(
-        #         self.wave_smoothed, self.refl_smoothed, w=weights
-        #     )
-        #     self.refl_smoothed = spline(self.wave_smoothed)
 
     @property
     def albedo(self):
@@ -228,81 +179,80 @@ class Spectrum:
             The wavelength at which to normalize. Only relevant when method == "wave".
         """
         if at is not None:
-            self.refl_pre = preprocessing._normalize_at(
-                self.wave_pre, self.refl_pre, at
-            )
+            self.refl = preprocessing._normalize_at(self.wave, self.refl, at)
             return
 
         if method == "l2":
-            self.refl_pre = preprocessing._normalize_l2(self.refl_pre)
+            self.refl = preprocessing._normalize_l2(self.refl)
 
         elif method == "mixnorm":
             alpha = mixnorm.normalize(self)
-            self.refl_pre = np.log(self.refl_pre) - alpha
+            self.refl = np.log(self.refl) - alpha
             self.alpha = alpha
 
-    def preprocess(
-        self,
-        smooth_method="savgol",
-        smooth_params=None,
-        resample_params=None,
-        taxonomy="mahlke",
-    ):
-        """Preprocess a spectrum for classification in a given taxonomic system.
+    #
+    # def preprocess(
+    #     self,
+    #     smooth_method="savgol",
+    #     smooth_params=None,
+    #     resample_params=None,
+    #     taxonomy="mahlke",
+    # ):
+    #     """Preprocess a spectrum for classification in a given taxonomic system.
+    #
+    #     Parameters
+    #     ----------
+    #     smooth_method : str or None
+    #         Optional. The smoothing method to apply to the spectrum. Choose
+    #         from ['savgol', 'spline']. Default is 'savgol'. If set to None, no
+    #         smoothing is applied.
+    #     smooth_params : dict
+    #         Optional. The smoothing parameters passed to the respective
+    #         smoothing functions. Must be valid arguments of the
+    #         ``scipy.signal.savgol_filter`` or ``scipy.interpolate.UnivariateSpline``
+    #         functions depending on the chosen smoothing method.
+    #     resample_params : dict
+    #         Optional. The resampling parameters passed to the ``scipy.interpolate.interp1d`` function.
+    #     taxonomy : str
+    #         Optional. The taxonomic system to prepare the spectrum for. Choose from
+    #         ['mahlke', 'demeo', 'bus', 'tholen']. Default is 'mahlke'.
+    #     """
+    #
+    #     # ------
+    #     # Smoothing is universal and the first step
+    #     if smooth_method == "savgol":
+    #         self.refl = preprocessing.savitzky_golay(self.refl, smooth_params)
+    #         self.refl_plot = self.refl
+    #     elif smooth_method == "spline":
+    #         self.refl = preprocessing.univariate_spline(
+    #             self.wave, self.refl, smooth_params
+    #         )
+    #         self.refl_plot = self.refl
+    #     else:
+    #         # No smoothing
+    #         self.refl_plot = self.refl  # for plotting only
+    #         self.refl = self.refl  # for classification only
+    #
+    #     # Never change the original wave and refl attributes
+    #     # Only change the _pre suffixed ones
+    #     self.wave_pre = self.wave
+    #     self.wave_plot = self.wave
+    #
+    #     # ------
+    #     # Remaining steps depend on the taxonomic scheme
+    #     if "mahlke" in taxonomy.lower():
+    #         taxonomies.mahlke.preprocess(self, resample_params)
+    #
+    #     elif "demeo" in taxonomy.lower():
+    #         taxonomies.demeo.preprocess(self, resample_params)
+    #
+    #     elif "bus" in taxonomy.lower():
+    #         taxonomies.bus.preprocess(self, resample_params)
+    #
+    #     elif "tholen" in taxonomy.lower():
+    #         taxonomies.tholen.preprocess(self, resample_params)
 
-        Parameters
-        ----------
-        smooth_method : str or None
-            Optional. The smoothing method to apply to the spectrum. Choose
-            from ['savgol', 'spline']. Default is 'savgol'. If set to None, no
-            smoothing is applied.
-        smooth_params : dict
-            Optional. The smoothing parameters passed to the respective
-            smoothing functions. Must be valid arguments of the
-            ``scipy.signal.savgol_filter`` or ``scipy.interpolate.UnivariateSpline``
-            functions depending on the chosen smoothing method.
-        resample_params : dict
-            Optional. The resampling parameters passed to the ``scipy.interpolate.interp1d`` function.
-        taxonomy : str
-            Optional. The taxonomic system to prepare the spectrum for. Choose from
-            ['mahlke', 'demeo', 'bus', 'tholen']. Default is 'mahlke'.
-        """
-
-        # ------
-        # Smoothing is universal and the first step
-        if smooth_method == "savgol":
-            self.refl_pre = preprocessing.savitzky_golay(self.refl, smooth_params)
-            self.refl_plot = self.refl_pre
-        elif smooth_method == "spline":
-            self.refl_pre = preprocessing.univariate_spline(
-                self.wave, self.refl, smooth_params
-            )
-            self.refl_plot = self.refl_pre
-        else:
-            # No smoothing
-            self.refl_plot = self.refl  # for plotting only
-            self.refl_pre = self.refl  # for classification only
-
-        # Never change the original wave and refl attributes
-        # Only change the _pre suffixed ones
-        self.wave_pre = self.wave
-        self.wave_plot = self.wave
-
-        # ------
-        # Remaining steps depend on the taxonomic scheme
-        if "mahlke" in taxonomy.lower():
-            taxonomies.mahlke.preprocess(self, resample_params)
-
-        elif "demeo" in taxonomy.lower():
-            taxonomies.demeo.preprocess(self, resample_params)
-
-        elif "bus" in taxonomy.lower():
-            taxonomies.bus.preprocess(self, resample_params)
-
-        elif "tholen" in taxonomy.lower():
-            taxonomies.tholen.preprocess(self, resample_params)
-
-    def classify(self, preprocessing={}, taxonomy="mahlke"):
+    def classify(self, taxonomy="mahlke", preprocess_remote=False):
         """Classify a spectrum in a given taxonomic system.
 
         Parameters
@@ -329,18 +279,25 @@ class Spectrum:
             getattr(taxonomies, taxonomy).add_classification_results(self, results=None)
             return
 
-        if preprocessing is {} and self.source in sources.SOURCES:
-            # Get the source-specific preprocessing settings for this taxonomy
-            preprocessing = getattr(sources, self.source.lower()).PREPROCESS_PARAMS[
-                taxonomy
-            ]
+        # Should spectra from online repositories be preprocessed?
+        # if self.source in sources.SOURCES and preprocess_remote:
+        #     # Get the source-specific preprocessing settings for this taxonomy
+        #     for func, params in (
+        #         getattr(sources, self.source.lower()).PREPROCESSING[taxonomy].items()
+        #     ):
+        #         getattr(self, func)(**params)
 
-        if preprocessing is {}:
-            preprocessing = None
+        # Store for resetting after classification
+        self._wave_original = self.wave.copy()
+        self._refl_original = self.refl.copy()
 
-        if preprocessing is not None:
-            self.preprocess(**preprocessing, taxonomy=taxonomy)
-            getattr(taxonomies, taxonomy).classify(self)
+        # Preprocess and classify as defined by scheme
+        getattr(taxonomies, taxonomy).preprocess(self)
+        getattr(taxonomies, taxonomy).classify(self)
+
+        # Reset wavelength and reflectance
+        self.wave = self._wave_original
+        self.refl = self._refl_original
 
     def is_classifiable(self, taxonomy):
         """Check if spectrum can be classified in taxonomic scheme based
@@ -373,7 +330,7 @@ class Spectrum:
         The fit [slope, intercept] is recorded as ``slope`` attribute.
         """
         self.refl, self.slope = preprocessing.remove_slope(
-            self, wave, refl, translate_to
+            self.wave, self.refl, translate_to
         )
 
     def detect_features(self, feature="all", skip_validation=False):
@@ -443,13 +400,8 @@ class Spectrum:
         Any additional parameters are passed to the ``scipy.interpoalte.interp1d`` function.
         """
 
-        self.refl_pre = preprocessing.resample(
-            self.wave_pre, self.refl_pre, grid, **kwargs
-        )
-        self.wave_pre = grid
-
-        self.wave_plot = grid
-        self.refl_plot = self.refl_pre
+        self.refl = preprocessing.resample(self.wave, self.refl, grid, **kwargs)
+        self.wave = grid
 
     def to_csv(self, path_out=None):
         """Store the classification results to file."""
@@ -749,15 +701,9 @@ class Spectra(list):
     #
     #         spec.preprocess(**preprocess_params, taxonomy=taxonomy)
 
-    def classify(self, preprocessing={}, taxonomy="mahlke"):
+    def classify(self, taxonomy="mahlke", preprocess_remote=False):
         for spec in self:
-            if spec.source in sources.SOURCES and not preprocessing:
-                # Get the source-specific preprocessing settings for this taxonomy
-                preprocessing = getattr(sources, spec.source.lower()).PREPROCESS_PARAMS[
-                    taxonomy
-                ]
-
-            spec.classify(preprocessing=preprocessing, taxonomy=taxonomy)
+            spec.classify(taxonomy=taxonomy, preprocess_remote=preprocess_remote)
 
     def to_csv(self, path_out=None):
         results = {}

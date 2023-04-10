@@ -33,7 +33,7 @@ def is_classifiable(spec):
 
 # ------
 # Functions for preprocessing
-def preprocess(spec, smooth=False):
+def preprocess(spec):
     """Preprocess a spectrum for classification following DeMeo+ 2009.
 
     Parameters
@@ -53,19 +53,12 @@ def preprocess(spec, smooth=False):
     Preprocessing steps include smoothing, slope removal, renormalization, and resampling.
     """
 
-    # Smooth
-    if smooth:
-        spec.smooth()
-
     # Remove slope and renormalize
     spec.normalize(at=0.55)
     spec.remove_slope(translate_to=0.55)
 
     # Resample to DeMeo+ 2009 wavelength grid
     spec.resample(WAVE)
-    breakpoint()
-
-    spec.is_preprocessed_demeo = True
 
 
 # ------
@@ -87,23 +80,12 @@ def classify(spec):
     # Check if it can be classified in this scheme
     # Check if it has been preprocessed for this scheme
 
-    if not spec.is_preprocessed_demeo:
-        logger.warning(
-            f"[{spec.name}]: Classifying following DeMeo+ 2009 but not preprocessed yet."
-        )
-
-        if spec.wave != WAVE:
-            raise ValueError(
-                f"[{spec.name}]: The wavelength bins do not match the DeMeo+ 2009 sampling."
-            )
-
     # Extract the reflectance and demean following DeMeo+ 2009
     refl = np.concatenate([spec.refl[:2], spec.refl[3:]])
-    breakpoint()
     refl -= DATA_MEAN.T
 
     # Compute scores
-    spec.scores_demeo = EIGENVECTORS @ data.T
+    spec.scores_demeo = EIGENVECTORS @ refl.T
 
     # And compute the class
     spec.class_demeo = decision_tree(spec)

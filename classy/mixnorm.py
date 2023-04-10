@@ -24,7 +24,7 @@ def normalize(spec):
     alpha : float
         The normalization constat to subtract from the spectrum after log-transform.
     """
-    if all(np.isnan(r) for r in spec.refl_pre):
+    if all(np.isnan(r) for r in spec.refl):
         return np.nan
 
     # Load the trained normalization instance
@@ -54,9 +54,9 @@ def normalize(spec):
     #         ls="--",
     #         c="red",
     #     )
-    spec.refl_pre = (
-        spec.refl_pre
-        / np.nanmean(spec.refl_pre)
+    spec.refl= (
+        spec.refl
+        / np.nanmean(spec.refl)
         * np.nanmean(neighbours.loc[idx_nearest_neighbours, classy.defs.WAVE_GRID_STR])
     )
     # plt.plot(
@@ -190,7 +190,7 @@ def _find_nearest_neighbours(spec, neighbours, N):
     """
 
     # Mask the neighbours to the observed wavelength range
-    spec.mask = np.array([np.isfinite(r) for r in spec.refl_pre])
+    spec.mask = np.array([np.isfinite(r) for r in spec.refl])
     neighbours = neighbours[:, spec.mask]
 
     # We cannot compare with neighbours which do not have all bins observed
@@ -199,7 +199,7 @@ def _find_nearest_neighbours(spec, neighbours, N):
     )
 
     # Normalize the spectrum and the neighbours using the L2 norm
-    refl_spec = preprocessing.normalize(spec.refl_pre[spec.mask].reshape(1, -1))
+    refl_spec = preprocessing.normalize(spec.refl[spec.mask].reshape(1, -1))
     neighbours[mask_neighbours] = preprocessing.normalize(neighbours[mask_neighbours])
 
     # Find the closest neighbours in L2 distance

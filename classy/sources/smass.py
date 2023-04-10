@@ -11,11 +11,11 @@ from classy import core
 from classy.log import logger
 
 PREPROCESS_PARAMS = {
-    "tholen": {"smooth_method": None},
-    "demeo": None,
+    "tholen": {},
+    "demeo": {},
     "mahlke": {
-        "smooth_method": None,
-        "resample_params": {"bounds_error": False, "fill_value": (np.nan, np.nan)},
+        "smooth": {},
+        "resample": {"bounds_error": False, "fill_value": (np.nan, np.nan)},
     },
 }
 

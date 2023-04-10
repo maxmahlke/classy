@@ -11,29 +11,18 @@ from classy import defs
 from classy.log import logger
 from classy import tools
 
-
-def preprocess(spec, smooth_method=None, smooth_params=None, system="mahlke"):
-    """Preprocess a spectrum for classification in a given taxonomic system.
-
-    Parameters
-    ----------
-
-    """
+EXTRAPOLATION_LIMIT = 90
 
 
-def smooth(method, params):
-    """"""
-
-
-def savitzky_golay(refl, params):
+# ------
+# Smoothing
+def savitzky_golay(refl, **kwargs):
     """Apply Savitzky-Golay filter to an array of values.
 
     Parameters
     ----------
     refl : np.ndarray
         Array of reflectance values.
-    params : dict
-        Dictionary of filter parameters.
 
     Returns
     -------
@@ -42,34 +31,31 @@ def savitzky_golay(refl, params):
 
     Notes
     -----
-    This function uses the ``scipy.signal.savgol_filter`` function. The
-    parameters passed via the `params` dictionary must be valid argument names
-    of the ``savgol_filter`` function.
+    This function uses the ``scipy.signal.savgol_filter`` function. Any keyword
+    arguments are passed to this function and must be valid argument names of
+    the ``savgol_filter`` function.
 
     The two main parameters are the filters ``window_length`` and the
     ``polyorder``. These are set to a fifth of the number of reflectance values
     and to 3 respectively if not present in the ``params`` dictionary.
     """
 
-    if params is None:
-        params = {}
-
-    if "window_length" not in params:
+    if "window_length" not in kwargs:
         logger.debug(
             "No window_length supplied to Savitzky-Golay filter. Using a fifth of the number of values."
         )
-        params["window_length"] = int(len(refl) // 5)
+        kwargs["window_length"] = int(len(refl) // 5)
 
-    if "polyorder" not in params:
+    if "polyorder" not in kwargs:
         logger.debug("No polyorder supplied to Savitzky-Golay filter. Using 3.")
-        params["polyorder"] = 3
+        kwargs["polyorder"] = 3
 
     # There might be NaN values in the reflectance. They should be ignored.
-    refl[~np.isnan(refl)] = signal.savgol_filter(refl[~np.isnan(refl)], **params)
+    refl[~np.isnan(refl)] = signal.savgol_filter(refl[~np.isnan(refl)], **kwargs)
     return refl
 
 
-def univariate_spline(wave, refl, params):
+def univariate_spline(wave, refl, **kwargs):
     """Apply a smoothing spline fit to an array of values.
 
     Parameters
@@ -78,8 +64,6 @@ def univariate_spline(wave, refl, params):
         Array of wavelength values.
     refl : np.ndarray
         Array of reflectance values.
-    params : dict
-        Dictionary of smoothing parameters.
 
     Returns
     -------
@@ -88,31 +72,28 @@ def univariate_spline(wave, refl, params):
 
     Notes
     -----
-    This function uses the ``scipy.interpolate.UniveriateSpline`` class. The
-    parameters passed via the `params` dictionary must be valid argument names
-    of the ``UnivariateSpline`` class.
+    This function uses the ``scipy.interpolate.UniveriateSpline`` class. Any
+    keyword arguments are passed to this function and must be valid argument
+    names of the ``UnivariateSpline`` class.
 
     The two main parameters are the weights ``w`` and the degree of the fitted
     spline ``k``. These are set 1 and to 3 respectively if not present in the
     ``params`` dictionary.
     """
 
-    if params is None:
-        params = {}
-
-    if "k" not in params:
+    if "k" not in kwargs:
         logger.debug("No polynomial order 'k' supplied to spline fit. Using 3.")
-        params["k"] = 3
+        kwargs["k"] = 3
 
-    if "w" not in params:
+    if "w" not in kwargs:
         logger.debug("No weights supplied to spline fit. Using 1 for all values.")
-        params["w"] = [1] * len(wave)
+        kwargs["w"] = [1] * len(wave)
 
     # Temporarily replace NaN by 0
     refl[np.isnan(refl)] = 0
 
     # Compute spline and sample wavlength
-    spline = interpolate.UnivariateSpline(wave, refl, **params)
+    spline = interpolate.UnivariateSpline(wave, refl, **kwargs)
     refl = spline(wave)
 
     # Et voila
@@ -154,12 +135,25 @@ def resample(wave, refl, grid, **kwargs):
         if kwargs["fill_value"] == "bounds":
             kwargs["bounds_error"] = False
             kwargs["fill_value"] = (refl[0], refl[-1])
+    else:
+        delta_wave_min = max(wave.min() - grid.min(), 0)
+        delta_wave_max = max(grid.max() - wave.max(), 0)
+
+        missing_percent = delta_wave_min + delta_wave_max / (grid.max() - grid.min())
+
+        if missing_percent <= EXTRAPOLATION_LIMIT and missing_percent > 0:
+            logger.info(
+                f"Missing {missing_percent*100:.1f}% of wavelength range. Extrapolating edges with constant values."
+            )
+
+            kwargs["bounds_error"] = False
+            kwargs["fill_value"] = (refl[0], refl[-1])
 
     refl_interp = interpolate.interp1d(wave, refl, **kwargs)
     return refl_interp(grid)
 
 
-def remove_slope(self, wave, refl, translate_to=None):
+def remove_slope(wave, refl, translate_to=None):
     """Fit a linear function to the spectrum and divide by the fit.
 
     Parameters
@@ -180,6 +174,7 @@ def remove_slope(self, wave, refl, translate_to=None):
     list of float
         The parameters of the fitted 1d polynomial [slope, intercept].
     """
+    print(wave, refl)
 
     slope_params = np.polyfit(wave, refl, 1)
 

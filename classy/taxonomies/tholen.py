@@ -37,17 +37,15 @@ def is_classifiable(spec):
 
 # ------
 # Functions for preprocessing
-def preprocess(spec, resample_params):
+def preprocess(spec):
     """Preprocess a spectrum for classification following Tholen 1984.
 
     Parameters
     ----------
     spec : classy.Spectrum
         The spectrum to classify.
-    resample_params : dict
-        Optional. The resampling parameters passed to the ``scipy.interpolate.interp1d`` function.
     """
-    spec.resample(WAVE, **resample_params)
+    spec.resample(WAVE)
     spec.normalize(at=0.55)
     spec.is_preprocessed_tholen = True
 
@@ -87,7 +85,7 @@ def classify(spec):
     """
 
     # Is it classifiable?
-    if spec.wave_pre.min() > 0.437 or spec.wave_pre.max() < 0.948:
+    if spec.wave.min() > 0.437 or spec.wave.max() < 0.948:
         spec.class_tholen = ""
         spec.scores_tholen = [np.nan] * 7
         spec.colors_ecas = [np.nan] * 7
@@ -100,11 +98,11 @@ def classify(spec):
     refl_v = 1
     colors_ecas = np.array(
         # s, u, b
-        [-2.5 * np.log10(r / refl_v) for r in spec.refl_pre[:3]]
+        [-2.5 * np.log10(r / refl_v) for r in spec.refl[:3]]
         # v
         # + [1]
         # w, x, p, z
-        + [-2.5 * np.log10(refl_v / r) for r in spec.refl_pre[4:]]
+        + [-2.5 * np.log10(refl_v / r) for r in spec.refl[4:]]
     )
 
     # Normalize to ECAS dataset

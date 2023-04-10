@@ -31,12 +31,12 @@ def is_classifiable(spec):
     return False
 
 
-def preprocess(spec, resample_params):
+def preprocess(spec):
     spec.detect_features()
-    spec.resample(WAVE, **resample_params)
+    spec.resample(WAVE, fill_value=np.nan, bounds_error=False)
     spec.normalize(method="mixnorm")
 
-    spec.pV_pre = np.log10(spec.pV)
+    spec.pV = np.log10(spec.pV)
 
 
 def classify(spec):
@@ -44,7 +44,7 @@ def classify(spec):
     model = data.load("mcfa")
 
     # Get only the classification columns
-    data_input = np.concatenate([spec.refl_pre, [spec.pV_pre]])[:, np.newaxis].T
+    data_input = np.concatenate([spec.refl, [spec.pV]])[:, np.newaxis].T
 
     input_data = pd.DataFrame(
         {col: val for col, val in zip(defs.COLUMNS["all"], data_input[0])},
@@ -91,6 +91,8 @@ def classify(spec):
     # self.data_classified = _compute_class_per_asteroid(self.data_classified)
 
     # Print results
+    # Undo this trafo
+    spec.pV = np.power(10, spec.pV)
 
 
 def add_classification_results(spec, results=None):

@@ -6,17 +6,22 @@ from classy import config
 from classy import core
 from classy.log import logger
 
-PREPROCESS_PARAMS = {
-    "tholen": {
-        "smooth_method": None,
-        "resample_params": {"fill_value": "bounds"},
-    },
-    "demeo": None,
-    "mahlke": {
-        "smooth_method": None,
-        "resample_params": {"bounds_error": False, "fill_value": (np.nan, np.nan)},
-    },
-}
+# from classy import taxonomies
+
+#
+# PREPROCESSING = {
+#     "tholen": {
+#         "resample": {"grid": taxonomies.tholen.WAVE, "fill_value": "bounds"},
+#     },
+#     "demeo": {},
+#     "mahlke": {
+#         "resample": {
+#             "grid": taxonomies.mahlke.WAVE,
+#             "bounds_error": False,
+#             "fill_value": (np.nan, np.nan),
+#         },
+#     },
+# }
 
 
 def load_index():
