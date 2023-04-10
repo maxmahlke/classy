@@ -126,7 +126,6 @@ def plot(data):
     plt.show()
 
 
-
 def _plot_spectrum(spectrum, show=True):
     """Plot the spectrum.
 
@@ -287,7 +286,7 @@ def fit_feature():
     plt.show()
 
 
-def plot_spectra(spectra, add_classes=False, system="mahlke"):
+def plot_spectra(spectra, add_classes=False, taxonomy="mahlke"):
     """Plot spectra. Called by 'classy spectra [id]'.
 
     Parameters
@@ -296,10 +295,12 @@ def plot_spectra(spectra, add_classes=False, system="mahlke"):
         The spectra to plot.
     add_classes : bool
         Add axes showing classification preprocessing and results.
+    taxonomy : str
+        The taxonomic system to plot.
     """
 
-    # Give user some degree of freedom in system specification
-    system = system.lower()
+    # Give user some degree of freedom in taxonomy specification
+    taxonomy = taxonomy.lower()
 
     # Ensure uniform plot appearance
     mpl.rcParams.update(mpl.rcParamsDefault)
@@ -403,7 +404,7 @@ def plot_spectra(spectra, add_classes=False, system="mahlke"):
     #     )
 
     if add_classes:
-        wave = getattr(taxonomies, system).WAVE
+        wave = getattr(taxonomies, taxonomy).WAVE
         lower, upper = min(wave), max(wave)
         ax_spec.axvline(lower, ls=":", zorder=-10, c="gray")
         ax_spec.axvline(upper, ls=":", zorder=-10, c="gray")
@@ -444,7 +445,7 @@ def plot_spectra(spectra, add_classes=False, system="mahlke"):
 
     # 3. Add classes
     if add_classes:
-        if "mahlke" in system:
+        if "mahlke" in taxonomy:
             width = 0.8 / len(spectra)
 
             for i, spec in enumerate(spectra):
@@ -466,19 +467,19 @@ def plot_spectra(spectra, add_classes=False, system="mahlke"):
             )
             ax_classes.legend(title="Most Likely Class", frameon=True, edgecolor="none")
             ax_classes.grid(c="gray", alpha=0.4, zorder=-100)
-        elif "tholen" in system:
+        elif "tholen" in taxonomy:
             ax_classes = taxonomies.tholen.plot_pc_space(ax_classes, spectra)
-        elif "demeo" in system:
+        elif "demeo" in taxonomy:
             ax_classes = taxonomies.demeo.plot_pc_space(ax_classes, spectra)
 
     if spec.name is not None:
         ax_spec.set_title(f"({spec.number}) {spec.name}", loc="left", size=10)
     if add_classes:
-        if system == "tholen":
-            system = "Tholen 1984"
-        if system == "mahlke":
-            system = "Mahlke+ 2022"
-        ax_classes.set_title(f"Classification following {system}", loc="left", size=10)
+        if taxonomy == "tholen":
+            taxonomy = "Tholen 1984"
+        if taxonomy == "mahlke":
+            taxonomy = "Mahlke+ 2022"
+        ax_classes.set_title(f"Classification following {taxonomy}", loc="left", size=10)
 
     fig.tight_layout()
     plt.show()
