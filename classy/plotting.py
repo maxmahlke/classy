@@ -126,48 +126,6 @@ def plot(data):
     plt.show()
 
 
-def _smooth_interactive(spectrum):
-    """Helper to smooth spectrum interactively. Call the 'smooth' function instead."""
-
-    # Suppress unrelated deprecation warning on TextBox.submit
-    warnings.simplefilter("ignore", mpl.MatplotlibDeprecationWarning)
-
-    _, ax = spectrum.plot(show=False)
-
-    # Include widgets
-    def update_smooth(_):
-        """Read the GUI values and re-smooth the spectrum."""
-        spectrum.smooth_degree = int(degree_box.text)
-        spectrum.smooth_window = int(window_box.text)
-
-        spectrum.smooth(interactive=False)
-        ax.get_lines()[1].set_ydata(spectrum.refl_smoothed)
-        plt.draw()
-
-    def update_and_exit(_):
-        """Update the smoothing and quit the plot."""
-        update_smooth(None)
-        plt.close()
-
-    ax_win = plt.axes([0.25, 0.90, 0.05, 0.03])
-    window_box = TextBox(ax_win, "Smoothing Window", initial=spectrum.smooth_window)
-
-    ax_deg = plt.axes([0.45, 0.90, 0.05, 0.03])
-    degree_box = TextBox(ax_deg, "Smoothing Degree", initial=spectrum.smooth_degree)
-
-    ax_update = plt.axes([0.55, 0.90, 0.12, 0.03])
-    update = Button(ax_update, "Update Smoothing")
-
-    ax_exit = plt.axes([0.75, 0.90, 0.12, 0.03])
-    exit_ = Button(ax_exit, "Save and Exit")
-
-    window_box.on_submit(lambda x: update_smooth(x))
-    degree_box.on_submit(lambda x: update_smooth(x))
-    update.on_clicked(lambda x: update_smooth(x))
-    exit_.on_clicked(lambda x: update_and_exit(x))
-
-    plt.show()
-
 
 def _plot_spectrum(spectrum, show=True):
     """Plot the spectrum.
