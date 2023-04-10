@@ -344,15 +344,17 @@ def plot_spectra(spectra, add_classes=False, taxonomy="mahlke"):
         lines += [dummy, dummy] + lines_source
         labels += ["", source] + labels_source
 
+    # (dummy,) = ax_spec.plot([], [], alpha=0)
+    # (l1,) = ax_spec.plot([], [], ls="-", c="black", lw=1)
+    # (l2,) = ax_spec.plot([], [], ls="-", c="black", alpha=0.3, lw=3)
+    # lines += [dummy, l1, l2]
+    # labels += ["", "Reflectance", "Uncertainty"]
+
     if add_classes:
-        (dummy,) = ax_spec.plot([], [], alpha=0)
-        l1 = ax_spec.errorbar(
-            [], [], yerr=[], capsize=3, ls="", c="black", lw=1, alpha=0.3
-        )
-        (l2,) = ax_spec.plot([], [], ls="-", c="black")
         (l3,) = ax_spec.plot([], [], ls=":", c="gray")
-        lines += [dummy, l1, l2, dummy, l3]
-        labels += ["", "Observed", "Preprocessed", "", "Taxonomy Limits"]
+        lines += [dummy, l3]
+        labels += ["", "Taxonomy Limits"]
+
     leg = ax_spec.legend(lines, labels, edgecolor="none", loc="center right")
     ax_spec.add_artist(leg)
 
@@ -375,9 +377,10 @@ def plot_spectra(spectra, add_classes=False, taxonomy="mahlke"):
                 i, spec.pV, yerr=spec.pV_err, capsize=3, marker=".", c=spec._color
             )
 
-        ax_pv.set_xticks(
-            range(len(spectra)), [f"{spec.name}" for spec in spectra], rotation=90
-        )
+        ticklabels = [
+            spec.source if hasattr(spec, "source") else spec._source for spec in spectra
+        ]
+        ax_pv.set_xticks(range(len(spectra)), ticklabels, rotation=90)
 
         ymin, ymax = ax_pv.get_ylim()
         ymin = 0 if ymin < 0.1 else ymin
@@ -401,7 +404,9 @@ def plot_spectra(spectra, add_classes=False, taxonomy="mahlke"):
                         color=spec._color,
                         width=width,
                         alpha=0.7,
-                        label=f"{spec.name}: {spec.class_}" if x == 0 else None,
+                        label=f"{spec.source if hasattr(spec, 'source') else spec._source}: {spec.class_}"
+                        if x == 0
+                        else None,
                     )
             ax_classes.set(ylim=(0, 1))
             ax_classes.set_xticks(
@@ -699,21 +704,22 @@ def plot_user_spectrum(ax, spec):
         The SMASS spectrum to plot.
     """
 
-    # Error-interval
-    if hasattr(spec, "refl_interp"):
-        l1 = ax.errorbar(
+    # Plot smoothed or original data?
+    if hasattr(spec, "refl_original"):
+        # Plot smoothed
+
+        (l1,) = ax.plot(
             spec.wave,
             spec.refl,
-            yerr=spec.refl_err,
             c=spec._color,
-            alpha=0.4,
-            capsize=3,
-            ls="",
+            ls="-",
+            alpha=0.5,
         )
-        ax.plot(classy.defs.WAVE_GRID, spec.refl_interp, c=spec._color)
 
+        ax.plot(spec.wave, spec.refl_original, color=spec._color, alpha=0.3, ls="-")
     else:
-        # Line
+        # Plot original
+
         (l1,) = ax.plot(
             spec.wave,
             spec.refl,
