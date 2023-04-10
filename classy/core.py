@@ -113,7 +113,7 @@ class Spectrum:
         self.__dict__.update(**kwargs)
 
         # Attribute to differentiate user-provided and online spectra
-        self._source = "user"
+        self._source = "User"
 
     def __len__(self):
         return len(self.wave)
