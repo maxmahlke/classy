@@ -70,16 +70,14 @@ def classify(spec):
     # Add asteroid classes based on decision tree
     spec.data_classified = decision_tree.assign_classes(input_data)
 
-    for class_ in defs.CLASSES:
-        setattr(
-            spec,
-            f"class_{class_}",
-            spec.data_classified[f"class_{class_}"].values[0],
-        )
-
     # Detect features
     spec.data_classified = spec.add_feature_flags(spec.data_classified)
     setattr(spec, "class_", spec.data_classified["class_"].values[0])
+
+    for class_ in defs.CLASSES:
+        setattr(
+            spec, f"class_{class_}", spec.data_classified[f"class_{class_}"].values[0]
+        )
 
     if spec.h.is_present:
         spec.class_Ch = spec.class_C + spec.class_B + spec.class_P
@@ -88,7 +86,19 @@ def classify(spec):
         spec.class_P = 0
 
     # Class per asteroid
-    # self.data_classified = _compute_class_per_asteroid(self.data_classified)
+    probs = [getattr(spec, f"class_{class_}") for class_ in defs.CLASSES]
+    class_ = [
+        class_
+        for class_ in defs.CLASSES
+        if getattr(spec, f"class_{class_}") == max(probs)
+    ][0]
+    results = {"class_mahlke": class_, "class_": class_}
+    results["prob"] = max(probs)
+
+    for class_ in defs.CLASSES:
+        results[f"class_{class_}"] = spec.data_classified[f"class_{class_}"].values[0]
+
+    add_classification_results(spec, results=results)
 
     # Print results
     # Undo this trafo
@@ -96,7 +106,17 @@ def classify(spec):
 
 
 def add_classification_results(spec, results=None):
-    pass
+    if results is None:
+        spec.class_ = ""
+        spec.class_mahlke = ""
+        spec.prob = np.nan
+
+        for class_ in defs.CLASSES:
+            setattr(spec, f"class_{class_}", np.nan)
+        return
+
+    for key, val in results.items():
+        setattr(spec, key, val)
 
 
 # ------

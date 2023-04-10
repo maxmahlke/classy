@@ -119,6 +119,7 @@ def classify(spec):
 def add_classification_results(spec, results=None):
     if results is None:
         spec.class_tholen = ""
+        spec.scores_tholen = [np.nan] * 7
         return
 
     for key, val in results.items():
