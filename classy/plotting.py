@@ -372,7 +372,7 @@ def plot_spectra(spectra, add_classes=False, taxonomy="mahlke"):
     if user_lines:
         (dummy,) = ax_spec.plot([], [], alpha=0)
         lines += [dummy, dummy] + user_lines
-        labels += ["", "User Provided"] + user_labels
+        labels += ["", "User"] + user_labels
 
     if add_classes:
         (dummy,) = ax_spec.plot([], [], alpha=0)
