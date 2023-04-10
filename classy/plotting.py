@@ -305,10 +305,9 @@ def plot_spectra(spectra, add_classes=False, taxonomy="mahlke"):
     # Ensure uniform plot appearance
     mpl.rcParams.update(mpl.rcParamsDefault)
 
-    # Add color information to spectrum for simplicity
-    # n_smass = sum([1 for spec in spectra if spec.source == "SMASS"])
-    # colors_smass = get_colors(n_smass, "turbo")
+    # Add color information to spectrum
     colors = get_colors(len(spectra), cmap="jet")
+    lines, labels = [], []  # for the global legend
 
     # Build figure instance
     if add_classes:
@@ -317,64 +316,33 @@ def plot_spectra(spectra, add_classes=False, taxonomy="mahlke"):
         )
         ax_spec, ax_pv, ax_classes = axes
     else:
-        fig, ax_spec = plt.subplots()
+        fig, ax_spec = plt.subplots(figsize=(12, 7))
 
-    # 1. Plot spectra
-    smass_lines, smass_labels = [], []
-    gaia_lines, gaia_labels = [], []
-    akari_lines, akari_labels = [], []
-    ecas_lines, ecas_labels = [], []
-    user_lines, user_labels = [], []
-    for spec in spectra:
-        if not hasattr(spec, "wave_plot"):
-            spec.wave_plot = spec.wave
-            spec.refl_plot = spec.refl
+    # 1. Plot spectra, grouped by _source
+    _sources = set(spec._source for spec in spectra)
 
-        spec.color = colors.pop()
-        if spec.source in classy.sources.SOURCES:
-            spec.color = colors.pop()
-            if spec.source in ["SMASS", "MITHNEOS"]:
-                smass_line, smass_label = plot_smass_spectrum(ax_spec, spec)
-                smass_lines.append(*smass_line)
-                smass_labels.append(*smass_label)
+    for source in _sources:
+        lines_source, labels_source = [], []
+        for spec in spectra:
+            if spec._source != source:
+                continue
 
-            elif spec.source == "Gaia":
-                spec.color = "black"
-                gaia_lines, gaia_labels = plot_gaia_spectrum(ax_spec, spec)
-            elif spec.source == "AKARI":
-                akari_lines, akari_labels = plot_akari_spectrum(ax_spec, spec)
-            elif spec.source == "ECAS":
-                ecas_lines, ecas_labels = plot_ecas_spectrum(ax_spec, spec)
+            if not hasattr(spec, "wave_plot"):
+                spec.wave_plot = spec.wave
+                spec.refl_plot = spec.refl
 
-        else:
-            user_line, user_label = plot_user_spectrum(ax_spec, spec)
-            user_lines.append(*user_line)
-            user_labels.append(*user_label)
+            spec._color = colors.pop() if source != "Gaia" else "black"
 
-    # Axis setup
-    # Construct legend
-    lines, labels = [], []
+            if source == "Gaia":
+                user_line, user_label = plot_gaia_spectrum(ax_spec, spec)
+            else:
+                user_line, user_label = plot_user_spectrum(ax_spec, spec)
+            lines_source.append(*user_line)
+            labels_source.append(*user_label)
 
-    if akari_lines:
         (dummy,) = ax_spec.plot([], [], alpha=0)
-        lines += [dummy, dummy] + akari_lines
-        labels += ["", "AKARI"] + akari_labels
-    if ecas_lines:
-        (dummy,) = ax_spec.plot([], [], alpha=0)
-        lines += [dummy, dummy] + ecas_lines
-        labels += ["", "ECAS"] + ecas_labels
-    if gaia_lines:
-        (dummy,) = ax_spec.plot([], [], alpha=0)
-        lines += [dummy, dummy] + gaia_lines
-        labels += ["", "Gaia"] + gaia_labels
-    if smass_lines:
-        (dummy,) = ax_spec.plot([], [], alpha=0)
-        lines += [dummy, dummy] + smass_lines
-        labels += ["", "SMASS"] + smass_labels
-    if user_lines:
-        (dummy,) = ax_spec.plot([], [], alpha=0)
-        lines += [dummy, dummy] + user_lines
-        labels += ["", "User"] + user_labels
+        lines += [dummy, dummy] + lines_source
+        labels += ["", source] + labels_source
 
     if add_classes:
         (dummy,) = ax_spec.plot([], [], alpha=0)
@@ -385,42 +353,14 @@ def plot_spectra(spectra, add_classes=False, taxonomy="mahlke"):
         (l3,) = ax_spec.plot([], [], ls=":", c="gray")
         lines += [dummy, l1, l2, dummy, l3]
         labels += ["", "Observed", "Preprocessed", "", "Taxonomy Limits"]
-    leg = ax_spec.legend(
-        lines,
-        labels,
-        edgecolor="none",
-        loc="center right"
-        # frameon=False,
-        # loc="lower center",
-        # bbox_to_anchor=(1.2, 1.08),
-        # ncol=2,
-    )
+    leg = ax_spec.legend(lines, labels, edgecolor="none", loc="center right")
     ax_spec.add_artist(leg)
-    # if any(spec.source == "SMASS" for spec in spectra):
-    #
-    #     ax_spec.legend(  # SMASS legend, Gaia one is added in function
-    #         facecolor="white",
-    #         edgecolor="none",
-    #         title="SMASS",
-    #         loc="lower right",
-    #     )
 
     if add_classes:
         wave = getattr(taxonomies, taxonomy).WAVE
         lower, upper = min(wave), max(wave)
         ax_spec.axvline(lower, ls=":", zorder=-10, c="gray")
         ax_spec.axvline(upper, ls=":", zorder=-10, c="gray")
-        # ax_spec.text(
-        #     upper,
-        #     ax_spec.get_ylim()[1],
-        #     "Classification Limits",
-        #     color="gray",
-        #     clip_on=True,
-        #     va="top",
-        #     ha="right",
-        #     size=7,
-        #     rotation=90,
-        # )
 
     # ensure that there is space for the legend by adding empty space
     xmin, xmax = ax_spec.get_xlim()
@@ -432,7 +372,7 @@ def plot_spectra(spectra, add_classes=False, taxonomy="mahlke"):
     if add_classes:
         for i, spec in enumerate(spectra):
             ax_pv.errorbar(
-                i, spec.pV, yerr=spec.pV_err, capsize=3, marker=".", c=spec.color
+                i, spec.pV, yerr=spec.pV_err, capsize=3, marker=".", c=spec._color
             )
 
         ax_pv.set_xticks(
@@ -458,7 +398,7 @@ def plot_spectra(spectra, add_classes=False, taxonomy="mahlke"):
                         x - 0.3 + i * width if len(spectra) > 1 else x,
                         getattr(spec, f"class_{class_}"),
                         fill=True,
-                        color=spec.color,
+                        color=spec._color,
                         width=width,
                         alpha=0.7,
                         label=f"{spec.name}: {spec.class_}" if x == 0 else None,
@@ -481,7 +421,9 @@ def plot_spectra(spectra, add_classes=False, taxonomy="mahlke"):
             taxonomy = "Tholen 1984"
         if taxonomy == "mahlke":
             taxonomy = "Mahlke+ 2022"
-        ax_classes.set_title(f"Classification following {taxonomy}", loc="left", size=10)
+        ax_classes.set_title(
+            f"Classification following {taxonomy}", loc="left", size=10
+        )
 
     fig.tight_layout()
     plt.show()
@@ -504,19 +446,19 @@ def plot_smass_spectrum(ax, spec):
             spec.wave,
             spec.refl,
             yerr=spec.refl_err,
-            c=spec.color,
+            c=spec._color,
             alpha=0.4,
             capsize=3,
             ls="",
         )
-        ax.plot(spec.wave_interp, spec.refl_interp, c=spec.color)
+        ax.plot(spec.wave_interp, spec.refl_interp, c=spec._color)
 
     else:
         # Line
         (l1,) = ax.plot(
             spec.wave,
             spec.refl,
-            c=spec.color,
+            c=spec._color,
             ls="-",
             alpha=0.5,
         )
@@ -525,7 +467,7 @@ def plot_smass_spectrum(ax, spec):
             spec.wave,
             spec.refl + spec.refl_err / 2,
             spec.refl - spec.refl_err / 2,
-            color=spec.color,
+            color=spec._color,
             alpha=0.3,
             ec="none",
         )
@@ -547,7 +489,7 @@ def plot_gaia_spectrum(ax, spec):
     """
 
     # Line to guide the eye
-    ax.plot(spec.wave_plot, spec.refl_plot, ls=":", lw=1, c=spec.color, zorder=100)
+    ax.plot(spec.wave_plot, spec.refl_plot, ls=":", lw=1, c=spec._color, zorder=100)
 
     # Errorbars colour-coded by photometric flag
     props = dict(lw=1, capsize=3, ls="", zorder=100)
@@ -555,7 +497,7 @@ def plot_gaia_spectrum(ax, spec):
         spec.wave,
         spec.refl,
         yerr=spec.refl_err,
-        c=spec.color,
+        c=spec._color,
         **props,
     )
 
@@ -593,7 +535,7 @@ def plot_gaia_spectrum(ax, spec):
             spec.refl_interp,
             ls="-",
             lw=1,
-            c=spec.color,
+            c=spec._color,
             zorder=100,
         )
     # lines.append(l3)
@@ -624,7 +566,7 @@ def plot_akari_spectrum(ax, spec):
     """
 
     # Line to guide the eye
-    ax.plot(spec.wave, spec.refl, ls=":", lw=1, c=spec.color, zorder=100)
+    ax.plot(spec.wave, spec.refl, ls=":", lw=1, c=spec._color, zorder=100)
 
     # Errorbars colour-coded by photometric flag
     props = dict(lw=1, capsize=3, ls="", zorder=100)
@@ -632,7 +574,7 @@ def plot_akari_spectrum(ax, spec):
         spec.wave[spec.flag != 1],
         spec.refl[spec.flag != 1],
         yerr=spec.refl_err[spec.flag != 1],
-        c=spec.color,
+        c=spec._color,
         **props,
     )
 
@@ -645,7 +587,7 @@ def plot_akari_spectrum(ax, spec):
             spec.wave[f1],
             spec.refl[f1],
             yerr=spec.refl_err[f1],
-            c=spec.color,
+            c=spec._color,
             **props,
             alpha=0.3,
         )
@@ -659,7 +601,7 @@ def plot_akari_spectrum(ax, spec):
             spec.refl_interp,
             ls="-",
             lw=1,
-            c=spec.color,
+            c=spec._color,
             zorder=100,
         )
     # lines.append(l3)
@@ -690,7 +632,7 @@ def plot_ecas_spectrum(ax, spec):
     """
 
     # Line to guide the eye
-    ax.plot(spec.wave, spec.refl, ls="--", lw=1, c=spec.color, zorder=100)
+    ax.plot(spec.wave, spec.refl, ls="--", lw=1, c=spec._color, zorder=100)
 
     # Errorbars colour-coded by photometric flag
     props = dict(lw=1, capsize=3, ls="", zorder=100)
@@ -699,7 +641,7 @@ def plot_ecas_spectrum(ax, spec):
         spec.wave[spec.flag != 1],
         spec.refl[spec.flag != 1],
         yerr=spec.refl_err[spec.flag != 1],
-        c=spec.color,
+        c=spec._color,
         **props,
     )
 
@@ -712,7 +654,7 @@ def plot_ecas_spectrum(ax, spec):
             spec.wave[f1],
             spec.refl[f1],
             yerr=spec.refl_err[f1],
-            c=spec.color,
+            c=spec._color,
             **props,
             alpha=0.3,
         )
@@ -727,7 +669,7 @@ def plot_ecas_spectrum(ax, spec):
             spec.refl_interp,
             ls="-",
             lw=1,
-            c=spec.color,
+            c=spec._color,
             zorder=100,
         )
     # lines.append(l3)
@@ -758,27 +700,24 @@ def plot_user_spectrum(ax, spec):
     """
 
     # Error-interval
-
     if hasattr(spec, "refl_interp"):
         l1 = ax.errorbar(
             spec.wave,
             spec.refl,
             yerr=spec.refl_err,
-            c=spec.color,
-            label=f"{spec.source}",
+            c=spec._color,
             alpha=0.4,
             capsize=3,
             ls="",
         )
-        ax.plot(classy.defs.WAVE_GRID, spec.refl_interp, c=spec.color)
+        ax.plot(classy.defs.WAVE_GRID, spec.refl_interp, c=spec._color)
 
     else:
         # Line
         (l1,) = ax.plot(
             spec.wave,
             spec.refl,
-            c=spec.color,
-            label=f"{spec.source}",
+            c=spec._color,
             ls="-",
             alpha=0.5,
         )
@@ -787,11 +726,18 @@ def plot_user_spectrum(ax, spec):
             spec.wave,
             spec.refl + spec.refl_err / 2,
             spec.refl - spec.refl_err / 2,
-            color=spec.color,
+            color=spec._color,
             alpha=0.3,
             ec="none",
         )
 
     line = [l1]
-    label = [spec.name]
+
+    if hasattr(spec, "shortbib"):
+        label = spec.shortbib
+    elif hasattr(spec, "source"):
+        label = spec.source
+    else:
+        label = "User"
+    label = [label]
     return line, label
