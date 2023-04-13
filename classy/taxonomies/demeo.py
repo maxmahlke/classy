@@ -363,8 +363,8 @@ def plot_pc_space(ax, spectra):
             continue
 
         ax.scatter(
-            spec.scores_tholen[0],
-            spec.scores_tholen[1],
+            spec.scores_demeo[0],
+            spec.scores_demeo[1],
             marker="d",
             c=spec._color,
             s=40,
