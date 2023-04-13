@@ -366,7 +366,7 @@ def plot_pc_space(ax, spectra):
             spec.scores_tholen[0],
             spec.scores_tholen[1],
             marker="d",
-            c=spec.color,
+            c=spec._color,
             s=40,
             label=f"{spec.source + ': ' if hasattr(spec, 'source') else ''}{spec.class_demeo}",
             zorder=100,
