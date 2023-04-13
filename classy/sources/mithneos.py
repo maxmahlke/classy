@@ -1,26 +1,13 @@
-import tarfile
 import re
 from urllib.request import urlretrieve
 
-import numpy as np
 import pandas as pd
 import rocks
+from rich.progress import track
 
 from classy import config
 from classy import core
 from classy.log import logger
-
-# PREPROCESSING = {
-#     "tholen": {},
-#     "demeo": {},
-#     "mahlke": {
-#         "resample": {
-#             "grid": taxonomies.mahlke.WAVE,
-#             "bounds_error": False,
-#             "fill_value": (np.nan, np.nan),
-#         },
-#     },
-# }
 
 
 def load_index():
@@ -72,7 +59,9 @@ def retrieve_spectra():
     logger.info("Retrieving all MITHNEOS reflectance spectra [34MB] to cache...")
 
     # Get data from smass.mit.edu
-    for run, spectra in RUNS.items():
+    for run, spectra in track(
+        RUNS.items(), total=len(RUNS), description="Downloading.."
+    ):
         PATH_OUT = PATH_MITHNEOS / run
         PATH_OUT.mkdir(parents=True, exist_ok=True)
 
