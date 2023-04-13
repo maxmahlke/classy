@@ -195,8 +195,7 @@ Tutorials
             elif spec.source == "SMASS":
                 spec.smooth(method="spline", k=3, s=0.5)
 
-    Again, we can visually inspect the result. Now that the spectra have been smoothed ``classy`` will
-    automatically show the original reflectance as shaded band and the smoothed spectrum as solid line.
+    Again, we can visually inspect the result.
 
     .. code-block:: python
         # ------
