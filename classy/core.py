@@ -89,9 +89,6 @@ class Spectrum:
         elif name is not None and number is None:
             self.name, self.number = rocks.id(name)
 
-        self._refl_original = self.refl.copy()
-        self._wave_original = self.wave.copy()
-
         # Look up pV if it is not provided and we know the asteroid
         if self.pV is None and self.name is not None:
             rock = rocks.Rock(self.name)
@@ -174,25 +171,13 @@ class Spectrum:
         if at is not None:
             self.refl = preprocessing._normalize_at(self.wave, self.refl, at)
 
-            if hasattr(self, "_refl_original"):
-                self._refl_original = preprocessing._normalize_at(
-                    self._wave_original, self._refl_original, at
-                )
-            return
-
         if method == "l2":
             self.refl = preprocessing._normalize_l2(self.refl)
-
-            if hasattr(self, "_refl_original"):
-                self._refl_original = preprocessing._normalize_l2(self._refl_original)
 
         elif method == "mixnorm":
             alpha = mixnorm.normalize(self)
             self.refl = np.log(self.refl) - alpha
             self.alpha = alpha
-
-            if hasattr(self, "_refl_original"):
-                self._refl_original = np.log(self._refl_original) - alpha
 
     #
     # def preprocess(

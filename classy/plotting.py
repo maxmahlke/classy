@@ -704,38 +704,24 @@ def plot_user_spectrum(ax, spec):
         The SMASS spectrum to plot.
     """
 
-    # Plot smoothed or original data?
-    if hasattr(spec, "refl_original"):
-        # Plot smoothed
+    # Plot original
 
-        (l1,) = ax.plot(
-            spec.wave,
-            spec.refl,
-            c=spec._color,
-            ls="-",
-            alpha=0.5,
-        )
+    (l1,) = ax.plot(
+        spec.wave,
+        spec.refl,
+        c=spec._color,
+        ls="-",
+        alpha=0.5,
+    )
 
-        ax.plot(spec.wave, spec.refl_original, color=spec._color, alpha=0.3, ls="-")
-    else:
-        # Plot original
-
-        (l1,) = ax.plot(
-            spec.wave,
-            spec.refl,
-            c=spec._color,
-            ls="-",
-            alpha=0.5,
-        )
-
-        ax.fill_between(
-            spec.wave,
-            spec.refl + spec.refl_err / 2,
-            spec.refl - spec.refl_err / 2,
-            color=spec._color,
-            alpha=0.3,
-            ec="none",
-        )
+    ax.fill_between(
+        spec.wave,
+        spec.refl + spec.refl_err / 2,
+        spec.refl - spec.refl_err / 2,
+        color=spec._color,
+        alpha=0.3,
+        ec="none",
+    )
 
     line = [l1]
 
