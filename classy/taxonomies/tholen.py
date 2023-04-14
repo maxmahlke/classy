@@ -7,6 +7,7 @@ import pandas as pd
 from classy import cache
 from classy import config
 from classy.log import logger
+from classy import preprocessing
 from classy import sources
 from classy import taxonomies
 
@@ -28,6 +29,13 @@ def is_classifiable(spec):
         return True  # requires minor extrapolation
 
     if spec.wave.min() > WAVE.min() or spec.wave.max() < WAVE.max():
+
+        # Check if the extrapolation would be sufficient
+        if preprocessing._within_extrapolation_limit(
+            spec.wave.min(), spec.wave.max(), WAVE.min(), WAVE.max()
+        ):
+            return True
+
         logger.warning(
             f"[{spec.source + '/' if hasattr(spec, 'source') else ''}{spec.name}]: Insufficient wavelength range for Tholen taxonomy ({spec.wave.min()} - {spec.wave.max()})"
         )
