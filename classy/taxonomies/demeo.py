@@ -301,12 +301,59 @@ def load_classification():
 
 
 def load_templates():
-    """Load the spectral templates of the DeMeo+ classes."""
+    """Load the spectral templates of the DeMeo+ classes.
+
+    Returns
+    -------
+    dict
+        Dictionary with classes (str) as key and templates as values (classy.Spectrum).
+    """
 
     PATH_DATA = config.PATH_CACHE / "demeo2009/templates.csv"
 
     if not PATH_DATA.is_file():
         retrieve_templates()
+
+    data = pd.read_csv(PATH_DATA)
+
+    templates = {}
+
+    for class_ in CLASSES:
+        template = core.Spectrum(
+            wave=data["wave"],
+            refl=data[f"{class_}_Mean"],
+            refl_err=data[f"{class_}_Sigma"],
+            class_=class_,
+            source="DeMeo+ 2009",
+            id_=f"Template Class {class_}",
+        )
+        templates[class_] = template
+    return templates
+
+
+def _compute_template_correlation(spec, classes):
+    """Compute the correlation coefficients between a spectrum and class templates.
+
+    Parameters
+    ----------
+    spec : classy.Spectrum
+        The spectrum to compare to the templates.
+    classes : list of str
+        The classes to compare to the spectrum.
+
+    Returns
+    -------
+    list of float
+        The correlation coefficients in the same order as the passed classes.
+    """
+    templates = load_templates()
+    coeffs = []
+
+    for class_ in classes:
+        temp = templates[class_]
+        temp.remove_slope(translate_to=0.55)
+        coeffs.append(np.corrcoef(spec.refl, temp.refl)[0][1])
+    return coeffs
 
 
 def retrieve_data(which):
