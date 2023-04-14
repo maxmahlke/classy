@@ -191,7 +191,7 @@ def remove_slope(wave, refl, translate_to=None):
 
     # Remove splope
     refl /= slope(wave)
-    return refl, slope
+    return refl, slope_params
 
 
 def _normalize_at(wave, refl, at):
