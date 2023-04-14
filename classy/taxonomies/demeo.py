@@ -300,10 +300,29 @@ def load_classification():
     return pd.read_csv(PATH_DATA, dtype={"number": "Int64"})
 
 
-def retrieve_scores():
-    logger.info("Retrieving DeMeo+ 2009 PC scores.")
-    URL = "https://raw.githubusercontent.com/maxmahlke/classy/main/data/demeo2009/scores.csv"
-    PATH_DATA = config.PATH_CACHE / "demeo2009/scores.csv"
+def load_templates():
+    """Load the spectral templates of the DeMeo+ classes."""
+
+    PATH_DATA = config.PATH_CACHE / "demeo2009/templates.csv"
+
+    if not PATH_DATA.is_file():
+        retrieve_templates()
+
+
+def retrieve_data(which):
+    """Retrieve DeMeo+ 2009 PC scores or class templates from GitHub repository.
+
+    Parameters
+    ----------
+    which : str
+        The data to retrieve. Choose from ["scores", "templates"].
+    """
+
+    logger.info(f"Retrieving DeMeo+ 2009 {which}.")
+
+    URL = f"https://raw.githubusercontent.com/maxmahlke/classy/main/data/demeo2009/{which}.csv"
+    PATH_DATA = config.PATH_CACHE / f"demeo2009/{which}.csv"
+
     urlretrieve(URL, PATH_DATA)
 
 
