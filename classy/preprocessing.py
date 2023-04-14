@@ -6,12 +6,11 @@ import pandas as pd
 from scipy import interpolate, signal
 import sklearn
 
+from classy import config
 from classy import core
 from classy import defs
 from classy.log import logger
 from classy import tools
-
-EXTRAPOLATION_LIMIT = 10
 
 
 # ------
@@ -142,21 +141,46 @@ def resample(wave, refl, grid, **kwargs):
             kwargs["bounds_error"] = False
             kwargs["fill_value"] = (refl[0], refl[-1])
     else:
-        delta_wave_min = max(wave.min() - grid.min(), 0)
-        delta_wave_max = max(grid.max() - wave.max(), 0)
-
-        missing_percent = delta_wave_min + delta_wave_max / (grid.max() - grid.min())
-
-        if missing_percent <= EXTRAPOLATION_LIMIT and missing_percent > 0:
-            logger.info(
-                f"Missing {missing_percent*100:.1f}% of wavelength range. Extrapolating edges with constant values."
-            )
+        if _within_extrapolation_limit(wave.min(), wave.max(), min(grid), max(grid)):
 
             kwargs["bounds_error"] = False
             kwargs["fill_value"] = (refl[0], refl[-1])
 
     refl_interp = interpolate.interp1d(wave, refl, **kwargs)
     return refl_interp(grid)
+
+
+def _within_extrapolation_limit(wave_min, wave_max, grid_min, grid_max):
+    """Compute whether a spectrum is within the user-defined extrapolation limit.
+
+    Parameters
+    ----------
+    wave_min : float
+        The lower wavelength limit of the spectrum.
+    wave_max : float
+        The upper wavelength limit of the spectrum.
+    grid_min : float
+        The lower wavelength limit of the new grid.
+    grid_max : float
+        The upper wavelength limit of the new grid.
+
+    Returns
+    -------
+    bool
+        True if the covered wavelength range is within the extrapolation
+        limit. Else False.
+    """
+    delta_wave_min = max(wave_min - grid_min, 0)
+    delta_wave_max = max(grid_max - wave_max, 0)
+
+    missing_percent = delta_wave_min + delta_wave_max / (grid_max - grid_min)
+
+    if missing_percent <= config.EXTRAPOLATION_LIMIT / 100 and missing_percent > 0:
+        logger.info(
+            f"Missing {missing_percent*100:.1f}% of wavelength range. Extrapolating edges with constant values."
+        )
+        return True
+    return False
 
 
 def remove_slope(wave, refl, translate_to=None):
