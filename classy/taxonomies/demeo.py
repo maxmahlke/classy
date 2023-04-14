@@ -7,6 +7,7 @@ import pandas as pd
 
 from classy import cache
 from classy import config
+from classy import core
 from classy.log import logger
 
 
@@ -40,8 +41,6 @@ def preprocess(spec):
     ----------
     spec : classy.Spectrum
         The spectrum to preprocess.
-    smooth : bool
-        Whether the spectrum should be smoothed. Default is False.
 
     Returns
     -------
@@ -113,7 +112,7 @@ def decision_tree(spec):
     theta = lambda pc2: -3 * pc2 + 0.7  # = pc1
 
     # Vis-IR step 1
-    if (pc1 < -0.3) and (pc2 >= 0.2) and (slope >= 0.4):
+    if (pc1 < -0.3) and (pc3 >= 0.2) and (slope >= 0.4):
         if 0.55 <= slope < 1.5:
             return "A"
         elif 0.4 <= slope < 0.55:
@@ -143,25 +142,25 @@ def decision_tree(spec):
 
     # Vis-IR step 3
     if 0.38 <= slope < 1.5 and -0.44 < pc1 < 0.4:
-        logger.warning(
-            f"{spec.name}: DeMeo+ 09 class is either D (no 1mu feature) or A type (1 mu feature)"
-        )
-        return "DA"
+
+        corr_A, corr_D = _compute_template_correlation(spec, ["A", "D"])
+
+        if corr_A > corr_D:
+            return "A"
+        return "D"
 
     if 0.25 < slope < 0.38 and -0.28 < pc2 < -0.2 and -0.2 < pc3 < -0.12:
         return "T"
 
     if 0.07 < pc1 < 1.0 and -0.5 < pc2 < -0.15:
-        logger.warning(
-            f"{spec.name}: DeMeo+ 09 class is either L (no 0.49mu feature) or Xe type (0.49 mu feature)"
-        )
-        return "LXe"
+        if spec.e.is_present:
+            return "Xe"
+        return "L"
 
-    if -0.075 < pc3 < 0.14 and -0.2 <= pc2 < -0.1 and -0.8 < pc1 < -0.1:
-        logger.warning(
-            f"{spec.name}: DeMeo+ 09 class is either K (no 0.49mu feature) or Xe type (0.49 mu feature)"
-        )
-        return "KXe"
+    if -0.075 < pc3 < 0.14 and -0.2 <= pc2 < 0.1 and -0.8 < pc1 < -0.1:
+        if spec.e.is_present:
+            return "Xe"
+        return "K"
 
     return demeo_c_and_x_complexes(spec)
 
@@ -201,10 +200,6 @@ def demeo_s_complex(spec):
             return "Svw"
         else:
             return "Sv"
-
-    logger.warning(
-        "DeMeo class is indeterminate S-complex member after VisIR resolution"
-    )
     return "S"
 
 
@@ -226,42 +221,57 @@ def demeo_c_and_x_complexes(spec):
     if -0.2 < slope < 0 and -1.2 < pc1 < 0 and pc4 < 0:
         return "B"
     if 0.2 < slope < 0.38:
-        logger.warning(
-            f"{spec.name}: DeMeo+ 09 class is either X (no feature), Xk (0.8-1mu feature), Xe (0.49 mu feature), or C (1-1.3mu feature)"
-        )
-        return "XXeXk"
+        if spec.k.is_present:
+            return "Xk"
+        elif spec.e.is_present:
+            return "C"
+        else:
+            corr_C, corr_X = _compute_template_correlation(spec, ["C", "X"])
+
+            if corr_C > corr_X:
+                return "C"
+            return "X"
+
     if 0.01 < pc4 < 0.14 and -0.75 < pc1 < -0.27 and spec.refl[0] < 0.92:
-        if spec.wave[0] != 0.45:
-            print("First wavelength bin has to be at 0.45mu in DeMeo classification.")
-            return ""
-        logger.warning(
-            f"{spec.name}: DeMeo+ 09 class is either Cgh (feature at 0.7mu) or Xk (0.8-1mu feature)"
-        )
-        return "CghXk"
+        if spec.h.is_present:
+            return "Cgh"
+        return "Xk"
+
     if 0.01 < pc4 < 0.14 and -0.75 < pc1 < -0.27:
-        logger.warning(
-            f"{spec.name}: DeMeo+ 09 class is either Ch (feature at 0.7mu) or Xk (0.8-1mu feature)"
-        )
-        return "ChXk"
+
+        # Ch is a smaller class -> return Ch if h is present,
+        # else retrun Xk, even if no k feature is present
+        if spec.h.is_present:
+            return "Ch"
+        elif spec.k.is_present:
+            return "Xk"
+        return "X"
     if -0.04 < pc4 < 0.02 and -0.07 < pc5 < -0.04:
-        spec.class_demeo = "Cb"
-        return
-    if -0.85 < pc1 < -0.45 and -0.06 < pc5 < -0.02:
-        logger.warning(
-            f"{spec.name}: DeMeo+ 09 class is either C (no feature), Ch (feature at 0.7mu), or Xk (0.8-1mu feature)"
-        )
-        return "CChXk"
+        return "Cb"
+    if -0.85 < pc1 < -0.45 and -0.06 < pc5 < 0.02:
+        if spec.h.is_present:
+            return "Ch"
+        elif spec.k.is_present:
+            return "Xk"
+        return "C"
     if 0.02 <= pc5 < 0.1 and -0.6 < pc1 < -0.16:
-        logger.warning(
-            f"{spec.name}: DeMeo+ 09 class is either Cg (no feature), Cgh (feature at 0.7mu), or Xk (0.8-1mu feature)"
-        )
-        return "CgCghXk"
+        if spec.h.is_present:
+            return "Cgh"
+        elif spec.k.is_present:
+            return "Xk"
+        return "Cg"
     if -0.45 <= pc1 < 0.1 and -0.06 < pc5 < 0.05:
-        logger.warning(f"{spec.name}: DeMeo+ 09 class is either Xk, Xc, Xe, X, Ch.")
-        return "XkXcXeXCh"
+        if spec.h.is_present:
+            return "Ch"
+        elif spec.e.is_present:
+            return "Xe"
+        elif spec.k.is_present:
+            return "Xk"
+        return "Xc"
     if -0.1 <= pc1 < 0.3 and -0.5 < pc2 < -0.2:
-        logger.warning(f"{spec.name}: DeMeo+ 09 class is either Xe or L.")
-        return "XeL"
+        if spec.e.is_present:
+            return "Xe"
+        return "L"
     logger.warning(
         "DeMeo class is indeterminate C/X-complex member after VisIR resolution"
     )
@@ -291,7 +301,6 @@ def load_classification():
         The classification results of the 371 SMASS spectra.
     """
 
-    # Launch same ECAS method if data not present
     PATH_DATA = config.PATH_CACHE / "demeo2009/scores.csv"
 
     if not PATH_DATA.is_file():
@@ -300,6 +309,7 @@ def load_classification():
     return pd.read_csv(PATH_DATA, dtype={"number": "Int64"})
 
 
+@lru_cache(maxsize=None)
 def load_templates():
     """Load the spectral templates of the DeMeo+ classes.
 
@@ -453,8 +463,15 @@ def plot_pc_space(ax, spectra):
 # Central wavelengths of the VisNIR spectra
 WAVE = np.arange(0.45, 2.5, 0.05)
 
-# Data mean of DeMeo+ 09 reflectance spectra
 # fmt: off
+CLASSES = ["A", "B", "Cg", "Cgh", "C", "Cb", "D", "K", "L",
+           "Q", "S", "Sa", "Sq", "Sr", "Sv", "V", "T",
+           "X", "Xe", "Xk",
+]
+# fmt: on
+
+# fmt: off
+# Data mean of DeMeo+ 09 reflectance spectra
 DATA_MEAN = np.array(
     [
         0.8840578, 0.94579985, 1.04016798, 1.07630094, 1.10387232, 1.10729138, 1.07101476, 1.02252107,
