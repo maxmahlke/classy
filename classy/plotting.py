@@ -436,6 +436,8 @@ def plot_spectra(spectra, add_classes=False, taxonomy="mahlke"):
             taxonomy = "Tholen 1984"
         if taxonomy == "mahlke":
             taxonomy = "Mahlke+ 2022"
+        if taxonomy == "demeo":
+            taxonomy = "DeMeo+ 2009"
         ax_classes.set_title(
             f"Classification following {taxonomy}", loc="left", size=10
         )
