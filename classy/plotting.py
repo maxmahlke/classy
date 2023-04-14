@@ -368,7 +368,17 @@ def plot_spectra(spectra, add_classes=False, taxonomy="mahlke"):
     xmin, xmax = ax_spec.get_xlim()
     xmax += 1 / 2.8 * (xmax - xmin)
 
-    ax_spec.set(xlabel=r"Wavelength / µm", ylabel="Reflectance", xlim=(xmin, xmax))
+    ymin, ymax = ax_spec.get_ylim()
+    if ymax - ymin < 0.1:
+        ymin -= 0.05
+        ymax += 0.05
+
+    ax_spec.set(
+        xlabel=r"Wavelength / µm",
+        ylabel="Reflectance",
+        xlim=(xmin, xmax),
+        ylim=(ymin, ymax),
+    )
 
     # 2. Add pV axis
     if add_classes:
