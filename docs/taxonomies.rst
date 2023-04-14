@@ -28,7 +28,7 @@ Mahlke+ 2022
     +-------------------+------------------------------------------+
     | Wavelength Range  | 0.45-2.45µm, or any subset of this range |
     +-------------------+------------------------------------------+
-    | Number of Classes |                                          |
+    | Number of Classes | 16                                       |
     +-------------------+------------------------------------------+
     | Class Assignment  | Probabilistic                            |
     +-------------------+------------------------------------------+
@@ -126,6 +126,65 @@ Mahlke+ 2022
 DeMeo+ 2009
 -----------
 
+.. tab-set::
+
+  .. tab-item:: Basics
+
+    +-------------------+------------------------------------------+
+    | Observables       | Reflectance Spectra                      |
+    +-------------------+------------------------------------------+
+    | Wavelength Range  | 0.45-2.45µm                              |
+    +-------------------+------------------------------------------+
+    | Number of Classes | 24\ [#f2]_                               |
+    +-------------------+------------------------------------------+
+    | Class Assignment  | Absolute                                 |
+    +-------------------+------------------------------------------+
+
+    .. code-block:: bash
+
+       $ classy spectra nysa --classify --taxonomy demeo --source MITHNEOS
+
+    .. image:: gfx/taxonomies/nysa_demeo.png
+       :align: center
+       :class: only-light
+       :width: 800
+
+    .. image:: gfx/taxonomies/nysa_demeo_dark.png
+       :align: center
+       :class: only-dark
+       :width: 800
+
+  .. tab-item:: Classes
+
+    The S-type and A and Q classes can carry a ``w`` suffix indicating a weathered,
+    reddened appearance.
+
+    Class templates available from
+
+    .. code-block:: python
+
+       >>> import classy
+       >>> templates = classy.taxonomies.demeo.load_templates()
+
+
+  .. tab-item:: Decision Tree
+
+    The decision tree outlined in Appendix B in DeMeo+ 2009 is used to compute
+    the class based on the principal scores and the slope of the spectrum.
+
+    Several branches of the tree end in multiple classes and require the user
+    to inspect the presence of features. ``classy`` automatically does this.
+    The feature detection is not perfect and visual inspection is encouraged.
+
+    Other branches do not have a clear distinction defined. For example, a spectrum
+    might either be a D- or an A-type depending on its scores.
+
+    In this case, ``classy``
+    makes use of the class templates by computing the correlation coefficient
+    between the spectrum and the (slope-removed) class templates.
+
+    This is applied to differentiate D and A, C and X,
+
 This classification uses the PCA+decision tree from DeMeo rather than comparing
 the spectra to the templates via chi2.
 
@@ -148,7 +207,7 @@ Sidenote: The missing data mean
 As DeMeo+ 2009 demeaned the reflectance spectra prior to the PCA, **the same
 mean value** of each reflectance bin has to subtracted from new reflectance
 spectra to be projected into the same principal space. I could not find the
-original mean values in the source publication\ [#f2]_, so I computed it myself
+original mean values in the source publication\ [#f3]_, so I computed it myself
 using the spectra from DeMeo+ 2009 and give it here for completeness:
 
 .. code-block:: python
@@ -293,4 +352,5 @@ ultraviolet and visible colours as well as the visual albedo.
 
 
 .. [#f1] More systems are to come. In the meantime, for an in-depth overview of the history of asteroid taxonomies, you can have a look `at this timeline <https://raw.githubusercontent.com/maxmahlke/maxmahlke/main/docs/mahlke_taxonomy_timeline.pdf>`_.
-.. [#f2] In case you found it, `let me know! <https://github.com/maxmahlke/classy/blob/master/CHANGELOG.md>`_
+.. [#f2] The Xn class added in Binzel+ 2019 is not included as the k- and n-features are too similar to be separated automatically.
+.. [#f3] In case you found it, `let me know! <https://github.com/maxmahlke/classy/blob/master/CHANGELOG.md>`_
