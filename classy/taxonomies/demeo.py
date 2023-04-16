@@ -187,7 +187,7 @@ def demeo_s_complex(spec):
     eta = lambda pc2: 1 / 3 * pc2 - 0.40  # = pc1
     theta = lambda pc2: -3 * pc2 + 0.7  # = pc1
 
-    if pc1 < beta(pc2) and pc1 > delta(pc2):
+    if pc1 < beta(pc2) and pc1 > zeta(pc2):
         if slope >= 0.25:
             return "Sw"
         else:
