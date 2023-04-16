@@ -164,7 +164,7 @@ def decision_tree(spec):
             return "Xe"
         return "L"
 
-    if -0.075 < pc3 < 0.14 and -0.2 <= pc2 < 0.1 and -0.8 < pc1 < -0.1:
+    if -0.075 < pc3 < 0.14 and -0.2 <= pc2 < 0.1 and -0.8 < pc1 < 0.1:
         if spec.e.is_present:
             return "Xe"
         return "K"
