@@ -25,6 +25,13 @@ def is_classifiable(spec):
         True if the spectrum can be classified, else False.
     """
     if spec.wave.min() > WAVE.min() or spec.wave.max() < WAVE.max():
+
+        # Check if the extrapolation would be sufficient
+        if preprocessing._within_extrapolation_limit(
+            spec.wave.min(), spec.wave.max(), WAVE.min(), WAVE.max()
+        ):
+            return True
+
         logger.warning(
             f"[{spec.source + '/' if hasattr(spec, 'source') else ''}{spec.name}]: Insufficient wavelength range for DeMeo taxonomy ({spec.wave.min()} - {spec.wave.max()})."
         )
