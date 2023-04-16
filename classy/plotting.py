@@ -337,8 +337,10 @@ def plot_spectra(spectra, add_classes=False, taxonomy="mahlke"):
                 user_line, user_label = plot_gaia_spectrum(ax_spec, spec)
             else:
                 user_line, user_label = plot_user_spectrum(ax_spec, spec)
-            lines_source.append(*user_line)
-            labels_source.append(*user_label)
+
+            for line, label in zip(user_line, user_label):
+                lines_source.append(line)
+                labels_source.append(label)
 
         (dummy,) = ax_spec.plot([], [], alpha=0)
         lines += [dummy, dummy] + lines_source
