@@ -719,19 +719,27 @@ def plot_user_spectrum(ax, spec):
     """
 
     # Plot original
+    if not hasattr(spec, "_refl_preprocessed"):
+        wave = spec.wave
+        refl = spec.refl
+        err = spec.refl_err
+    else:
+        wave = spec._wave_preprocessed
+        refl = spec._refl_preprocessed
+        err = np.nan
 
     (l1,) = ax.plot(
-        spec.wave,
-        spec.refl,
+        wave,
+        refl,
         c=spec._color,
         ls="-",
         alpha=0.5,
     )
 
     ax.fill_between(
-        spec.wave,
-        spec.refl + spec.refl_err / 2,
-        spec.refl - spec.refl_err / 2,
+        wave,
+        refl + err / 2,
+        refl - err / 2,
         color=spec._color,
         alpha=0.3,
         ec="none",

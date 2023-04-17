@@ -285,6 +285,8 @@ class Spectrum:
         getattr(taxonomies, taxonomy).classify(self)
 
         # Reset wavelength and reflectance
+        self._wave_preprocessed = self.wave.copy()
+        self._refl_preprocessed = self.refl.copy()
         self.wave = self._wave_pre_class
         self.refl = self._refl_pre_class
 
