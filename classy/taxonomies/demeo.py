@@ -9,6 +9,7 @@ from classy import cache
 from classy import config
 from classy import core
 from classy.log import logger
+from classy import preprocessing
 
 
 def is_classifiable(spec):
@@ -25,7 +26,6 @@ def is_classifiable(spec):
         True if the spectrum can be classified, else False.
     """
     if spec.wave.min() > WAVE.min() or spec.wave.max() < WAVE.max():
-
         # Check if the extrapolation would be sufficient
         if preprocessing._within_extrapolation_limit(
             spec.wave.min(), spec.wave.max(), WAVE.min(), WAVE.max()
@@ -149,7 +149,6 @@ def decision_tree(spec):
 
     # Vis-IR step 3
     if 0.38 <= slope < 1.5 and -0.44 < pc1 < 0.4:
-
         corr_A, corr_D = _compute_template_correlation(spec, ["A", "D"])
 
         if corr_A > corr_D:
@@ -245,7 +244,6 @@ def demeo_c_and_x_complexes(spec):
         return "Xk"
 
     if 0.01 < pc4 < 0.14 and -0.75 < pc1 < -0.27:
-
         # Ch is a smaller class -> return Ch if h is present,
         # else retrun Xk, even if no k feature is present
         if spec.h.is_present:
@@ -311,7 +309,7 @@ def load_classification():
     PATH_DATA = config.PATH_CACHE / "demeo2009/scores.csv"
 
     if not PATH_DATA.is_file():
-        retrieve_scores()
+        retrieve_data(which="scores")
 
     return pd.read_csv(PATH_DATA, dtype={"number": "Int64"})
 
@@ -329,7 +327,7 @@ def load_templates():
     PATH_DATA = config.PATH_CACHE / "demeo2009/templates.csv"
 
     if not PATH_DATA.is_file():
-        retrieve_templates()
+        retrieve_data(which="templates")
 
     data = pd.read_csv(PATH_DATA)
 
