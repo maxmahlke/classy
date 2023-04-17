@@ -1,3 +1,10 @@
+# 0.4.2 - 2023-04-17
+- Tholen taxonomy now respects the extrapolation limit
+- Add DeMeo+ 2009 class templates
+- Bugfix in slope computation
+- Add progressbar to MITHNEOS download
+- Add minimum y-limit delta in plot
+
 # 0.4.1 - 2023-04-10
 - Bugfixes in preprocessing module
 - Bugfixes in DeMeo classification module
