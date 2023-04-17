@@ -10,15 +10,6 @@ from classy import config
 from classy import core
 from classy.log import logger
 
-PREPROCESS_PARAMS = {
-    "tholen": {},
-    "demeo": {},
-    "mahlke": {
-        "smooth": {},
-        "resample": {"bounds_error": False, "fill_value": (np.nan, np.nan)},
-    },
-}
-
 
 def load_index():
     """Load the SMASS reflectance spectra index."""
