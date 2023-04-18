@@ -27,6 +27,8 @@ collection below.
 
 .. include:: sources/smass.rst
 
+.. include:: sources/ssodnet.rst
+
 .. rubric:: Footnotes
    :caption:
 
