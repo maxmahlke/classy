@@ -1,4 +1,4 @@
-from . import akari, ecas, gaia, mithneos, smass
+from . import akari, ecas, gaia, mithneos, s3os2, smass
 
 SOURCES = [
     "Gaia",
@@ -6,4 +6,5 @@ SOURCES = [
     "MITHNEOS",
     "AKARI",
     "ECAS",
+    "S3OS2",
 ]
