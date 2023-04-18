@@ -1,3 +1,6 @@
+# 0.4.3 -
+- Add S3OS2 archive to sources
+
 # 0.4.2 - 2023-04-17
 - Tholen taxonomy now respects the extrapolation limit
 - Add DeMeo+ 2009 class templates
