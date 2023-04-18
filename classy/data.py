@@ -112,6 +112,10 @@ def _load_mcfa():
     mcfa.MCFA
         The MCFA model instance trained for the classy taxonomy.
     """
+    import tensorflow as tf
+
+    tf.get_logger().setLevel("ERROR")
+
     import mcfa  # skip the heavy tensorflow import if it can be avoided
 
     return mcfa.from_file(_get_path_data() / "mcfa/mcfa.pkl")
