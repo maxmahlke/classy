@@ -1,3 +1,6 @@
+# 0.4.4 -
+- tensforflow is not required unless classifying
+
 # 0.4.3 - 2023-04-18
 - Add 'save' argument to plotting functions
 - Add S3OS2 archive to sources
