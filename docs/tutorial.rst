@@ -27,7 +27,7 @@ Tutorials
         # Preprocess, classify and plot the result
         ceres.preprocess()
         ceres.classify()
-        ceres.plot(add_classes=True)
+        ceres.plot(taxonomy='mahlke')
 
         # There are sketchy data points
         # Exclude points where the flag is not 0
@@ -39,7 +39,7 @@ Tutorials
         # Preprocess, classify and plot again
         ceres.preprocess()
         ceres.classify()
-        ceres.plot(add_classes=True)
+        ceres.plot(taxonomy='mahlke')
 
 .. dropdown:: Classifying all asteroids in Gaia
 
@@ -294,7 +294,7 @@ Tutorials
 
     .. code-block:: python
 
-        spectra.plot(add_classes=True)  # taxonomy='mahlke' is default
+        spectra.plot(taxonomy='mahlke')  # taxonomy='mahlke' is default
 
     .. image:: gfx/tutorials/toro_classified.png
        :class: only-light

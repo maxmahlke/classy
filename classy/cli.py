@@ -75,12 +75,14 @@ def spectra(id_, classify, taxonomy, source, save, v):
     # Classify
     if classify:
         spectra.classify(taxonomy=taxonomy)
+    else:
+        taxonomy = None  # required for the plotting function
 
     # Plot
     if save:
         save = f"{number}_{name}_classy.png"
 
-    spectra.plot(add_classes=classify, taxonomy=taxonomy, save=save if save else None)
+    spectra.plot(taxonomy=taxonomy, save=save if save else None)
 
     if save:
         logger.info(f"Figure stored under {Path().cwd() / save}")

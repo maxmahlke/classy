@@ -286,24 +286,27 @@ def fit_feature():
     plt.show()
 
 
-def plot_spectra(spectra, add_classes=False, taxonomy="mahlke", save=None):
+def plot_spectra(spectra, taxonomy=None, save=None):
     """Plot spectra. Called by 'classy spectra [id]'.
 
     Parameters
     ----------
     spectra : list of classy.spectra.Spectrum
         The spectra to plot.
-    add_classes : bool
-        Add axes showing classification preprocessing and results.
     taxonomy : str
-        The taxonomic system to plot.
+        The taxonomic system to plot. Choose from ['mahlke', 'demeo', 'tholen'].
+        Default is None, in which case no classification results are added.
     save : str
         Path to save the figure under. Default is None, which opens the
         plot instead of saving it.
     """
 
     # Give user some degree of freedom in taxonomy specification
-    taxonomy = taxonomy.lower()
+    if taxonomy is not None:
+        if taxonomy.lower() not in classy.taxonomies.SYSTEMS:
+            raise ValueError(
+                f"Unknown taxonomy '{taxonomy}'. Choose from {classy.taxonomies.SYSTEMS}."
+            )
 
     # Ensure uniform plot appearance
     mpl.rcParams.update(mpl.rcParamsDefault)
@@ -313,7 +316,7 @@ def plot_spectra(spectra, add_classes=False, taxonomy="mahlke", save=None):
     lines, labels = [], []  # for the global legend
 
     # Build figure instance
-    if add_classes:
+    if taxonomy is not None:
         fig, axes = plt.subplots(
             ncols=3, figsize=(16, 7), gridspec_kw={"width_ratios": [4, 1, 4]}
         )
@@ -355,7 +358,7 @@ def plot_spectra(spectra, add_classes=False, taxonomy="mahlke", save=None):
     # lines += [dummy, l1, l2]
     # labels += ["", "Reflectance", "Uncertainty"]
 
-    if add_classes:
+    if taxonomy is not None:
         (l3,) = ax_spec.plot([], [], ls=":", c="gray")
         lines += [dummy, l3]
         labels += ["", "Taxonomy Limits"]
@@ -363,7 +366,7 @@ def plot_spectra(spectra, add_classes=False, taxonomy="mahlke", save=None):
     leg = ax_spec.legend(lines, labels, edgecolor="none", loc="center right")
     ax_spec.add_artist(leg)
 
-    if add_classes:
+    if taxonomy is not None:
         wave = getattr(taxonomies, taxonomy).WAVE
         lower, upper = min(wave), max(wave)
         ax_spec.axvline(lower, ls=":", zorder=-10, c="gray")
@@ -386,7 +389,7 @@ def plot_spectra(spectra, add_classes=False, taxonomy="mahlke", save=None):
     )
 
     # 2. Add pV axis
-    if add_classes:
+    if taxonomy is not None:
         for i, spec in enumerate(spectra):
             ax_pv.errorbar(
                 i, spec.pV, yerr=spec.pV_err, capsize=3, marker=".", c=spec._color
@@ -404,8 +407,8 @@ def plot_spectra(spectra, add_classes=False, taxonomy="mahlke", save=None):
         ax_pv.set(xlabel="pV", ylim=(ymin, ymax), xlim=(-0.5, len(spectra) - 0.5))
 
     # 3. Add classes
-    if add_classes:
-        if "mahlke" in taxonomy:
+    if taxonomy is not None:
+        if taxonomy == "mahlke":
             width = 0.8 / len(spectra)
 
             for i, spec in enumerate(spectra):
@@ -436,7 +439,7 @@ def plot_spectra(spectra, add_classes=False, taxonomy="mahlke", save=None):
 
     if spec.name is not None:
         ax_spec.set_title(f"({spec.number}) {spec.name}", loc="left", size=10)
-    if add_classes:
+    if taxonomy is not None:
         if taxonomy == "tholen":
             taxonomy = "Tholen 1984"
         if taxonomy == "mahlke":

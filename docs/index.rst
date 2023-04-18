@@ -29,9 +29,6 @@ public repositories (e.g. Gaia, SMASS, MITHNEOS).\ [#f1]_
  :width: 900
 
 
-.. :ref:`Take a guided tour through the documentation <Install>` or click on a
-.. topic below to learn more.
-..
 .. .. highlight:: python
 ..
 .. |br|

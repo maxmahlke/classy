@@ -268,8 +268,6 @@ describe below can be applied to either a single ``class.Spectrum`` or to many `
 ..   prior to classification following Tholen 1984. Set ``preprocessing=None`` in the ``.classify()``
 ..   call to avoid this.
 
-Make function api
-
 Classifying
 -----------
 
@@ -292,8 +290,6 @@ taxonomy are described in the :ref:`taxonomies <available_taxonomies>` section.
 Storing to file
 ---------------
 
-ecsv format
-
 Both ``Spectrum`` and ``Spectra`` have a ``to_csv`` method which allows storing
 the classification results to ``csv`` format.
 
@@ -315,4 +311,21 @@ the classification results to ``csv`` format.
 Plotting
 --------
 
-At any point: .plot
+Both a ``Spectrum`` and many ``Spectra`` can be plotted using the ``.plot()`` method.
+
+.. code-block:: python
+
+   >>> import classy
+   >>> spectra = classy.Spectra(43)
+   >>> spectra.plot()
+
+By default, only the spectra themselves are plotted. If you specify the ``taxonomy``
+keyword, the classification results in the specified taxonomic system are added to the
+figure. Note that you have to call ``.classify()`` before.
+
+.. code-block:: python
+
+   >>> spectra.classify()  # taxonomy='mahlke' is default
+   >>> spectra.classify(taxonomy='demeo')
+   >>> spectra.plot(taxonomy='mahlke')  # show classification results following Mahlke+ 2022
+   >>> spectra.plot(taxonomy='demeo')  # show classification results following DeMeo+ 2009
