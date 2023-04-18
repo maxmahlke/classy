@@ -2,9 +2,6 @@ import sys
 import webbrowser
 
 import click
-import numpy as np
-import pandas as pd
-import rich
 import rocks
 
 import classy.classify
@@ -13,17 +10,6 @@ from classy.log import logger
 import classy.preprocessing
 from classy import taxonomies
 from classy import sources
-
-
-def _logging_option(func):
-    func = click.option(
-        "-l",
-        "--log",
-        type=int,
-        default=2,
-        help="Set level of logging. Everything [0] to nothing [5]. Default is 2.",
-    )(func)
-    return func
 
 
 @click.group()
