@@ -5,10 +5,6 @@ import pandas as pd
 import rocks
 from scipy import interpolate, signal
 
-import tensorflow as tf
-
-tf.get_logger().setLevel("ERROR")
-
 from classy import data
 from classy import decision_tree
 from classy import defs
