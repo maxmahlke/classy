@@ -1,3 +1,4 @@
+from pathlib import Path
 import sys
 import webbrowser
 
@@ -42,8 +43,13 @@ def docs():
     multiple=True,
     help="Select one or more online repositories.",
 )
+@click.option(
+    "--save",
+    is_flag=True,
+    help="Save plot to file in current working directory.",
+)
 @click.option("-v", is_flag=True, help="Set verbose output.")
-def spectra(id_, classify, taxonomy, source, v):
+def spectra(id_, classify, taxonomy, source, save, v):
     """Retrieve, plot, classify spectra of an individual asteroid."""
 
     if v:
@@ -71,4 +77,10 @@ def spectra(id_, classify, taxonomy, source, v):
         spectra.classify(taxonomy=taxonomy)
 
     # Plot
-    spectra.plot(add_classes=classify, taxonomy=taxonomy)
+    if save:
+        save = f"{number}_{name}_classy.png"
+
+    spectra.plot(add_classes=classify, taxonomy=taxonomy, save=save if save else None)
+
+    if save:
+        logger.info(f"Figure stored under {Path().cwd() / save}")

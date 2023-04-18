@@ -23,7 +23,7 @@ collection below.
 
 .. include:: sources/mithneos.rst
 
-.. include:: sources/ssodnet.rst
+.. include:: sources/s3os2.rst
 
 .. include:: sources/smass.rst
 

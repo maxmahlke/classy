@@ -73,7 +73,7 @@ SMASS
 
         $ classy spectra 4 --source SMASS
         INFO     [classy] Looking for reflectance spectra of (4) Vesta
-        INFO     [classy] Found 3 spectra in Gaia
+        INFO     [classy] Found 3 spectra in SMASS
 
     In a script:
 

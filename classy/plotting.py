@@ -286,7 +286,7 @@ def fit_feature():
     plt.show()
 
 
-def plot_spectra(spectra, add_classes=False, taxonomy="mahlke"):
+def plot_spectra(spectra, add_classes=False, taxonomy="mahlke", save=None):
     """Plot spectra. Called by 'classy spectra [id]'.
 
     Parameters
@@ -297,6 +297,9 @@ def plot_spectra(spectra, add_classes=False, taxonomy="mahlke"):
         Add axes showing classification preprocessing and results.
     taxonomy : str
         The taxonomic system to plot.
+    save : str
+        Path to save the figure under. Default is None, which opens the
+        plot instead of saving it.
     """
 
     # Give user some degree of freedom in taxonomy specification
@@ -445,7 +448,11 @@ def plot_spectra(spectra, add_classes=False, taxonomy="mahlke"):
         )
 
     fig.tight_layout()
-    plt.show()
+
+    if save is None:
+        plt.show()
+    else:
+        fig.savefig(save)
 
 
 def plot_smass_spectrum(ax, spec):

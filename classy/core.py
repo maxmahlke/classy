@@ -375,8 +375,8 @@ class Spectrum:
                             )
         return data_classified
 
-    def plot(self, add_classes=False, taxonomy="mahlke"):
-        plotting.plot_spectra([self], add_classes, taxonomy)
+    def plot(self, **kwargs):
+        plotting.plot_spectra([self], **kwargs)
 
     def resample(self, grid, **kwargs):
         """Resample the spectrum to another wavelength grid.
@@ -676,8 +676,8 @@ class Spectra(list):
             )
         return Spectra([*self, *rhs])
 
-    def plot(self, add_classes=False, taxonomy="mahlke"):
-        plotting.plot_spectra(list(self), add_classes, taxonomy)
+    def plot(self, **kwargs):
+        plotting.plot_spectra(list(self), **kwargs)
 
     def classify(self, taxonomy="mahlke"):
         for spec in self:
