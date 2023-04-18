@@ -1,3 +1,9 @@
+Makefile
+develop/
+tests/htmlcov
+classy.md
+docs/gfx/make_dark.sh
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
