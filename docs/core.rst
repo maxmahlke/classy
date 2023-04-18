@@ -311,21 +311,61 @@ the classification results to ``csv`` format.
 Plotting
 --------
 
-Both a ``Spectrum`` and many ``Spectra`` can be plotted using the ``.plot()`` method.
+.. tab-set::
 
-.. code-block:: python
+    .. tab-item:: Command Line
 
-   >>> import classy
-   >>> spectra = classy.Spectra(43)
-   >>> spectra.plot()
+        The quickest way to visualize spectra of an asteroids is the command line.
 
-By default, only the spectra themselves are plotted. If you specify the ``taxonomy``
-keyword, the classification results in the specified taxonomic system are added to the
-figure. Note that you have to call ``.classify()`` before.
+        .. code-block:: shell
 
-.. code-block:: python
+           $ classy spectra vesta
 
-   >>> spectra.classify()  # taxonomy='mahlke' is default
-   >>> spectra.classify(taxonomy='demeo')
-   >>> spectra.plot(taxonomy='mahlke')  # show classification results following Mahlke+ 2022
-   >>> spectra.plot(taxonomy='demeo')  # show classification results following DeMeo+ 2009
+        This will open a plot of the spectra. You can further instruct to ``-c|--classify``
+        the spectra in a given ``-t|--taxonomy``.
+
+        .. code-block:: shell
+
+           $ classy spectra vesta -c   # '--taxonomy mahlke' is the default
+           $ classy spectra vesta -c --taxonomy tholen
+
+        To only use spectra from one or many sources, use ``-s|--source``.
+
+        .. code-block:: shell
+
+           $ classy spectra vesta -c --taxonomy tholen --source ECAS --source Gaia
+
+        If you set ``--save``, the figure is stored in the current working directory.
+
+        .. code-block:: shell
+
+           $ classy spectra vesta -c --taxonomy tholen --source ECAS --source Gaia --save
+           INFO     [classy] Figure stored under sources/4_Vesta_classy.png
+
+    .. tab-item:: python
+
+        Both a ``Spectrum`` and many ``Spectra`` can be plotted using the ``.plot()`` method.
+
+        .. code-block:: python
+
+           >>> import classy
+           >>> spectra = classy.Spectra(43)
+           >>> spectra.plot()
+
+        By default, only the spectra themselves are plotted. If you specify the ``taxonomy``
+        keyword, the classification results in the specified taxonomic system are added to the
+        figure. Note that you have to call ``.classify()`` before.
+
+        .. code-block:: python
+
+           >>> spectra.classify()  # taxonomy='mahlke' is default
+           >>> spectra.classify(taxonomy='demeo')
+           >>> spectra.plot(taxonomy='mahlke')  # show classification results following Mahlke+ 2022
+           >>> spectra.plot(taxonomy='demeo')  # show classification results following DeMeo+ 2009
+
+        By providing a filename to the ``save`` argument, you can instruct ``classy`` to save the figure
+        to file instead of opening it.
+
+        .. code-block:: python
+
+           >>> spectra.plot(save='figures/vesta_classified.png')
