@@ -305,3 +305,19 @@ Tutorials
        :class: only-dark
        :align: center
        :width: 600
+
+.. dropdown:: Duplicate a Spectrum
+
+   To compare different preprocessing strategies, it might be useful
+   to create a copy of an existing ``Spectrum``. Use the ``python`` built-in
+   function ``copy.deepcopy()`` for this.
+
+   .. code-block:: python
+
+      >>> import classy
+      >>> import copy
+      >>> baucis = classy.Spectra(172, source='SMASS')[0]  # returns classy.Spectrum
+      >>> baucis_copy = copy.deepcopy(baucis)  # create identical copy
+      >>> baucis_copy.smooth()  # smooth only the copy
+      >>> spectra = baucis + baucis_copy  # returns classy.Spectra
+      >>> spectra.plot()  # compare
