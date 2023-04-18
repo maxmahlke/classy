@@ -1,4 +1,4 @@
-# 0.4.3 -
+# 0.4.3 - 2023-04-18
 - Add 'save' argument to plotting functions
 - Add S3OS2 archive to sources
 
