@@ -63,7 +63,7 @@ def retrieve_spectra():
 
     FILE_REF_BIB = [
         ("smass1data_new", "Xu+ 1995", "1995Icar..115....1X"),
-        ("smass2data", "Bus and Binzel+ 2002", "2002Icar..158..106B"),
+        ("smass2data", "Bus and Binzel 2002", "2002Icar..158..106B"),
         ("smassirdata", "Burbine and Binzel 2002", "2002Icar..159..468B"),
         ("smassneodata", "Binzel+ 2001", "2001Icar..151..139B"),
         ("smassref5", "Binzel+ 2001", "2001M&PS...36.1167B"),
