@@ -6,6 +6,7 @@ import pandas as pd
 
 from classy import cache
 from classy import config
+from classy import core
 from classy.log import logger
 from classy import preprocessing
 from classy import sources
@@ -77,6 +78,54 @@ def load_classification():
         sources.ecas.retrieve_spectra()
 
     return pd.read_csv(PATH_DATA, dtype={"number": "Int64"})
+
+
+def load_templates():
+    """Load the spectral templates of the Tholen classes.
+
+    Returns
+    -------
+    dict
+        Dictionary with classes (str) as key and templates as values (classy.Spectrum).
+    """
+
+    templates_ = {}
+
+    for class_, props in TEMPLATES.items():
+
+        wave = [0.337, 0.359, 0.437, 0.550, 0.701, 0.853, 0.948, 1.041]
+        refl = []
+        refl_err = []
+
+        for r, r_err in zip(props["refl_mean"][:3], props["refl_std"][:3]):
+            refl.append(np.power(10, -0.4 * (r)))
+            re = np.abs(r) * np.abs(0.4 * np.log(10) * r_err)
+            refl_err.append(re)
+
+        refl.append(1)  # v-filter
+        refl_err.append(0)  # v-filter
+
+        for r, r_err in zip(props["refl_mean"][3:], props["refl_std"][3:]):
+            refl.append(np.power(10, -0.4 * (-r)))
+            re = np.abs(r) * np.abs(0.4 * np.log(10) * r_err)
+            refl_err.append(re)
+
+        refl = np.array(refl)
+        refl_err = np.array(refl_err)
+
+        template = core.Spectrum(
+            wave=WAVE,
+            refl=refl,
+            refl_err=refl_err,
+            class_=class_,
+            pV=props["alb_mean"],
+            pV_err=props["alb_std"],
+            source=f"Tholen 1984 - Class {class_}",
+            _source="Tholen 1984",
+            id_=f"Template Class {class_}",
+        )
+        templates_[class_] = template
+    return templates_
 
 
 def classify(spec):
@@ -289,3 +338,97 @@ EIGENVECTORS = np.array(
         [0.531, -0.795, 0.292, -0.016, -0.010, -0.022, 0.031],
     ]
 )
+
+# Table VIII in Tholen 1984
+TEMPLATES = {
+    "A": {
+        "refl_mean": [1.015, 0.779, 0.381, 0.305, 0.240, 0.141, 0.034],
+        "refl_std": [0.083, 0.058, 0.042, 0.068, 0.051, 0.073, 0.096],
+        "alb_mean": 0.210,
+        "alb_std": 0.099,
+    },
+    "B": {
+        "refl_mean": [0.192, 0.098, -0.015, -0.011, -0.038, -0.062, -0.100],
+        "refl_std": [0.025, 0.027, 0.017, 0.027, 0.028, 0.034, 0.055],
+        "alb_mean": 0.088,
+        "alb_std": 0.021,
+    },
+    "C": {
+        "refl_mean": [0.245, 0.155, 0.024, 0.003, 0.019, 0.019, 0.028],
+        "refl_std": [0.064, 0.044, 0.025, 0.025, 0.029, 0.033, 0.045],
+        "alb_mean": 0.039,
+        "alb_std": 0.009,
+    },
+    "D": {
+        "refl_mean": [0.128, 0.103, 0.067, 0.153, 0.273, 0.340, 0.367],
+        "refl_std": [0.052, 0.038, 0.027, 0.024, 0.031, 0.055, 0.066],
+        "alb_mean": 0.030,
+        "alb_std": 0.005,
+    },
+    "E": {
+        "refl_mean": [0.117, 0.080, 0.028, 0.068, 0.105, 0.123, 0.132],
+        "refl_std": [0.082, 0.051, 0.025, 0.022, 0.039, 0.042, 0.050],
+        "alb_mean": 0.427,
+        "alb_std": 0.065,
+    },
+    "F": {
+        "refl_mean": [0.020, -0.014, -0.049, 0.008, -0.013, -0.032, -0.066],
+        "refl_std": [0.045, 0.036, 0.016, 0.014, 0.025, 0.029, 0.050],
+        "alb_mean": 0.040,
+        "alb_std": 0.008,
+    },
+    "G": {
+        "refl_mean": [0.420, 0.290, 0.069, -0.020, -0.005, -0.002, -0.003],
+        "refl_std": [0.026, 0.025, 0.021, 0.030, 0.005, 0.022, 0.025],
+        "alb_mean": 0.055,
+        "alb_std": 0.006,
+    },
+    "M": {
+        "refl_mean": [0.117, 0.080, 0.028, 0.068, 0.105, 0.123, 0.132],
+        "refl_std": [0.082, 0.051, 0.025, 0.022, 0.039, 0.042, 0.050],
+        "alb_mean": 0.117,
+        "alb_std": 0.036,
+    },
+    "P": {
+        "refl_mean": [0.117, 0.080, 0.028, 0.068, 0.105, 0.123, 0.132],
+        "refl_std": [0.082, 0.051, 0.025, 0.022, 0.039, 0.042, 0.050],
+        "alb_mean": 0.030,
+        "alb_std": 0.006,
+    },
+    "Q": {
+        "refl_mean": [0.746, 0.434, 0.153, 0.091, -0.042, -0.163, -0.168],
+        "refl_std": [np.nan, np.nan, np.nan, np.nan, np.nan, np.nan, np.nan],
+        "alb_mean": 0.210,
+        "alb_std": np.nan,
+    },
+    "R": {
+        "refl_mean": [0.765, 0.567, 0.254, 0.190, -0.042, -0.124, -0.008],
+        "refl_std": [np.nan, np.nan, np.nan, np.nan, np.nan, np.nan, np.nan],
+        "alb_mean": 0.249,
+        "alb_std": np.nan,
+    },
+    "S": {
+        "refl_mean": [0.552, 0.419, 0.188, 0.169, 0.159, 0.138, 0.160],
+        "refl_std": [0.105, 0.075, 0.041, 0.034, 0.050, 0.057, 0.075],
+        "alb_mean": 0.154,
+        "alb_std": 0.035,
+    },
+    "T": {
+        "refl_mean": [0.316, 0.239, 0.105, 0.116, 0.215, 0.226, 0.223],
+        "refl_std": [0.027, 0.022, 0.014, 0.023, 0.029, 0.043, 0.091],
+        "alb_mean": 0.042,
+        "alb_std": np.nan,
+    },
+    "V": {
+        "refl_mean": [0.652, 0.428, 0.142, 0.085, -0.168, -0.268, 0.004],
+        "refl_std": [np.nan, np.nan, np.nan, np.nan, np.nan, np.nan, np.nan],
+        "alb_mean": 0.249,
+        "alb_std": np.nan,
+    },
+    "X": {
+        "refl_mean": [0.117, 0.080, 0.028, 0.068, 0.105, 0.123, 0.132],
+        "refl_std": [0.082, 0.051, 0.025, 0.022, 0.039, 0.042, 0.050],
+        "alb_mean": np.nan,
+        "alb_std": np.nan,
+    },
+}
