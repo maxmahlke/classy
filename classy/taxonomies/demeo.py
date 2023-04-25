@@ -330,6 +330,7 @@ def load_templates():
         retrieve_data(which="templates")
 
     data = pd.read_csv(PATH_DATA)
+    data = data.replace(-0.999, np.nan)
 
     templates = {}
 
