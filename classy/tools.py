@@ -11,8 +11,12 @@ def find_nearest(array, value):
     return idx
 
 
-def get_numeric_columns(columns):
-    """Identify numeric string elements in a list.
+from functools import partial
+from urllib.request import urlopen
+
+
+def download_archive(URL, PATH_ARCHIVE, unpack=True, remove=True):
+    """Download remote archive file to directory. Optionally unpack and remove the file.
 
     Parameters
     ----------
