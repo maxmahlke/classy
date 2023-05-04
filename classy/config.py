@@ -6,5 +6,5 @@ from platformdirs import user_cache_dir
 
 PATH_CACHE = Path(user_cache_dir()) / "classy"
 
-
-EXTRAPOLATION_LIMIT = 10
+# Maximum missing wavelength range to extrapolate for classification
+EXTRAPOLATION_LIMIT = 10  # in percent
