@@ -1,10 +1,22 @@
+from functools import lru_cache
+
 import numpy as np
 import pandas as pd
 
+from classy import config
+from classy import core
 from classy import data
 from classy import defs
 from classy import decision_tree
 from classy.log import logger
+from classy import tools
+
+CLASSES = defs.CLASSES
+
+# CLASSES = ["B", "C", "Ch", "D", "Z", "P", "Pk", "Pe", "Pek"
+# "M", "Mk", "Me", "Mek", "E", "Ek", "Ee", "Eek",
+# "X", "Xk", "Xe", "Xek", "K", "L", "O", 'Q', 'S',
+# 'R', 'A', 'V']
 
 
 def is_classifiable(spec):
@@ -33,7 +45,10 @@ def is_classifiable(spec):
 
 def preprocess(spec):
     spec.detect_features()
+    spec._wave_pre_norm = spec.wave.copy()
+    spec._refl_pre_norm = spec.refl.copy()
     spec.resample(WAVE, fill_value=np.nan, bounds_error=False)
+
     spec.normalize(method="mixnorm")
 
     spec.pV = np.log10(spec.pV)
@@ -96,7 +111,7 @@ def classify(spec):
     results["prob"] = max(probs)
 
     for class_ in defs.CLASSES:
-        results[f"class_{class_}"] = spec.data_classified[f"class_{class_}"].values[0]
+        results[f"class_{class_}"] = getattr(spec, f"class_{class_}")
 
     add_classification_results(spec, results=results)
 
@@ -117,6 +132,48 @@ def add_classification_results(spec, results=None):
 
     for key, val in results.items():
         setattr(spec, key, val)
+
+
+@lru_cache(maxsize=None)
+def load_templates():
+    """Load the spectral templates of the DeMeo+ classes.
+
+    Returns
+    -------
+    dict
+        Dictionary with classes (str) as key and templates as values (classy.Spectrum).
+    """
+
+    PATH_DATA = config.PATH_CACHE / "mahlke2022/templates.csv"
+
+    if not PATH_DATA.is_file():
+        tools._retrieve_from_github(
+            host="mahlke2022", which="templates", path=PATH_DATA
+        )
+
+    data = pd.read_csv(PATH_DATA)
+
+    templates = {}
+
+    for class_ in CLASSES:
+
+        refl = data[class_].values[:-1]
+        pV = data[class_].values[-1]
+        refl_err = data[f"{class_}_upper"].values[:-1]  # - refl
+        pV_err = data[f"{class_}_upper"].values[-1]  # - pV
+        template = core.Spectrum(
+            wave=WAVE,
+            refl=refl,
+            refl_err=refl_err,
+            pV=pV,
+            pV_err=pV_err,
+            class_=class_,
+            source=f"Mahlke+ 2022 - Class {class_}",
+            _source="Mahlke+ 2022",
+            id_=f"Template Class {class_}",
+        )
+        templates[class_] = template
+    return templates
 
 
 # ------

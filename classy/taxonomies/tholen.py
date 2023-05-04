@@ -10,7 +10,10 @@ from classy import core
 from classy.log import logger
 from classy import preprocessing
 from classy import sources
+from classy import tools
 from classy import taxonomies
+
+CLASSES = ["A", "B", "C", "D", "E", "F", "G", "M", "P", "Q", "S", "R", "T", "V", "X"]
 
 
 def is_classifiable(spec):
@@ -72,10 +75,10 @@ def load_classification():
     """
 
     # Launch same ECAS method if data not present
-    PATH_DATA = config.PATH_CACHE / "ecas/ecas_scores.csv"
+    PATH_DATA = config.PATH_CACHE / "tholen1984/scores.csv"
 
     if not PATH_DATA.is_file():
-        sources.ecas.retrieve_spectra()
+        tools._retrieve_from_github(host="tholen1984", which="scores", path=PATH_DATA)
 
     return pd.read_csv(PATH_DATA, dtype={"number": "Int64"})
 
@@ -211,6 +214,11 @@ def decision_tree(spec):
         for ecas_scores in tholen_scores
     ]
     class_ = tholen.loc[np.argmin(distances), "class_"]
+
+    if not isinstance(class_, str) and np.isnan(class_):
+        raise ValueError(
+            "The ECAS scores file is missing classifications. Clean the PDS cache using 'classy status' and try again."
+        )
 
     # Resolve ambiguity the simple way
     if len(class_) == 2:

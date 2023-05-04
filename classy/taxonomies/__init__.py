@@ -1,9 +1,84 @@
-from . import demeo, mahlke, tholen
+from . import bus, demeo, mahlke, tholen
 
 from classy.log import logger
 
 SYSTEMS = ["mahlke", "demeo", "tholen"]
 SYSTEMS_REF = ["Mahlke+ 2022", "DeMeo+ 2009", "Tholen 1984"]
+
+COMPLEXES = {
+    "C": [
+        "B",
+        "C",
+        "D",
+        "F",
+        "G",
+        "T",
+        "Cg",
+        "Cgh",
+        "Ch",
+        "Cb",
+        "Z",
+        "P",
+        "Pk",
+        "Pe",
+        "Pek",
+    ],
+    "M": [
+        "M",
+        "K",
+        "L",
+        "E",
+        "X",
+        "Xc",
+        "Xk",
+        "Xe",
+        "Ld",
+        "Mk",
+        "Me",
+        "Mek",
+        "Ek",
+        "Ee",
+        "Eek",
+        "Xk",
+        "Xe",
+        "Xek",
+    ],
+    "S": [
+        "A",
+        "Q",
+        "S",
+        "R",
+        "V",
+        "O",
+        "Sq",
+        "Sl",
+        "Sk",
+        "Sr",
+        "Sa",
+        "Sv",
+    ],
+    "X": [
+        "E",
+        "M",
+        "P",
+        "X",
+        "Xc",
+        "Xk",
+        "Xe",
+        "Ld",
+        "K",
+        "L",
+        "Mk",
+        "Me",
+        "Mek",
+        "Ek",
+        "Ee",
+        "Eek",
+        "Xk",
+        "Xe",
+        "Xek",
+    ],
+}
 
 
 def resolve_system(system):
