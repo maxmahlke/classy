@@ -103,6 +103,19 @@ class Spectrum:
     def __len__(self):
         return len(self.wave)
 
+    def __add__(self, rhs):
+        if isinstance(rhs, Spectrum):
+            rhs = [rhs]
+        if not isinstance(rhs, list):
+            raise TypeError(
+                "Expected a list of classy.Spectrum or a single classy.Spectrum."
+            )
+        if not all(isinstance(entry, Spectrum) for entry in rhs):
+            raise ValueError(
+                "Can only add a list of classy.Spectrum instances or a classy.Spectra instance to another classy.Spectra instance."
+            )
+        return Spectra([self, *rhs])
+
     def smooth(self, method="savgol", **kwargs):
         """Smooth spectrum using a Savitzky-Golay filter or univariate spline.
 
@@ -173,7 +186,7 @@ class Spectrum:
         elif method == "mixnorm":
             alpha = mixnorm.normalize(self)
             self.refl = np.log(self.refl) - alpha
-            self.alpha = alpha
+            self._alpha = alpha
 
     #
     # def preprocess(
