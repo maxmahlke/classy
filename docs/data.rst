@@ -15,6 +15,13 @@ classy spectra`` command. The ``python`` interface allows more advanced
 analyses and access to the metadata. Examples are given for each data
 collection below.
 
+.. admonition:: Available Data
+   :class: important
+
+   Number of Spectra: **66,556**
+
+   Number of Asteroids with Spectra: **61,973**
+
 .. include:: sources/akari.rst
 
 .. include:: sources/ecas.rst
@@ -22,6 +29,8 @@ collection below.
 .. include:: sources/gaia.rst
 
 .. include:: sources/mithneos.rst
+
+.. include:: sources/primass.rst
 
 .. include:: sources/s3os2.rst
 
