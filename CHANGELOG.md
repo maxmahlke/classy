@@ -1,4 +1,10 @@
-# 0.4.4 -
+# 0.5
+- Add "classy status" command to manage cache directory (undocumented)
+- Add desc|description keyword to spectra
+- Add PRIMASS-L, 52CAS, 24CAS, SCAS, and other repositories from PDS to sources (undocumented)
+- Add Tholen 1984 class templates (undocumented)
+- Add Bus and Binzel 2002 class templates (undocumented)
+- Add Mahlke+ 2022 class templates (undocumented)
 - tensforflow is not required unless classifying
 
 # 0.4.3 - 2023-04-18
