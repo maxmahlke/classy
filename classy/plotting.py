@@ -110,7 +110,7 @@ def plot(data):
 
     # And now the class probablities
     CLASSES = classy.defs.CLASSES
-    CLASSES.remove("Ch")
+    # CLASSES.remove("Ch")
 
     for ind, obs in data.iterrows():
         axes[1, 2].bar(
@@ -286,7 +286,7 @@ def fit_feature():
     plt.show()
 
 
-def plot_spectra(spectra, taxonomy=None, save=None):
+def plot_spectra(spectra, taxonomy=None, save=None, templates=None):
     """Plot spectra. Called by 'classy spectra [id]'.
 
     Parameters
@@ -322,7 +322,7 @@ def plot_spectra(spectra, taxonomy=None, save=None):
         )
         ax_spec, ax_pv, ax_classes = axes
     else:
-        fig, ax_spec = plt.subplots(figsize=(12, 7))
+        fig, ax_spec = plt.subplots(figsize=(10, 7))
 
     # 1. Plot spectra, grouped by _source
     _sources = sorted(set(spec._source for spec in spectra))
@@ -333,6 +333,11 @@ def plot_spectra(spectra, taxonomy=None, save=None):
             if spec._source != source:
                 continue
 
+            if taxonomy == "mahlke" and spec.source != "Gaia":
+                # spec.wave_plot = spec._wave_pre_norm
+                # spec.refl_plot = spec._refl_pre_norm
+                spec._wave_preprocessed = spec._wave_pre_norm
+                spec._refl_preprocessed = spec._refl_pre_norm
             if not hasattr(spec, "wave_plot"):
                 spec.wave_plot = spec.wave
                 spec.refl_plot = spec.refl
@@ -363,7 +368,31 @@ def plot_spectra(spectra, taxonomy=None, save=None):
         lines += [dummy, l3]
         labels += ["", "Taxonomy Limits"]
 
-    leg = ax_spec.legend(lines, labels, edgecolor="none", loc="center right")
+    if templates is not None:
+        plot_class_templates(ax_spec, taxonomy, templates)
+        if taxonomy is None or taxonomy == "mahlke":
+            scheme = "Mahlke+ 2022"
+        elif taxonomy == "bus":
+            scheme = "Bus and Binzel 2002"
+        elif taxonomy == "tholen":
+            scheme = "Tholen 1984"
+        elif taxonomy == "demeo":
+            scheme = "DeMeo+ 2009"
+        (l3,) = ax_spec.plot([], [], ls=(1, (1, 7)), alpha=0.3, c="gray")
+        lines += [dummy, dummy, l3]
+        labels += ["", f"Class Templates", f"Complex {templates} - {scheme}"]
+
+    leg = ax_spec.legend(
+        lines,
+        labels,
+        edgecolor="none",
+        # ncols=4,
+        # loc="upper center",
+        # loc="lower left",
+        loc="center right",
+        # bbox_to_anchor=(0.5, 1.3),
+        fontsize=8,
+    )
     ax_spec.add_artist(leg)
 
     if taxonomy is not None:
@@ -757,7 +786,9 @@ def plot_user_spectrum(ax, spec):
 
     line = [l1]
 
-    if hasattr(spec, "shortbib"):
+    if hasattr(spec, "filename"):
+        label = spec.filename
+    elif hasattr(spec, "shortbib"):
         label = spec.shortbib
     elif hasattr(spec, "source"):
         label = spec.source
@@ -765,3 +796,32 @@ def plot_user_spectrum(ax, spec):
         label = "User"
     label = [label]
     return line, label
+
+
+def plot_class_templates(ax, scheme, complex):
+    """Add class templates of taxonomic scheme to figure."""
+    if scheme is None:
+        scheme = "mahlke"
+
+    if scheme not in ["bus", "demeo", "mahlke", "tholen"]:
+        raise ValueError(f"Unknown taxonomy '{scheme}' for class templates.")
+
+    templates = getattr(taxonomies, scheme).load_templates()
+
+    for class_, spec in templates.items():
+        if class_ not in taxonomies.COMPLEXES[complex]:
+            continue
+
+        ax.plot(spec.wave, spec.refl, ls=(1, (1, 7)), alpha=0.3, c="gray", zorder=-100)
+        for w, r in zip(spec.wave[::2], spec.refl[::2]):
+            ax.text(
+                w,
+                r,
+                class_,
+                size=6,
+                c="gray",
+                ha="center",
+                va="center",
+                clip_on=True,
+                alpha=0.5,
+            )
