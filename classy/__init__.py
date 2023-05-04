@@ -1,4 +1,4 @@
-"""Taxonomic classification of asteroid observations following Mahlke+ 2022."""
+"""Taxonomic classification of asteroid reflectance spectra."""
 import os
 
 os.environ["TF_CPP_MIN_LOG_LEVEL"] = "3"
