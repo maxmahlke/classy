@@ -5,7 +5,6 @@ from zipfile import ZipFile
 
 import numpy as np
 
-from classy import progress
 from classy.log import logger
 
 from rich.progress import (

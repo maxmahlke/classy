@@ -6,7 +6,6 @@ from classy import config
 from classy import core
 from classy.log import logger
 from classy import index
-from classy.progress import progress
 
 
 def load_spectrum(spec):
