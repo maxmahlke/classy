@@ -1,14 +1,9 @@
-from functools import lru_cache
-import re
 from urllib.request import urlretrieve
 
 import pandas as pd
 import rocks
 
-# from rich.progress import Progress
-from rich.progress import track
 
-# from classy.progress import progress
 from classy import config
 from classy import core
 from classy import index
@@ -188,6 +183,11 @@ def _retrieve_spectra():
                 else:
                     date_obs = ""
                     shortbib = "Unpublished"
+                    bibcode = "Unpublished"
+
+                if not shortbib:
+                    shortbib = "Unpublished"
+                if not bibcode:
                     bibcode = "Unpublished"
 
                 entry = pd.DataFrame(
