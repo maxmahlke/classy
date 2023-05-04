@@ -5,13 +5,8 @@ import rocks
 from classy import config
 from classy import core
 from classy.log import logger
-
-PREPROCESS_PARAMS = {
-    "tholen": None,
-    "bus": None,
-    "demeo": None,
-    "mahlke": None,
-}
+from classy import index
+from classy import tools
 
 
 def load_index():
@@ -37,7 +32,108 @@ def load_spectrum(spec):
     astro.core.Spectrum
 
     """
-    PATH_SPEC = config.PATH_CACHE / f"akari/AcuA_1.0/reflectance/{spec.filename}"
+    PATH_SPEC = config.PATH_CACHE / f"{spec.filename}"
+
+    data = _load_data(PATH_SPEC)
+    spec = core.Spectrum(
+        wave=data.wave.values,
+        refl=data.refl.values,
+        refl_err=data.refl_err.values,
+        flag=data.flag.values,
+        source="AKARI",
+        name=spec["name"],
+        number=spec.number,
+        shortbib="Usui+ 2019",
+        bibcode="2019PASJ...71....1U",
+        flag_err=data.flag_err.values,
+        flag_saturation=data.flag_saturation.values,
+        flag_thermal=data.flag_thermal.values,
+        flag_stellar=data.flag_stellar.values,
+        host="akari",
+    )
+    spec._source = "AKARI"
+
+    return spec
+
+
+def _retrieve_spectra():
+    """Download the AcuA-spec archive to cache."""
+
+    import tarfile
+    import requests
+
+    URL = "https://darts.isas.jaxa.jp/pub/akari/AKARI-IRC_Spectrum_Pointed_AcuA_1.0/AcuA_1.0.tar.gz"
+    PATH_AKARI = config.PATH_CACHE / "akari"
+
+    PATH_AKARI.mkdir(parents=True, exist_ok=True)
+
+    # Retrieve spectra
+    logger.info("Retrieving AKARI AcuA-spec reflectance spectra to cache...")
+    tools.download_archive(URL, PATH_AKARI)
+    # with requests.get(URL, stream=True) as file_:
+    #     with tarfile.open(fileobj=file_.raw, mode="r:gz") as archive:
+    # archive.extractall(PATH_AKARI)
+
+    # Create index
+    akari = pd.read_csv(
+        PATH_AKARI / "AcuA_1.0/target.txt",
+        delimiter="\s+",
+        names=["number", "name", "obs_id", "date", "ra", "dec"],
+        dtype={"number": int},
+    )
+    akari = akari.drop_duplicates("number")
+
+    # Drop (4) Vesta and (4015) Wilson-Harrington as there are no spectra of them
+    akari = akari[~akari.number.isin([4, 4015])]
+
+    # Add filenames
+    akari["filename"] = akari.apply(
+        lambda row: f"{row.number:>04}_{row['name']}.txt", axis=1
+    )
+
+    akari = akari.drop(columns=["ra", "dec"])
+
+    entries = []
+    for _, row in akari.iterrows():
+
+        name, number = row["name"], row.number
+
+        filename = f"akari/AcuA_1.0/reflectance/{row.filename}"
+        date_obs = row.date
+
+        shortbib = "Usui+ 2019"
+        bibcode = "2019PASJ...71....1U"
+
+        data = _load_data(config.PATH_CACHE / filename)
+        wave = data["wave"]
+
+        # ------
+        # Append to index
+        entry = pd.DataFrame(
+            data={
+                "name": name,
+                "number": number,
+                "filename": filename,
+                "shortbib": shortbib,
+                "bibcode": bibcode,
+                "wave_min": min(wave),
+                "wave_max": max(wave),
+                "N": len(wave),
+                "date_obs": date_obs,
+                "source": "AKARI",
+                "host": "akari",
+                "collection": "AcuA",
+            },
+            index=[0],
+        )
+        entries.append(entry)
+
+    entries = pd.concat(entries)
+    index.add(entries)
+    logger.info(f"Added {len(entries)} AKARI spectra to the classy index.")
+
+
+def _load_data(PATH_SPEC):
 
     # Load spectrum
     data = pd.read_csv(
@@ -64,59 +160,4 @@ def load_spectrum(spec):
         else 0,
         axis=1,
     )
-
-    spec = core.Spectrum(
-        wave=data.wave.values,
-        refl=data.refl.values,
-        refl_err=data.refl_err.values,
-        flag=data.flag.values,
-        source="AKARI",
-        name=spec["name"],
-        number=spec.number,
-        shortbib="Usui+ 2019",
-        bibcode="2019PASJ...71....1U",
-        flag_err=data.flag_err.values,
-        flag_saturation=data.flag_saturation.values,
-        flag_thermal=data.flag_thermal.values,
-        flag_stellar=data.flag_stellar.values,
-    )
-    spec._source = "AKARI"
-
-    return spec
-
-
-def retrieve_spectra():
-    """Download the AcuA-spec archive to cache."""
-
-    import tarfile
-    import requests
-
-    URL = "https://darts.isas.jaxa.jp/pub/akari/AKARI-IRC_Spectrum_Pointed_AcuA_1.0/AcuA_1.0.tar.gz"
-    PATH_AKARI = config.PATH_CACHE / "akari"
-
-    PATH_AKARI.mkdir(parents=True, exist_ok=True)
-
-    # Retrieve spectra
-    logger.info("Retrieving AKARI AcuA-spec reflectance spectra [1.7MB] to cache...")
-    with requests.get(URL, stream=True) as file_:
-        with tarfile.open(fileobj=file_.raw, mode="r:gz") as archive:
-            archive.extractall(PATH_AKARI)
-
-    # Create index
-    index = pd.read_csv(
-        PATH_AKARI / "AcuA_1.0/target.txt",
-        delimiter="\s+",
-        names=["number", "name", "obs_id", "date", "ra", "dec"],
-        dtype={"number": int},
-    )
-    index = index.drop_duplicates("number")
-
-    # Drop (4) Vesta and (4015) Wilson-Harrington as there are no spectra of them
-    index = index[~index.number.isin([4, 15])]
-
-    # Add filenames
-    index["filename"] = index.apply(
-        lambda row: f"{row.number:>04}_{row['name']}.txt", axis=1
-    )
-
-    index.to_csv(PATH_AKARI / "AcuA_1.0/index.csv", index=False)
+    return data

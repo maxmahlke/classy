@@ -5,17 +5,8 @@ import rocks
 from classy import config
 from classy import core
 from classy.log import logger
-
-
-def load_index():
-    """Load the Gaia DR3 reflectance spectra index."""
-
-    PATH_INDEX = config.PATH_CACHE / "gaia/index.csv"
-
-    if not PATH_INDEX.is_file():
-        retrieve_spectra()
-
-    return pd.read_csv(PATH_INDEX, dtype={"number": "Int64"})
+from classy import index
+from classy.progress import progress
 
 
 def load_spectrum(spec):
@@ -30,7 +21,7 @@ def load_spectrum(spec):
     astro.core.Spectrum
 
     """
-    PATH_SPEC = config.PATH_CACHE / f"gaia/{spec.filename}.csv"
+    PATH_SPEC = config.PATH_CACHE / spec.filename
 
     obs = pd.read_csv(PATH_SPEC, dtype={"reflectance_spectrum_flag": int})
     obs = obs.loc[obs["name"] == spec["name"]]
@@ -60,16 +51,19 @@ def load_spectrum(spec):
         denomination=obs.denomination.tolist()[0],
         nb_samples=obs.nb_samples.tolist()[0],
         num_of_spectra=obs.num_of_spectra.tolist()[0],
+        host="gaia",
     )
     spec._source = "Gaia"
 
     return spec
 
 
-def retrieve_spectra():
+def _retrieve_spectra():
     """Retrieve Gaia DR3 reflectance spectra to cache."""
 
-    logger.info("Retrieving Gaia DR3 reflectance spectra [13MB] to cache...")
+    logger.info(
+        "Retrieving Gaia DR3 reflectance spectra [13MB] to cache and creating index..."
+    )
 
     # Create directory structure
     PATH_GAIA = config.PATH_CACHE / "gaia"
@@ -77,35 +71,98 @@ def retrieve_spectra():
 
     # Retrieve observations
     URL = "http://cdn.gea.esac.esa.int/Gaia/gdr3/Solar_system/sso_reflectance_spectrum/SsoReflectanceSpectrum_"
+    N_gaia = 20  # 20 separate gaia archives
 
-    index = {}
+    archives = {}
 
     # Observations are split into 20 parts
-    for idx in range(20):
-        # Retrieve the spectra
-        part = pd.read_csv(f"{URL}{idx:02}.csv.gz", compression="gzip", comment="#")
+    from rich.progress import (
+        BarColumn,
+        DownloadColumn,
+        Progress,
+        TextColumn,
+        MofNCompleteColumn,
+    )
 
-        # Create list of identifiers from number and name columns
-        ids = part.number_mp.fillna(part.denomination).values
-        names, numbers = zip(*rocks.id(ids))
+    progress = Progress(
+        TextColumn("{task.description}", justify="right"),
+        BarColumn(bar_width=None),
+        MofNCompleteColumn(),
+    )
+    with progress:
+        task = progress.add_task("Gaia DR3", total=N_gaia)
+        for idx in range(N_gaia):
+            # Retrieve the spectra
+            part = pd.read_csv(f"{URL}{idx:02}.csv.gz", compression="gzip", comment="#")
 
-        part["name"] = names
-        part["number"] = numbers
+            # Create list of identifiers from number and name columns
+            ids = part.number_mp.fillna(part.denomination).values
+            names, numbers = zip(*rocks.id(ids))
 
-        # Add to index for quick look-up
-        for name, entries in part.groupby("name"):
-            # Use the number for identification if available, else the name
-            number = entries.number.values[0]
-            asteroid = number if number else name
+            part["name"] = names
+            part["number"] = numbers
 
-            index[asteroid] = f"SsoReflectanceSpectrum_{idx:02}"
+            # Add to index for quick look-up
+            for name, entries in part.groupby("name"):
+                # Use the number for identification if available, else the name
+                number = entries.number.values[0]
+                asteroid = number if number else name
 
-        # Store to cache
-        part.to_csv(PATH_GAIA / f"SsoReflectanceSpectrum_{idx:02}.csv", index=False)
+                archives[asteroid] = f"SsoReflectanceSpectrum_{idx:02}"
+
+            # Store to cache
+            part.to_csv(PATH_GAIA / f"SsoReflectanceSpectrum_{idx:02}.csv", index=False)
+            progress.update(task, advance=1)
 
     # Convert index to dataframe, store to cache
-    names, numbers = zip(*rocks.identify(list(index.keys())))
-    index = pd.DataFrame(
-        data={"name": names, "number": numbers, "filename": list(index.values())}
+    names, numbers = zip(*rocks.identify(list(archives.keys())))
+
+    entries = []
+    shortbib, bibcode = "Galluccio+ 2022", "2022arXiv220612174G"
+
+    Nentries = len(names)
+
+    entries = pd.DataFrame(
+        data={
+            "name": names,
+            "number": numbers,
+            "filename": [
+                "gaia/" + filename + ".csv" for filename in list(archives.values())
+            ],
+        },
+        index=[0] * Nentries,
     )
-    index.to_csv(PATH_GAIA / "index.csv", index=False)
+
+    entries["shortbib"] = shortbib
+    entries["bibcode"] = bibcode
+    entries["wave_min"] = 0.374
+    entries["wave_max"] = 1.034
+    entries["N"] = 16
+    entries["date_obs"] = ""
+    entries["source"] = "Gaia"
+    entries["host"] = "gaia"
+    entries["collection"] = "gaia"
+    # for name, number, filename in zip(names, numbers, list(archives.values())):
+    #     entry = pd.DataFrame(
+    #         data={
+    #             "name": name,
+    #             "number": number,
+    #             "filename": "gaia/" + filename + ".csv",
+    #             "shortbib": shortbib,
+    #             "bibcode": bibcode,
+    #             "wave_min": 0.374,
+    #             "wave_max": 1.034,
+    #             "N": 16,
+    #             "date_obs": "",
+    #             "source": "Gaia",
+    #             "host": "gaia",
+    #             "collection": "gaia",
+    #         },
+    #         index=[0],
+    #     )
+    #     entries.append(entry)
+
+    # index.to_csv(PATH_GAIA / "index.csv", index=False)
+    # entries = pd.concat(entries)
+    index.add(entries)
+    logger.info(f"Added {len(entries)} Gaia spectra to the classy index.")
