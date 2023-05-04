@@ -1,6 +1,19 @@
 MITHNEOS
 --------
 
+
+
+The mithneos observation log is incomplete and does not included the references
+that the spectra were published in. I went through literature and files to
+recover as much metadata as possible, but I cannot guarantuee that it is 100%
+accurate. If not date-obs is given for a spectrum, I could not find it in any
+log or publication. If you have more information, please submit it!
+
+Binzel+ 2019 published 805 spectra and 559 here carry this bibliographic
+reference as they are the only spectrum of this asteroid in MITHNEOS. The only
+way to identify the rest is to visually compare the published
+spectra to the spectra in MITHNEOS as there is no metadata file.
+
 ``MIT-Hawaii Near-Earth Object Spectroscopic Survey``
 
 .. tab-set::
