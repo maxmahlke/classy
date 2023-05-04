@@ -786,9 +786,7 @@ def plot_user_spectrum(ax, spec):
 
     line = [l1]
 
-    if hasattr(spec, "filename"):
-        label = spec.filename
-    elif hasattr(spec, "shortbib"):
+    if hasattr(spec, "shortbib"):
         label = spec.shortbib
     elif hasattr(spec, "source"):
         label = spec.source
