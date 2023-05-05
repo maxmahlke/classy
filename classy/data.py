@@ -48,7 +48,9 @@ def load_spectra(name, source):
     #     index["source"] = s
     #     index_spectra = pd.concat([index_spectra, index])
     classy_index = index.load()
-    index_spectra = classy_index[classy_index["name"] == name]
+    index_spectra = classy_index[
+        (classy_index["name"] == name) & classy_index["source"].isin(source)
+    ]
 
     if index_spectra.empty:
         name, number = rocks.id(name)
