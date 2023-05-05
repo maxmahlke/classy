@@ -425,7 +425,8 @@ def plot_spectra(spectra, taxonomy=None, save=None, templates=None):
             )
 
         ticklabels = [
-            spec.source if hasattr(spec, "source") else spec._source for spec in spectra
+            spec.shortbib if hasattr(spec, "shortbib") else spec._source
+            for spec in spectra
         ]
         ax_pv.set_xticks(range(len(spectra)), ticklabels, rotation=90)
 
@@ -451,7 +452,7 @@ def plot_spectra(spectra, taxonomy=None, save=None, templates=None):
                         color=spec._color,
                         width=width,
                         alpha=0.7,
-                        label=f"{spec.source if hasattr(spec, 'source') else spec._source}: {spec.class_}"
+                        label=f"{spec.shortbib if hasattr(spec, 'shortbib') else spec._source}: {spec.class_}"
                         if x == 0
                         else None,
                     )
