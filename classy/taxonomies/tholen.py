@@ -29,8 +29,6 @@ def is_classifiable(spec):
     bool
         True if the spectrum can be classified, else False.
     """
-    if spec._source == "Gaia":
-        return True  # requires minor extrapolation
 
     if spec.wave.min() > WAVE.min() or spec.wave.max() < WAVE.max():
 
