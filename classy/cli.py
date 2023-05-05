@@ -54,12 +54,19 @@ def docs():
     help="Select one or more online repositories.",
 )
 @click.option(
+    "-e",
+    "--exclude",
+    type=click.Choice(sources.SOURCES),
+    multiple=True,
+    help="Exclude one or more online repositories.",
+)
+@click.option(
     "--save",
     is_flag=True,
     help="Save plot to file in current working directory.",
 )
 @click.option("-v", is_flag=True, help="Set verbose output.")
-def spectra(id_, classify, taxonomy, templates, source, save, v):
+def spectra(id_, classify, taxonomy, templates, source, exclude, save, v):
     """Retrieve, plot, classify spectra of an individual asteroid."""
 
     if v:
@@ -78,6 +85,9 @@ def spectra(id_, classify, taxonomy, templates, source, save, v):
 
     if not source:
         source = classy.sources.SOURCES
+
+    if exclude:
+        source = [s for s in source if s not in exclude]
 
     # Load spectra
     spectra = core.Spectra(id_, source=source)
