@@ -148,6 +148,7 @@ def _retrieve_spectra():
         TextColumn("{task.description}", justify="right"),
         BarColumn(bar_width=None),
         MofNCompleteColumn(),
+        disable=False,
     )
     with progress:
         task = progress.add_task("MITHNEOS ObsRuns", total=len(runs))
@@ -188,6 +189,10 @@ def _retrieve_spectra():
                 if not shortbib:
                     shortbib = "Unpublished"
                 if not bibcode:
+                    bibcode = "Unpublished"
+                if pd.isna(shortbib):
+                    shortbib = "Unpublished"
+                if pd.isna(bibcode):
                     bibcode = "Unpublished"
 
                 entry = pd.DataFrame(
