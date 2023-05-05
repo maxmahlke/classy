@@ -100,10 +100,14 @@ def _load_data(meta):
         flags.append(flag_value)
 
     flag = np.array(flags)
-    flag = flag[~np.isnan(refl)]
 
     data = pd.DataFrame(
-        data={"refl": refl, "refl_err": refl_err, "wave": WAVE, "flag": flag},
+        data={
+            "refl": refl[~np.isnan(refl)],
+            "refl_err": refl_err[~np.isnan(refl)],
+            "wave": np.array(WAVE)[~np.isnan(refl)],
+            "flag": flag[~np.isnan(refl)],
+        },
     )
 
     return data
