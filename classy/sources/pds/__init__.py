@@ -281,10 +281,11 @@ def load_spectrum(meta):
         refl_err=data["refl_err"],
         name=meta["name"],
         number=meta.number,
-        source="PDS",
-        host="pds",
+        source=meta.source,
+        host=meta.host,
+        collection=meta.collection,
     )
-    spec._source = "PDS"
+    spec._source = meta.source
 
     # Add further metadata
     for param in ["shortbib", "bibcode", "date_obs"]:
