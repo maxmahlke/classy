@@ -57,7 +57,6 @@ def preprocess(spec):
     """
     spec.resample(WAVE)
     spec.normalize(at=0.55)
-    spec.is_preprocessed_tholen = True
 
 
 # ------
