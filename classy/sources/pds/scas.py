@@ -20,7 +20,7 @@ def _create_index(PATH_REPO):
     """Create index of spectra collection."""
 
     # Iterate over index file
-    scas = _load_scas(PATH_REPO)
+    scas = _load_scas(PATH_REPO / "data/scas.tab")
 
     entries = []
     for _, row in scas.iterrows():
@@ -68,7 +68,7 @@ def _load_scas(PATH_REPO):
     pd.DataFrame
     """
     data = pd.read_fwf(
-        PATH_REPO / "data/scas.tab",
+        PATH_REPO,
         columns=[
             (0, 6),
             (6, 12),
