@@ -246,6 +246,7 @@ def _load_data(PATH_SPEC):
     data = pd.read_csv(
         PATH_SPEC, names=["wave", "refl", "err", "flag"], delimiter="\s+", comment="#"
     )
+    data = data[data.refl > 0]
     # 2 - reject. This is flag 0 in MITHNEOS
     flags = [0 if f != 0 else 2 for f in data["flag"].values]
     return data
