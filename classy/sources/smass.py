@@ -43,6 +43,13 @@ def load_spectrum(spec):
     return spec
 
 
+def load_obslog():
+    PATH_LOG = config.PATH_CACHE / "smass/obslog.csv"
+    if not PATH_LOG.is_file():
+        tools._retrieve_from_github(host="smass", which="obslog", path=PATH_LOG)
+    return pd.read_csv(PATH_LOG)
+
+
 def get_id_from_filename(file_):
     id_ = file_.name.split(".")[0]
     id_ = id_.split("_")[0]
@@ -127,6 +134,7 @@ def _retrieve_spectra():
     entries = []
     logger.info("Indexing SMASS spectra...")
 
+    log = load_obslog()
     for _, dir, ref, bib in ARCH_DIR_REF_BIB:
         PATH_DIR = PATH_SMASS / dir
 
