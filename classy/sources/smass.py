@@ -134,7 +134,7 @@ def _retrieve_spectra():
     entries = []
     logger.info("Indexing SMASS spectra...")
 
-    log = load_obslog()
+    # log = load_obslog()
     for _, dir, ref, bib in ARCH_DIR_REF_BIB:
         PATH_DIR = PATH_SMASS / dir
 
