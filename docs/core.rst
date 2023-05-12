@@ -16,6 +16,8 @@ represented the ``Spectrum`` class.
 Getting Data
 ------------
 
+.. _getting_data:
+
 The ``Spectrum`` class stores the data and metadata of the spectra. It is the
 main interface to classify and plot observations. You can build a spectrum in
 two ways: from your own data or by retrieving data from :ref:`public
@@ -327,6 +329,8 @@ the classification results to ``csv`` format.
    ...  [classy] [(3) Juno] - [smass/smass2]: S
    ...  [classy] [(3) Juno] - [smass/smass2]: S
    >>> spectra.to_csv('class_juno.csv')
+
+.. _plotting:
 
 Plotting
 --------
