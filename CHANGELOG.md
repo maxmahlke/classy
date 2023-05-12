@@ -1,4 +1,4 @@
-# 0.5
+# 0.5 - 2023-05-12
 - Add "classy status" command to manage cache directory
 - Add PRIMASS-L, 52CAS, 24CAS, SCAS, and other repositories from PDS to sources
 - Add Tholen 1984 class templates
