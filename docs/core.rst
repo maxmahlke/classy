@@ -5,6 +5,11 @@
 Basic Usage
 ===========
 
+General:
+bibcode, shortbib, date_obs
+date_obs in %Y-%m-%d %H:%M:%S if HMS available else %Y-%m-%d if Ymd available else ''
+extension of index: add phase angle and taxonomic class
+
 ``classy`` is a tool for the analysis of reflectance spectra. Every spectrum is
 represented the ``Spectrum`` class.
 
@@ -171,6 +176,11 @@ In most cases, reflectance spectra need to be preprocessed prior to the
 classification. ``classy`` offers some preprocessing functionality. All functions
 describe below can be applied to either a single ``class.Spectrum`` or to many ``classy.Spectra``.
 
+.. _feature_detection:
+.. _norm_mixnorm:
+.. _resampling:
+.. _slope_removal:
+
 .. tab-set::
 
    .. tab-item:: Smoothing
@@ -238,7 +248,7 @@ describe below can be applied to either a single ``class.Spectrum`` or to many `
            for the respective taxonomic scheme. This happens "under the hood" and does
            not change your data.
 
-        Add truncating here
+        .. TODO: Add truncating here
 
    .. tab-item:: Filtering
 
@@ -254,19 +264,29 @@ describe below can be applied to either a single ``class.Spectrum`` or to many `
 
    .. tab-item:: Remove Slope
 
-        pass
+       A polynomial of degree 1 is fit to the entire spectrum and the
+       reflectance values are divided by the best-fit line. The fitted
+       intercept and slope are accessible via the added ``slope`` attribute:
 
-.. .. tab-item:: Feature Fitting
-..
-..     Done when the spectrum is instantiated.
-..     Can be rerun by user, eg after smoothing.
-..
-.. .. important::
-..
-..   Spectra from public repositories automatically get preprocessed prior to classification
-..   using pre-defined parameters. For example, Gaia spectra get extrapolated to the ECAS grid
-..   prior to classification following Tholen 1984. Set ``preprocessing=None`` in the ``.classify()``
-..   call to avoid this.
+       .. code-block: python
+
+         >>> spec.remove_slope()
+         >>> spec.slope # list containing [slope, intercept] of fitted polynomial
+
+
+   .. tab-item:: Feature Detection
+
+        .. image:: gfx/feature_flags.png
+           :align: center
+           :class: only-light
+           :width: 600
+
+        .. image:: gfx/feature_flags_dark.png
+           :align: center
+           :class: only-dark
+           :width: 600
+
+        Done when the spectrum is instantiated.
 
 Classifying
 -----------

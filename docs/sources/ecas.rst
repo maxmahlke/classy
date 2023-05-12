@@ -3,9 +3,19 @@ ECAS
 
 ``Eight Color Asteroid Survey``
 
+.. image:: gfx/sources/ecas_laetitia.png
+   :class: only-light
+   :align: center
+   :width: 600
+
+.. image:: gfx/sources/ecas_laetitia_dark.png
+   :class: only-dark
+   :align: center
+   :width: 600
+
 .. tab-set::
 
-  .. tab-item:: Basics
+  .. tab-item:: Overview
 
     +-------------------+-----------------------+------------------------+-------------------------------------------------------------------------------------+
     | Number of Spectra | :math:`\lambda_{min}` | :math:`\lambda_{max}`  | Reference                                                                           |
@@ -13,21 +23,11 @@ ECAS
     | 589               | 0.337µm               | 1.041µm                | `Zellner+ 1985 <https://ui.adsabs.harvard.edu/abs/1985Icar...61..355Z>`_            |
     +-------------------+-----------------------+------------------------+-------------------------------------------------------------------------------------+
 
-    .. image:: gfx/sources/ecas_laetitia.png
-       :class: only-light
-       :align: center
-       :width: 600
 
-    .. image:: gfx/sources/ecas_laetitia_dark.png
-       :class: only-dark
-       :align: center
-       :width: 600
+  .. tab-item:: Attributes
 
-  .. tab-item:: Data
-
-    When the first ECAS spectrum is requested, ``classy`` downloads the entire
-    survey results (130KB) from NASA PDS to the :ref:`cache
-    directory<cache_directory>` for quick access.
+    .. important::
+        Compared to the original catalogue, cells with value ``-9.999`` are replaced with ``np.nan`` values.
 
     The following attributes are copied from the ECAS archive and added to each spectrum.
     See the `corresponding PDS page <https://sbn.psi.edu/pds/resource/ecas.html>`_ for details.
@@ -37,10 +37,6 @@ ECAS
     +------------------------+-----------------------------------------------------------------------------------------------------------------------------+
     | ``nights``             | The number of averaged nights to determine the colour value.                                                                |
     +------------------------+-----------------------------------------------------------------------------------------------------------------------------+
-
-    .. important::
-        Compared to the original catalogue, cells with value `-9.999` were replaced with `np.nan`
-        values.
 
     These attributes are added by ``classy``.
 
@@ -65,52 +61,3 @@ ECAS
     +------------------------------+---------------------------------------------------------------------------------------------------------------------+
     | ``flag``                     | ``1`` if any of the individual colour flags is ``1`` else ``0``.                                                    |
     +------------------------------+---------------------------------------------------------------------------------------------------------------------+
-    | ``shortbib``                 | ``'Zellner+ 1985'``                                                                                                 |
-    +------------------------------+---------------------------------------------------------------------------------------------------------------------+
-    | ``bibcode``                  | ``'1985Icar...61..355Z'``                                                                                           |
-    +------------------------------+---------------------------------------------------------------------------------------------------------------------+
-    | ``source``                   | ``'ECAS'``                                                                                                          |
-    +------------------------------+---------------------------------------------------------------------------------------------------------------------+
-
-  .. tab-item:: Taxonomies
-
-    ECAS observations can be classified in the following taxonomic schemes.
-
-    +-----------------------------------+-------------+---------------------------------+
-    | Tholen 1984                       | DeMeo+ 2009 | Mahlke+ 2022                    |
-    +-----------------------------------+-------------+---------------------------------+
-    | Yes                               | No          | Yes (:math:`\lambda \geq 0.45`) |
-    +-----------------------------------+-------------+---------------------------------+
-
-  .. tab-item:: Usage
-
-    From the command line:
-
-    .. code-block:: bash
-
-        $ classy spectra 39 --source ECAS
-        INFO     [classy] Looking for reflectance spectra of (39) Laetitia
-        INFO     [classy] Found 1 spectrum in ECAS
-
-    In a script:
-
-    .. code-block:: python
-
-       >>> import classy
-       >>> spectra = classy.Spectra(39, source="ECAS")
-       >>> spec = spectra[0]  # Source 'ECAS' only returns one spectrum
-       >>> spec.wave
-       array([0.337, 0.359, 0.437, 0.55 , 0.701, 0.853, 0.948, 1.041])
-       >>> spec.refl
-       array([0.52625956, 0.62805836, 0.81208222, 1.        , 1.16949939,
-              1.17273531, 1.15239138, 1.14077501])
-       >>> spec.flag
-       array([0, 0, 0, 0, 0, 0, 0, 0])
-
-  .. tab-item:: Tutorials
-
-    Relevant tutorials are
-
-    - :ref:`Excluding points based on SNR or flag values<excluding_refl>`
-
-    Please feel free to `contribute a tutorial <https://github.com/maxmahlke/classy/issues>`_ should you find an interesting use case.
