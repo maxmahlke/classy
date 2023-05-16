@@ -116,7 +116,7 @@ def _retrieve_spectra():
 
     ARCH_DIR_REF_BIB = [
         ("smass1data_new", "smass1", "Xu+ 1995", "1995Icar..115....1X"),
-        ("smass2data", "smass2", "Bus and Binzel+ 2002", "2002Icar..158..106B"),
+        ("smass2data", "smass2", "Bus and Binzel 2002", "2002Icar..158..106B"),
         ("smassirdata", "smassir", "Burbine and Binzel 2002", "2002Icar..159..468B"),
         ("smassneodata", "smassneo", "Binzel+ 2001", "2001Icar..151..139B"),
         ("smassref5", "sf36ref5", "Binzel+ 2001", "2001M&PS...36.1167B"),
