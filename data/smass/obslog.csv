@@ -1,1939 +1,2121 @@
 number,name,date_obs,shortbib
-3,Juno,1992-11-27,Xu+ 1995
-3,Juno,1992-11-28,Xu+ 1995
-4,Vesta,1991-10-31,Xu+ 1995
-4,Vesta,1991-12-07,Xu+ 1995
-4,Vesta,1992-03-14,Xu+ 1995
-6,Hebe,1992-11-27,Xu+ 1995
-6,Hebe,1992-12-02,Xu+ 1995
-7,Iris,1991-10-27,Xu+ 1995
-7,Iris,1992-01-14,Xu+ 1995
-7,Iris,1992-12-01,Xu+ 1995
-8,Flora,1991-12-14,Xu+ 1995
-8,Flora,1992-01-17,Xu+ 1995
-10,Hygiea,1991-11-01,Xu+ 1995
-14,Irene,1992-01-15,Xu+ 1995
-14,Irene,1992-03-14,Xu+ 1995
-18,Melpomene,1992-11-28,Xu+ 1995
-22,Kalliope,1991-10-27,Xu+ 1995
-22,Kalliope,1993-01-20,Xu+ 1995
-25,Phocaea,1993-01-04,Xu+ 1995
-28,Bellona,1991-10-27,Xu+ 1995
-28,Bellona,1992-01-16,Xu+ 1995
-29,Amphitrite,1991-12-07,Xu+ 1995
-29,Amphitrite,1992-01-17,Xu+ 1995
-29,Amphitrite,1992-03-11,Xu+ 1995
-32,Pomona,1991-10-25,Xu+ 1995
-32,Pomona,1991-10-28,Xu+ 1995
-32,Pomona,1991-11-01,Xu+ 1995
-32,Pomona,1992-01-15,Xu+ 1995
-32,Pomona,1992-11-30,Xu+ 1995
-36,Atalante,1993-01-21,Xu+ 1995
-38,Leda,1991-12-07,Xu+ 1995
-39,Laetitia,1992-12-01,Xu+ 1995
-42,Isis,1992-01-17,Xu+ 1995
-43,Ariadne,1992-09-06,Xu+ 1995
-43,Ariadne,1992-11-27,Xu+ 1995
-53,Kalypso,1992-11-28,Xu+ 1995
-54,Alexandra,1992-09-06,Xu+ 1995
-55,Pandora,1991-10-30,Xu+ 1995
-61,Danae,1992-01-14,Xu+ 1995
-61,Danae,1992-01-17,Xu+ 1995
-68,Leto,1992-11-26,Xu+ 1995
-71,Niobe,1991-12-08,Xu+ 1995
-71,Niobe,1992-01-14,Xu+ 1995
-72,Feronia,1993-01-04,Xu+ 1995
-73,Klytia,1992-01-17,Xu+ 1995
-82,Alkmene,1992-11-29,Xu+ 1995
-86,Semele,1991-10-26,Xu+ 1995
-88,Thisbe,1992-01-13,Xu+ 1995
-111,Ate,1993-01-21,Xu+ 1995
-116,Sirona,1991-10-29,Xu+ 1995
-116,Sirona,1992-01-18,Xu+ 1995
-116,Sirona,1992-12-01,Xu+ 1995
-116,Sirona,1993-01-01,Xu+ 1995
-116,Sirona,1993-01-04,Xu+ 1995
-116,Sirona,1993-01-21,Xu+ 1995
-116,Sirona,1993-01-22,Xu+ 1995
-124,Alkeste,1992-09-08,Xu+ 1995
-126,Velleda,1992-01-14,Xu+ 1995
-126,Velleda,1992-01-17,Xu+ 1995
-128,Nemesis,1991-12-13,Xu+ 1995
-131,Vala,1992-11-29,Xu+ 1995
-131,Vala,1992-11-30,Xu+ 1995
-134,Sophrosyne,1992-11-26,Xu+ 1995
-137,Meliboea,1991-10-27,Xu+ 1995
-137,Meliboea,1993-01-22,Xu+ 1995
-138,Tolosa,1992-01-13,Xu+ 1995
-138,Tolosa,1992-01-17,Xu+ 1995
-149,Medusa,1991-12-14,Xu+ 1995
-149,Medusa,1992-01-14,Xu+ 1995
-157,Dejanira,1992-01-14,Xu+ 1995
-158,Koronis,1991-10-27,Xu+ 1995
-158,Koronis,1992-01-18,Xu+ 1995
-167,Urda,1992-09-07,Xu+ 1995
-169,Zelia,1993-01-04,Xu+ 1995
-185,Eunike,1992-03-12,Xu+ 1995
-186,Celuta,1993-01-21,Xu+ 1995
-196,Philomela,1992-11-29,Xu+ 1995
-204,Kallisto,1992-09-09,Xu+ 1995
-211,Isolda,1991-12-16,Xu+ 1995
-218,Bianca,1992-03-13,Xu+ 1995
-221,Eos,1992-03-11,Xu+ 1995
-230,Athamantis,1992-09-06,Xu+ 1995
-231,Vindobona,1992-09-10,Xu+ 1995
-234,Barbara,1992-01-15,Xu+ 1995
-234,Barbara,1992-01-17,Xu+ 1995
-235,Carolina,1991-12-13,Xu+ 1995
-235,Carolina,1992-01-15,Xu+ 1995
-237,Coelestina,1991-12-15,Xu+ 1995
-237,Coelestina,1992-01-15,Xu+ 1995
-239,Adrastea,1992-09-11,Xu+ 1995
-239,Adrastea,1993-01-04,Xu+ 1995
-243,Ida,1991-12-08,Xu+ 1995
-245,Vera,1992-11-30,Xu+ 1995
-248,Lameia,1991-12-16,Xu+ 1995
-248,Lameia,1992-11-28,Xu+ 1995
-248,Lameia,1993-01-04,Xu+ 1995
-256,Walpurga,1992-12-02,Xu+ 1995
-287,Nephthys,1992-01-17,Xu+ 1995
-287,Nephthys,1992-03-13,Xu+ 1995
-289,Nenetta,1991-12-07,Xu+ 1995
-289,Nenetta,1992-03-12,Xu+ 1995
-290,Bruna,1992-12-02,Xu+ 1995
-291,Alice,1992-01-14,Xu+ 1995
-292,Ludovica,1992-09-08,Xu+ 1995
-297,Caecilia,1992-09-09,Xu+ 1995
-314,Rosalia,1992-09-10,Xu+ 1995
-319,Leona,1992-12-02,Xu+ 1995
-339,Dorothea,1993-01-21,Xu+ 1995
-345,Tercidina,1991-10-26,Xu+ 1995
-346,Hermentaria,1991-12-15,Xu+ 1995
-346,Hermentaria,1992-01-13,Xu+ 1995
-346,Hermentaria,1992-03-12,Xu+ 1995
-349,Dembowska,1992-11-27,Xu+ 1995
-350,Ornamenta,1991-10-26,Xu+ 1995
-350,Ornamenta,1991-10-28,Xu+ 1995
-354,Eleonora,1992-03-11,Xu+ 1995
-371,Bohemia,1992-09-05,Xu+ 1995
-374,Burgundia,1991-12-08,Xu+ 1995
-374,Burgundia,1992-01-16,Xu+ 1995
-374,Burgundia,1992-01-20,Xu+ 1995
-384,Burdigala,1993-01-01,Xu+ 1995
-402,Chloe,1993-01-01,Xu+ 1995
-416,Vaticana,1991-12-14,Xu+ 1995
-416,Vaticana,1992-01-18,Xu+ 1995
-430,Hybris,1992-09-09,Xu+ 1995
-441,Bathilde,1992-11-28,Xu+ 1995
-441,Bathilde,1992-11-29,Xu+ 1995
-441,Bathilde,1992-11-30,Xu+ 1995
-446,Aeternitas,1992-09-08,Xu+ 1995
-446,Aeternitas,1992-11-28,Xu+ 1995
-446,Aeternitas,1992-11-30,Xu+ 1995
-456,Abnoba,1992-03-15,Xu+ 1995
-467,Laura,1992-01-13,Xu+ 1995
-470,Kilia,1992-12-01,Xu+ 1995
-471,Papagena,1992-01-17,Xu+ 1995
-471,Papagena,1992-03-15,Xu+ 1995
-474,Prudentia,1991-12-07,Xu+ 1995
-477,Italia,1993-01-21,Xu+ 1995
-480,Hansa,1992-09-08,Xu+ 1995
-481,Emita,1993-01-20,Xu+ 1995
-495,Eulalia,1992-09-10,Xu+ 1995
-509,Iolanda,1991-10-31,Xu+ 1995
-509,Iolanda,1992-01-17,Xu+ 1995
-511,Davida,1992-03-11,Xu+ 1995
-512,Taurinensis,1991-12-07,Xu+ 1995
-512,Taurinensis,1992-01-13,Xu+ 1995
-518,Halawe,1992-09-09,Xu+ 1995
-519,Sylvania,1993-01-22,Xu+ 1995
-529,Preziosa,1992-01-13,Xu+ 1995
-541,Deborah,1992-03-15,Xu+ 1995
-550,Senta,1991-10-26,Xu+ 1995
-550,Senta,1992-01-18,Xu+ 1995
-563,Suleika,1992-09-07,Xu+ 1995
-563,Suleika,1992-11-29,Xu+ 1995
-582,Olympia,1992-09-07,Xu+ 1995
-599,Luisa,1992-01-14,Xu+ 1995
-599,Luisa,1992-01-17,Xu+ 1995
-631,Philippina,1992-09-11,Xu+ 1995
-639,Latona,1992-11-29,Xu+ 1995
-639,Latona,1993-01-01,Xu+ 1995
-653,Berenike,1991-12-15,Xu+ 1995
-675,Ludmilla,1991-10-25,Xu+ 1995
-675,Ludmilla,1992-01-13,Xu+ 1995
-675,Ludmilla,1992-12-01,Xu+ 1995
-683,Lanzia,1992-09-08,Xu+ 1995
-702,Alauda,1991-10-30,Xu+ 1995
-720,Bohlinia,1992-01-13,Xu+ 1995
-720,Bohlinia,1992-01-17,Xu+ 1995
-722,Frieda,1991-10-26,Xu+ 1995
-724,Hapag,1992-11-29,Xu+ 1995
-732,Tjilaki,1992-03-14,Xu+ 1995
-737,Arequipa,1991-10-28,Xu+ 1995
-737,Arequipa,1992-01-17,Xu+ 1995
-752,Sulamitis,1992-11-29,Xu+ 1995
-774,Armor,1992-09-08,Xu+ 1995
-787,Moskva,1992-09-08,Xu+ 1995
-788,Hohensteina,1992-09-09,Xu+ 1995
-803,Picka,1992-09-11,Xu+ 1995
-808,Merxia,1992-09-10,Xu+ 1995
-811,Nauheima,1992-03-14,Xu+ 1995
-813,Baumeia,1993-01-01,Xu+ 1995
-851,Zeissia,1992-01-14,Xu+ 1995
-863,Benkoela,1992-03-11,Xu+ 1995
-879,Ricarda,1992-03-14,Xu+ 1995
-900,Rosalinde,1992-09-08,Xu+ 1995
-900,Rosalinde,1992-09-09,Xu+ 1995
-900,Rosalinde,1992-11-27,Xu+ 1995
-900,Rosalinde,1992-11-28,Xu+ 1995
-915,Cosette,1991-10-26,Xu+ 1995
-918,Itha,1992-09-08,Xu+ 1995
-951,Gaspra,1992-11-26,Xu+ 1995
-951,Gaspra,1992-11-30,Xu+ 1995
-1063,Aquilegia,1993-01-04,Xu+ 1995
-1071,Brita,1992-09-11,Xu+ 1995
-1084,Tamariwa,1992-01-13,Xu+ 1995
-1110,Jaroslawa,1991-10-26,Xu+ 1995
-1110,Jaroslawa,1991-10-30,Xu+ 1995
-1143,Odysseus,1992-03-13,Xu+ 1995
-1144,Oda,1992-09-11,Xu+ 1995
-1145,Robelmonte,1993-01-21,Xu+ 1995
-1165,Imprinetta,1992-09-09,Xu+ 1995
-1166,Sakuntala,1993-01-22,Xu+ 1995
-1198,Atlantis,1992-11-28,Xu+ 1995
-1257,Mora,1991-10-27,Xu+ 1995
-1264,Letaba,1992-09-09,Xu+ 1995
-1273,Helma,1993-01-21,Xu+ 1995
-1279,Uganda,1992-09-08,Xu+ 1995
-1279,Uganda,1992-09-09,Xu+ 1995
-1289,Kutaissi,1992-11-29,Xu+ 1995
-1302,Werra,1992-01-14,Xu+ 1995
-1325,Inanda,1991-10-26,Xu+ 1995
-1325,Inanda,1991-10-27,Xu+ 1995
-1358,Gaika,1992-03-11,Xu+ 1995
-1375,Alfreda,1992-09-06,Xu+ 1995
-1379,Lomonosowa,1992-03-15,Xu+ 1995
-1393,Sofala,1991-12-08,Xu+ 1995
-1393,Sofala,1991-12-14,Xu+ 1995
-1451,Grano,1993-01-22,Xu+ 1995
-1463,Nordenmarkia,1993-01-04,Xu+ 1995
-1471,Tornio,1993-01-01,Xu+ 1995
-1478,Vihuri,1991-12-13,Xu+ 1995
-1480,Aunus,1992-12-02,Xu+ 1995
-1501,Baade,1991-12-07,Xu+ 1995
-1518,Rovaniemi,1991-10-27,Xu+ 1995
-1534,Nasi,1993-01-01,Xu+ 1995
-1577,Reiss,1991-10-28,Xu+ 1995
-1584,Fuji,1993-01-04,Xu+ 1995
-1607,Mavis,1993-01-22,Xu+ 1995
-1626,Sadeya,1991-10-25,Xu+ 1995
-1626,Sadeya,1992-01-14,Xu+ 1995
-1628,Strobel,1993-01-04,Xu+ 1995
-1646,Rosseland,1992-11-26,Xu+ 1995
-1646,Rosseland,1992-11-27,Xu+ 1995
-1651,Behrens,1992-09-07,Xu+ 1995
-1653,Yakhontovia,1992-09-11,Xu+ 1995
-1658,Innes,1991-12-08,Xu+ 1995
-1679,Nevanlinna,1992-09-11,Xu+ 1995
-1697,Koskenniemi,1992-11-30,Xu+ 1995
-1712,Angola,1992-09-08,Xu+ 1995
-1722,Goffin,1992-12-01,Xu+ 1995
-1725,CrAO,1992-03-14,Xu+ 1995
-1743,Schmidt,1991-11-01,Xu+ 1995
-1749,Telamon,1992-03-13,Xu+ 1995
-1772,Gagarin,1992-03-11,Xu+ 1995
-1781,Van Biesbroeck,1993-01-20,Xu+ 1995
-1807,Slovakia,1991-10-26,Xu+ 1995
-1807,Slovakia,1991-10-27,Xu+ 1995
-1807,Slovakia,1991-10-29,Xu+ 1995
-1854,Skvortsov,1992-11-28,Xu+ 1995
-1854,Skvortsov,1992-11-29,Xu+ 1995
-1892,Lucienne,1991-12-13,Xu+ 1995
-1906,Naef,1991-12-07,Xu+ 1995
-1906,Naef,1991-12-08,Xu+ 1995
-1906,Naef,1991-12-14,Xu+ 1995
-1906,Naef,1991-12-15,Xu+ 1995
-1907,Rudneva,1992-09-07,Xu+ 1995
-1929,Kollaa,1992-11-27,Xu+ 1995
-1933,Tinchen,1992-09-06,Xu+ 1995
-1933,Tinchen,1992-09-07,Xu+ 1995
-1934,Jeffers,1992-03-11,Xu+ 1995
-1967,Menzel,1992-12-02,Xu+ 1995
-1995,Hajek,1991-10-30,Xu+ 1995
-1995,Hajek,1991-10-31,Xu+ 1995
-2011,Veteraniya,1992-11-29,Xu+ 1995
-2011,Veteraniya,1992-11-30,Xu+ 1995
-2011,Veteraniya,1992-12-01,Xu+ 1995
-2014,Vasilevskis,1992-09-11,Xu+ 1995
-2017,Wesson,1991-10-28,Xu+ 1995
-2024,McLaughlin,1993-01-21,Xu+ 1995
-2060,Chiron,1993-01-22,Xu+ 1995
-2070,Humason,1991-11-01,Xu+ 1995
-2074,Shoemaker,1991-10-30,Xu+ 1995
-2078,Nanking,1992-09-08,Xu+ 1995
-2078,Nanking,1992-09-09,Xu+ 1995
-2078,Nanking,1992-11-29,Xu+ 1995
-2078,Nanking,1992-12-02,Xu+ 1995
-2091,Sampo,1992-01-13,Xu+ 1995
-2098,Zyskin,1993-01-21,Xu+ 1995
-2105,Gudy,1992-09-10,Xu+ 1995
-2105,Gudy,1992-09-11,Xu+ 1995
-2107,Ilmari,1992-11-26,Xu+ 1995
-2107,Ilmari,1992-11-27,Xu+ 1995
-2113,Ehrdni,1993-01-21,Xu+ 1995
-2119,Schwall,1991-10-31,Xu+ 1995
-2128,Wetherill,1991-10-26,Xu+ 1995
-2128,Wetherill,1991-10-30,Xu+ 1995
-2130,Evdokiya,1991-10-31,Xu+ 1995
-2140,Kemerovo,1993-01-01,Xu+ 1995
-2143,Jimarnold,1991-12-16,Xu+ 1995
-2149,Schwambraniya,1991-12-08,Xu+ 1995
-2149,Schwambraniya,1993-01-20,Xu+ 1995
-2159,Kukkamaki,1993-01-22,Xu+ 1995
-2174,Asmodeus,1991-10-27,Xu+ 1995
-2204,Lyyli,1993-01-04,Xu+ 1995
-2215,Sichuan,1993-01-01,Xu+ 1995
-2253,Espinette,1991-10-31,Xu+ 1995
-2259,Sofievka,1992-09-08,Xu+ 1995
-2299,Hanko,1991-10-31,Xu+ 1995
-2327,Gershberg,1991-11-01,Xu+ 1995
-2327,Gershberg,1991-12-14,Xu+ 1995
-2365,Interkosmos,1992-12-02,Xu+ 1995
-2403,Sumava,1993-01-21,Xu+ 1995
-2420,Ciurlionis,1992-11-27,Xu+ 1995
-2440,Educatio,1991-11-01,Xu+ 1995
-2442,Corbett,1992-11-30,Xu+ 1995
-2442,Corbett,1992-12-01,Xu+ 1995
-2444,Lederle,1991-11-01,Xu+ 1995
-2503,Liaoning,1991-10-28,Xu+ 1995
-2538,Vanderlinden,1991-12-13,Xu+ 1995
-2558,Viv,1991-10-28,Xu+ 1995
-2558,Viv,1991-10-29,Xu+ 1995
-2590,Mourao,1992-11-26,Xu+ 1995
-2599,Veseli,1992-09-09,Xu+ 1995
-2645,Daphne Plane,1993-01-22,Xu+ 1995
-2728,Yatskiv,1991-12-08,Xu+ 1995
-2775,Odishaw,1991-12-15,Xu+ 1995
-2790,Needham,1991-10-31,Xu+ 1995
-2908,Shimoyama,1991-10-26,Xu+ 1995
-2920,Automedon,1992-03-13,Xu+ 1995
-2923,Schuyler,1991-12-14,Xu+ 1995
-2946,Muchachos,1991-12-16,Xu+ 1995
-2965,Surikov,1992-11-28,Xu+ 1995
-2966,Korsunia,1992-03-12,Xu+ 1995
-2966,Korsunia,1992-03-13,Xu+ 1995
-3109,Machin,1991-12-15,Xu+ 1995
-3153,Lincoln,1992-11-28,Xu+ 1995
-3153,Lincoln,1992-12-01,Xu+ 1995
-3155,Lee,1991-10-28,Xu+ 1995
-3155,Lee,1991-10-29,Xu+ 1995
-3158,Anga,1992-09-06,Xu+ 1995
-3167,Babcock,1993-01-21,Xu+ 1995
-3220,Murayama,1991-12-16,Xu+ 1995
-3231,Mila,1993-01-21,Xu+ 1995
-3268,De Sanctis,1992-03-11,Xu+ 1995
-3285,Ruth Wolfe,1991-10-26,Xu+ 1995
-3321,Dasha,1993-01-22,Xu+ 1995
-3332,Raksha,1993-01-20,Xu+ 1995
-3354,McNair,1992-09-06,Xu+ 1995
-3381,Mikkola,1991-10-30,Xu+ 1995
-3431,Nakano,1992-01-14,Xu+ 1995
-3494,Purple Mountain,1993-01-21,Xu+ 1995
-3501,Olegiya,1993-01-21,Xu+ 1995
-3523,Arina,1992-03-14,Xu+ 1995
-3528,Counselman,1991-12-14,Xu+ 1995
-3559,Violaumayer,1992-11-27,Xu+ 1995
-3578,Carestia,1992-01-16,Xu+ 1995
-3578,Carestia,1992-01-20,Xu+ 1995
-3586,Vasnetsov,1992-03-12,Xu+ 1995
-3628,Boznemcova,1991-12-08,Xu+ 1995
-3628,Boznemcova,1993-01-21,Xu+ 1995
-3628,Boznemcova,1993-01-22,Xu+ 1995
-3657,Ermolova,1992-09-06,Xu+ 1995
-3657,Ermolova,1992-09-07,Xu+ 1995
-3665,Fitzgerald,1992-11-26,Xu+ 1995
-3674,Erbisbuhl,1992-09-11,Xu+ 1995
-3677,Magnusson,1991-11-01,Xu+ 1995
-3740,Menge,1991-12-15,Xu+ 1995
-3748,Tatum,1991-12-15,Xu+ 1995
-3759,Piironen,1993-01-04,Xu+ 1995
-3760,Poutanen,1991-12-08,Xu+ 1995
-3792,Preston,1992-03-11,Xu+ 1995
-3792,Preston,1992-03-12,Xu+ 1995
-3792,Preston,1992-03-14,Xu+ 1995
-3869,Norton,1992-03-11,Xu+ 1995
-3869,Norton,1992-03-12,Xu+ 1995
-3915,Fukushima,1992-11-26,Xu+ 1995
+3.0,Juno,1992-11-27,Xu+ 1995
+3.0,Juno,1992-11-28,Xu+ 1995
+4.0,Vesta,1991-10-31,Xu+ 1995
+4.0,Vesta,1991-12-07,Xu+ 1995
+4.0,Vesta,1992-03-14,Xu+ 1995
+6.0,Hebe,1992-11-27,Xu+ 1995
+6.0,Hebe,1992-12-02,Xu+ 1995
+7.0,Iris,1991-10-27,Xu+ 1995
+7.0,Iris,1992-01-14,Xu+ 1995
+7.0,Iris,1992-12-01,Xu+ 1995
+8.0,Flora,1991-12-14,Xu+ 1995
+8.0,Flora,1992-01-17,Xu+ 1995
+10.0,Hygiea,1991-11-01,Xu+ 1995
+14.0,Irene,1992-01-15,Xu+ 1995
+14.0,Irene,1992-03-14,Xu+ 1995
+18.0,Melpomene,1992-11-28,Xu+ 1995
+22.0,Kalliope,1991-10-27,Xu+ 1995
+22.0,Kalliope,1993-01-20,Xu+ 1995
+25.0,Phocaea,1993-01-04,Xu+ 1995
+28.0,Bellona,1991-10-27,Xu+ 1995
+28.0,Bellona,1992-01-16,Xu+ 1995
+29.0,Amphitrite,1991-12-07,Xu+ 1995
+29.0,Amphitrite,1992-01-17,Xu+ 1995
+29.0,Amphitrite,1992-03-11,Xu+ 1995
+32.0,Pomona,1991-10-25,Xu+ 1995
+32.0,Pomona,1991-10-28,Xu+ 1995
+32.0,Pomona,1991-11-01,Xu+ 1995
+32.0,Pomona,1992-01-15,Xu+ 1995
+32.0,Pomona,1992-11-30,Xu+ 1995
+36.0,Atalante,1993-01-21,Xu+ 1995
+38.0,Leda,1991-12-07,Xu+ 1995
+39.0,Laetitia,1992-12-01,Xu+ 1995
+42.0,Isis,1992-01-17,Xu+ 1995
+43.0,Ariadne,1992-09-06,Xu+ 1995
+43.0,Ariadne,1992-11-27,Xu+ 1995
+53.0,Kalypso,1992-11-28,Xu+ 1995
+54.0,Alexandra,1992-09-06,Xu+ 1995
+55.0,Pandora,1991-10-30,Xu+ 1995
+61.0,Danae,1992-01-14,Xu+ 1995
+61.0,Danae,1992-01-17,Xu+ 1995
+68.0,Leto,1992-11-26,Xu+ 1995
+71.0,Niobe,1991-12-08,Xu+ 1995
+71.0,Niobe,1992-01-14,Xu+ 1995
+72.0,Feronia,1993-01-04,Xu+ 1995
+73.0,Klytia,1992-01-17,Xu+ 1995
+82.0,Alkmene,1992-11-29,Xu+ 1995
+86.0,Semele,1991-10-26,Xu+ 1995
+88.0,Thisbe,1992-01-13,Xu+ 1995
+111.0,Ate,1993-01-21,Xu+ 1995
+116.0,Sirona,1991-10-29,Xu+ 1995
+116.0,Sirona,1992-01-18,Xu+ 1995
+116.0,Sirona,1992-12-01,Xu+ 1995
+116.0,Sirona,1993-01-01,Xu+ 1995
+116.0,Sirona,1993-01-04,Xu+ 1995
+116.0,Sirona,1993-01-21,Xu+ 1995
+116.0,Sirona,1993-01-22,Xu+ 1995
+124.0,Alkeste,1992-09-08,Xu+ 1995
+126.0,Velleda,1992-01-14,Xu+ 1995
+126.0,Velleda,1992-01-17,Xu+ 1995
+128.0,Nemesis,1991-12-13,Xu+ 1995
+131.0,Vala,1992-11-29,Xu+ 1995
+131.0,Vala,1992-11-30,Xu+ 1995
+134.0,Sophrosyne,1992-11-26,Xu+ 1995
+137.0,Meliboea,1991-10-27,Xu+ 1995
+137.0,Meliboea,1993-01-22,Xu+ 1995
+138.0,Tolosa,1992-01-13,Xu+ 1995
+138.0,Tolosa,1992-01-17,Xu+ 1995
+149.0,Medusa,1991-12-14,Xu+ 1995
+149.0,Medusa,1992-01-14,Xu+ 1995
+157.0,Dejanira,1992-01-14,Xu+ 1995
+158.0,Koronis,1991-10-27,Xu+ 1995
+158.0,Koronis,1992-01-18,Xu+ 1995
+167.0,Urda,1992-09-07,Xu+ 1995
+169.0,Zelia,1993-01-04,Xu+ 1995
+185.0,Eunike,1992-03-12,Xu+ 1995
+186.0,Celuta,1993-01-21,Xu+ 1995
+196.0,Philomela,1992-11-29,Xu+ 1995
+204.0,Kallisto,1992-09-09,Xu+ 1995
+211.0,Isolda,1991-12-16,Xu+ 1995
+218.0,Bianca,1992-03-13,Xu+ 1995
+221.0,Eos,1992-03-11,Xu+ 1995
+230.0,Athamantis,1992-09-06,Xu+ 1995
+231.0,Vindobona,1992-09-10,Xu+ 1995
+234.0,Barbara,1992-01-15,Xu+ 1995
+234.0,Barbara,1992-01-17,Xu+ 1995
+235.0,Carolina,1991-12-13,Xu+ 1995
+235.0,Carolina,1992-01-15,Xu+ 1995
+237.0,Coelestina,1991-12-15,Xu+ 1995
+237.0,Coelestina,1992-01-15,Xu+ 1995
+239.0,Adrastea,1992-09-11,Xu+ 1995
+239.0,Adrastea,1993-01-04,Xu+ 1995
+243.0,Ida,1991-12-08,Xu+ 1995
+245.0,Vera,1992-11-30,Xu+ 1995
+248.0,Lameia,1991-12-16,Xu+ 1995
+248.0,Lameia,1992-11-28,Xu+ 1995
+248.0,Lameia,1993-01-04,Xu+ 1995
+256.0,Walpurga,1992-12-02,Xu+ 1995
+287.0,Nephthys,1992-01-17,Xu+ 1995
+287.0,Nephthys,1992-03-13,Xu+ 1995
+289.0,Nenetta,1991-12-07,Xu+ 1995
+289.0,Nenetta,1992-03-12,Xu+ 1995
+290.0,Bruna,1992-12-02,Xu+ 1995
+291.0,Alice,1992-01-14,Xu+ 1995
+292.0,Ludovica,1992-09-08,Xu+ 1995
+297.0,Caecilia,1992-09-09,Xu+ 1995
+314.0,Rosalia,1992-09-10,Xu+ 1995
+319.0,Leona,1992-12-02,Xu+ 1995
+339.0,Dorothea,1993-01-21,Xu+ 1995
+345.0,Tercidina,1991-10-26,Xu+ 1995
+346.0,Hermentaria,1991-12-15,Xu+ 1995
+346.0,Hermentaria,1992-01-13,Xu+ 1995
+346.0,Hermentaria,1992-03-12,Xu+ 1995
+349.0,Dembowska,1992-11-27,Xu+ 1995
+350.0,Ornamenta,1991-10-26,Xu+ 1995
+350.0,Ornamenta,1991-10-28,Xu+ 1995
+354.0,Eleonora,1992-03-11,Xu+ 1995
+371.0,Bohemia,1992-09-05,Xu+ 1995
+374.0,Burgundia,1991-12-08,Xu+ 1995
+374.0,Burgundia,1992-01-16,Xu+ 1995
+374.0,Burgundia,1992-01-20,Xu+ 1995
+384.0,Burdigala,1993-01-01,Xu+ 1995
+402.0,Chloe,1993-01-01,Xu+ 1995
+416.0,Vaticana,1991-12-14,Xu+ 1995
+416.0,Vaticana,1992-01-18,Xu+ 1995
+430.0,Hybris,1992-09-09,Xu+ 1995
+441.0,Bathilde,1992-11-28,Xu+ 1995
+441.0,Bathilde,1992-11-29,Xu+ 1995
+441.0,Bathilde,1992-11-30,Xu+ 1995
+446.0,Aeternitas,1992-09-08,Xu+ 1995
+446.0,Aeternitas,1992-11-28,Xu+ 1995
+446.0,Aeternitas,1992-11-30,Xu+ 1995
+456.0,Abnoba,1992-03-15,Xu+ 1995
+467.0,Laura,1992-01-13,Xu+ 1995
+470.0,Kilia,1992-12-01,Xu+ 1995
+471.0,Papagena,1992-01-17,Xu+ 1995
+471.0,Papagena,1992-03-15,Xu+ 1995
+474.0,Prudentia,1991-12-07,Xu+ 1995
+477.0,Italia,1993-01-21,Xu+ 1995
+480.0,Hansa,1992-09-08,Xu+ 1995
+481.0,Emita,1993-01-20,Xu+ 1995
+495.0,Eulalia,1992-09-10,Xu+ 1995
+509.0,Iolanda,1991-10-31,Xu+ 1995
+509.0,Iolanda,1992-01-17,Xu+ 1995
+511.0,Davida,1992-03-11,Xu+ 1995
+512.0,Taurinensis,1991-12-07,Xu+ 1995
+512.0,Taurinensis,1992-01-13,Xu+ 1995
+518.0,Halawe,1992-09-09,Xu+ 1995
+519.0,Sylvania,1993-01-22,Xu+ 1995
+529.0,Preziosa,1992-01-13,Xu+ 1995
+541.0,Deborah,1992-03-15,Xu+ 1995
+550.0,Senta,1991-10-26,Xu+ 1995
+550.0,Senta,1992-01-18,Xu+ 1995
+563.0,Suleika,1992-09-07,Xu+ 1995
+563.0,Suleika,1992-11-29,Xu+ 1995
+582.0,Olympia,1992-09-07,Xu+ 1995
+599.0,Luisa,1992-01-14,Xu+ 1995
+599.0,Luisa,1992-01-17,Xu+ 1995
+631.0,Philippina,1992-09-11,Xu+ 1995
+639.0,Latona,1992-11-29,Xu+ 1995
+639.0,Latona,1993-01-01,Xu+ 1995
+653.0,Berenike,1991-12-15,Xu+ 1995
+675.0,Ludmilla,1991-10-25,Xu+ 1995
+675.0,Ludmilla,1992-01-13,Xu+ 1995
+675.0,Ludmilla,1992-12-01,Xu+ 1995
+683.0,Lanzia,1992-09-08,Xu+ 1995
+702.0,Alauda,1991-10-30,Xu+ 1995
+720.0,Bohlinia,1992-01-13,Xu+ 1995
+720.0,Bohlinia,1992-01-17,Xu+ 1995
+722.0,Frieda,1991-10-26,Xu+ 1995
+724.0,Hapag,1992-11-29,Xu+ 1995
+732.0,Tjilaki,1992-03-14,Xu+ 1995
+737.0,Arequipa,1991-10-28,Xu+ 1995
+737.0,Arequipa,1992-01-17,Xu+ 1995
+752.0,Sulamitis,1992-11-29,Xu+ 1995
+774.0,Armor,1992-09-08,Xu+ 1995
+787.0,Moskva,1992-09-08,Xu+ 1995
+788.0,Hohensteina,1992-09-09,Xu+ 1995
+803.0,Picka,1992-09-11,Xu+ 1995
+808.0,Merxia,1992-09-10,Xu+ 1995
+811.0,Nauheima,1992-03-14,Xu+ 1995
+813.0,Baumeia,1993-01-01,Xu+ 1995
+851.0,Zeissia,1992-01-14,Xu+ 1995
+863.0,Benkoela,1992-03-11,Xu+ 1995
+879.0,Ricarda,1992-03-14,Xu+ 1995
+900.0,Rosalinde,1992-09-08,Xu+ 1995
+900.0,Rosalinde,1992-09-09,Xu+ 1995
+900.0,Rosalinde,1992-11-27,Xu+ 1995
+900.0,Rosalinde,1992-11-28,Xu+ 1995
+915.0,Cosette,1991-10-26,Xu+ 1995
+918.0,Itha,1992-09-08,Xu+ 1995
+951.0,Gaspra,1992-11-26,Xu+ 1995
+951.0,Gaspra,1992-11-30,Xu+ 1995
+1063.0,Aquilegia,1993-01-04,Xu+ 1995
+1071.0,Brita,1992-09-11,Xu+ 1995
+1084.0,Tamariwa,1992-01-13,Xu+ 1995
+1110.0,Jaroslawa,1991-10-26,Xu+ 1995
+1110.0,Jaroslawa,1991-10-30,Xu+ 1995
+1143.0,Odysseus,1992-03-13,Xu+ 1995
+1144.0,Oda,1992-09-11,Xu+ 1995
+1145.0,Robelmonte,1993-01-21,Xu+ 1995
+1165.0,Imprinetta,1992-09-09,Xu+ 1995
+1166.0,Sakuntala,1993-01-22,Xu+ 1995
+1198.0,Atlantis,1992-11-28,Xu+ 1995
+1257.0,Mora,1991-10-27,Xu+ 1995
+1264.0,Letaba,1992-09-09,Xu+ 1995
+1273.0,Helma,1993-01-21,Xu+ 1995
+1279.0,Uganda,1992-09-08,Xu+ 1995
+1279.0,Uganda,1992-09-09,Xu+ 1995
+1289.0,Kutaissi,1992-11-29,Xu+ 1995
+1302.0,Werra,1992-01-14,Xu+ 1995
+1325.0,Inanda,1991-10-26,Xu+ 1995
+1325.0,Inanda,1991-10-27,Xu+ 1995
+1358.0,Gaika,1992-03-11,Xu+ 1995
+1375.0,Alfreda,1992-09-06,Xu+ 1995
+1379.0,Lomonosowa,1992-03-15,Xu+ 1995
+1393.0,Sofala,1991-12-08,Xu+ 1995
+1393.0,Sofala,1991-12-14,Xu+ 1995
+1451.0,Grano,1993-01-22,Xu+ 1995
+1463.0,Nordenmarkia,1993-01-04,Xu+ 1995
+1471.0,Tornio,1993-01-01,Xu+ 1995
+1478.0,Vihuri,1991-12-13,Xu+ 1995
+1480.0,Aunus,1992-12-02,Xu+ 1995
+1501.0,Baade,1991-12-07,Xu+ 1995
+1518.0,Rovaniemi,1991-10-27,Xu+ 1995
+1534.0,Nasi,1993-01-01,Xu+ 1995
+1577.0,Reiss,1991-10-28,Xu+ 1995
+1584.0,Fuji,1993-01-04,Xu+ 1995
+1607.0,Mavis,1993-01-22,Xu+ 1995
+1626.0,Sadeya,1991-10-25,Xu+ 1995
+1626.0,Sadeya,1992-01-14,Xu+ 1995
+1628.0,Strobel,1993-01-04,Xu+ 1995
+1646.0,Rosseland,1992-11-26,Xu+ 1995
+1646.0,Rosseland,1992-11-27,Xu+ 1995
+1651.0,Behrens,1992-09-07,Xu+ 1995
+1653.0,Yakhontovia,1992-09-11,Xu+ 1995
+1658.0,Innes,1991-12-08,Xu+ 1995
+1679.0,Nevanlinna,1992-09-11,Xu+ 1995
+1697.0,Koskenniemi,1992-11-30,Xu+ 1995
+1712.0,Angola,1992-09-08,Xu+ 1995
+1722.0,Goffin,1992-12-01,Xu+ 1995
+1725.0,CrAO,1992-03-14,Xu+ 1995
+1743.0,Schmidt,1991-11-01,Xu+ 1995
+1749.0,Telamon,1992-03-13,Xu+ 1995
+1772.0,Gagarin,1992-03-11,Xu+ 1995
+1781.0,Van Biesbroeck,1993-01-20,Xu+ 1995
+1807.0,Slovakia,1991-10-26,Xu+ 1995
+1807.0,Slovakia,1991-10-27,Xu+ 1995
+1807.0,Slovakia,1991-10-29,Xu+ 1995
+1854.0,Skvortsov,1992-11-28,Xu+ 1995
+1854.0,Skvortsov,1992-11-29,Xu+ 1995
+1892.0,Lucienne,1991-12-13,Xu+ 1995
+1906.0,Naef,1991-12-07,Xu+ 1995
+1906.0,Naef,1991-12-08,Xu+ 1995
+1906.0,Naef,1991-12-14,Xu+ 1995
+1906.0,Naef,1991-12-15,Xu+ 1995
+1907.0,Rudneva,1992-09-07,Xu+ 1995
+1929.0,Kollaa,1992-11-27,Xu+ 1995
+1933.0,Tinchen,1992-09-06,Xu+ 1995
+1933.0,Tinchen,1992-09-07,Xu+ 1995
+1934.0,Jeffers,1992-03-11,Xu+ 1995
+1967.0,Menzel,1992-12-02,Xu+ 1995
+1995.0,Hajek,1991-10-30,Xu+ 1995
+1995.0,Hajek,1991-10-31,Xu+ 1995
+2011.0,Veteraniya,1992-11-29,Xu+ 1995
+2011.0,Veteraniya,1992-11-30,Xu+ 1995
+2011.0,Veteraniya,1992-12-01,Xu+ 1995
+2014.0,Vasilevskis,1992-09-11,Xu+ 1995
+2017.0,Wesson,1991-10-28,Xu+ 1995
+2024.0,McLaughlin,1993-01-21,Xu+ 1995
+2060.0,Chiron,1993-01-22,Xu+ 1995
+2070.0,Humason,1991-11-01,Xu+ 1995
+2074.0,Shoemaker,1991-10-30,Xu+ 1995
+2078.0,Nanking,1992-09-08,Xu+ 1995
+2078.0,Nanking,1992-09-09,Xu+ 1995
+2078.0,Nanking,1992-11-29,Xu+ 1995
+2078.0,Nanking,1992-12-02,Xu+ 1995
+2091.0,Sampo,1992-01-13,Xu+ 1995
+2098.0,Zyskin,1993-01-21,Xu+ 1995
+2105.0,Gudy,1992-09-10,Xu+ 1995
+2105.0,Gudy,1992-09-11,Xu+ 1995
+2107.0,Ilmari,1992-11-26,Xu+ 1995
+2107.0,Ilmari,1992-11-27,Xu+ 1995
+2113.0,Ehrdni,1993-01-21,Xu+ 1995
+2119.0,Schwall,1991-10-31,Xu+ 1995
+2128.0,Wetherill,1991-10-26,Xu+ 1995
+2128.0,Wetherill,1991-10-30,Xu+ 1995
+2130.0,Evdokiya,1991-10-31,Xu+ 1995
+2140.0,Kemerovo,1993-01-01,Xu+ 1995
+2143.0,Jimarnold,1991-12-16,Xu+ 1995
+2149.0,Schwambraniya,1991-12-08,Xu+ 1995
+2149.0,Schwambraniya,1993-01-20,Xu+ 1995
+2159.0,Kukkamaki,1993-01-22,Xu+ 1995
+2174.0,Asmodeus,1991-10-27,Xu+ 1995
+2204.0,Lyyli,1993-01-04,Xu+ 1995
+2215.0,Sichuan,1993-01-01,Xu+ 1995
+2253.0,Espinette,1991-10-31,Xu+ 1995
+2259.0,Sofievka,1992-09-08,Xu+ 1995
+2299.0,Hanko,1991-10-31,Xu+ 1995
+2327.0,Gershberg,1991-11-01,Xu+ 1995
+2327.0,Gershberg,1991-12-14,Xu+ 1995
+2365.0,Interkosmos,1992-12-02,Xu+ 1995
+2403.0,Sumava,1993-01-21,Xu+ 1995
+2420.0,Ciurlionis,1992-11-27,Xu+ 1995
+2440.0,Educatio,1991-11-01,Xu+ 1995
+2442.0,Corbett,1992-11-30,Xu+ 1995
+2442.0,Corbett,1992-12-01,Xu+ 1995
+2444.0,Lederle,1991-11-01,Xu+ 1995
+2503.0,Liaoning,1991-10-28,Xu+ 1995
+2538.0,Vanderlinden,1991-12-13,Xu+ 1995
+2558.0,Viv,1991-10-28,Xu+ 1995
+2558.0,Viv,1991-10-29,Xu+ 1995
+2590.0,Mourao,1992-11-26,Xu+ 1995
+2599.0,Veseli,1992-09-09,Xu+ 1995
+2645.0,Daphne Plane,1993-01-22,Xu+ 1995
+2728.0,Yatskiv,1991-12-08,Xu+ 1995
+2775.0,Odishaw,1991-12-15,Xu+ 1995
+2790.0,Needham,1991-10-31,Xu+ 1995
+2908.0,Shimoyama,1991-10-26,Xu+ 1995
+2920.0,Automedon,1992-03-13,Xu+ 1995
+2923.0,Schuyler,1991-12-14,Xu+ 1995
+2946.0,Muchachos,1991-12-16,Xu+ 1995
+2965.0,Surikov,1992-11-28,Xu+ 1995
+2966.0,Korsunia,1992-03-12,Xu+ 1995
+2966.0,Korsunia,1992-03-13,Xu+ 1995
+3109.0,Machin,1991-12-15,Xu+ 1995
+3153.0,Lincoln,1992-11-28,Xu+ 1995
+3153.0,Lincoln,1992-12-01,Xu+ 1995
+3155.0,Lee,1991-10-28,Xu+ 1995
+3155.0,Lee,1991-10-29,Xu+ 1995
+3158.0,Anga,1992-09-06,Xu+ 1995
+3167.0,Babcock,1993-01-21,Xu+ 1995
+3220.0,Murayama,1991-12-16,Xu+ 1995
+3231.0,Mila,1993-01-21,Xu+ 1995
+3268.0,De Sanctis,1992-03-11,Xu+ 1995
+3285.0,Ruth Wolfe,1991-10-26,Xu+ 1995
+3321.0,Dasha,1993-01-22,Xu+ 1995
+3332.0,Raksha,1993-01-20,Xu+ 1995
+3354.0,McNair,1992-09-06,Xu+ 1995
+3381.0,Mikkola,1991-10-30,Xu+ 1995
+3431.0,Nakano,1992-01-14,Xu+ 1995
+3494.0,Purple Mountain,1993-01-21,Xu+ 1995
+3501.0,Olegiya,1993-01-21,Xu+ 1995
+3523.0,Arina,1992-03-14,Xu+ 1995
+3528.0,Counselman,1991-12-14,Xu+ 1995
+3559.0,Violaumayer,1992-11-27,Xu+ 1995
+3578.0,Carestia,1992-01-16,Xu+ 1995
+3578.0,Carestia,1992-01-20,Xu+ 1995
+3586.0,Vasnetsov,1992-03-12,Xu+ 1995
+3628.0,Boznemcova,1991-12-08,Xu+ 1995
+3628.0,Boznemcova,1993-01-21,Xu+ 1995
+3628.0,Boznemcova,1993-01-22,Xu+ 1995
+3657.0,Ermolova,1992-09-06,Xu+ 1995
+3657.0,Ermolova,1992-09-07,Xu+ 1995
+3665.0,Fitzgerald,1992-11-26,Xu+ 1995
+3674.0,Erbisbuhl,1992-09-11,Xu+ 1995
+3677.0,Magnusson,1991-11-01,Xu+ 1995
+3740.0,Menge,1991-12-15,Xu+ 1995
+3748.0,Tatum,1991-12-15,Xu+ 1995
+3759.0,Piironen,1993-01-04,Xu+ 1995
+3760.0,Poutanen,1991-12-08,Xu+ 1995
+3792.0,Preston,1992-03-11,Xu+ 1995
+3792.0,Preston,1992-03-12,Xu+ 1995
+3792.0,Preston,1992-03-14,Xu+ 1995
+3869.0,Norton,1992-03-11,Xu+ 1995
+3869.0,Norton,1992-03-12,Xu+ 1995
+3915.0,Fukushima,1992-11-26,Xu+ 1995
 ,,1993-01-21,Xu+ 1995
-3944,Halliday,1992-11-28,Xu+ 1995
-3944,Halliday,1992-11-29,Xu+ 1995
-3944,Halliday,1992-12-01,Xu+ 1995
-3963,Paradzhanov,1992-12-02,Xu+ 1995
-3968,Koptelov,1992-09-05,Xu+ 1995
-3968,Koptelov,1992-09-06,Xu+ 1995
-3999,Aristarchus,1992-11-26,Xu+ 1995
-4002,Shinagawa,1993-01-22,Xu+ 1995
-4005,Dyagilev,1991-12-07,Xu+ 1995
-4005,Dyagilev,1991-12-08,Xu+ 1995
-4006,Sandler,1992-11-26,Xu+ 1995
-4025,Ridley,1991-11-01,Xu+ 1995
-4031,Mueller,1992-11-27,Xu+ 1995
-4038,Kristina,1991-10-28,Xu+ 1995
-4038,Kristina,1991-10-29,Xu+ 1995
-4062,Schiaparelli,1991-11-01,Xu+ 1995
-4085,Weir,1991-10-31,Xu+ 1995
-4014,Heizman,1991-12-07,Xu+ 1995
-4145,Maximova,1991-10-29,Xu+ 1995
-4147,Lennon,1992-09-05,Xu+ 1995
-4147,Lennon,1992-09-06,Xu+ 1995
-4156,Okadanoboru,1991-11-01,Xu+ 1995
-4159,Freeman,1992-01-13,Xu+ 1995
-4165,Didkovskij,1992-09-07,Xu+ 1995
-4179,Toutatis,1992-09-05,Xu+ 1995
-4179,Toutatis,1993-01-01,Xu+ 1995
-4179,Toutatis,1993-01-04,Xu+ 1995
-4179,Toutatis,1993-01-21,Xu+ 1995
-4179,Toutatis,1993-01-22,Xu+ 1995
-4215,Kamo,1993-01-21,Xu+ 1995
-4219,Nakamura,1992-03-14,Xu+ 1995
-4282,Endate,1991-12-15,Xu+ 1995
-4353,Onizaki,1992-09-06,Xu+ 1995
-4353,Onizaki,1992-09-07,Xu+ 1995
-4370,Dickens,1992-11-28,Xu+ 1995
-4373,Crespo,1992-12-02,Xu+ 1995
-4376,Shigemori,1992-12-01,Xu+ 1995
-4376,Shigemori,1992-12-02,Xu+ 1995
-4440,Tchantches,1992-12-02,Xu+ 1995
-4510,Shawna,1993-01-21,Xu+ 1995
-4546,Franck,1992-11-28,Xu+ 1995
-4562,Poleungkuk,1991-12-07,Xu+ 1995
-4606,Saheki,1991-12-16,Xu+ 1995
-4635,Rimbaud,1991-12-07,Xu+ 1995
-4635,Rimbaud,1992-03-12,Xu+ 1995
-4640,Hara,1991-12-15,Xu+ 1995
-4673,Bortle,1992-03-11,Xu+ 1995
-4761,Urrutia,1992-11-30,Xu+ 1995
-4761,Urrutia,1992-12-01,Xu+ 1995
-4761,Urrutia,1992-12-02,Xu+ 1995
-4939,Scovil,1991-12-13,Xu+ 1995
-4939,Scovil,1991-12-14,Xu+ 1995
-4948,Hideonishimura,1991-10-31,Xu+ 1995
-4956,Noymer,1992-03-12,Xu+ 1995
-5065,Johnstone,1993-01-22,Xu+ 1995
-5118,Elnapoul,1992-09-07,Xu+ 1995
-5145,Pholus,1992-03-12,Xu+ 1995
-7341,1991 VK,1991-12-14,Xu+ 1995
-5143,Heracles,1991-12-14,Xu+ 1995
-8176,1991 WA,1991-12-14,Xu+ 1995
+3944.0,Halliday,1992-11-28,Xu+ 1995
+3944.0,Halliday,1992-11-29,Xu+ 1995
+3944.0,Halliday,1992-12-01,Xu+ 1995
+3963.0,Paradzhanov,1992-12-02,Xu+ 1995
+3968.0,Koptelov,1992-09-05,Xu+ 1995
+3968.0,Koptelov,1992-09-06,Xu+ 1995
+3999.0,Aristarchus,1992-11-26,Xu+ 1995
+4002.0,Shinagawa,1993-01-22,Xu+ 1995
+4005.0,Dyagilev,1991-12-07,Xu+ 1995
+4005.0,Dyagilev,1991-12-08,Xu+ 1995
+4006.0,Sandler,1992-11-26,Xu+ 1995
+4025.0,Ridley,1991-11-01,Xu+ 1995
+4031.0,Mueller,1992-11-27,Xu+ 1995
+4038.0,Kristina,1991-10-28,Xu+ 1995
+4038.0,Kristina,1991-10-29,Xu+ 1995
+4062.0,Schiaparelli,1991-11-01,Xu+ 1995
+4085.0,Weir,1991-10-31,Xu+ 1995
+4014.0,Heizman,1991-12-07,Xu+ 1995
+4145.0,Maximova,1991-10-29,Xu+ 1995
+4147.0,Lennon,1992-09-05,Xu+ 1995
+4147.0,Lennon,1992-09-06,Xu+ 1995
+4156.0,Okadanoboru,1991-11-01,Xu+ 1995
+4159.0,Freeman,1992-01-13,Xu+ 1995
+4165.0,Didkovskij,1992-09-07,Xu+ 1995
+4179.0,Toutatis,1992-09-05,Xu+ 1995
+4179.0,Toutatis,1993-01-01,Xu+ 1995
+4179.0,Toutatis,1993-01-04,Xu+ 1995
+4179.0,Toutatis,1993-01-21,Xu+ 1995
+4179.0,Toutatis,1993-01-22,Xu+ 1995
+4215.0,Kamo,1993-01-21,Xu+ 1995
+4219.0,Nakamura,1992-03-14,Xu+ 1995
+4282.0,Endate,1991-12-15,Xu+ 1995
+4353.0,Onizaki,1992-09-06,Xu+ 1995
+4353.0,Onizaki,1992-09-07,Xu+ 1995
+4370.0,Dickens,1992-11-28,Xu+ 1995
+4373.0,Crespo,1992-12-02,Xu+ 1995
+4376.0,Shigemori,1992-12-01,Xu+ 1995
+4376.0,Shigemori,1992-12-02,Xu+ 1995
+4440.0,Tchantches,1992-12-02,Xu+ 1995
+4510.0,Shawna,1993-01-21,Xu+ 1995
+4546.0,Franck,1992-11-28,Xu+ 1995
+4562.0,Poleungkuk,1991-12-07,Xu+ 1995
+4606.0,Saheki,1991-12-16,Xu+ 1995
+4635.0,Rimbaud,1991-12-07,Xu+ 1995
+4635.0,Rimbaud,1992-03-12,Xu+ 1995
+4640.0,Hara,1991-12-15,Xu+ 1995
+4673.0,Bortle,1992-03-11,Xu+ 1995
+4761.0,Urrutia,1992-11-30,Xu+ 1995
+4761.0,Urrutia,1992-12-01,Xu+ 1995
+4761.0,Urrutia,1992-12-02,Xu+ 1995
+4939.0,Scovil,1991-12-13,Xu+ 1995
+4939.0,Scovil,1991-12-14,Xu+ 1995
+4948.0,Hideonishimura,1991-10-31,Xu+ 1995
+4956.0,Noymer,1992-03-12,Xu+ 1995
+5065.0,Johnstone,1993-01-22,Xu+ 1995
+5118.0,Elnapoul,1992-09-07,Xu+ 1995
+5145.0,Pholus,1992-03-12,Xu+ 1995
+7341.0,1991 VK,1991-12-14,Xu+ 1995
+5143.0,Heracles,1991-12-14,Xu+ 1995
+8176.0,1991 WA,1991-12-14,Xu+ 1995
 ,1991 XB,1991-12-15,Xu+ 1995
-11066,Sigurd,1992-03-12,Xu+ 1995
-65706,1992 NA,1992-09-09,Xu+ 1995
-7474,1992 TC,1992-11-28,Xu+ 1995
-415690,1992 UB,1992-11-27,Xu+ 1995
-1,Ceres,1993-08-22,Bus and Binzel 2002
-1,Ceres,1994-01-07,Bus and Binzel 2002
-1,Ceres,1998-10-14,Bus and Binzel 2002
-2,Pallas,1993-08-22,Bus and Binzel 2002
-3,Juno,1994-02-23,Bus and Binzel 2002
-3,Juno,1996-10-12,Bus and Binzel 2002
-4,Vesta,1996-04-18,Bus and Binzel 2002
-5,Astraea,1995-02-08,Bus and Binzel 2002
-6,Hebe,1994-03-31,Bus and Binzel 2002
-7,Iris,1995-09-04,Bus and Binzel 2002
-7,Iris,1996-01-28,Bus and Binzel 2002
-10,Hygiea,1994-01-06,Bus and Binzel 2002
-10,Hygiea,1994-02-22,Bus and Binzel 2002
-10,Hygiea,1994-02-23,Bus and Binzel 2002
-10,Hygiea,1996-10-12,Bus and Binzel 2002
-11,Parthenope,1995-02-08,Bus and Binzel 2002
-12,Victoria,1997-11-24,Bus and Binzel 2002
-13,Egeria,1995-09-04,Bus and Binzel 2002
-14,Irene,1995-10-28,Bus and Binzel 2002
-14,Irene,1998-10-15,Bus and Binzel 2002
-15,Eunomia,1996-04-22,Bus and Binzel 2002
-15,Eunomia,1996-04-23,Bus and Binzel 2002
-15,Eunomia,1998-10-13,Bus and Binzel 2002
-16,Psyche,1997-02-27,Bus and Binzel 2002
-17,Thetis,1993-08-21,Bus and Binzel 2002
-18,Melpomene,1997-01-19,Bus and Binzel 2002
-18,Melpomene,1997-04-08,Bus and Binzel 2002
-19,Fortuna,1994-11-13,Bus and Binzel 2002
-20,Massalia,1995-12-09,Bus and Binzel 2002
-21,Lutetia,1996-11-29,Bus and Binzel 2002
-22,Kalliope,1996-10-12,Bus and Binzel 2002
-23,Thalia,1998-01-07,Bus and Binzel 2002
-24,Themis,1994-11-15,Bus and Binzel 2002
-24,Themis,1994-11-16,Bus and Binzel 2002
-25,Phocaea,1997-01-20,Bus and Binzel 2002
-26,Proserpina,1996-05-01,Bus and Binzel 2002
-27,Euterpe,1997-11-24,Bus and Binzel 2002
-28,Bellona,1996-11-30,Bus and Binzel 2002
-29,Amphitrite,1997-02-24,Bus and Binzel 2002
-30,Urania,1994-01-06,Bus and Binzel 2002
-31,Euphrosyne,1994-11-05,Bus and Binzel 2002
-32,Pomona,1997-01-17,Bus and Binzel 2002
-33,Polyhymnia,1995-12-15,Bus and Binzel 2002
-34,Circe,1994-11-14,Bus and Binzel 2002
-34,Circe,1995-02-12,Bus and Binzel 2002
-35,Leukothea,1995-05-14,Bus and Binzel 2002
-37,Fides,1994-01-06,Bus and Binzel 2002
-37,Fides,1994-04-01,Bus and Binzel 2002
-38,Leda,1997-02-27,Bus and Binzel 2002
-39,Laetitia,1996-09-08,Bus and Binzel 2002
-40,Harmonia,1996-02-08,Bus and Binzel 2002
-41,Daphne,1994-03-28,Bus and Binzel 2002
-42,Isis,1994-11-05,Bus and Binzel 2002
-43,Ariadne,1997-01-18,Bus and Binzel 2002
-44,Nysa,1994-11-05,Bus and Binzel 2002
-44,Nysa,1998-10-14,Bus and Binzel 2002
-44,Nysa,1998-10-15,Bus and Binzel 2002
-44,Nysa,1998-12-09,Bus and Binzel 2002
-45,Eugenia,1996-04-19,Bus and Binzel 2002
-45,Eugenia,1996-04-20,Bus and Binzel 2002
-46,Hestia,1994-11-05,Bus and Binzel 2002
-46,Hestia,1995-02-09,Bus and Binzel 2002
-47,Aglaja,1994-11-05,Bus and Binzel 2002
-48,Doris,1995-12-10,Bus and Binzel 2002
-49,Pales,1996-04-18,Bus and Binzel 2002
-50,Virginia,1997-02-24,Bus and Binzel 2002
-51,Nemausa,1995-12-15,Bus and Binzel 2002
-52,Europa,1994-02-20,Bus and Binzel 2002
-54,Alexandra,1994-02-20,Bus and Binzel 2002
-55,Pandora,1996-09-11,Bus and Binzel 2002
-56,Melete,1994-02-20,Bus and Binzel 2002
-57,Mnemosyne,1997-02-22,Bus and Binzel 2002
-58,Concordia,1996-01-29,Bus and Binzel 2002
-58,Concordia,1997-01-17,Bus and Binzel 2002
-59,Elpis,1995-12-08,Bus and Binzel 2002
-60,Echo,1996-04-30,Bus and Binzel 2002
-61,Danae,1994-11-05,Bus and Binzel 2002
-62,Erato,1994-01-06,Bus and Binzel 2002
-63,Ausonia,1994-03-31,Bus and Binzel 2002
-64,Angelina,1997-01-17,Bus and Binzel 2002
-64,Angelina,1997-04-14,Bus and Binzel 2002
-65,Cybele,1994-02-19,Bus and Binzel 2002
-66,Maja,1997-11-23,Bus and Binzel 2002
-67,Asia,1996-04-18,Bus and Binzel 2002
-67,Asia,1996-04-25,Bus and Binzel 2002
-69,Hesperia,1996-05-01,Bus and Binzel 2002
-69,Hesperia,1998-10-14,Bus and Binzel 2002
-70,Panopaea,1993-08-23,Bus and Binzel 2002
-70,Panopaea,1994-11-14,Bus and Binzel 2002
-71,Niobe,1994-11-05,Bus and Binzel 2002
-71,Niobe,1995-10-28,Bus and Binzel 2002
-74,Galatea,1994-02-23,Bus and Binzel 2002
-75,Eurydike,1995-02-10,Bus and Binzel 2002
-76,Freia,1996-04-20,Bus and Binzel 2002
-77,Frigga,1997-09-13,Bus and Binzel 2002
-78,Diana,1998-01-08,Bus and Binzel 2002
-79,Eurynome,1997-11-22,Bus and Binzel 2002
-80,Sappho,1996-04-29,Bus and Binzel 2002
-81,Terpsichore,1995-12-11,Bus and Binzel 2002
-82,Alkmene,1996-09-08,Bus and Binzel 2002
-83,Beatrix,1997-02-23,Bus and Binzel 2002
-84,Klio,1994-01-06,Bus and Binzel 2002
-85,Io,1995-12-08,Bus and Binzel 2002
-87,Sylvia,1996-04-21,Bus and Binzel 2002
-88,Thisbe,1996-09-09,Bus and Binzel 2002
-89,Julia,1999-03-24,Bus and Binzel 2002
-90,Antiope,1994-11-14,Bus and Binzel 2002
-91,Aegina,1997-01-22,Bus and Binzel 2002
-91,Aegina,1997-02-27,Bus and Binzel 2002
-92,Undina,1994-11-17,Bus and Binzel 2002
-93,Minerva,1995-10-27,Bus and Binzel 2002
-94,Aurora,1998-01-08,Bus and Binzel 2002
-95,Arethusa,1996-09-08,Bus and Binzel 2002
-96,Aegle,1996-04-22,Bus and Binzel 2002
-96,Aegle,1996-04-23,Bus and Binzel 2002
-96,Aegle,1998-10-15,Bus and Binzel 2002
-98,Ianthe,1998-10-13,Bus and Binzel 2002
-99,Dike,1994-02-20,Bus and Binzel 2002
-99,Dike,1994-02-24,Bus and Binzel 2002
-99,Dike,1994-03-30,Bus and Binzel 2002
-100,Hekate,1994-11-05,Bus and Binzel 2002
-101,Helena,1995-02-11,Bus and Binzel 2002
-102,Miriam,1996-02-07,Bus and Binzel 2002
-103,Hera,1996-04-21,Bus and Binzel 2002
-104,Klymene,1999-03-24,Bus and Binzel 2002
-105,Artemis,1996-11-29,Bus and Binzel 2002
-106,Dione,1994-02-20,Bus and Binzel 2002
-107,Camilla,1994-03-31,Bus and Binzel 2002
-108,Hecuba,1996-04-19,Bus and Binzel 2002
-109,Felicitas,1999-03-23,Bus and Binzel 2002
-110,Lydia,1997-04-07,Bus and Binzel 2002
-111,Ate,1996-09-06,Bus and Binzel 2002
-112,Iphigenia,1997-04-07,Bus and Binzel 2002
-113,Amalthea,1996-04-24,Bus and Binzel 2002
-114,Kassandra,1995-12-11,Bus and Binzel 2002
-115,Thyra,1994-03-30,Bus and Binzel 2002
-116,Sirona,1996-10-15,Bus and Binzel 2002
-117,Lomia,1997-01-22,Bus and Binzel 2002
-118,Peitho,1997-01-17,Bus and Binzel 2002
-119,Althaea,1996-01-29,Bus and Binzel 2002
-119,Althaea,1996-04-21,Bus and Binzel 2002
-120,Lachesis,1997-01-22,Bus and Binzel 2002
-121,Hermione,1997-01-19,Bus and Binzel 2002
-122,Gerda,1997-02-22,Bus and Binzel 2002
-123,Brunhild,1994-03-28,Bus and Binzel 2002
-124,Alkeste,1996-11-29,Bus and Binzel 2002
-125,Liberatrix,1995-09-02,Bus and Binzel 2002
-125,Liberatrix,1997-04-08,Bus and Binzel 2002
-127,Johanna,1996-10-15,Bus and Binzel 2002
-128,Nemesis,1996-01-29,Bus and Binzel 2002
-129,Antigone,1996-12-01,Bus and Binzel 2002
-130,Elektra,1994-02-19,Bus and Binzel 2002
-131,Vala,1997-01-22,Bus and Binzel 2002
-132,Aethra,1996-09-06,Bus and Binzel 2002
-132,Aethra,1996-09-09,Bus and Binzel 2002
-133,Cyrene,1998-01-08,Bus and Binzel 2002
-134,Sophrosyne,1994-01-07,Bus and Binzel 2002
-134,Sophrosyne,1994-02-19,Bus and Binzel 2002
-135,Hertha,1995-05-10,Bus and Binzel 2002
-136,Austria,1994-01-05,Bus and Binzel 2002
-139,Juewa,1995-09-02,Bus and Binzel 2002
-140,Siwa,1995-05-11,Bus and Binzel 2002
-141,Lumen,1995-12-08,Bus and Binzel 2002
-142,Polana,1996-04-25,Bus and Binzel 2002
-143,Adria,1996-10-15,Bus and Binzel 2002
-143,Adria,1996-10-16,Bus and Binzel 2002
-144,Vibilia,1994-01-06,Bus and Binzel 2002
-144,Vibilia,1994-01-07,Bus and Binzel 2002
-144,Vibilia,1994-02-24,Bus and Binzel 2002
-145,Adeona,1994-11-15,Bus and Binzel 2002
-146,Lucina,1995-02-07,Bus and Binzel 2002
-146,Lucina,1996-04-24,Bus and Binzel 2002
-147,Protogeneia,1996-04-22,Bus and Binzel 2002
-147,Protogeneia,1996-04-23,Bus and Binzel 2002
-148,Gallia,1997-04-07,Bus and Binzel 2002
-150,Nuwa,1994-11-05,Bus and Binzel 2002
-151,Abundantia,1997-01-18,Bus and Binzel 2002
-152,Atala,1998-12-08,Bus and Binzel 2002
-152,Atala,1999-03-23,Bus and Binzel 2002
-153,Hilda,1997-04-07,Bus and Binzel 2002
-154,Bertha,1997-02-24,Bus and Binzel 2002
-154,Bertha,1997-04-07,Bus and Binzel 2002
-156,Xanthippe,1996-09-12,Bus and Binzel 2002
-158,Koronis,1997-01-22,Bus and Binzel 2002
-159,Aemilia,1995-12-15,Bus and Binzel 2002
-160,Una,1996-10-15,Bus and Binzel 2002
-161,Athor,1995-12-11,Bus and Binzel 2002
-162,Laurentia,1996-04-18,Bus and Binzel 2002
-163,Erigone,1996-04-21,Bus and Binzel 2002
-164,Eva,1997-11-24,Bus and Binzel 2002
-165,Loreley,1996-04-25,Bus and Binzel 2002
-166,Rhodope,1997-02-24,Bus and Binzel 2002
-167,Urda,1994-01-05,Bus and Binzel 2002
-168,Sibylla,1997-02-24,Bus and Binzel 2002
-169,Zelia,1997-01-18,Bus and Binzel 2002
-170,Maria,1998-10-14,Bus and Binzel 2002
-171,Ophelia,1994-02-19,Bus and Binzel 2002
-171,Ophelia,1994-02-22,Bus and Binzel 2002
-171,Ophelia,1994-02-24,Bus and Binzel 2002
-172,Baucis,1998-01-07,Bus and Binzel 2002
-173,Ino,1994-03-27,Bus and Binzel 2002
-173,Ino,1994-04-01,Bus and Binzel 2002
-174,Phaedra,1996-04-20,Bus and Binzel 2002
-175,Andromache,1997-02-26,Bus and Binzel 2002
-176,Iduna,1995-05-10,Bus and Binzel 2002
-177,Irma,1999-03-24,Bus and Binzel 2002
-178,Belisana,1998-01-08,Bus and Binzel 2002
-179,Klytaemnestra,1995-12-10,Bus and Binzel 2002
-180,Garumna,1998-12-09,Bus and Binzel 2002
-181,Eucharis,1997-09-13,Bus and Binzel 2002
-182,Elsa,1998-03-28,Bus and Binzel 2002
-183,Istria,1996-04-24,Bus and Binzel 2002
-184,Dejopeja,1997-02-24,Bus and Binzel 2002
-185,Eunike,1996-04-20,Bus and Binzel 2002
-186,Celuta,1997-04-07,Bus and Binzel 2002
-187,Lamberta,1998-01-07,Bus and Binzel 2002
-188,Menippe,1993-08-22,Bus and Binzel 2002
-188,Menippe,1996-02-07,Bus and Binzel 2002
-189,Phthia,1998-01-08,Bus and Binzel 2002
-190,Ismene,1997-01-18,Bus and Binzel 2002
-191,Kolga,1998-01-08,Bus and Binzel 2002
-192,Nausikaa,1994-01-05,Bus and Binzel 2002
-192,Nausikaa,1994-01-06,Bus and Binzel 2002
-192,Nausikaa,1994-04-01,Bus and Binzel 2002
-193,Ambrosia,1995-12-09,Bus and Binzel 2002
-194,Prokne,1994-03-27,Bus and Binzel 2002
-194,Prokne,1994-03-31,Bus and Binzel 2002
-195,Eurykleia,1994-11-17,Bus and Binzel 2002
-196,Philomela,1995-05-13,Bus and Binzel 2002
-197,Arete,1996-02-09,Bus and Binzel 2002
-198,Ampella,1997-02-23,Bus and Binzel 2002
-199,Byblis,1997-02-22,Bus and Binzel 2002
-200,Dynamene,1994-01-07,Bus and Binzel 2002
-201,Penelope,1995-02-09,Bus and Binzel 2002
-205,Martha,1995-10-27,Bus and Binzel 2002
-206,Hersilia,1995-02-09,Bus and Binzel 2002
-207,Hedda,1995-05-13,Bus and Binzel 2002
-208,Lacrimosa,1995-05-10,Bus and Binzel 2002
-209,Dido,1994-02-20,Bus and Binzel 2002
-210,Isabella,1996-09-12,Bus and Binzel 2002
-211,Isolda,1996-10-12,Bus and Binzel 2002
-213,Lilaea,1996-10-16,Bus and Binzel 2002
-214,Aschera,1994-02-22,Bus and Binzel 2002
-216,Kleopatra,1994-11-05,Bus and Binzel 2002
-221,Eos,1994-11-15,Bus and Binzel 2002
-226,Weringia,1995-12-15,Bus and Binzel 2002
-228,Agathe,1998-01-07,Bus and Binzel 2002
-230,Athamantis,1996-11-28,Bus and Binzel 2002
-233,Asterope,1998-01-07,Bus and Binzel 2002
-234,Barbara,1997-04-06,Bus and Binzel 2002
-234,Barbara,1997-04-07,Bus and Binzel 2002
-236,Honoria,1996-04-18,Bus and Binzel 2002
-236,Honoria,1996-04-19,Bus and Binzel 2002
-236,Honoria,1997-04-08,Bus and Binzel 2002
-237,Coelestina,1996-11-29,Bus and Binzel 2002
-238,Hypatia,1997-04-08,Bus and Binzel 2002
-240,Vanadis,1995-05-09,Bus and Binzel 2002
-241,Germania,1998-01-07,Bus and Binzel 2002
-242,Kriemhild,1997-01-22,Bus and Binzel 2002
-243,Ida,1997-01-17,Bus and Binzel 2002
-244,Sita,1995-02-07,Bus and Binzel 2002
-245,Vera,1994-03-31,Bus and Binzel 2002
-246,Asporina,1994-01-07,Bus and Binzel 2002
-246,Asporina,1996-04-18,Bus and Binzel 2002
-246,Asporina,1996-04-19,Bus and Binzel 2002
-247,Eukrate,1994-02-20,Bus and Binzel 2002
-250,Bettina,1994-02-19,Bus and Binzel 2002
-253,Mathilde,1995-02-07,Bus and Binzel 2002
-253,Mathilde,1995-02-08,Bus and Binzel 2002
-253,Mathilde,1996-04-24,Bus and Binzel 2002
-257,Silesia,1996-04-18,Bus and Binzel 2002
-257,Silesia,1996-04-19,Bus and Binzel 2002
-258,Tyche,1998-01-07,Bus and Binzel 2002
-259,Aletheia,1997-04-13,Bus and Binzel 2002
-261,Prymno,1994-01-06,Bus and Binzel 2002
-263,Dresda,1993-08-22,Bus and Binzel 2002
-264,Libussa,1995-12-08,Bus and Binzel 2002
-266,Aline,1995-05-13,Bus and Binzel 2002
-267,Tirza,1995-12-09,Bus and Binzel 2002
-269,Justitia,1994-11-17,Bus and Binzel 2002
-272,Antonia,1994-01-05,Bus and Binzel 2002
-275,Sapientia,1996-10-15,Bus and Binzel 2002
-278,Paulina,1995-10-28,Bus and Binzel 2002
-279,Thule,1997-02-22,Bus and Binzel 2002
-281,Lucretia,1997-05-26,Bus and Binzel 2002
-282,Clorinde,1997-04-14,Bus and Binzel 2002
-284,Amalia,1995-12-14,Bus and Binzel 2002
-286,Iclea,1996-04-21,Bus and Binzel 2002
-288,Glauke,1996-04-21,Bus and Binzel 2002
-289,Nenetta,1997-04-13,Bus and Binzel 2002
-295,Theresia,1996-04-30,Bus and Binzel 2002
-301,Bavaria,1996-01-29,Bus and Binzel 2002
-304,Olga,1996-04-18,Bus and Binzel 2002
-304,Olga,1996-04-19,Bus and Binzel 2002
-306,Unitas,1995-02-08,Bus and Binzel 2002
-308,Polyxo,1995-02-09,Bus and Binzel 2002
-308,Polyxo,1996-02-08,Bus and Binzel 2002
-310,Margarita,1995-02-12,Bus and Binzel 2002
-312,Pierretta,1995-12-08,Bus and Binzel 2002
-317,Roxane,1995-12-09,Bus and Binzel 2002
-321,Florentina,1994-11-15,Bus and Binzel 2002
-322,Phaeo,1996-01-29,Bus and Binzel 2002
-327,Columbia,1996-10-17,Bus and Binzel 2002
-331,Etheridgea,1997-05-26,Bus and Binzel 2002
-332,Siri,1996-10-16,Bus and Binzel 2002
-335,Roberta,1995-02-08,Bus and Binzel 2002
-336,Lacadiera,1996-04-30,Bus and Binzel 2002
-337,Devosa,1997-05-26,Bus and Binzel 2002
-338,Budrosa,1994-02-20,Bus and Binzel 2002
-339,Dorothea,1994-02-23,Bus and Binzel 2002
-339,Dorothea,1994-04-01,Bus and Binzel 2002
-342,Endymion,1995-12-08,Bus and Binzel 2002
-345,Tercidina,1995-12-14,Bus and Binzel 2002
-346,Hermentaria,1997-02-22,Bus and Binzel 2002
-346,Hermentaria,1997-04-08,Bus and Binzel 2002
-348,May,1994-11-05,Bus and Binzel 2002
-349,Dembowska,1996-12-01,Bus and Binzel 2002
-352,Gisela,1997-02-22,Bus and Binzel 2002
-352,Gisela,1997-04-07,Bus and Binzel 2002
-353,Ruperto-Carola,1997-02-22,Bus and Binzel 2002
-353,Ruperto-Carola,1997-04-09,Bus and Binzel 2002
-354,Eleonora,1995-10-27,Bus and Binzel 2002
-354,Eleonora,1997-02-22,Bus and Binzel 2002
-355,Gabriella,1994-02-25,Bus and Binzel 2002
-358,Apollonia,1994-11-05,Bus and Binzel 2002
-359,Georgia,1995-12-08,Bus and Binzel 2002
-360,Carlova,1995-12-09,Bus and Binzel 2002
-363,Padua,1996-10-21,Bus and Binzel 2002
-365,Corduba,1996-04-24,Bus and Binzel 2002
-366,Vincentina,1997-01-18,Bus and Binzel 2002
-371,Bohemia,1993-08-22,Bus and Binzel 2002
-371,Bohemia,1993-08-23,Bus and Binzel 2002
-371,Bohemia,1994-01-05,Bus and Binzel 2002
-372,Palma,1995-12-10,Bus and Binzel 2002
-374,Burgundia,1995-10-27,Bus and Binzel 2002
-375,Ursula,1995-02-10,Bus and Binzel 2002
-376,Geometria,1998-01-08,Bus and Binzel 2002
-377,Campania,1997-04-10,Bus and Binzel 2002
-378,Holmia,1995-10-28,Bus and Binzel 2002
-379,Huenna,1994-01-06,Bus and Binzel 2002
-379,Huenna,1995-02-07,Bus and Binzel 2002
-379,Huenna,1995-05-15,Bus and Binzel 2002
-381,Myrrha,1995-12-09,Bus and Binzel 2002
-383,Janina,1994-01-06,Bus and Binzel 2002
-384,Burdigala,1997-01-18,Bus and Binzel 2002
-386,Siegena,1994-03-28,Bus and Binzel 2002
-386,Siegena,1994-03-31,Bus and Binzel 2002
-387,Aquitania,1996-10-21,Bus and Binzel 2002
-388,Charybdis,1997-01-22,Bus and Binzel 2002
-389,Industria,1995-02-08,Bus and Binzel 2002
-391,Ingeborg,1996-04-18,Bus and Binzel 2002
-392,Wilhelmina,1995-05-13,Bus and Binzel 2002
-393,Lampetia,1995-05-09,Bus and Binzel 2002
-394,Arduina,1995-09-02,Bus and Binzel 2002
-394,Arduina,1995-10-28,Bus and Binzel 2002
-395,Delia,1996-10-16,Bus and Binzel 2002
-396,Aeolia,1995-12-09,Bus and Binzel 2002
-397,Vienna,1994-02-23,Bus and Binzel 2002
-398,Admete,1995-02-11,Bus and Binzel 2002
-399,Persephone,1995-12-08,Bus and Binzel 2002
-402,Chloe,1997-01-22,Bus and Binzel 2002
-403,Cyane,1996-10-21,Bus and Binzel 2002
-404,Arsinoe,1995-02-07,Bus and Binzel 2002
-405,Thia,1995-09-02,Bus and Binzel 2002
-409,Aspasia,1995-12-10,Bus and Binzel 2002
-410,Chloris,1995-12-09,Bus and Binzel 2002
-412,Elisabetha,1995-12-09,Bus and Binzel 2002
-413,Edburga,1997-04-07,Bus and Binzel 2002
-414,Liriope,1995-05-15,Bus and Binzel 2002
-416,Vaticana,1995-09-03,Bus and Binzel 2002
-417,Suevia,1996-09-09,Bus and Binzel 2002
-423,Diotima,1995-02-10,Bus and Binzel 2002
-425,Cornelia,1994-11-17,Bus and Binzel 2002
-431,Nephele,1998-01-08,Bus and Binzel 2002
-432,Pythia,1994-03-27,Bus and Binzel 2002
-432,Pythia,1994-04-01,Bus and Binzel 2002
-432,Pythia,1995-12-09,Bus and Binzel 2002
-434,Hungaria,1995-02-11,Bus and Binzel 2002
-441,Bathilde,1996-09-12,Bus and Binzel 2002
-442,Eichsfeldia,1996-04-18,Bus and Binzel 2002
-443,Photographica,1996-11-26,Bus and Binzel 2002
-444,Gyptis,1995-02-11,Bus and Binzel 2002
-446,Aeternitas,1994-01-06,Bus and Binzel 2002
-446,Aeternitas,1994-01-07,Bus and Binzel 2002
-446,Aeternitas,1994-02-23,Bus and Binzel 2002
-453,Tea,1997-04-07,Bus and Binzel 2002
-456,Abnoba,1995-10-27,Bus and Binzel 2002
-458,Hercynia,1994-11-13,Bus and Binzel 2002
-458,Hercynia,1994-11-15,Bus and Binzel 2002
-460,Scania,1995-12-09,Bus and Binzel 2002
-462,Eriphyla,1994-01-06,Bus and Binzel 2002
-464,Megaira,1996-01-29,Bus and Binzel 2002
-470,Kilia,1997-01-17,Bus and Binzel 2002
-471,Papagena,1997-02-23,Bus and Binzel 2002
-476,Hedwig,1998-01-08,Bus and Binzel 2002
-477,Italia,1997-04-13,Bus and Binzel 2002
-478,Tergeste,1995-09-02,Bus and Binzel 2002
-479,Caprera,1995-12-09,Bus and Binzel 2002
-481,Emita,1996-11-30,Bus and Binzel 2002
-484,Pittsburghia,1995-12-09,Bus and Binzel 2002
-485,Genua,1995-09-02,Bus and Binzel 2002
-490,Veritas,1994-11-13,Bus and Binzel 2002
-491,Carina,1996-04-19,Bus and Binzel 2002
-494,Virtus,1995-12-12,Bus and Binzel 2002
-494,Virtus,1995-12-14,Bus and Binzel 2002
-496,Gryphia,1996-11-28,Bus and Binzel 2002
-503,Evelyn,1996-10-18,Bus and Binzel 2002
-504,Cora,1994-02-25,Bus and Binzel 2002
-507,Laodica,1996-11-29,Bus and Binzel 2002
-509,Iolanda,1997-01-19,Bus and Binzel 2002
-511,Davida,1996-12-02,Bus and Binzel 2002
-512,Taurinensis,1997-05-22,Bus and Binzel 2002
-512,Taurinensis,1997-05-27,Bus and Binzel 2002
-513,Centesima,1994-02-23,Bus and Binzel 2002
-515,Athalia,1999-03-23,Bus and Binzel 2002
-516,Amherstia,1995-09-04,Bus and Binzel 2002
-519,Sylvania,1996-09-08,Bus and Binzel 2002
-521,Brixia,1994-11-13,Bus and Binzel 2002
-523,Ada,1995-12-09,Bus and Binzel 2002
-527,Euryanthe,1996-12-01,Bus and Binzel 2002
-531,Zerlina,1997-04-08,Bus and Binzel 2002
-532,Herculina,1995-12-08,Bus and Binzel 2002
-532,Herculina,1996-04-21,Bus and Binzel 2002
-533,Sara,1994-11-05,Bus and Binzel 2002
-534,Nassovia,1994-11-15,Bus and Binzel 2002
-539,Pamina,1995-09-02,Bus and Binzel 2002
-541,Deborah,1997-01-19,Bus and Binzel 2002
-543,Charlotte,1995-10-28,Bus and Binzel 2002
-545,Messalina,1995-12-15,Bus and Binzel 2002
-547,Praxedis,1996-10-15,Bus and Binzel 2002
-547,Praxedis,1996-10-16,Bus and Binzel 2002
-551,Ortrud,1997-01-17,Bus and Binzel 2002
-553,Kundry,1996-04-30,Bus and Binzel 2002
-554,Peraga,1997-02-22,Bus and Binzel 2002
-555,Norma,1996-05-01,Bus and Binzel 2002
-556,Phyllis,1996-09-08,Bus and Binzel 2002
-559,Nanon,1995-05-09,Bus and Binzel 2002
-560,Delila,1995-12-08,Bus and Binzel 2002
-563,Suleika,1994-03-30,Bus and Binzel 2002
-564,Dudu,1996-04-21,Bus and Binzel 2002
-569,Misa,1995-05-14,Bus and Binzel 2002
-570,Kythera,1997-04-08,Bus and Binzel 2002
-571,Dulcinea,1995-12-10,Bus and Binzel 2002
-572,Rebekka,1997-05-27,Bus and Binzel 2002
-578,Happelia,1994-03-28,Bus and Binzel 2002
-579,Sidonia,1995-12-08,Bus and Binzel 2002
-581,Tauntonia,1994-03-27,Bus and Binzel 2002
-581,Tauntonia,1995-05-15,Bus and Binzel 2002
-584,Semiramis,1997-02-23,Bus and Binzel 2002
-586,Thekla,1994-11-05,Bus and Binzel 2002
-592,Bathseba,1996-04-20,Bus and Binzel 2002
-596,Scheila,1996-04-21,Bus and Binzel 2002
-597,Bandusia,1995-12-09,Bus and Binzel 2002
-598,Octavia,1997-01-19,Bus and Binzel 2002
-599,Luisa,1995-12-10,Bus and Binzel 2002
-600,Musa,1995-12-10,Bus and Binzel 2002
-601,Nerthus,1994-03-28,Bus and Binzel 2002
-604,Tekmessa,1996-05-01,Bus and Binzel 2002
-606,Brangane,1996-04-23,Bus and Binzel 2002
-611,Valeria,1997-04-09,Bus and Binzel 2002
-614,Pia,1996-02-07,Bus and Binzel 2002
-622,Esther,1996-09-06,Bus and Binzel 2002
-625,Xenia,1994-03-28,Bus and Binzel 2002
-626,Notburga,1998-01-07,Bus and Binzel 2002
-627,Charis,1997-04-15,Bus and Binzel 2002
-629,Bernardina,1996-04-20,Bus and Binzel 2002
-631,Philippina,1996-04-23,Bus and Binzel 2002
-633,Zelima,1994-02-23,Bus and Binzel 2002
-634,Ute,1997-05-27,Bus and Binzel 2002
-638,Moira,1995-12-09,Bus and Binzel 2002
-642,Clara,1994-01-05,Bus and Binzel 2002
-649,Josefa,1994-01-05,Bus and Binzel 2002
-653,Berenike,1997-01-22,Bus and Binzel 2002
-654,Zelinda,1994-11-05,Bus and Binzel 2002
-661,Cloelia,1995-12-08,Bus and Binzel 2002
-668,Dora,1995-02-07,Bus and Binzel 2002
-670,Ottegebe,1996-04-23,Bus and Binzel 2002
-671,Carnegia,1997-01-22,Bus and Binzel 2002
-673,Edda,1996-02-08,Bus and Binzel 2002
-674,Rachele,1998-10-15,Bus and Binzel 2002
-675,Ludmilla,1996-10-15,Bus and Binzel 2002
-677,Aaltje,1996-04-20,Bus and Binzel 2002
-678,Fredegundis,1995-12-10,Bus and Binzel 2002
-679,Pax,1997-02-24,Bus and Binzel 2002
-687,Tinette,1995-12-09,Bus and Binzel 2002
-688,Melanie,1997-04-12,Bus and Binzel 2002
-699,Hela,1995-12-09,Bus and Binzel 2002
-702,Alauda,1996-10-12,Bus and Binzel 2002
-704,Interamnia,1998-01-07,Bus and Binzel 2002
-705,Erminia,1997-04-14,Bus and Binzel 2002
-706,Hirundo,1996-10-17,Bus and Binzel 2002
-712,Boliviana,1994-03-30,Bus and Binzel 2002
-713,Luscinia,1995-12-12,Bus and Binzel 2002
-713,Luscinia,1995-12-14,Bus and Binzel 2002
-715,Transvaalia,1996-11-30,Bus and Binzel 2002
-716,Berkeley,1996-11-29,Bus and Binzel 2002
-718,Erida,1994-02-25,Bus and Binzel 2002
-720,Bohlinia,1996-02-09,Bus and Binzel 2002
-723,Hammonia,1997-05-23,Bus and Binzel 2002
-723,Hammonia,1997-05-24,Bus and Binzel 2002
-729,Watsonia,1995-02-11,Bus and Binzel 2002
-731,Sorga,1995-05-15,Bus and Binzel 2002
-735,Marghanna,1996-02-08,Bus and Binzel 2002
-737,Arequipa,1997-02-22,Bus and Binzel 2002
-739,Mandeville,1995-02-09,Bus and Binzel 2002
-741,Botolphia,1996-10-21,Bus and Binzel 2002
-742,Edisona,1996-02-08,Bus and Binzel 2002
-743,Eugenisis,1995-09-04,Bus and Binzel 2002
-747,Winchester,1997-04-12,Bus and Binzel 2002
-749,Malzovia,1997-02-24,Bus and Binzel 2002
-749,Malzovia,1997-04-07,Bus and Binzel 2002
-751,Faina,1994-02-19,Bus and Binzel 2002
-753,Tiflis,1996-11-28,Bus and Binzel 2002
-754,Malabar,1997-05-25,Bus and Binzel 2002
-757,Portlandia,1997-01-19,Bus and Binzel 2002
-759,Vinifera,1994-11-05,Bus and Binzel 2002
-767,Bondia,1996-11-30,Bus and Binzel 2002
-771,Libera,1995-12-08,Bus and Binzel 2002
-773,Irmintraud,1997-04-07,Bus and Binzel 2002
-776,Berbericia,1994-04-01,Bus and Binzel 2002
-779,Nina,1995-12-09,Bus and Binzel 2002
-781,Kartvelia,1997-04-15,Bus and Binzel 2002
-782,Montefiore,1996-11-28,Bus and Binzel 2002
-783,Nora,1997-05-25,Bus and Binzel 2002
-784,Pickeringia,1996-04-25,Bus and Binzel 2002
-785,Zwetana,1995-12-15,Bus and Binzel 2002
-789,Lena,1994-11-15,Bus and Binzel 2002
-792,Metcalfia,1996-04-22,Bus and Binzel 2002
-792,Metcalfia,1996-04-24,Bus and Binzel 2002
-793,Arizona,1996-04-24,Bus and Binzel 2002
-795,Fini,1994-01-05,Bus and Binzel 2002
-796,Sarita,1997-04-14,Bus and Binzel 2002
-797,Montana,1997-04-14,Bus and Binzel 2002
-804,Hispania,1995-12-09,Bus and Binzel 2002
-808,Merxia,1995-05-13,Bus and Binzel 2002
-808,Merxia,1996-09-06,Bus and Binzel 2002
-808,Merxia,1996-09-08,Bus and Binzel 2002
-814,Tauris,1997-04-12,Bus and Binzel 2002
-815,Coppelia,1995-05-13,Bus and Binzel 2002
-819,Barnardiana,1997-02-23,Bus and Binzel 2002
-821,Fanny,1996-10-18,Bus and Binzel 2002
-824,Anastasia,1996-04-18,Bus and Binzel 2002
-824,Anastasia,1996-04-19,Bus and Binzel 2002
-824,Anastasia,1996-04-21,Bus and Binzel 2002
-825,Tanina,1996-04-23,Bus and Binzel 2002
-826,Henrika,1996-02-08,Bus and Binzel 2002
-844,Leontina,1996-11-29,Bus and Binzel 2002
-845,Naema,1994-03-28,Bus and Binzel 2002
-847,Agnia,1994-11-15,Bus and Binzel 2002
-847,Agnia,1996-01-29,Bus and Binzel 2002
-853,Nansenia,1997-04-12,Bus and Binzel 2002
-853,Nansenia,1997-05-23,Bus and Binzel 2002
-853,Nansenia,1997-05-24,Bus and Binzel 2002
-856,Backlunda,1996-04-18,Bus and Binzel 2002
-860,Ursina,1995-12-10,Bus and Binzel 2002
-862,Franzia,1995-09-04,Bus and Binzel 2002
-863,Benkoela,1997-01-17,Bus and Binzel 2002
-866,Fatme,1994-02-25,Bus and Binzel 2002
-868,Lova,1995-12-08,Bus and Binzel 2002
-870,Manto,1995-05-15,Bus and Binzel 2002
-872,Holda,1996-11-30,Bus and Binzel 2002
-886,Washingtonia,1997-01-22,Bus and Binzel 2002
-895,Helio,1995-12-08,Bus and Binzel 2002
-897,Lysistrata,1995-09-03,Bus and Binzel 2002
-898,Hildegard,1995-09-03,Bus and Binzel 2002
-905,Universitas,1997-09-15,Bus and Binzel 2002
-907,Rhoda,1995-02-11,Bus and Binzel 2002
-908,Buda,1997-02-23,Bus and Binzel 2002
-908,Buda,1997-04-07,Bus and Binzel 2002
-910,Anneliese,1994-02-25,Bus and Binzel 2002
-910,Anneliese,1995-05-13,Bus and Binzel 2002
-912,Maritima,1996-04-20,Bus and Binzel 2002
-913,Otila,1997-02-22,Bus and Binzel 2002
-919,Ilsebill,1995-05-11,Bus and Binzel 2002
-924,Toni,1995-12-14,Bus and Binzel 2002
-925,Alphonsina,1998-10-15,Bus and Binzel 2002
-929,Algunde,1997-04-11,Bus and Binzel 2002
-930,Westphalia,1994-11-13,Bus and Binzel 2002
-934,Thuringia,1995-02-08,Bus and Binzel 2002
-941,Murray,1996-02-08,Bus and Binzel 2002
-945,Barcelona,1998-01-07,Bus and Binzel 2002
-950,Ahrensa,1994-03-30,Bus and Binzel 2002
-951,Gaspra,1997-01-19,Bus and Binzel 2002
-961,Gunnie,1996-10-18,Bus and Binzel 2002
-965,Angelica,1996-05-01,Bus and Binzel 2002
-970,Primula,1995-12-15,Bus and Binzel 2002
-971,Alsatia,1994-11-05,Bus and Binzel 2002
-973,Aralia,1996-01-29,Bus and Binzel 2002
-980,Anacostia,1995-12-08,Bus and Binzel 2002
-984,Gretia,1997-05-25,Bus and Binzel 2002
-984,Gretia,1997-05-27,Bus and Binzel 2002
-985,Rosina,1994-03-31,Bus and Binzel 2002
-994,Otthild,1993-08-23,Bus and Binzel 2002
-997,Priska,1995-02-07,Bus and Binzel 2002
-1007,Pawlowia,1996-02-07,Bus and Binzel 2002
-1011,Laodamia,1995-05-14,Bus and Binzel 2002
-1014,Semphyra,1995-05-15,Bus and Binzel 2002
-1015,Christa,1994-03-28,Bus and Binzel 2002
-1016,Anitra,1997-02-22,Bus and Binzel 2002
-1017,Jacqueline,1996-04-20,Bus and Binzel 2002
-1020,Arcadia,1994-03-30,Bus and Binzel 2002
-1021,Flammario,1995-10-28,Bus and Binzel 2002
-1022,Olympiada,1994-02-24,Bus and Binzel 2002
-1024,Hale,1998-01-06,Bus and Binzel 2002
-1025,Riema,1995-05-14,Bus and Binzel 2002
-1032,Pafuri,1996-04-23,Bus and Binzel 2002
-1034,Mozartia,1997-11-24,Bus and Binzel 2002
-1039,Sonneberga,1996-02-07,Bus and Binzel 2002
-1041,Asta,1994-02-25,Bus and Binzel 2002
-1045,Michela,1998-01-07,Bus and Binzel 2002
-1046,Edwin,1997-01-22,Bus and Binzel 2002
-1048,Feodosia,1996-10-18,Bus and Binzel 2002
-1052,Belgica,1997-04-08,Bus and Binzel 2002
-1055,Tynka,1996-04-23,Bus and Binzel 2002
-1056,Azalea,1997-01-17,Bus and Binzel 2002
-1058,Grubba,1994-11-17,Bus and Binzel 2002
-1065,Amundsenia,1994-03-31,Bus and Binzel 2002
-1069,Planckia,1995-05-13,Bus and Binzel 2002
-1071,Brita,1995-05-13,Bus and Binzel 2002
-1076,Viola,1994-02-22,Bus and Binzel 2002
-1086,Nata,1997-02-22,Bus and Binzel 2002
-1088,Mitaka,1997-01-19,Bus and Binzel 2002
-1094,Siberia,1993-08-23,Bus and Binzel 2002
-1098,Hakone,1995-12-08,Bus and Binzel 2002
-1102,Pepita,1996-04-19,Bus and Binzel 2002
-1102,Pepita,1996-04-20,Bus and Binzel 2002
-1103,Sequoia,1995-10-27,Bus and Binzel 2002
-1104,Syringa,1996-11-26,Bus and Binzel 2002
-1104,Syringa,1996-11-28,Bus and Binzel 2002
-1106,Cydonia,1993-08-23,Bus and Binzel 2002
-1107,Lictoria,1996-01-28,Bus and Binzel 2002
-1110,Jaroslawa,1997-05-25,Bus and Binzel 2002
-1114,Lorraine,1996-04-29,Bus and Binzel 2002
-1126,Otero,1996-12-02,Bus and Binzel 2002
-1128,Astrid,1994-01-06,Bus and Binzel 2002
-1128,Astrid,1996-09-09,Bus and Binzel 2002
-1131,Porzia,1994-02-19,Bus and Binzel 2002
-1134,Kepler,1995-09-03,Bus and Binzel 2002
-1135,Colchis,1996-01-29,Bus and Binzel 2002
-1139,Atami,1996-04-29,Bus and Binzel 2002
-1140,Crimea,1996-04-30,Bus and Binzel 2002
-1147,Stavropolis,1997-04-12,Bus and Binzel 2002
-1148,Rarahu,1996-04-24,Bus and Binzel 2002
-1152,Pawona,1996-09-12,Bus and Binzel 2002
-1155,Aenna,1994-02-23,Bus and Binzel 2002
-1176,Lucidor,1996-10-18,Bus and Binzel 2002
-1181,Lilith,1995-12-09,Bus and Binzel 2002
-1185,Nikko,1996-04-27,Bus and Binzel 2002
-1186,Turnera,1996-02-07,Bus and Binzel 2002
-1187,Afra,1993-08-22,Bus and Binzel 2002
-1188,Gothlandia,1995-12-08,Bus and Binzel 2002
-1189,Terentia,1997-01-22,Bus and Binzel 2002
-1196,Sheba,1994-02-25,Bus and Binzel 2002
-1201,Strenua,1996-04-30,Bus and Binzel 2002
-1204,Renzia,1994-01-07,Bus and Binzel 2002
-1204,Renzia,1994-02-19,Bus and Binzel 2002
-1212,Francette,1997-05-27,Bus and Binzel 2002
-1214,Richilde,1995-02-11,Bus and Binzel 2002
-1222,Tina,1994-11-13,Bus and Binzel 2002
-1228,Scabiosa,1996-09-12,Bus and Binzel 2002
-1234,Elyna,1995-12-11,Bus and Binzel 2002
-1248,Jugurtha,1996-11-29,Bus and Binzel 2002
-1251,Hedera,1995-12-10,Bus and Binzel 2002
-1252,Celestia,1995-02-10,Bus and Binzel 2002
-1262,Sniadeckia,1996-05-01,Bus and Binzel 2002
-1263,Varsavia,1998-01-07,Bus and Binzel 2002
-1264,Letaba,1994-01-06,Bus and Binzel 2002
-1271,Isergina,1994-02-25,Bus and Binzel 2002
-1272,Gefion,1994-04-01,Bus and Binzel 2002
-1277,Dolores,1996-10-15,Bus and Binzel 2002
-1278,Kenya,1996-04-20,Bus and Binzel 2002
-1284,Latvia,1994-11-17,Bus and Binzel 2002
-1293,Sonja,1996-09-08,Bus and Binzel 2002
-1294,Antwerpia,1996-02-07,Bus and Binzel 2002
-1300,Marcelle,1995-05-15,Bus and Binzel 2002
-1301,Yvonne,1994-03-27,Bus and Binzel 2002
-1304,Arosa,1996-04-21,Bus and Binzel 2002
-1304,Arosa,1996-04-22,Bus and Binzel 2002
-1304,Arosa,1996-04-23,Bus and Binzel 2002
-1316,Kasan,1994-02-20,Bus and Binzel 2002
-1323,Tugela,1996-05-01,Bus and Binzel 2002
-1324,Knysna,1996-10-13,Bus and Binzel 2002
-1327,Namaqua,1995-12-10,Bus and Binzel 2002
-1329,Eliane,1997-04-15,Bus and Binzel 2002
-1331,Solvejg,1993-08-22,Bus and Binzel 2002
-1331,Solvejg,1993-08-23,Bus and Binzel 2002
-1332,Marconia,1995-05-15,Bus and Binzel 2002
-1336,Zeelandia,1995-05-15,Bus and Binzel 2002
-1343,Nicole,1997-05-24,Bus and Binzel 2002
-1348,Michel,1994-03-31,Bus and Binzel 2002
-1350,Rosselia,1995-05-14,Bus and Binzel 2002
-1351,Uzbekistania,1994-03-28,Bus and Binzel 2002
-1352,Wawel,1993-08-22,Bus and Binzel 2002
-1352,Wawel,1993-08-23,Bus and Binzel 2002
-1352,Wawel,1996-02-08,Bus and Binzel 2002
-1360,Tarka,1998-01-06,Bus and Binzel 2002
-1372,Haremari,1997-02-24,Bus and Binzel 2002
-1373,Cincinnati,1998-10-13,Bus and Binzel 2002
-1374,Isora,1997-01-18,Bus and Binzel 2002
-1385,Gelria,1995-12-14,Bus and Binzel 2002
-1386,Storeria,1997-11-24,Bus and Binzel 2002
-1403,Idelsonia,1995-12-11,Bus and Binzel 2002
-1406,Komppa,1996-04-24,Bus and Binzel 2002
-1406,Komppa,1996-04-27,Bus and Binzel 2002
-1407,Lindelof,1997-04-09,Bus and Binzel 2002
-1407,Lindelof,1997-04-10,Bus and Binzel 2002
-1414,Jerome,1996-11-30,Bus and Binzel 2002
-1420,Radcliffe,1995-12-10,Bus and Binzel 2002
-1423,Jose,1994-11-15,Bus and Binzel 2002
-1424,Sundmania,1994-02-25,Bus and Binzel 2002
-1427,Ruvuma,1995-02-11,Bus and Binzel 2002
-1428,Mombasa,1996-02-07,Bus and Binzel 2002
-1433,Geramtina,1995-02-07,Bus and Binzel 2002
-1458,Mineura,1996-04-30,Bus and Binzel 2002
-1471,Tornio,1996-09-12,Bus and Binzel 2002
-1474,Beira,1994-11-13,Bus and Binzel 2002
-1480,Aunus,1997-04-08,Bus and Binzel 2002
-1483,Hakoila,1995-12-10,Bus and Binzel 2002
-1483,Hakoila,1996-01-29,Bus and Binzel 2002
-1484,Postrema,1995-12-10,Bus and Binzel 2002
-1490,Limpopo,1998-10-15,Bus and Binzel 2002
-1493,Sigrid,1994-02-22,Bus and Binzel 2002
-1494,Savo,1995-02-11,Bus and Binzel 2002
-1502,Arenda,1996-10-21,Bus and Binzel 2002
-1508,Kemi,1995-02-11,Bus and Binzel 2002
-1510,Charlois,1994-11-17,Bus and Binzel 2002
-1517,Beograd,1996-02-09,Bus and Binzel 2002
-1520,Imatra,1994-02-25,Bus and Binzel 2002
-1534,Nasi,1996-09-12,Bus and Binzel 2002
-1539,Borrelly,1996-11-30,Bus and Binzel 2002
-1541,Estonia,1995-05-11,Bus and Binzel 2002
-1542,Schalen,1996-11-29,Bus and Binzel 2002
-1545,Thernoe,1996-10-21,Bus and Binzel 2002
-1548,Palomaa,1995-02-10,Bus and Binzel 2002
-1548,Palomaa,1995-02-12,Bus and Binzel 2002
-1549,Mikko,1997-01-18,Bus and Binzel 2002
-1550,Tito,1994-11-17,Bus and Binzel 2002
-1553,Bauersfelda,1995-02-09,Bus and Binzel 2002
-1560,Strattonia,1996-01-29,Bus and Binzel 2002
-1562,Gondolatsch,1996-04-23,Bus and Binzel 2002
-1563,Noel,1995-02-09,Bus and Binzel 2002
-1565,Lemaitre,1997-01-18,Bus and Binzel 2002
-1567,Alikoski,1996-12-01,Bus and Binzel 2002
-1587,Kahrstedt,1994-02-22,Bus and Binzel 2002
-1592,Mathieu,1997-04-07,Bus and Binzel 2002
-1593,Fagnes,1994-02-23,Bus and Binzel 2002
-1594,Danjon,1996-05-01,Bus and Binzel 2002
-1600,Vyssotsky,1994-02-24,Bus and Binzel 2002
-1600,Vyssotsky,1994-03-28,Bus and Binzel 2002
-1601,Patry,1996-11-26,Bus and Binzel 2002
-1601,Patry,1996-11-28,Bus and Binzel 2002
-1603,Neva,1995-12-10,Bus and Binzel 2002
-1604,Tombaugh,1996-10-13,Bus and Binzel 2002
-1613,Smiley,1995-12-10,Bus and Binzel 2002
-1618,Dawn,1996-04-30,Bus and Binzel 2002
-1629,Pecker,1996-04-25,Bus and Binzel 2002
-1634,Ndola,1996-10-13,Bus and Binzel 2002
-1635,Bohrmann,1993-08-23,Bus and Binzel 2002
-1638,Ruanda,1995-10-28,Bus and Binzel 2002
-1640,Nemo,1994-01-07,Bus and Binzel 2002
-1642,Hill,1995-05-13,Bus and Binzel 2002
-1653,Yakhontovia,1994-02-23,Bus and Binzel 2002
-1653,Yakhontovia,1994-04-01,Bus and Binzel 2002
-1653,Yakhontovia,1996-11-27,Bus and Binzel 2002
-1653,Yakhontovia,1996-11-29,Bus and Binzel 2002
-1655,Comas Sola,1997-05-30,Bus and Binzel 2002
-1659,Punkaharju,1995-09-03,Bus and Binzel 2002
-1660,Wood,1997-01-17,Bus and Binzel 2002
-1662,Hoffmann,1995-05-09,Bus and Binzel 2002
-1664,Felix,1997-01-19,Bus and Binzel 2002
-1667,Pels,1994-03-28,Bus and Binzel 2002
-1680,Per Brahe,1995-12-11,Bus and Binzel 2002
-1692,Subbotina,1995-05-14,Bus and Binzel 2002
-1695,Walbeck,1996-04-27,Bus and Binzel 2002
-1702,Kalahari,1996-05-01,Bus and Binzel 2002
-1705,Tapio,1997-11-23,Bus and Binzel 2002
-1706,Dieckvoss,1998-01-07,Bus and Binzel 2002
-1715,Salli,1997-01-18,Bus and Binzel 2002
-1716,Peter,1995-12-12,Bus and Binzel 2002
-1716,Peter,1995-12-14,Bus and Binzel 2002
-1724,Vladimir,1996-10-15,Bus and Binzel 2002
-1724,Vladimir,1996-10-16,Bus and Binzel 2002
-1726,Hoffmeister,1994-11-16,Bus and Binzel 2002
-1726,Hoffmeister,1996-01-29,Bus and Binzel 2002
-1729,Beryl,1998-01-07,Bus and Binzel 2002
-1730,Marceline,1995-05-09,Bus and Binzel 2002
-1734,Zhongolovich,1994-01-06,Bus and Binzel 2002
-1738,Oosterhoff,1997-04-07,Bus and Binzel 2002
-1747,Wright,1997-11-24,Bus and Binzel 2002
-1751,Herget,1994-01-07,Bus and Binzel 2002
-1766,Slipher,1995-12-15,Bus and Binzel 2002
-1766,Slipher,1996-02-09,Bus and Binzel 2002
-1768,Appenzella,1994-02-20,Bus and Binzel 2002
-1777,Gehrels,1997-05-27,Bus and Binzel 2002
-1783,Albitskij,1994-11-17,Bus and Binzel 2002
-1785,Wurm,1996-10-13,Bus and Binzel 2002
-1795,Woltjer,1996-04-27,Bus and Binzel 2002
-1796,Riga,1997-05-25,Bus and Binzel 2002
-1797,Schaumasse,1998-03-28,Bus and Binzel 2002
-1798,Watts,1996-09-06,Bus and Binzel 2002
-1798,Watts,1996-09-08,Bus and Binzel 2002
-1799,Koussevitzky,1998-10-15,Bus and Binzel 2002
-1807,Slovakia,1997-05-25,Bus and Binzel 2002
-1830,Pogson,1997-01-18,Bus and Binzel 2002
-1831,Nicholson,1996-10-12,Bus and Binzel 2002
-1836,Komarov,1995-12-09,Bus and Binzel 2002
-1839,Ragazza,1994-11-16,Bus and Binzel 2002
-1847,Stobbe,1996-02-07,Bus and Binzel 2002
-1848,Delvaux,1995-05-14,Bus and Binzel 2002
-1856,Ruzena,1996-12-01,Bus and Binzel 2002
-1857,Parchomenko,1997-05-25,Bus and Binzel 2002
-1857,Parchomenko,1997-05-26,Bus and Binzel 2002
-1858,Lobachevskij,1997-02-26,Bus and Binzel 2002
-1860,Barbarossa,1997-05-28,Bus and Binzel 2002
-1882,Rauma,1997-04-12,Bus and Binzel 2002
-1888,Zu Chong-Zhi,1994-02-24,Bus and Binzel 2002
-1891,Gondola,1996-10-21,Bus and Binzel 2002
-1903,Adzhimushkaj,1997-04-11,Bus and Binzel 2002
-1904,Massevitch,1995-05-09,Bus and Binzel 2002
-1904,Massevitch,1995-05-10,Bus and Binzel 2002
-1904,Massevitch,1998-01-06,Bus and Binzel 2002
-1923,Osiris,1996-02-08,Bus and Binzel 2002
-1929,Kollaa,1997-02-22,Bus and Binzel 2002
-1930,Lucifer,1995-02-09,Bus and Binzel 2002
-1932,Jansky,1997-11-24,Bus and Binzel 2002
-1936,Lugano,1994-11-14,Bus and Binzel 2002
-1948,Kampala,1994-01-07,Bus and Binzel 2002
-1951,Lick,1998-01-06,Bus and Binzel 2002
-1968,Mehltretter,1996-04-24,Bus and Binzel 2002
-1970,Sumeria,1994-11-17,Bus and Binzel 2002
-1977,Shura,1996-04-30,Bus and Binzel 2002
-1989,Tatry,1996-09-06,Bus and Binzel 2002
-1998,Titius,1996-09-08,Bus and Binzel 2002
-2001,Einstein,1997-01-19,Bus and Binzel 2002
-2019,van Albada,1994-01-06,Bus and Binzel 2002
-2022,West,1996-01-29,Bus and Binzel 2002
-2029,Binomi,1998-10-14,Bus and Binzel 2002
-2035,Stearns,1996-04-20,Bus and Binzel 2002
-2035,Stearns,1996-04-22,Bus and Binzel 2002
-2038,Bistro,1994-03-27,Bus and Binzel 2002
-2040,Chalonge,1995-02-12,Bus and Binzel 2002
-2042,Sitarski,1995-05-10,Bus and Binzel 2002
-2045,Peking,1997-11-23,Bus and Binzel 2002
-2053,Nuki,1994-11-14,Bus and Binzel 2002
-2056,Nancy,1997-04-15,Bus and Binzel 2002
-2060,Chiron,1997-05-29,Bus and Binzel 2002
-2064,Thomsen,1997-11-24,Bus and Binzel 2002
-2065,Spicer,1996-02-07,Bus and Binzel 2002
-2073,Janacek,1996-01-29,Bus and Binzel 2002
-2078,Nanking,1996-12-02,Bus and Binzel 2002
-2078,Nanking,1997-01-17,Bus and Binzel 2002
-2085,Henan,1995-10-28,Bus and Binzel 2002
-2086,Newell,1998-10-13,Bus and Binzel 2002
-2087,Kochera,1998-12-09,Bus and Binzel 2002
-2088,Sahlia,1996-04-30,Bus and Binzel 2002
-2089,Cetacea,1996-04-24,Bus and Binzel 2002
-2099,Opik,1998-10-14,Bus and Binzel 2002
-2106,Hugo,1997-05-29,Bus and Binzel 2002
-2107,Ilmari,1994-02-23,Bus and Binzel 2002
-2107,Ilmari,1994-03-30,Bus and Binzel 2002
-2118,Flagstaff,1995-12-14,Bus and Binzel 2002
-2131,Mayall,1996-10-18,Bus and Binzel 2002
-2141,Simferopol,1997-05-29,Bus and Binzel 2002
-2147,Kharadze,1994-01-05,Bus and Binzel 2002
-2152,Hannibal,1995-12-08,Bus and Binzel 2002
-2157,Ashbrook,1994-03-31,Bus and Binzel 2002
-2161,Grissom,1995-12-14,Bus and Binzel 2002
-2167,Erin,1995-05-13,Bus and Binzel 2002
-2169,Taiwan,1994-03-30,Bus and Binzel 2002
-2169,Taiwan,1996-09-12,Bus and Binzel 2002
-2185,Guangdong,1996-10-17,Bus and Binzel 2002
-2189,Zaragoza,1997-04-14,Bus and Binzel 2002
-2194,Arpola,1997-04-13,Bus and Binzel 2002
-2231,Durrell,1995-12-09,Bus and Binzel 2002
-2234,Schmadel,1994-03-30,Bus and Binzel 2002
-2244,Tesla,1996-02-08,Bus and Binzel 2002
-2246,Bowell,1997-04-07,Bus and Binzel 2002
-2251,Tikhov,1995-10-27,Bus and Binzel 2002
-2258,Viipuri,1996-10-18,Bus and Binzel 2002
-2268,Szmytowna,1995-02-07,Bus and Binzel 2002
-2271,Kiso,1995-12-11,Bus and Binzel 2002
-2280,Kunikov,1995-02-09,Bus and Binzel 2002
-2282,Andres Bello,1997-04-12,Bus and Binzel 2002
-2305,King,1996-02-07,Bus and Binzel 2002
-2306,Bauschinger,1996-01-29,Bus and Binzel 2002
-2308,Schilt,1994-02-24,Bus and Binzel 2002
-2316,Jo-Ann,1994-02-20,Bus and Binzel 2002
-2317,Galya,1994-02-20,Bus and Binzel 2002
-2328,Robeson,1997-04-14,Bus and Binzel 2002
-2331,Parvulesco,1997-05-25,Bus and Binzel 2002
-2331,Parvulesco,1997-05-26,Bus and Binzel 2002
-2335,James,1994-02-20,Bus and Binzel 2002
-2346,Lilio,1997-04-14,Bus and Binzel 2002
-2349,Kurchenko,1997-04-09,Bus and Binzel 2002
-2353,Alva,1997-04-13,Bus and Binzel 2002
-2354,Lavrov,1995-05-09,Bus and Binzel 2002
-2369,Chekhov,1995-05-11,Bus and Binzel 2002
-2370,van Altena,1995-02-09,Bus and Binzel 2002
-2371,Dimitrov,1998-10-13,Bus and Binzel 2002
-2373,Immo,1995-12-11,Bus and Binzel 2002
-2378,Pannekoek,1995-05-14,Bus and Binzel 2002
-2380,Heilongjiang,1998-12-09,Bus and Binzel 2002
-2382,Nonie,1996-09-11,Bus and Binzel 2002
-2386,Nikonov,1994-11-14,Bus and Binzel 2002
-2390,Nezarka,1995-02-09,Bus and Binzel 2002
-2396,Kochi,1995-02-10,Bus and Binzel 2002
-2401,Aehlita,1995-02-08,Bus and Binzel 2002
-2402,Satpaev,1996-10-12,Bus and Binzel 2002
-2409,Chapman,1996-09-11,Bus and Binzel 2002
-2410,Morrison,1994-01-06,Bus and Binzel 2002
-2423,Ibarruri,1994-02-20,Bus and Binzel 2002
-2423,Ibarruri,1994-02-22,Bus and Binzel 2002
-2427,Kobzar,1997-05-30,Bus and Binzel 2002
-2428,Kamenyar,1994-11-16,Bus and Binzel 2002
-2430,Bruce Helin,1994-03-31,Bus and Binzel 2002
-2438,Oleshko,1997-04-08,Bus and Binzel 2002
-2444,Lederle,1997-01-20,Bus and Binzel 2002
-2446,Lunacharsky,1995-02-08,Bus and Binzel 2002
-2448,Sholokhov,1994-02-23,Bus and Binzel 2002
-2451,Dollfus,1997-04-10,Bus and Binzel 2002
-2451,Dollfus,1997-04-13,Bus and Binzel 2002
-2455,Somville,1997-01-19,Bus and Binzel 2002
-2465,Wilson,1996-12-01,Bus and Binzel 2002
-2467,Kollontai,1996-09-06,Bus and Binzel 2002
-2468,Repin,1998-12-09,Bus and Binzel 2002
-2478,Tokai,1997-02-24,Bus and Binzel 2002
-2482,Perkin,1995-02-09,Bus and Binzel 2002
-2493,Elmer,1994-03-31,Bus and Binzel 2002
-2501,Lohja,1996-11-30,Bus and Binzel 2002
-2504,Gaviola,1996-10-15,Bus and Binzel 2002
-2507,Bobone,1995-12-10,Bus and Binzel 2002
-2508,Alupka,1999-03-24,Bus and Binzel 2002
-2509,Chukotka,1997-11-23,Bus and Binzel 2002
-2511,Patterson,1997-04-15,Bus and Binzel 2002
-2521,Heidi,1996-11-30,Bus and Binzel 2002
-2527,Gregory,1997-11-23,Bus and Binzel 2002
-2547,Hubei,1997-09-13,Bus and Binzel 2002
-2559,Svoboda,1995-12-12,Bus and Binzel 2002
-2559,Svoboda,1995-12-14,Bus and Binzel 2002
-2560,Siegma,1996-04-27,Bus and Binzel 2002
-2566,Kirghizia,1996-11-26,Bus and Binzel 2002
-2566,Kirghizia,1996-11-30,Bus and Binzel 2002
-2567,Elba,1995-02-09,Bus and Binzel 2002
-2569,Madeline,1995-02-12,Bus and Binzel 2002
-2575,Bulgaria,1996-04-27,Bus and Binzel 2002
-2579,Spartacus,1996-04-30,Bus and Binzel 2002
-2582,Harimaya-Bashi,1996-04-25,Bus and Binzel 2002
-2582,Harimaya-Bashi,1996-05-01,Bus and Binzel 2002
-2598,Merlin,1996-01-29,Bus and Binzel 2002
-2604,Marshak,1994-03-27,Bus and Binzel 2002
-2606,Odessa,1995-05-15,Bus and Binzel 2002
-2625,Jack London,1996-10-12,Bus and Binzel 2002
-2629,Rudra,1996-09-12,Bus and Binzel 2002
-2631,Zhejiang,1994-11-16,Bus and Binzel 2002
-2635,Huggins,1996-09-09,Bus and Binzel 2002
-2640,Hallstrom,1997-05-29,Bus and Binzel 2002
-2653,Principia,1997-04-13,Bus and Binzel 2002
-2659,Millis,1997-04-08,Bus and Binzel 2002
-2675,Tolkien,1998-01-06,Bus and Binzel 2002
-2681,Ostrovskij,1995-02-10,Bus and Binzel 2002
-2703,Rodari,1996-09-06,Bus and Binzel 2002
-2703,Rodari,1996-09-08,Bus and Binzel 2002
-2704,Julian Loewe,1997-05-28,Bus and Binzel 2002
-2708,Burns,1999-03-24,Bus and Binzel 2002
-2709,Sagan,1996-10-13,Bus and Binzel 2002
-2715,Mielikki,1995-05-10,Bus and Binzel 2002
-2720,Pyotr Pervyj,1995-02-07,Bus and Binzel 2002
-2724,Orlov,1995-02-09,Bus and Binzel 2002
-2730,Barks,1995-12-14,Bus and Binzel 2002
-2732,Witt,1995-05-14,Bus and Binzel 2002
-2733,Hamina,1999-03-23,Bus and Binzel 2002
-2736,Ops,1997-11-23,Bus and Binzel 2002
-2737,Kotka,1997-01-22,Bus and Binzel 2002
-2737,Kotka,1997-04-08,Bus and Binzel 2002
-2744,Birgitta,1996-09-11,Bus and Binzel 2002
-2746,Hissao,1996-12-02,Bus and Binzel 2002
-2748,Patrick Gene,1996-09-12,Bus and Binzel 2002
-2750,Loviisa,1997-01-22,Bus and Binzel 2002
-2754,Efimov,1996-12-01,Bus and Binzel 2002
-2762,Fowler,1999-03-24,Bus and Binzel 2002
-2763,Jeans,1997-11-23,Bus and Binzel 2002
-2772,Dugan,1994-01-05,Bus and Binzel 2002
-2778,Tangshan,1998-03-28,Bus and Binzel 2002
-2789,Foshan,1997-01-19,Bus and Binzel 2002
-2791,Paradise,1998-10-13,Bus and Binzel 2002
-2795,Lepage,1996-09-09,Bus and Binzel 2002
-2801,Huygens,1994-03-31,Bus and Binzel 2002
-2807,Karl Marx,1994-03-28,Bus and Binzel 2002
-2809,Vernadskij,1993-08-23,Bus and Binzel 2002
-2813,Zappala,1994-02-23,Bus and Binzel 2002
-2816,Pien,1996-11-30,Bus and Binzel 2002
-2818,Juvenalis,1995-02-11,Bus and Binzel 2002
-2827,Vellamo,1998-01-07,Bus and Binzel 2002
-2834,Christy Carol,1994-02-23,Bus and Binzel 2002
-2840,Kallavesi,1997-11-23,Bus and Binzel 2002
-2850,Mozhaiskij,1993-08-22,Bus and Binzel 2002
-2851,Harbin,1996-04-29,Bus and Binzel 2002
-2852,Declercq,1995-09-03,Bus and Binzel 2002
-2855,Bastian,1994-02-20,Bus and Binzel 2002
-2857,NOT,1996-09-12,Bus and Binzel 2002
-2861,Lambrecht,1996-10-12,Bus and Binzel 2002
-2864,Soderblom,1997-04-11,Bus and Binzel 2002
-2872,Gentelec,1997-04-09,Bus and Binzel 2002
-2873,Binzel,1993-08-23,Bus and Binzel 2002
-2873,Binzel,1999-03-24,Bus and Binzel 2002
-2874,Jim Young,1997-01-17,Bus and Binzel 2002
-2875,Lagerkvist,1997-02-27,Bus and Binzel 2002
-2879,Shimizu,1995-12-15,Bus and Binzel 2002
-2881,Meiden,1997-05-30,Bus and Binzel 2002
-2892,Filipenko,1994-02-25,Bus and Binzel 2002
-2902,Westerlund,1997-05-28,Bus and Binzel 2002
-2902,Westerlund,1997-05-30,Bus and Binzel 2002
-2905,Plaskett,1994-11-14,Bus and Binzel 2002
-2906,Caltech,1994-02-24,Bus and Binzel 2002
-2911,Miahelena,1994-01-06,Bus and Binzel 2002
-2911,Miahelena,1994-02-23,Bus and Binzel 2002
-2911,Miahelena,1994-03-31,Bus and Binzel 2002
-2912,Lapalma,1997-01-17,Bus and Binzel 2002
-2917,Sawyer Hogg,1996-01-29,Bus and Binzel 2002
-2925,Beatty,1994-03-31,Bus and Binzel 2002
-2929,Harris,1994-03-28,Bus and Binzel 2002
-2930,Euripides,1994-01-05,Bus and Binzel 2002
-2930,Euripides,1994-01-07,Bus and Binzel 2002
-2934,Aristophanes,1994-11-16,Bus and Binzel 2002
-2949,Kaverznev,1996-09-06,Bus and Binzel 2002
-2952,Lilliputia,1997-11-22,Bus and Binzel 2002
-2953,Vysheslavia,1995-02-07,Bus and Binzel 2002
-2955,Newburn,1995-02-09,Bus and Binzel 2002
-2956,Yeomans,1996-05-01,Bus and Binzel 2002
-2957,Tatsuo,1997-01-20,Bus and Binzel 2002
-2973,Paola,1994-02-24,Bus and Binzel 2002
-2977,Chivilikhin,1995-02-07,Bus and Binzel 2002
-2988,Korhonen,1994-02-24,Bus and Binzel 2002
-2996,Bowman,1994-02-22,Bus and Binzel 2002
-3000,Leonardo,1995-02-07,Bus and Binzel 2002
-3007,Reaves,1999-03-24,Bus and Binzel 2002
-3020,Naudts,1996-12-02,Bus and Binzel 2002
-3028,Zhangguoxi,1995-12-11,Bus and Binzel 2002
-3037,Alku,1995-12-10,Bus and Binzel 2002
-3040,Kozai,1994-02-19,Bus and Binzel 2002
-3060,Delcano,1996-09-09,Bus and Binzel 2002
-3065,Sarahill,1997-01-20,Bus and Binzel 2002
-3074,Popov,1998-01-06,Bus and Binzel 2002
-3085,Donna,1997-11-22,Bus and Binzel 2002
-3090,Tjossem,1994-02-20,Bus and Binzel 2002
-3096,Bezruc,1994-11-14,Bus and Binzel 2002
-3121,Tamines,1996-11-28,Bus and Binzel 2002
-3137,Horky,1997-11-24,Bus and Binzel 2002
-3151,Talbot,1994-11-14,Bus and Binzel 2002
-3155,Lee,1997-04-12,Bus and Binzel 2002
-3169,Ostro,1999-03-24,Bus and Binzel 2002
-3170,Dzhanibekov,1994-11-14,Bus and Binzel 2002
-3175,Netto,1997-11-24,Bus and Binzel 2002
-3179,Beruti,1994-02-24,Bus and Binzel 2002
-3181,Ahnert,1997-01-17,Bus and Binzel 2002
-3192,A'Hearn,1997-04-07,Bus and Binzel 2002
-3192,A'Hearn,1997-04-08,Bus and Binzel 2002
-3197,Weissman,1994-01-06,Bus and Binzel 2002
-3198,Wallonia,1997-11-22,Bus and Binzel 2002
-3209,Buchwald,1996-09-06,Bus and Binzel 2002
-3209,Buchwald,1996-09-12,Bus and Binzel 2002
-3214,Makarenko,1997-05-24,Bus and Binzel 2002
-3216,Harrington,1994-03-31,Bus and Binzel 2002
-3224,Irkutsk,1996-11-30,Bus and Binzel 2002
-3248,Farinella,1997-01-20,Bus and Binzel 2002
-3249,Musashino,1997-11-22,Bus and Binzel 2002
-3254,Bus,1994-03-31,Bus and Binzel 2002
-3255,Tholen,1995-12-10,Bus and Binzel 2002
-3256,Daguerre,1995-10-28,Bus and Binzel 2002
-3258,Somnium,1996-12-02,Bus and Binzel 2002
-3262,Miune,1996-04-29,Bus and Binzel 2002
-3265,Fletcher,1998-12-09,Bus and Binzel 2002
-3287,Olmstead,1996-04-28,Bus and Binzel 2002
-3306,Byron,1996-10-13,Bus and Binzel 2002
-3307,Athabasca,1996-09-08,Bus and Binzel 2002
-3309,Brorfelde,1997-04-09,Bus and Binzel 2002
-3311,Podobed,1997-01-20,Bus and Binzel 2002
-3314,Beals,1996-11-28,Bus and Binzel 2002
-3317,Paris,1997-05-25,Bus and Binzel 2002
-3317,Paris,1997-05-27,Bus and Binzel 2002
-3320,Namba,1997-09-13,Bus and Binzel 2002
-3340,Yinhai,1996-11-30,Bus and Binzel 2002
-3345,Tarkovskij,1995-02-11,Bus and Binzel 2002
-3349,Manas,1995-12-11,Bus and Binzel 2002
-3363,Bowen,1995-12-14,Bus and Binzel 2002
-3364,Zdenka,1997-04-09,Bus and Binzel 2002
-3365,Recogne,1996-10-17,Bus and Binzel 2002
-3367,Alex,1997-04-10,Bus and Binzel 2002
-3371,Giacconi,1996-11-29,Bus and Binzel 2002
-3375,Amy,1998-10-14,Bus and Binzel 2002
-3376,Armandhammer,1996-09-06,Bus and Binzel 2002
-3376,Armandhammer,1996-09-08,Bus and Binzel 2002
-3376,Armandhammer,1998-01-06,Bus and Binzel 2002
-3385,Bronnina,1997-01-18,Bus and Binzel 2002
-3389,Sinzot,1996-11-29,Bus and Binzel 2002
-3394,Banno,1997-05-29,Bus and Binzel 2002
-3395,Jitka,1995-12-14,Bus and Binzel 2002
-3401,Vanphilos,1997-01-17,Bus and Binzel 2002
-3406,Omsk,1996-02-08,Bus and Binzel 2002
-3416,Dorrit,1994-02-20,Bus and Binzel 2002
-3417,Tamblyn,1997-02-25,Bus and Binzel 2002
-3430,Bradfield,1996-02-09,Bus and Binzel 2002
-3435,Boury,1997-04-15,Bus and Binzel 2002
-3440,Stampfer,1997-04-10,Bus and Binzel 2002
-3443,Leetsungdao,1997-04-14,Bus and Binzel 2002
-3451,Mentor,1996-04-25,Bus and Binzel 2002
-3458,Boduognat,1997-11-24,Bus and Binzel 2002
-3474,Linsley,1995-05-13,Bus and Binzel 2002
-3491,Fridolin,1994-11-15,Bus and Binzel 2002
-3493,Stepanov,1994-11-15,Bus and Binzel 2002
-3498,Belton,1999-03-24,Bus and Binzel 2002
-3507,Vilas,1995-02-07,Bus and Binzel 2002
-3511,Tsvetaeva,1996-12-01,Bus and Binzel 2002
-3526,Jeffbell,1996-10-15,Bus and Binzel 2002
-3527,McCord,1999-03-24,Bus and Binzel 2002
-3533,Toyota,1994-01-07,Bus and Binzel 2002
-3534,Sax,1995-12-10,Bus and Binzel 2002
-3536,Schleicher,1999-03-24,Bus and Binzel 2002
-3542,Tanjiazhen,1995-02-08,Bus and Binzel 2002
-3545,Gaffey,1994-02-23,Bus and Binzel 2002
-3546,Atanasoff,1996-10-17,Bus and Binzel 2002
-3563,Canterbury,1994-01-05,Bus and Binzel 2002
-3563,Canterbury,1994-01-07,Bus and Binzel 2002
-3566,Levitan,1997-11-23,Bus and Binzel 2002
-3567,Alvema,1995-10-28,Bus and Binzel 2002
-3575,Anyuta,1997-01-19,Bus and Binzel 2002
-3576,Galina,1997-11-24,Bus and Binzel 2002
-3579,Rockholt,1995-12-15,Bus and Binzel 2002
-3581,Alvarez,1995-10-28,Bus and Binzel 2002
-3587,Descartes,1996-02-08,Bus and Binzel 2002
-3592,Nedbal,1994-01-05,Bus and Binzel 2002
-3611,Dabu,1995-12-14,Bus and Binzel 2002
-3611,Dabu,1996-02-09,Bus and Binzel 2002
-3627,Sayers,1998-01-06,Bus and Binzel 2002
-3628,Boznemcova,1995-12-11,Bus and Binzel 2002
-3630,Lubomir,1994-11-14,Bus and Binzel 2002
-3635,Kreutz,1997-05-29,Bus and Binzel 2002
-3636,Pajdusakova,1997-01-18,Bus and Binzel 2002
-3640,Gostin,1997-04-12,Bus and Binzel 2002
-3642,Frieden,1996-02-07,Bus and Binzel 2002
-3645,Fabini,1995-10-27,Bus and Binzel 2002
-3647,Dermott,1995-02-12,Bus and Binzel 2002
-3654,AAS,1997-11-24,Bus and Binzel 2002
-3658,Feldman,1998-10-14,Bus and Binzel 2002
-3669,Vertinskij,1997-04-15,Bus and Binzel 2002
-3670,Northcott,1995-12-11,Bus and Binzel 2002
-3674,Erbisbuhl,1997-01-19,Bus and Binzel 2002
-3678,Mongmanwai,1995-02-09,Bus and Binzel 2002
-3684,Berry,1997-02-27,Bus and Binzel 2002
-3686,Antoku,1996-02-08,Bus and Binzel 2002
-3687,Dzus,1997-04-09,Bus and Binzel 2002
-3700,Geowilliams,1997-04-14,Bus and Binzel 2002
-3701,Purkyne,1995-02-09,Bus and Binzel 2002
-3704,Gaoshiqi,1994-03-30,Bus and Binzel 2002
-3710,Bogoslovskij,1996-10-15,Bus and Binzel 2002
-3712,Kraft,1994-01-05,Bus and Binzel 2002
-3713,Pieters,1996-05-01,Bus and Binzel 2002
-3730,Hurban,1996-11-29,Bus and Binzel 2002
-3734,Waland,1996-09-11,Bus and Binzel 2002
-3737,Beckman,1998-10-13,Bus and Binzel 2002
-3744,Horn-d'Arturo,1996-12-01,Bus and Binzel 2002
-3759,Piironen,1996-10-21,Bus and Binzel 2002
-3762,Amaravella,1997-11-24,Bus and Binzel 2002
-3767,DiMaggio,1994-03-28,Bus and Binzel 2002
-3775,Ellenbeth,1995-05-10,Bus and Binzel 2002
-3782,Celle,1997-09-13,Bus and Binzel 2002
-3788,Steyaert,1994-03-30,Bus and Binzel 2002
-3792,Preston,1994-11-17,Bus and Binzel 2002
-3796,Lene,1997-04-09,Bus and Binzel 2002
-3800,Karayusuf,1994-02-23,Bus and Binzel 2002
-3809,Amici,1997-04-13,Bus and Binzel 2002
-3813,Fortov,1996-10-13,Bus and Binzel 2002
-3819,Robinson,1997-01-20,Bus and Binzel 2002
-3824,Brendalee,1997-11-22,Bus and Binzel 2002
-3827,Zdenekhorsky,1995-12-10,Bus and Binzel 2002
-3829,Gunma,1996-12-02,Bus and Binzel 2002
-3831,Pettengill,1995-05-11,Bus and Binzel 2002
-3833,Calingasta,1997-09-13,Bus and Binzel 2002
-3841,Dicicco,1997-11-23,Bus and Binzel 2002
-3844,Lujiaxi,1996-10-16,Bus and Binzel 2002
-3849,Incidentia,1997-09-13,Bus and Binzel 2002
-3850,Peltier,1996-09-06,Bus and Binzel 2002
-3853,Haas,1995-10-27,Bus and Binzel 2002
-3858,Dorchester,1995-05-14,Bus and Binzel 2002
-3860,Plovdiv,1994-03-30,Bus and Binzel 2002
-3861,Lorenz,1994-11-15,Bus and Binzel 2002
-3862,Agekian,1994-01-07,Bus and Binzel 2002
-3865,Lindbloom,1998-12-09,Bus and Binzel 2002
-3873,Roddy,1997-11-22,Bus and Binzel 2002
-3885,Bogorodskij,1996-01-29,Bus and Binzel 2002
-3886,Shcherbakovia,1995-12-15,Bus and Binzel 2002
-3900,Knezevic,1996-09-08,Bus and Binzel 2002
-3903,Kliment Ohridski,1995-02-08,Bus and Binzel 2002
-3910,Liszt,1995-02-07,Bus and Binzel 2002
-3920,Aubignan,1994-02-20,Bus and Binzel 2002
-3949,Mach,1997-04-15,Bus and Binzel 2002
-3958,Komendantov,1994-02-20,Bus and Binzel 2002
-3971,Voronikhin,1995-02-08,Bus and Binzel 2002
-3972,Richard,1997-05-29,Bus and Binzel 2002
-3976,Lise,1997-05-27,Bus and Binzel 2002
-3985,Raybatson,1995-02-07,Bus and Binzel 2002
-4001,Ptolemaeus,1997-05-28,Bus and Binzel 2002
-4033,Yatsugatake,1997-09-13,Bus and Binzel 2002
-4036,Whitehouse,1996-02-08,Bus and Binzel 2002
-4037,Ikeya,1996-02-08,Bus and Binzel 2002
-4039,Souseki,1996-02-08,Bus and Binzel 2002
-4051,Hatanaka,1996-09-11,Bus and Binzel 2002
-4072,Yayoi,1998-01-07,Bus and Binzel 2002
-4082,Swann,1995-12-11,Bus and Binzel 2002
-4096,Kushiro,1994-03-30,Bus and Binzel 2002
-4107,Rufino,1997-04-09,Bus and Binzel 2002
-4116,Elachi,1994-03-30,Bus and Binzel 2002
-4124,Herriot,1996-10-17,Bus and Binzel 2002
-4135,Svetlanov,1994-11-15,Bus and Binzel 2002
-4142,Dersu-Uzala,1994-01-06,Bus and Binzel 2002
-4156,Okadanoboru,1997-02-24,Bus and Binzel 2002
-4156,Okadanoboru,1997-04-09,Bus and Binzel 2002
-4157,Izu,1995-02-08,Bus and Binzel 2002
-4182,Mount Locke,1994-11-16,Bus and Binzel 2002
-4188,Kitezh,1996-02-08,Bus and Binzel 2002
-4194,Sweitzer,1996-12-01,Bus and Binzel 2002
-4200,Shizukagozen,1996-10-16,Bus and Binzel 2002
-4200,Shizukagozen,1996-10-17,Bus and Binzel 2002
-4205,David Hughes,1996-09-06,Bus and Binzel 2002
-4215,Kamo,1997-04-08,Bus and Binzel 2002
-4222,Nancita,1995-02-12,Bus and Binzel 2002
-4256,Kagamigawa,1997-11-23,Bus and Binzel 2002
-4261,Gekko,1996-09-11,Bus and Binzel 2002
-4265,Kani,1997-11-23,Bus and Binzel 2002
-4272,Entsuji,1997-11-22,Bus and Binzel 2002
-4276,Clifford,1994-04-01,Bus and Binzel 2002
-4280,Simonenko,1998-01-07,Bus and Binzel 2002
-4284,Kaho,1994-01-05,Bus and Binzel 2002
-4284,Kaho,1996-05-01,Bus and Binzel 2002
-4287,Trisov,1996-10-12,Bus and Binzel 2002
-4292,Aoba,1996-04-27,Bus and Binzel 2002
-4297,Eichhorn,1998-01-06,Bus and Binzel 2002
-4299,WIYN,1996-10-12,Bus and Binzel 2002
-4304,Geichenko,1994-02-20,Bus and Binzel 2002
-4305,Clapton,1994-11-14,Bus and Binzel 2002
-4311,Zguridi,1997-09-15,Bus and Binzel 2002
-4327,Ries,1994-01-05,Bus and Binzel 2002
-4332,Milton,1997-01-20,Bus and Binzel 2002
-4340,Dence,1997-04-06,Bus and Binzel 2002
-4342,Freud,1995-05-14,Bus and Binzel 2002
-4343,Tetsuya,1996-10-18,Bus and Binzel 2002
-4352,Kyoto,1995-02-08,Bus and Binzel 2002
-4353,Onizaki,1995-05-15,Bus and Binzel 2002
-4369,Seifert,1995-12-08,Bus and Binzel 2002
-4372,Quincy,1994-11-16,Bus and Binzel 2002
-4374,Tadamori,1997-01-19,Bus and Binzel 2002
-4382,Stravinsky,1994-02-20,Bus and Binzel 2002
-4387,Tanaka,1998-01-07,Bus and Binzel 2002
-4390,Madreteresa,1994-01-05,Bus and Binzel 2002
-4396,Gressmann,1996-02-09,Bus and Binzel 2002
-4407,Taihaku,1995-05-09,Bus and Binzel 2002
-4417,Lecar,1995-02-10,Bus and Binzel 2002
-4422,Jarre,1997-01-17,Bus and Binzel 2002
-4424,Arkhipova,1995-05-15,Bus and Binzel 2002
-4426,Roerich,1995-05-15,Bus and Binzel 2002
-4434,Nikulin,1996-09-06,Bus and Binzel 2002
-4435,Holt,1996-10-15,Bus and Binzel 2002
-4456,Mawson,1994-01-07,Bus and Binzel 2002
-4461,Sayama,1995-02-07,Bus and Binzel 2002
-4479,Charlieparker,1995-05-09,Bus and Binzel 2002
-4491,Otaru,1998-10-13,Bus and Binzel 2002
-4512,Sinuhe,1995-05-15,Bus and Binzel 2002
-4516,Pugovkin,1994-02-22,Bus and Binzel 2002
-4523,MIT,1994-03-31,Bus and Binzel 2002
-4534,Rimskij-Korsakov,1996-10-16,Bus and Binzel 2002
-4536,Drewpinsky,1997-04-14,Bus and Binzel 2002
-4547,Massachusetts,1994-02-24,Bus and Binzel 2002
-4547,Massachusetts,1996-11-29,Bus and Binzel 2002
-4548,Wielen,1998-10-13,Bus and Binzel 2002
-4558,Janesick,1996-02-09,Bus and Binzel 2002
-4570,Runcorn,1997-02-27,Bus and Binzel 2002
-4584,Akan,1995-05-09,Bus and Binzel 2002
-4591,Bryantsev,1998-10-15,Bus and Binzel 2002
-4604,Stekarstrom,1998-01-06,Bus and Binzel 2002
-4607,Seilandfarm,1997-11-24,Bus and Binzel 2002
-4610,Kajov,1998-12-09,Bus and Binzel 2002
-4611,Vulkaneifel,1996-02-08,Bus and Binzel 2002
-4619,Polyakhova,1995-12-10,Bus and Binzel 2002
-4628,Laplace,1996-02-09,Bus and Binzel 2002
-4649,Sumoto,1995-10-27,Bus and Binzel 2002
-4650,Mori,1997-09-13,Bus and Binzel 2002
-4678,Ninian,1997-11-24,Bus and Binzel 2002
-4682,Bykov,1997-11-24,Bus and Binzel 2002
-4686,Maisica,1997-09-13,Bus and Binzel 2002
-4701,Milani,1995-12-11,Bus and Binzel 2002
-4702,Berounka,1994-11-15,Bus and Binzel 2002
-4706,Dennisreuter,1997-11-23,Bus and Binzel 2002
-4711,Kathy,1997-11-23,Bus and Binzel 2002
-4713,Steel,1994-03-27,Bus and Binzel 2002
-4718,Araki,1999-03-23,Bus and Binzel 2002
-4719,Burnaby,1996-04-29,Bus and Binzel 2002
-4726,Federer,1996-02-09,Bus and Binzel 2002
-4733,ORO,1996-10-13,Bus and Binzel 2002
-4737,Kiladze,1997-04-13,Bus and Binzel 2002
-4744,Rovereto,1996-04-21,Bus and Binzel 2002
-4744,Rovereto,1996-04-23,Bus and Binzel 2002
-4748,Tokiwagozen,1996-04-28,Bus and Binzel 2002
-4750,Mukai,1996-10-12,Bus and Binzel 2002
-4767,Sutoku,1996-04-27,Bus and Binzel 2002
-4774,Hobetsu,1996-11-28,Bus and Binzel 2002
-4786,Tatianina,1995-02-11,Bus and Binzel 2002
-4796,Lewis,1997-11-22,Bus and Binzel 2002
-4804,Pasteur,1997-05-29,Bus and Binzel 2002
-4804,Pasteur,1997-05-30,Bus and Binzel 2002
-4817,Gliba,1997-11-24,Bus and Binzel 2002
-4824,Stradonice,1996-09-06,Bus and Binzel 2002
-4824,Stradonice,1996-09-08,Bus and Binzel 2002
-4838,Billmclaughlin,1997-11-24,Bus and Binzel 2002
-4839,Daisetsuzan,1997-11-23,Bus and Binzel 2002
-4844,Matsuyama,1995-02-11,Bus and Binzel 2002
-4845,Tsubetsu,1996-09-06,Bus and Binzel 2002
-4845,Tsubetsu,1996-09-08,Bus and Binzel 2002
-4849,Ardenne,1998-10-15,Bus and Binzel 2002
-4853,Marielukac,1995-05-10,Bus and Binzel 2002
-4884,Bragaria,1996-10-12,Bus and Binzel 2002
-4900,Maymelou,1996-09-08,Bus and Binzel 2002
-4909,Couteau,1997-11-24,Bus and Binzel 2002
-4910,Kawasato,1994-04-01,Bus and Binzel 2002
-4917,Yurilvovia,1996-09-12,Bus and Binzel 2002
-4923,Clarke,1997-04-09,Bus and Binzel 2002
-4942,Munroe,1997-05-26,Bus and Binzel 2002
-4944,Kozlovskij,1996-10-15,Bus and Binzel 2002
-4944,Kozlovskij,1996-10-16,Bus and Binzel 2002
-4945,Ikenozenni,1995-05-14,Bus and Binzel 2002
-4950,House,1996-09-11,Bus and Binzel 2002
-4951,Iwamoto,1997-04-09,Bus and Binzel 2002
-4968,Suzamur,1997-04-13,Bus and Binzel 2002
-4969,Lawrence,1995-12-11,Bus and Binzel 2002
-4977,Rauthgundis,1998-10-15,Bus and Binzel 2002
-4982,Bartini,1996-12-01,Bus and Binzel 2002
-4993,Cossard,1997-01-22,Bus and Binzel 2002
-4995,Griffin,1995-12-09,Bus and Binzel 2002
-4997,Ksana,1996-10-15,Bus and Binzel 2002
-5008,Miyazawakenji,1996-11-28,Bus and Binzel 2002
-5010,Amenemhet,1996-10-16,Bus and Binzel 2002
-5013,Suzhousanzhong,1996-12-02,Bus and Binzel 2002
-5038,Overbeek,1997-04-09,Bus and Binzel 2002
-5051,Ralph,1998-10-13,Bus and Binzel 2002
-5067,Occidental,1996-10-21,Bus and Binzel 2002
-5067,Occidental,1996-11-30,Bus and Binzel 2002
-5069,Tokeidai,1997-04-14,Bus and Binzel 2002
-5079,Brubeck,1995-12-14,Bus and Binzel 2002
-5081,Sanguin,1998-12-09,Bus and Binzel 2002
-5087,Emel'yanov,1996-09-12,Bus and Binzel 2002
-5091,Isakovskij,1995-12-10,Bus and Binzel 2002
-5102,Benfranklin,1996-12-02,Bus and Binzel 2002
-5103,Divis,1996-12-02,Bus and Binzel 2002
-5108,Lubeck,1998-10-14,Bus and Binzel 2002
-5111,Jacliff,1998-10-13,Bus and Binzel 2002
-5133,Phillipadams,1997-04-14,Bus and Binzel 2002
-5134,Ebilson,1997-04-10,Bus and Binzel 2002
-5142,Okutama,1994-11-17,Bus and Binzel 2002
-5159,Burbine,1994-02-23,Bus and Binzel 2002
-5184,Cavaille-Coll,1998-01-08,Bus and Binzel 2002
-5195,Kaendler,1997-05-30,Bus and Binzel 2002
-5196,Bustelli,1997-01-19,Bus and Binzel 2002
-5208,Royer,1997-02-23,Bus and Binzel 2002
-5214,Oozora,1996-09-06,Bus and Binzel 2002
-5222,Ioffe,1994-11-15,Bus and Binzel 2002
-5227,Bocacara,1997-11-23,Bus and Binzel 2002
-5230,Asahina,1998-10-15,Bus and Binzel 2002
-5234,Sechenov,1994-11-15,Bus and Binzel 2002
-5240,Kwasan,1999-03-24,Bus and Binzel 2002
-5242,Kenreimonin,1997-05-27,Bus and Binzel 2002
-5243,Clasien,1995-05-10,Bus and Binzel 2002
-5253,Fredclifford,1996-10-15,Bus and Binzel 2002
-5261,Eureka,1994-11-16,Bus and Binzel 2002
-5275,Zdislava,1995-05-15,Bus and Binzel 2002
-5294,Onnetoh,1997-04-14,Bus and Binzel 2002
-5318,Dientzenhofer,1997-11-23,Bus and Binzel 2002
-5329,Decaro,1995-02-08,Bus and Binzel 2002
-5330,Senrikyu,1995-02-09,Bus and Binzel 2002
-5333,Kanaya,1999-03-24,Bus and Binzel 2002
-5344,Ryabov,1996-10-15,Bus and Binzel 2002
-5348,Kennoguchi,1996-11-30,Bus and Binzel 2002
-5349,Paulharris,1994-01-06,Bus and Binzel 2002
-5364,Christophschafer,1994-02-20,Bus and Binzel 2002
-5379,Abehiroshi,1995-05-11,Bus and Binzel 2002
-5392,Parker,1997-02-26,Bus and Binzel 2002
-5397,Vojislava,1994-02-20,Bus and Binzel 2002
-5401,Minamioda,1996-10-17,Bus and Binzel 2002
-5407,1992 AX,1997-01-19,Bus and Binzel 2002
-5416,Estremadoyro,1995-05-10,Bus and Binzel 2002
-5438,Lorre,1997-01-20,Bus and Binzel 2002
-5448,Siebold,1997-01-20,Bus and Binzel 2002
-5448,Siebold,1997-02-27,Bus and Binzel 2002
-5467,1988 AG,1996-10-16,Bus and Binzel 2002
-5482,Korankei,1994-02-22,Bus and Binzel 2002
-5485,Kaula,1996-10-17,Bus and Binzel 2002
-5492,Thoma,1996-10-17,Bus and Binzel 2002
-5510,1988 RF7,1994-04-01,Bus and Binzel 2002
-5534,1941 UN,1996-10-15,Bus and Binzel 2002
-5552,Studnicka,1996-10-15,Bus and Binzel 2002
-5553,Chodas,1996-12-02,Bus and Binzel 2002
-5563,Yuuri,1997-01-19,Bus and Binzel 2002
-5565,Ukyounodaibu,1997-01-20,Bus and Binzel 2002
-5576,Albanese,1996-11-30,Bus and Binzel 2002
-5585,Parks,1995-12-15,Bus and Binzel 2002
-5588,Jennabelle,1995-12-14,Bus and Binzel 2002
-5591,Koyo,1997-02-27,Bus and Binzel 2002
-5591,Koyo,1997-04-07,Bus and Binzel 2002
-5595,Roth,1996-10-21,Bus and Binzel 2002
-5610,Balster,1996-10-18,Bus and Binzel 2002
-5610,Balster,1996-10-21,Bus and Binzel 2002
-5622,Percyjulian,1995-12-08,Bus and Binzel 2002
-5632,Ingelehmann,1997-02-25,Bus and Binzel 2002
-5632,Ingelehmann,1997-04-09,Bus and Binzel 2002
-5641,McCleese,1995-05-13,Bus and Binzel 2002
-5647,Sarojininaidu,1995-02-08,Bus and Binzel 2002
-5649,Donnashirley,1998-01-08,Bus and Binzel 2002
-5678,DuBridge,1994-11-14,Bus and Binzel 2002
-5685,Sanenobufukui,1994-11-14,Bus and Binzel 2002
-5690,1992 EU,1995-10-27,Bus and Binzel 2002
-5732,1988 WC,1998-12-09,Bus and Binzel 2002
-5732,1988 WC,1999-03-23,Bus and Binzel 2002
-5817,Robertfrazer,1994-02-19,Bus and Binzel 2002
-5840,Raybrown,1995-05-10,Bus and Binzel 2002
-5892,Milesdavis,1997-02-27,Bus and Binzel 2002
-5892,Milesdavis,1997-04-11,Bus and Binzel 2002
-5956,d'Alembert,1995-12-09,Bus and Binzel 2002
-5965,1990 SV15,1997-02-27,Bus and Binzel 2002
-6005,1989 BD,1996-10-21,Bus and Binzel 2002
-6071,Sakitama,1995-12-10,Bus and Binzel 2002
-6077,Messner,1996-01-29,Bus and Binzel 2002
-6078,Burt,1994-11-16,Bus and Binzel 2002
-6086,Vrchlicky,1996-10-17,Bus and Binzel 2002
-6129,Demokritos,1997-04-14,Bus and Binzel 2002
-6146,Adamkrafft,1997-04-11,Bus and Binzel 2002
-6192,Javiergorosabel,1997-04-08,Bus and Binzel 2002
-6192,Javiergorosabel,1997-05-29,Bus and Binzel 2002
-6211,Tsubame,1996-04-29,Bus and Binzel 2002
-6230,Fram,1994-11-14,Bus and Binzel 2002
-6233,Kimura,1994-11-14,Bus and Binzel 2002
-6249,Jennifer,1997-05-30,Bus and Binzel 2002
-6283,1980 VX1,1994-11-15,Bus and Binzel 2002
-6354,Vangelis,1999-03-24,Bus and Binzel 2002
-6364,Casarini,1996-10-17,Bus and Binzel 2002
-6386,Keithnoll,1996-11-30,Bus and Binzel 2002
-6410,Fujiwara,1996-10-18,Bus and Binzel 2002
-6500,Kodaira,1996-10-15,Bus and Binzel 2002
-6509,Giovannipratesi,1997-02-27,Bus and Binzel 2002
-6582,Flagsymphony,1995-12-09,Bus and Binzel 2002
-6585,O'Keefe,1995-10-27,Bus and Binzel 2002
-6592,Goya,1995-12-15,Bus and Binzel 2002
-6669,Obi,1997-04-13,Bus and Binzel 2002
-6704,1988 CJ,1997-01-18,Bus and Binzel 2002
-6716,1990 RO1,1995-12-11,Bus and Binzel 2002
-6782,1990 SU10,1995-12-11,Bus and Binzel 2002
-6847,Kunz-Hallstein,1995-10-28,Bus and Binzel 2002
-6906,Johnmills,1995-12-14,Bus and Binzel 2002
-6907,Harryford,1995-12-11,Bus and Binzel 2002
-6908,Kunimoto,1997-04-11,Bus and Binzel 2002
-7056,Kierkegaard,1997-04-10,Bus and Binzel 2002
-7081,Ludibunda,1996-10-16,Bus and Binzel 2002
-7110,Johnpearse,1995-05-10,Bus and Binzel 2002
-7170,Livesey,1996-10-18,Bus and Binzel 2002
-7211,Xerxes,1996-10-16,Bus and Binzel 2002
-7224,Vesnina,1996-12-01,Bus and Binzel 2002
-7225,Huntress,1996-12-02,Bus and Binzel 2002
-7245,1991 RN10,1996-11-29,Bus and Binzel 2002
-7304,Namiki,1994-02-24,Bus and Binzel 2002
-7397,1986 QS,1996-11-29,Bus and Binzel 2002
-7402,1987 YH,1996-11-29,Bus and Binzel 2002
-7404,1988 AA5,1996-10-21,Bus and Binzel 2002
-7405,1988 FF,1997-02-25,Bus and Binzel 2002
-7405,1988 FF,1997-04-08,Bus and Binzel 2002
-7451,Verbitskaya,1996-04-27,Bus and Binzel 2002
-7451,Verbitskaya,1996-04-28,Bus and Binzel 2002
-7512,Monicalazzarin,1997-02-26,Bus and Binzel 2002
-7512,Monicalazzarin,1997-04-07,Bus and Binzel 2002
-7562,Kagiroino-Oka,1997-02-27,Bus and Binzel 2002
-7564,Gokumenon,1997-01-18,Bus and Binzel 2002
-7604,Kridsadaporn,1995-12-15,Bus and Binzel 2002
-7728,Giblin,1997-04-14,Bus and Binzel 2002
-7763,Crabeels,1995-12-11,Bus and Binzel 2002
-7817,Zibiturtle,1996-04-27,Bus and Binzel 2002
-8008,1988 TQ4,1994-01-07,Bus and Binzel 2002
-8333,Medina,1996-12-02,Bus and Binzel 2002
-8334,1984 CF,1996-10-18,Bus and Binzel 2002
-8450,Egorov,1996-12-02,Bus and Binzel 2002
-8513,1991 PK11,1996-12-02,Bus and Binzel 2002
-8516,Hyakkai,1996-12-02,Bus and Binzel 2002
-9970,1992 ST1,1996-10-17,Bus and Binzel 2002
-9970,1992 ST1,1996-10-18,Bus and Binzel 2002
-10199,Chariklo,1997-02-25,Bus and Binzel 2002
-10473,Thirouin,1996-09-12,Bus and Binzel 2002
-10504,Doga,1996-10-17,Bus and Binzel 2002
-11785,Migaic,1997-04-11,Bus and Binzel 2002
-11785,Migaic,1997-04-12,Bus and Binzel 2002
-11906,1992 AE1,1997-04-15,Bus and Binzel 2002
-12281,Chaumont,1997-04-10,Bus and Binzel 2002
-17480,1991 PE10,1996-10-18,Bus and Binzel 2002
-18514,1996 TE11,1996-10-18,Bus and Binzel 2002
-129493,1995 BM2,1995-02-08,Bus and Binzel 2002
-376713,1995 WQ5,1995-12-15,Bus and Binzel 2002
+11066.0,Sigurd,1992-03-12,Xu+ 1995
+65706.0,1992 NA,1992-09-09,Xu+ 1995
+7474.0,1992 TC,1992-11-28,Xu+ 1995
+415690.0,1992 UB,1992-11-27,Xu+ 1995
+1.0,Ceres,1993-08-22,Bus and Binzel 2002
+1.0,Ceres,1994-01-07,Bus and Binzel 2002
+1.0,Ceres,1998-10-14,Bus and Binzel 2002
+2.0,Pallas,1993-08-22,Bus and Binzel 2002
+3.0,Juno,1994-02-23,Bus and Binzel 2002
+3.0,Juno,1996-10-12,Bus and Binzel 2002
+4.0,Vesta,1996-04-18,Bus and Binzel 2002
+5.0,Astraea,1995-02-08,Bus and Binzel 2002
+6.0,Hebe,1994-03-31,Bus and Binzel 2002
+7.0,Iris,1995-09-04,Bus and Binzel 2002
+7.0,Iris,1996-01-28,Bus and Binzel 2002
+10.0,Hygiea,1994-01-06,Bus and Binzel 2002
+10.0,Hygiea,1994-02-22,Bus and Binzel 2002
+10.0,Hygiea,1994-02-23,Bus and Binzel 2002
+10.0,Hygiea,1996-10-12,Bus and Binzel 2002
+11.0,Parthenope,1995-02-08,Bus and Binzel 2002
+12.0,Victoria,1997-11-24,Bus and Binzel 2002
+13.0,Egeria,1995-09-04,Bus and Binzel 2002
+14.0,Irene,1995-10-28,Bus and Binzel 2002
+14.0,Irene,1998-10-15,Bus and Binzel 2002
+15.0,Eunomia,1996-04-22,Bus and Binzel 2002
+15.0,Eunomia,1996-04-23,Bus and Binzel 2002
+15.0,Eunomia,1998-10-13,Bus and Binzel 2002
+16.0,Psyche,1997-02-27,Bus and Binzel 2002
+17.0,Thetis,1993-08-21,Bus and Binzel 2002
+18.0,Melpomene,1997-01-19,Bus and Binzel 2002
+18.0,Melpomene,1997-04-08,Bus and Binzel 2002
+19.0,Fortuna,1994-11-13,Bus and Binzel 2002
+20.0,Massalia,1995-12-09,Bus and Binzel 2002
+21.0,Lutetia,1996-11-29,Bus and Binzel 2002
+22.0,Kalliope,1996-10-12,Bus and Binzel 2002
+23.0,Thalia,1998-01-07,Bus and Binzel 2002
+24.0,Themis,1994-11-15,Bus and Binzel 2002
+24.0,Themis,1994-11-16,Bus and Binzel 2002
+25.0,Phocaea,1997-01-20,Bus and Binzel 2002
+26.0,Proserpina,1996-05-01,Bus and Binzel 2002
+27.0,Euterpe,1997-11-24,Bus and Binzel 2002
+28.0,Bellona,1996-11-30,Bus and Binzel 2002
+29.0,Amphitrite,1997-02-24,Bus and Binzel 2002
+30.0,Urania,1994-01-06,Bus and Binzel 2002
+31.0,Euphrosyne,1994-11-05,Bus and Binzel 2002
+32.0,Pomona,1997-01-17,Bus and Binzel 2002
+33.0,Polyhymnia,1995-12-15,Bus and Binzel 2002
+34.0,Circe,1994-11-14,Bus and Binzel 2002
+34.0,Circe,1995-02-12,Bus and Binzel 2002
+35.0,Leukothea,1995-05-14,Bus and Binzel 2002
+37.0,Fides,1994-01-06,Bus and Binzel 2002
+37.0,Fides,1994-04-01,Bus and Binzel 2002
+38.0,Leda,1997-02-27,Bus and Binzel 2002
+39.0,Laetitia,1996-09-08,Bus and Binzel 2002
+40.0,Harmonia,1996-02-08,Bus and Binzel 2002
+41.0,Daphne,1994-03-28,Bus and Binzel 2002
+42.0,Isis,1994-11-05,Bus and Binzel 2002
+43.0,Ariadne,1997-01-18,Bus and Binzel 2002
+44.0,Nysa,1994-11-05,Bus and Binzel 2002
+44.0,Nysa,1998-10-14,Bus and Binzel 2002
+44.0,Nysa,1998-10-15,Bus and Binzel 2002
+44.0,Nysa,1998-12-09,Bus and Binzel 2002
+45.0,Eugenia,1996-04-19,Bus and Binzel 2002
+45.0,Eugenia,1996-04-20,Bus and Binzel 2002
+46.0,Hestia,1994-11-05,Bus and Binzel 2002
+46.0,Hestia,1995-02-09,Bus and Binzel 2002
+47.0,Aglaja,1994-11-05,Bus and Binzel 2002
+48.0,Doris,1995-12-10,Bus and Binzel 2002
+49.0,Pales,1996-04-18,Bus and Binzel 2002
+50.0,Virginia,1997-02-24,Bus and Binzel 2002
+51.0,Nemausa,1995-12-15,Bus and Binzel 2002
+52.0,Europa,1994-02-20,Bus and Binzel 2002
+54.0,Alexandra,1994-02-20,Bus and Binzel 2002
+55.0,Pandora,1996-09-11,Bus and Binzel 2002
+56.0,Melete,1994-02-20,Bus and Binzel 2002
+57.0,Mnemosyne,1997-02-22,Bus and Binzel 2002
+58.0,Concordia,1996-01-29,Bus and Binzel 2002
+58.0,Concordia,1997-01-17,Bus and Binzel 2002
+59.0,Elpis,1995-12-08,Bus and Binzel 2002
+60.0,Echo,1996-04-30,Bus and Binzel 2002
+61.0,Danae,1994-11-05,Bus and Binzel 2002
+62.0,Erato,1994-01-06,Bus and Binzel 2002
+63.0,Ausonia,1994-03-31,Bus and Binzel 2002
+64.0,Angelina,1997-01-17,Bus and Binzel 2002
+64.0,Angelina,1997-04-14,Bus and Binzel 2002
+65.0,Cybele,1994-02-19,Bus and Binzel 2002
+66.0,Maja,1997-11-23,Bus and Binzel 2002
+67.0,Asia,1996-04-18,Bus and Binzel 2002
+67.0,Asia,1996-04-25,Bus and Binzel 2002
+69.0,Hesperia,1996-05-01,Bus and Binzel 2002
+69.0,Hesperia,1998-10-14,Bus and Binzel 2002
+70.0,Panopaea,1993-08-23,Bus and Binzel 2002
+70.0,Panopaea,1994-11-14,Bus and Binzel 2002
+71.0,Niobe,1994-11-05,Bus and Binzel 2002
+71.0,Niobe,1995-10-28,Bus and Binzel 2002
+74.0,Galatea,1994-02-23,Bus and Binzel 2002
+75.0,Eurydike,1995-02-10,Bus and Binzel 2002
+76.0,Freia,1996-04-20,Bus and Binzel 2002
+77.0,Frigga,1997-09-13,Bus and Binzel 2002
+78.0,Diana,1998-01-08,Bus and Binzel 2002
+79.0,Eurynome,1997-11-22,Bus and Binzel 2002
+80.0,Sappho,1996-04-29,Bus and Binzel 2002
+81.0,Terpsichore,1995-12-11,Bus and Binzel 2002
+82.0,Alkmene,1996-09-08,Bus and Binzel 2002
+83.0,Beatrix,1997-02-23,Bus and Binzel 2002
+84.0,Klio,1994-01-06,Bus and Binzel 2002
+85.0,Io,1995-12-08,Bus and Binzel 2002
+87.0,Sylvia,1996-04-21,Bus and Binzel 2002
+88.0,Thisbe,1996-09-09,Bus and Binzel 2002
+89.0,Julia,1999-03-24,Bus and Binzel 2002
+90.0,Antiope,1994-11-14,Bus and Binzel 2002
+91.0,Aegina,1997-01-22,Bus and Binzel 2002
+91.0,Aegina,1997-02-27,Bus and Binzel 2002
+92.0,Undina,1994-11-17,Bus and Binzel 2002
+93.0,Minerva,1995-10-27,Bus and Binzel 2002
+94.0,Aurora,1998-01-08,Bus and Binzel 2002
+95.0,Arethusa,1996-09-08,Bus and Binzel 2002
+96.0,Aegle,1996-04-22,Bus and Binzel 2002
+96.0,Aegle,1996-04-23,Bus and Binzel 2002
+96.0,Aegle,1998-10-15,Bus and Binzel 2002
+98.0,Ianthe,1998-10-13,Bus and Binzel 2002
+99.0,Dike,1994-02-20,Bus and Binzel 2002
+99.0,Dike,1994-02-24,Bus and Binzel 2002
+99.0,Dike,1994-03-30,Bus and Binzel 2002
+100.0,Hekate,1994-11-05,Bus and Binzel 2002
+101.0,Helena,1995-02-11,Bus and Binzel 2002
+102.0,Miriam,1996-02-07,Bus and Binzel 2002
+103.0,Hera,1996-04-21,Bus and Binzel 2002
+104.0,Klymene,1999-03-24,Bus and Binzel 2002
+105.0,Artemis,1996-11-29,Bus and Binzel 2002
+106.0,Dione,1994-02-20,Bus and Binzel 2002
+107.0,Camilla,1994-03-31,Bus and Binzel 2002
+108.0,Hecuba,1996-04-19,Bus and Binzel 2002
+109.0,Felicitas,1999-03-23,Bus and Binzel 2002
+110.0,Lydia,1997-04-07,Bus and Binzel 2002
+111.0,Ate,1996-09-06,Bus and Binzel 2002
+112.0,Iphigenia,1997-04-07,Bus and Binzel 2002
+113.0,Amalthea,1996-04-24,Bus and Binzel 2002
+114.0,Kassandra,1995-12-11,Bus and Binzel 2002
+115.0,Thyra,1994-03-30,Bus and Binzel 2002
+116.0,Sirona,1996-10-15,Bus and Binzel 2002
+117.0,Lomia,1997-01-22,Bus and Binzel 2002
+118.0,Peitho,1997-01-17,Bus and Binzel 2002
+119.0,Althaea,1996-01-29,Bus and Binzel 2002
+119.0,Althaea,1996-04-21,Bus and Binzel 2002
+120.0,Lachesis,1997-01-22,Bus and Binzel 2002
+121.0,Hermione,1997-01-19,Bus and Binzel 2002
+122.0,Gerda,1997-02-22,Bus and Binzel 2002
+123.0,Brunhild,1994-03-28,Bus and Binzel 2002
+124.0,Alkeste,1996-11-29,Bus and Binzel 2002
+125.0,Liberatrix,1995-09-02,Bus and Binzel 2002
+125.0,Liberatrix,1997-04-08,Bus and Binzel 2002
+127.0,Johanna,1996-10-15,Bus and Binzel 2002
+128.0,Nemesis,1996-01-29,Bus and Binzel 2002
+129.0,Antigone,1996-12-01,Bus and Binzel 2002
+130.0,Elektra,1994-02-19,Bus and Binzel 2002
+131.0,Vala,1997-01-22,Bus and Binzel 2002
+132.0,Aethra,1996-09-06,Bus and Binzel 2002
+132.0,Aethra,1996-09-09,Bus and Binzel 2002
+133.0,Cyrene,1998-01-08,Bus and Binzel 2002
+134.0,Sophrosyne,1994-01-07,Bus and Binzel 2002
+134.0,Sophrosyne,1994-02-19,Bus and Binzel 2002
+135.0,Hertha,1995-05-10,Bus and Binzel 2002
+136.0,Austria,1994-01-05,Bus and Binzel 2002
+139.0,Juewa,1995-09-02,Bus and Binzel 2002
+140.0,Siwa,1995-05-11,Bus and Binzel 2002
+141.0,Lumen,1995-12-08,Bus and Binzel 2002
+142.0,Polana,1996-04-25,Bus and Binzel 2002
+143.0,Adria,1996-10-15,Bus and Binzel 2002
+143.0,Adria,1996-10-16,Bus and Binzel 2002
+144.0,Vibilia,1994-01-06,Bus and Binzel 2002
+144.0,Vibilia,1994-01-07,Bus and Binzel 2002
+144.0,Vibilia,1994-02-24,Bus and Binzel 2002
+145.0,Adeona,1994-11-15,Bus and Binzel 2002
+146.0,Lucina,1995-02-07,Bus and Binzel 2002
+146.0,Lucina,1996-04-24,Bus and Binzel 2002
+147.0,Protogeneia,1996-04-22,Bus and Binzel 2002
+147.0,Protogeneia,1996-04-23,Bus and Binzel 2002
+148.0,Gallia,1997-04-07,Bus and Binzel 2002
+150.0,Nuwa,1994-11-05,Bus and Binzel 2002
+151.0,Abundantia,1997-01-18,Bus and Binzel 2002
+152.0,Atala,1998-12-08,Bus and Binzel 2002
+152.0,Atala,1999-03-23,Bus and Binzel 2002
+153.0,Hilda,1997-04-07,Bus and Binzel 2002
+154.0,Bertha,1997-02-24,Bus and Binzel 2002
+154.0,Bertha,1997-04-07,Bus and Binzel 2002
+156.0,Xanthippe,1996-09-12,Bus and Binzel 2002
+158.0,Koronis,1997-01-22,Bus and Binzel 2002
+159.0,Aemilia,1995-12-15,Bus and Binzel 2002
+160.0,Una,1996-10-15,Bus and Binzel 2002
+161.0,Athor,1995-12-11,Bus and Binzel 2002
+162.0,Laurentia,1996-04-18,Bus and Binzel 2002
+163.0,Erigone,1996-04-21,Bus and Binzel 2002
+164.0,Eva,1997-11-24,Bus and Binzel 2002
+165.0,Loreley,1996-04-25,Bus and Binzel 2002
+166.0,Rhodope,1997-02-24,Bus and Binzel 2002
+167.0,Urda,1994-01-05,Bus and Binzel 2002
+168.0,Sibylla,1997-02-24,Bus and Binzel 2002
+169.0,Zelia,1997-01-18,Bus and Binzel 2002
+170.0,Maria,1998-10-14,Bus and Binzel 2002
+171.0,Ophelia,1994-02-19,Bus and Binzel 2002
+171.0,Ophelia,1994-02-22,Bus and Binzel 2002
+171.0,Ophelia,1994-02-24,Bus and Binzel 2002
+172.0,Baucis,1998-01-07,Bus and Binzel 2002
+173.0,Ino,1994-03-27,Bus and Binzel 2002
+173.0,Ino,1994-04-01,Bus and Binzel 2002
+174.0,Phaedra,1996-04-20,Bus and Binzel 2002
+175.0,Andromache,1997-02-26,Bus and Binzel 2002
+176.0,Iduna,1995-05-10,Bus and Binzel 2002
+177.0,Irma,1999-03-24,Bus and Binzel 2002
+178.0,Belisana,1998-01-08,Bus and Binzel 2002
+179.0,Klytaemnestra,1995-12-10,Bus and Binzel 2002
+180.0,Garumna,1998-12-09,Bus and Binzel 2002
+181.0,Eucharis,1997-09-13,Bus and Binzel 2002
+182.0,Elsa,1998-03-28,Bus and Binzel 2002
+183.0,Istria,1996-04-24,Bus and Binzel 2002
+184.0,Dejopeja,1997-02-24,Bus and Binzel 2002
+185.0,Eunike,1996-04-20,Bus and Binzel 2002
+186.0,Celuta,1997-04-07,Bus and Binzel 2002
+187.0,Lamberta,1998-01-07,Bus and Binzel 2002
+188.0,Menippe,1993-08-22,Bus and Binzel 2002
+188.0,Menippe,1996-02-07,Bus and Binzel 2002
+189.0,Phthia,1998-01-08,Bus and Binzel 2002
+190.0,Ismene,1997-01-18,Bus and Binzel 2002
+191.0,Kolga,1998-01-08,Bus and Binzel 2002
+192.0,Nausikaa,1994-01-05,Bus and Binzel 2002
+192.0,Nausikaa,1994-01-06,Bus and Binzel 2002
+192.0,Nausikaa,1994-04-01,Bus and Binzel 2002
+193.0,Ambrosia,1995-12-09,Bus and Binzel 2002
+194.0,Prokne,1994-03-27,Bus and Binzel 2002
+194.0,Prokne,1994-03-31,Bus and Binzel 2002
+195.0,Eurykleia,1994-11-17,Bus and Binzel 2002
+196.0,Philomela,1995-05-13,Bus and Binzel 2002
+197.0,Arete,1996-02-09,Bus and Binzel 2002
+198.0,Ampella,1997-02-23,Bus and Binzel 2002
+199.0,Byblis,1997-02-22,Bus and Binzel 2002
+200.0,Dynamene,1994-01-07,Bus and Binzel 2002
+201.0,Penelope,1995-02-09,Bus and Binzel 2002
+205.0,Martha,1995-10-27,Bus and Binzel 2002
+206.0,Hersilia,1995-02-09,Bus and Binzel 2002
+207.0,Hedda,1995-05-13,Bus and Binzel 2002
+208.0,Lacrimosa,1995-05-10,Bus and Binzel 2002
+209.0,Dido,1994-02-20,Bus and Binzel 2002
+210.0,Isabella,1996-09-12,Bus and Binzel 2002
+211.0,Isolda,1996-10-12,Bus and Binzel 2002
+213.0,Lilaea,1996-10-16,Bus and Binzel 2002
+214.0,Aschera,1994-02-22,Bus and Binzel 2002
+216.0,Kleopatra,1994-11-05,Bus and Binzel 2002
+221.0,Eos,1994-11-15,Bus and Binzel 2002
+226.0,Weringia,1995-12-15,Bus and Binzel 2002
+228.0,Agathe,1998-01-07,Bus and Binzel 2002
+230.0,Athamantis,1996-11-28,Bus and Binzel 2002
+233.0,Asterope,1998-01-07,Bus and Binzel 2002
+234.0,Barbara,1997-04-06,Bus and Binzel 2002
+234.0,Barbara,1997-04-07,Bus and Binzel 2002
+236.0,Honoria,1996-04-18,Bus and Binzel 2002
+236.0,Honoria,1996-04-19,Bus and Binzel 2002
+236.0,Honoria,1997-04-08,Bus and Binzel 2002
+237.0,Coelestina,1996-11-29,Bus and Binzel 2002
+238.0,Hypatia,1997-04-08,Bus and Binzel 2002
+240.0,Vanadis,1995-05-09,Bus and Binzel 2002
+241.0,Germania,1998-01-07,Bus and Binzel 2002
+242.0,Kriemhild,1997-01-22,Bus and Binzel 2002
+243.0,Ida,1997-01-17,Bus and Binzel 2002
+244.0,Sita,1995-02-07,Bus and Binzel 2002
+245.0,Vera,1994-03-31,Bus and Binzel 2002
+246.0,Asporina,1994-01-07,Bus and Binzel 2002
+246.0,Asporina,1996-04-18,Bus and Binzel 2002
+246.0,Asporina,1996-04-19,Bus and Binzel 2002
+247.0,Eukrate,1994-02-20,Bus and Binzel 2002
+250.0,Bettina,1994-02-19,Bus and Binzel 2002
+253.0,Mathilde,1995-02-07,Bus and Binzel 2002
+253.0,Mathilde,1995-02-08,Bus and Binzel 2002
+253.0,Mathilde,1996-04-24,Bus and Binzel 2002
+257.0,Silesia,1996-04-18,Bus and Binzel 2002
+257.0,Silesia,1996-04-19,Bus and Binzel 2002
+258.0,Tyche,1998-01-07,Bus and Binzel 2002
+259.0,Aletheia,1997-04-13,Bus and Binzel 2002
+261.0,Prymno,1994-01-06,Bus and Binzel 2002
+263.0,Dresda,1993-08-22,Bus and Binzel 2002
+264.0,Libussa,1995-12-08,Bus and Binzel 2002
+266.0,Aline,1995-05-13,Bus and Binzel 2002
+267.0,Tirza,1995-12-09,Bus and Binzel 2002
+269.0,Justitia,1994-11-17,Bus and Binzel 2002
+272.0,Antonia,1994-01-05,Bus and Binzel 2002
+275.0,Sapientia,1996-10-15,Bus and Binzel 2002
+278.0,Paulina,1995-10-28,Bus and Binzel 2002
+279.0,Thule,1997-02-22,Bus and Binzel 2002
+281.0,Lucretia,1997-05-26,Bus and Binzel 2002
+282.0,Clorinde,1997-04-14,Bus and Binzel 2002
+284.0,Amalia,1995-12-14,Bus and Binzel 2002
+286.0,Iclea,1996-04-21,Bus and Binzel 2002
+288.0,Glauke,1996-04-21,Bus and Binzel 2002
+289.0,Nenetta,1997-04-13,Bus and Binzel 2002
+295.0,Theresia,1996-04-30,Bus and Binzel 2002
+301.0,Bavaria,1996-01-29,Bus and Binzel 2002
+304.0,Olga,1996-04-18,Bus and Binzel 2002
+304.0,Olga,1996-04-19,Bus and Binzel 2002
+306.0,Unitas,1995-02-08,Bus and Binzel 2002
+308.0,Polyxo,1995-02-09,Bus and Binzel 2002
+308.0,Polyxo,1996-02-08,Bus and Binzel 2002
+310.0,Margarita,1995-02-12,Bus and Binzel 2002
+312.0,Pierretta,1995-12-08,Bus and Binzel 2002
+317.0,Roxane,1995-12-09,Bus and Binzel 2002
+321.0,Florentina,1994-11-15,Bus and Binzel 2002
+322.0,Phaeo,1996-01-29,Bus and Binzel 2002
+327.0,Columbia,1996-10-17,Bus and Binzel 2002
+331.0,Etheridgea,1997-05-26,Bus and Binzel 2002
+332.0,Siri,1996-10-16,Bus and Binzel 2002
+335.0,Roberta,1995-02-08,Bus and Binzel 2002
+336.0,Lacadiera,1996-04-30,Bus and Binzel 2002
+337.0,Devosa,1997-05-26,Bus and Binzel 2002
+338.0,Budrosa,1994-02-20,Bus and Binzel 2002
+339.0,Dorothea,1994-02-23,Bus and Binzel 2002
+339.0,Dorothea,1994-04-01,Bus and Binzel 2002
+342.0,Endymion,1995-12-08,Bus and Binzel 2002
+345.0,Tercidina,1995-12-14,Bus and Binzel 2002
+346.0,Hermentaria,1997-02-22,Bus and Binzel 2002
+346.0,Hermentaria,1997-04-08,Bus and Binzel 2002
+348.0,May,1994-11-05,Bus and Binzel 2002
+349.0,Dembowska,1996-12-01,Bus and Binzel 2002
+352.0,Gisela,1997-02-22,Bus and Binzel 2002
+352.0,Gisela,1997-04-07,Bus and Binzel 2002
+353.0,Ruperto-Carola,1997-02-22,Bus and Binzel 2002
+353.0,Ruperto-Carola,1997-04-09,Bus and Binzel 2002
+354.0,Eleonora,1995-10-27,Bus and Binzel 2002
+354.0,Eleonora,1997-02-22,Bus and Binzel 2002
+355.0,Gabriella,1994-02-25,Bus and Binzel 2002
+358.0,Apollonia,1994-11-05,Bus and Binzel 2002
+359.0,Georgia,1995-12-08,Bus and Binzel 2002
+360.0,Carlova,1995-12-09,Bus and Binzel 2002
+363.0,Padua,1996-10-21,Bus and Binzel 2002
+365.0,Corduba,1996-04-24,Bus and Binzel 2002
+366.0,Vincentina,1997-01-18,Bus and Binzel 2002
+371.0,Bohemia,1993-08-22,Bus and Binzel 2002
+371.0,Bohemia,1993-08-23,Bus and Binzel 2002
+371.0,Bohemia,1994-01-05,Bus and Binzel 2002
+372.0,Palma,1995-12-10,Bus and Binzel 2002
+374.0,Burgundia,1995-10-27,Bus and Binzel 2002
+375.0,Ursula,1995-02-10,Bus and Binzel 2002
+376.0,Geometria,1998-01-08,Bus and Binzel 2002
+377.0,Campania,1997-04-10,Bus and Binzel 2002
+378.0,Holmia,1995-10-28,Bus and Binzel 2002
+379.0,Huenna,1994-01-06,Bus and Binzel 2002
+379.0,Huenna,1995-02-07,Bus and Binzel 2002
+379.0,Huenna,1995-05-15,Bus and Binzel 2002
+381.0,Myrrha,1995-12-09,Bus and Binzel 2002
+383.0,Janina,1994-01-06,Bus and Binzel 2002
+384.0,Burdigala,1997-01-18,Bus and Binzel 2002
+386.0,Siegena,1994-03-28,Bus and Binzel 2002
+386.0,Siegena,1994-03-31,Bus and Binzel 2002
+387.0,Aquitania,1996-10-21,Bus and Binzel 2002
+388.0,Charybdis,1997-01-22,Bus and Binzel 2002
+389.0,Industria,1995-02-08,Bus and Binzel 2002
+391.0,Ingeborg,1996-04-18,Bus and Binzel 2002
+392.0,Wilhelmina,1995-05-13,Bus and Binzel 2002
+393.0,Lampetia,1995-05-09,Bus and Binzel 2002
+394.0,Arduina,1995-09-02,Bus and Binzel 2002
+394.0,Arduina,1995-10-28,Bus and Binzel 2002
+395.0,Delia,1996-10-16,Bus and Binzel 2002
+396.0,Aeolia,1995-12-09,Bus and Binzel 2002
+397.0,Vienna,1994-02-23,Bus and Binzel 2002
+398.0,Admete,1995-02-11,Bus and Binzel 2002
+399.0,Persephone,1995-12-08,Bus and Binzel 2002
+402.0,Chloe,1997-01-22,Bus and Binzel 2002
+403.0,Cyane,1996-10-21,Bus and Binzel 2002
+404.0,Arsinoe,1995-02-07,Bus and Binzel 2002
+405.0,Thia,1995-09-02,Bus and Binzel 2002
+409.0,Aspasia,1995-12-10,Bus and Binzel 2002
+410.0,Chloris,1995-12-09,Bus and Binzel 2002
+412.0,Elisabetha,1995-12-09,Bus and Binzel 2002
+413.0,Edburga,1997-04-07,Bus and Binzel 2002
+414.0,Liriope,1995-05-15,Bus and Binzel 2002
+416.0,Vaticana,1995-09-03,Bus and Binzel 2002
+417.0,Suevia,1996-09-09,Bus and Binzel 2002
+423.0,Diotima,1995-02-10,Bus and Binzel 2002
+425.0,Cornelia,1994-11-17,Bus and Binzel 2002
+431.0,Nephele,1998-01-08,Bus and Binzel 2002
+432.0,Pythia,1994-03-27,Bus and Binzel 2002
+432.0,Pythia,1994-04-01,Bus and Binzel 2002
+432.0,Pythia,1995-12-09,Bus and Binzel 2002
+434.0,Hungaria,1995-02-11,Bus and Binzel 2002
+441.0,Bathilde,1996-09-12,Bus and Binzel 2002
+442.0,Eichsfeldia,1996-04-18,Bus and Binzel 2002
+443.0,Photographica,1996-11-26,Bus and Binzel 2002
+444.0,Gyptis,1995-02-11,Bus and Binzel 2002
+446.0,Aeternitas,1994-01-06,Bus and Binzel 2002
+446.0,Aeternitas,1994-01-07,Bus and Binzel 2002
+446.0,Aeternitas,1994-02-23,Bus and Binzel 2002
+453.0,Tea,1997-04-07,Bus and Binzel 2002
+456.0,Abnoba,1995-10-27,Bus and Binzel 2002
+458.0,Hercynia,1994-11-13,Bus and Binzel 2002
+458.0,Hercynia,1994-11-15,Bus and Binzel 2002
+460.0,Scania,1995-12-09,Bus and Binzel 2002
+462.0,Eriphyla,1994-01-06,Bus and Binzel 2002
+464.0,Megaira,1996-01-29,Bus and Binzel 2002
+470.0,Kilia,1997-01-17,Bus and Binzel 2002
+471.0,Papagena,1997-02-23,Bus and Binzel 2002
+476.0,Hedwig,1998-01-08,Bus and Binzel 2002
+477.0,Italia,1997-04-13,Bus and Binzel 2002
+478.0,Tergeste,1995-09-02,Bus and Binzel 2002
+479.0,Caprera,1995-12-09,Bus and Binzel 2002
+481.0,Emita,1996-11-30,Bus and Binzel 2002
+484.0,Pittsburghia,1995-12-09,Bus and Binzel 2002
+485.0,Genua,1995-09-02,Bus and Binzel 2002
+490.0,Veritas,1994-11-13,Bus and Binzel 2002
+491.0,Carina,1996-04-19,Bus and Binzel 2002
+494.0,Virtus,1995-12-12,Bus and Binzel 2002
+494.0,Virtus,1995-12-14,Bus and Binzel 2002
+496.0,Gryphia,1996-11-28,Bus and Binzel 2002
+503.0,Evelyn,1996-10-18,Bus and Binzel 2002
+504.0,Cora,1994-02-25,Bus and Binzel 2002
+507.0,Laodica,1996-11-29,Bus and Binzel 2002
+509.0,Iolanda,1997-01-19,Bus and Binzel 2002
+511.0,Davida,1996-12-02,Bus and Binzel 2002
+512.0,Taurinensis,1997-05-22,Bus and Binzel 2002
+512.0,Taurinensis,1997-05-27,Bus and Binzel 2002
+513.0,Centesima,1994-02-23,Bus and Binzel 2002
+515.0,Athalia,1999-03-23,Bus and Binzel 2002
+516.0,Amherstia,1995-09-04,Bus and Binzel 2002
+519.0,Sylvania,1996-09-08,Bus and Binzel 2002
+521.0,Brixia,1994-11-13,Bus and Binzel 2002
+523.0,Ada,1995-12-09,Bus and Binzel 2002
+527.0,Euryanthe,1996-12-01,Bus and Binzel 2002
+531.0,Zerlina,1997-04-08,Bus and Binzel 2002
+532.0,Herculina,1995-12-08,Bus and Binzel 2002
+532.0,Herculina,1996-04-21,Bus and Binzel 2002
+533.0,Sara,1994-11-05,Bus and Binzel 2002
+534.0,Nassovia,1994-11-15,Bus and Binzel 2002
+539.0,Pamina,1995-09-02,Bus and Binzel 2002
+541.0,Deborah,1997-01-19,Bus and Binzel 2002
+543.0,Charlotte,1995-10-28,Bus and Binzel 2002
+545.0,Messalina,1995-12-15,Bus and Binzel 2002
+547.0,Praxedis,1996-10-15,Bus and Binzel 2002
+547.0,Praxedis,1996-10-16,Bus and Binzel 2002
+551.0,Ortrud,1997-01-17,Bus and Binzel 2002
+553.0,Kundry,1996-04-30,Bus and Binzel 2002
+554.0,Peraga,1997-02-22,Bus and Binzel 2002
+555.0,Norma,1996-05-01,Bus and Binzel 2002
+556.0,Phyllis,1996-09-08,Bus and Binzel 2002
+559.0,Nanon,1995-05-09,Bus and Binzel 2002
+560.0,Delila,1995-12-08,Bus and Binzel 2002
+563.0,Suleika,1994-03-30,Bus and Binzel 2002
+564.0,Dudu,1996-04-21,Bus and Binzel 2002
+569.0,Misa,1995-05-14,Bus and Binzel 2002
+570.0,Kythera,1997-04-08,Bus and Binzel 2002
+571.0,Dulcinea,1995-12-10,Bus and Binzel 2002
+572.0,Rebekka,1997-05-27,Bus and Binzel 2002
+578.0,Happelia,1994-03-28,Bus and Binzel 2002
+579.0,Sidonia,1995-12-08,Bus and Binzel 2002
+581.0,Tauntonia,1994-03-27,Bus and Binzel 2002
+581.0,Tauntonia,1995-05-15,Bus and Binzel 2002
+584.0,Semiramis,1997-02-23,Bus and Binzel 2002
+586.0,Thekla,1994-11-05,Bus and Binzel 2002
+592.0,Bathseba,1996-04-20,Bus and Binzel 2002
+596.0,Scheila,1996-04-21,Bus and Binzel 2002
+597.0,Bandusia,1995-12-09,Bus and Binzel 2002
+598.0,Octavia,1997-01-19,Bus and Binzel 2002
+599.0,Luisa,1995-12-10,Bus and Binzel 2002
+600.0,Musa,1995-12-10,Bus and Binzel 2002
+601.0,Nerthus,1994-03-28,Bus and Binzel 2002
+604.0,Tekmessa,1996-05-01,Bus and Binzel 2002
+606.0,Brangane,1996-04-23,Bus and Binzel 2002
+611.0,Valeria,1997-04-09,Bus and Binzel 2002
+614.0,Pia,1996-02-07,Bus and Binzel 2002
+622.0,Esther,1996-09-06,Bus and Binzel 2002
+625.0,Xenia,1994-03-28,Bus and Binzel 2002
+626.0,Notburga,1998-01-07,Bus and Binzel 2002
+627.0,Charis,1997-04-15,Bus and Binzel 2002
+629.0,Bernardina,1996-04-20,Bus and Binzel 2002
+631.0,Philippina,1996-04-23,Bus and Binzel 2002
+633.0,Zelima,1994-02-23,Bus and Binzel 2002
+634.0,Ute,1997-05-27,Bus and Binzel 2002
+638.0,Moira,1995-12-09,Bus and Binzel 2002
+642.0,Clara,1994-01-05,Bus and Binzel 2002
+649.0,Josefa,1994-01-05,Bus and Binzel 2002
+653.0,Berenike,1997-01-22,Bus and Binzel 2002
+654.0,Zelinda,1994-11-05,Bus and Binzel 2002
+661.0,Cloelia,1995-12-08,Bus and Binzel 2002
+668.0,Dora,1995-02-07,Bus and Binzel 2002
+670.0,Ottegebe,1996-04-23,Bus and Binzel 2002
+671.0,Carnegia,1997-01-22,Bus and Binzel 2002
+673.0,Edda,1996-02-08,Bus and Binzel 2002
+674.0,Rachele,1998-10-15,Bus and Binzel 2002
+675.0,Ludmilla,1996-10-15,Bus and Binzel 2002
+677.0,Aaltje,1996-04-20,Bus and Binzel 2002
+678.0,Fredegundis,1995-12-10,Bus and Binzel 2002
+679.0,Pax,1997-02-24,Bus and Binzel 2002
+687.0,Tinette,1995-12-09,Bus and Binzel 2002
+688.0,Melanie,1997-04-12,Bus and Binzel 2002
+699.0,Hela,1995-12-09,Bus and Binzel 2002
+702.0,Alauda,1996-10-12,Bus and Binzel 2002
+704.0,Interamnia,1998-01-07,Bus and Binzel 2002
+705.0,Erminia,1997-04-14,Bus and Binzel 2002
+706.0,Hirundo,1996-10-17,Bus and Binzel 2002
+712.0,Boliviana,1994-03-30,Bus and Binzel 2002
+713.0,Luscinia,1995-12-12,Bus and Binzel 2002
+713.0,Luscinia,1995-12-14,Bus and Binzel 2002
+715.0,Transvaalia,1996-11-30,Bus and Binzel 2002
+716.0,Berkeley,1996-11-29,Bus and Binzel 2002
+718.0,Erida,1994-02-25,Bus and Binzel 2002
+720.0,Bohlinia,1996-02-09,Bus and Binzel 2002
+723.0,Hammonia,1997-05-23,Bus and Binzel 2002
+723.0,Hammonia,1997-05-24,Bus and Binzel 2002
+729.0,Watsonia,1995-02-11,Bus and Binzel 2002
+731.0,Sorga,1995-05-15,Bus and Binzel 2002
+735.0,Marghanna,1996-02-08,Bus and Binzel 2002
+737.0,Arequipa,1997-02-22,Bus and Binzel 2002
+739.0,Mandeville,1995-02-09,Bus and Binzel 2002
+741.0,Botolphia,1996-10-21,Bus and Binzel 2002
+742.0,Edisona,1996-02-08,Bus and Binzel 2002
+743.0,Eugenisis,1995-09-04,Bus and Binzel 2002
+747.0,Winchester,1997-04-12,Bus and Binzel 2002
+749.0,Malzovia,1997-02-24,Bus and Binzel 2002
+749.0,Malzovia,1997-04-07,Bus and Binzel 2002
+751.0,Faina,1994-02-19,Bus and Binzel 2002
+753.0,Tiflis,1996-11-28,Bus and Binzel 2002
+754.0,Malabar,1997-05-25,Bus and Binzel 2002
+757.0,Portlandia,1997-01-19,Bus and Binzel 2002
+759.0,Vinifera,1994-11-05,Bus and Binzel 2002
+767.0,Bondia,1996-11-30,Bus and Binzel 2002
+771.0,Libera,1995-12-08,Bus and Binzel 2002
+773.0,Irmintraud,1997-04-07,Bus and Binzel 2002
+776.0,Berbericia,1994-04-01,Bus and Binzel 2002
+779.0,Nina,1995-12-09,Bus and Binzel 2002
+781.0,Kartvelia,1997-04-15,Bus and Binzel 2002
+782.0,Montefiore,1996-11-28,Bus and Binzel 2002
+783.0,Nora,1997-05-25,Bus and Binzel 2002
+784.0,Pickeringia,1996-04-25,Bus and Binzel 2002
+785.0,Zwetana,1995-12-15,Bus and Binzel 2002
+789.0,Lena,1994-11-15,Bus and Binzel 2002
+792.0,Metcalfia,1996-04-22,Bus and Binzel 2002
+792.0,Metcalfia,1996-04-24,Bus and Binzel 2002
+793.0,Arizona,1996-04-24,Bus and Binzel 2002
+795.0,Fini,1994-01-05,Bus and Binzel 2002
+796.0,Sarita,1997-04-14,Bus and Binzel 2002
+797.0,Montana,1997-04-14,Bus and Binzel 2002
+804.0,Hispania,1995-12-09,Bus and Binzel 2002
+808.0,Merxia,1995-05-13,Bus and Binzel 2002
+808.0,Merxia,1996-09-06,Bus and Binzel 2002
+808.0,Merxia,1996-09-08,Bus and Binzel 2002
+814.0,Tauris,1997-04-12,Bus and Binzel 2002
+815.0,Coppelia,1995-05-13,Bus and Binzel 2002
+819.0,Barnardiana,1997-02-23,Bus and Binzel 2002
+821.0,Fanny,1996-10-18,Bus and Binzel 2002
+824.0,Anastasia,1996-04-18,Bus and Binzel 2002
+824.0,Anastasia,1996-04-19,Bus and Binzel 2002
+824.0,Anastasia,1996-04-21,Bus and Binzel 2002
+825.0,Tanina,1996-04-23,Bus and Binzel 2002
+826.0,Henrika,1996-02-08,Bus and Binzel 2002
+844.0,Leontina,1996-11-29,Bus and Binzel 2002
+845.0,Naema,1994-03-28,Bus and Binzel 2002
+847.0,Agnia,1994-11-15,Bus and Binzel 2002
+847.0,Agnia,1996-01-29,Bus and Binzel 2002
+853.0,Nansenia,1997-04-12,Bus and Binzel 2002
+853.0,Nansenia,1997-05-23,Bus and Binzel 2002
+853.0,Nansenia,1997-05-24,Bus and Binzel 2002
+856.0,Backlunda,1996-04-18,Bus and Binzel 2002
+860.0,Ursina,1995-12-10,Bus and Binzel 2002
+862.0,Franzia,1995-09-04,Bus and Binzel 2002
+863.0,Benkoela,1997-01-17,Bus and Binzel 2002
+866.0,Fatme,1994-02-25,Bus and Binzel 2002
+868.0,Lova,1995-12-08,Bus and Binzel 2002
+870.0,Manto,1995-05-15,Bus and Binzel 2002
+872.0,Holda,1996-11-30,Bus and Binzel 2002
+886.0,Washingtonia,1997-01-22,Bus and Binzel 2002
+895.0,Helio,1995-12-08,Bus and Binzel 2002
+897.0,Lysistrata,1995-09-03,Bus and Binzel 2002
+898.0,Hildegard,1995-09-03,Bus and Binzel 2002
+905.0,Universitas,1997-09-15,Bus and Binzel 2002
+907.0,Rhoda,1995-02-11,Bus and Binzel 2002
+908.0,Buda,1997-02-23,Bus and Binzel 2002
+908.0,Buda,1997-04-07,Bus and Binzel 2002
+910.0,Anneliese,1994-02-25,Bus and Binzel 2002
+910.0,Anneliese,1995-05-13,Bus and Binzel 2002
+912.0,Maritima,1996-04-20,Bus and Binzel 2002
+913.0,Otila,1997-02-22,Bus and Binzel 2002
+919.0,Ilsebill,1995-05-11,Bus and Binzel 2002
+924.0,Toni,1995-12-14,Bus and Binzel 2002
+925.0,Alphonsina,1998-10-15,Bus and Binzel 2002
+929.0,Algunde,1997-04-11,Bus and Binzel 2002
+930.0,Westphalia,1994-11-13,Bus and Binzel 2002
+934.0,Thuringia,1995-02-08,Bus and Binzel 2002
+941.0,Murray,1996-02-08,Bus and Binzel 2002
+945.0,Barcelona,1998-01-07,Bus and Binzel 2002
+950.0,Ahrensa,1994-03-30,Bus and Binzel 2002
+951.0,Gaspra,1997-01-19,Bus and Binzel 2002
+961.0,Gunnie,1996-10-18,Bus and Binzel 2002
+965.0,Angelica,1996-05-01,Bus and Binzel 2002
+970.0,Primula,1995-12-15,Bus and Binzel 2002
+971.0,Alsatia,1994-11-05,Bus and Binzel 2002
+973.0,Aralia,1996-01-29,Bus and Binzel 2002
+980.0,Anacostia,1995-12-08,Bus and Binzel 2002
+984.0,Gretia,1997-05-25,Bus and Binzel 2002
+984.0,Gretia,1997-05-27,Bus and Binzel 2002
+985.0,Rosina,1994-03-31,Bus and Binzel 2002
+994.0,Otthild,1993-08-23,Bus and Binzel 2002
+997.0,Priska,1995-02-07,Bus and Binzel 2002
+1007.0,Pawlowia,1996-02-07,Bus and Binzel 2002
+1011.0,Laodamia,1995-05-14,Bus and Binzel 2002
+1014.0,Semphyra,1995-05-15,Bus and Binzel 2002
+1015.0,Christa,1994-03-28,Bus and Binzel 2002
+1016.0,Anitra,1997-02-22,Bus and Binzel 2002
+1017.0,Jacqueline,1996-04-20,Bus and Binzel 2002
+1020.0,Arcadia,1994-03-30,Bus and Binzel 2002
+1021.0,Flammario,1995-10-28,Bus and Binzel 2002
+1022.0,Olympiada,1994-02-24,Bus and Binzel 2002
+1024.0,Hale,1998-01-06,Bus and Binzel 2002
+1025.0,Riema,1995-05-14,Bus and Binzel 2002
+1032.0,Pafuri,1996-04-23,Bus and Binzel 2002
+1034.0,Mozartia,1997-11-24,Bus and Binzel 2002
+1039.0,Sonneberga,1996-02-07,Bus and Binzel 2002
+1041.0,Asta,1994-02-25,Bus and Binzel 2002
+1045.0,Michela,1998-01-07,Bus and Binzel 2002
+1046.0,Edwin,1997-01-22,Bus and Binzel 2002
+1048.0,Feodosia,1996-10-18,Bus and Binzel 2002
+1052.0,Belgica,1997-04-08,Bus and Binzel 2002
+1055.0,Tynka,1996-04-23,Bus and Binzel 2002
+1056.0,Azalea,1997-01-17,Bus and Binzel 2002
+1058.0,Grubba,1994-11-17,Bus and Binzel 2002
+1065.0,Amundsenia,1994-03-31,Bus and Binzel 2002
+1069.0,Planckia,1995-05-13,Bus and Binzel 2002
+1071.0,Brita,1995-05-13,Bus and Binzel 2002
+1076.0,Viola,1994-02-22,Bus and Binzel 2002
+1086.0,Nata,1997-02-22,Bus and Binzel 2002
+1088.0,Mitaka,1997-01-19,Bus and Binzel 2002
+1094.0,Siberia,1993-08-23,Bus and Binzel 2002
+1098.0,Hakone,1995-12-08,Bus and Binzel 2002
+1102.0,Pepita,1996-04-19,Bus and Binzel 2002
+1102.0,Pepita,1996-04-20,Bus and Binzel 2002
+1103.0,Sequoia,1995-10-27,Bus and Binzel 2002
+1104.0,Syringa,1996-11-26,Bus and Binzel 2002
+1104.0,Syringa,1996-11-28,Bus and Binzel 2002
+1106.0,Cydonia,1993-08-23,Bus and Binzel 2002
+1107.0,Lictoria,1996-01-28,Bus and Binzel 2002
+1110.0,Jaroslawa,1997-05-25,Bus and Binzel 2002
+1114.0,Lorraine,1996-04-29,Bus and Binzel 2002
+1126.0,Otero,1996-12-02,Bus and Binzel 2002
+1128.0,Astrid,1994-01-06,Bus and Binzel 2002
+1128.0,Astrid,1996-09-09,Bus and Binzel 2002
+1131.0,Porzia,1994-02-19,Bus and Binzel 2002
+1134.0,Kepler,1995-09-03,Bus and Binzel 2002
+1135.0,Colchis,1996-01-29,Bus and Binzel 2002
+1139.0,Atami,1996-04-29,Bus and Binzel 2002
+1140.0,Crimea,1996-04-30,Bus and Binzel 2002
+1147.0,Stavropolis,1997-04-12,Bus and Binzel 2002
+1148.0,Rarahu,1996-04-24,Bus and Binzel 2002
+1152.0,Pawona,1996-09-12,Bus and Binzel 2002
+1155.0,Aenna,1994-02-23,Bus and Binzel 2002
+1176.0,Lucidor,1996-10-18,Bus and Binzel 2002
+1181.0,Lilith,1995-12-09,Bus and Binzel 2002
+1185.0,Nikko,1996-04-27,Bus and Binzel 2002
+1186.0,Turnera,1996-02-07,Bus and Binzel 2002
+1187.0,Afra,1993-08-22,Bus and Binzel 2002
+1188.0,Gothlandia,1995-12-08,Bus and Binzel 2002
+1189.0,Terentia,1997-01-22,Bus and Binzel 2002
+1196.0,Sheba,1994-02-25,Bus and Binzel 2002
+1201.0,Strenua,1996-04-30,Bus and Binzel 2002
+1204.0,Renzia,1994-01-07,Bus and Binzel 2002
+1204.0,Renzia,1994-02-19,Bus and Binzel 2002
+1212.0,Francette,1997-05-27,Bus and Binzel 2002
+1214.0,Richilde,1995-02-11,Bus and Binzel 2002
+1222.0,Tina,1994-11-13,Bus and Binzel 2002
+1228.0,Scabiosa,1996-09-12,Bus and Binzel 2002
+1234.0,Elyna,1995-12-11,Bus and Binzel 2002
+1248.0,Jugurtha,1996-11-29,Bus and Binzel 2002
+1251.0,Hedera,1995-12-10,Bus and Binzel 2002
+1252.0,Celestia,1995-02-10,Bus and Binzel 2002
+1262.0,Sniadeckia,1996-05-01,Bus and Binzel 2002
+1263.0,Varsavia,1998-01-07,Bus and Binzel 2002
+1264.0,Letaba,1994-01-06,Bus and Binzel 2002
+1271.0,Isergina,1994-02-25,Bus and Binzel 2002
+1272.0,Gefion,1994-04-01,Bus and Binzel 2002
+1277.0,Dolores,1996-10-15,Bus and Binzel 2002
+1278.0,Kenya,1996-04-20,Bus and Binzel 2002
+1284.0,Latvia,1994-11-17,Bus and Binzel 2002
+1293.0,Sonja,1996-09-08,Bus and Binzel 2002
+1294.0,Antwerpia,1996-02-07,Bus and Binzel 2002
+1300.0,Marcelle,1995-05-15,Bus and Binzel 2002
+1301.0,Yvonne,1994-03-27,Bus and Binzel 2002
+1304.0,Arosa,1996-04-21,Bus and Binzel 2002
+1304.0,Arosa,1996-04-22,Bus and Binzel 2002
+1304.0,Arosa,1996-04-23,Bus and Binzel 2002
+1316.0,Kasan,1994-02-20,Bus and Binzel 2002
+1323.0,Tugela,1996-05-01,Bus and Binzel 2002
+1324.0,Knysna,1996-10-13,Bus and Binzel 2002
+1327.0,Namaqua,1995-12-10,Bus and Binzel 2002
+1329.0,Eliane,1997-04-15,Bus and Binzel 2002
+1331.0,Solvejg,1993-08-22,Bus and Binzel 2002
+1331.0,Solvejg,1993-08-23,Bus and Binzel 2002
+1332.0,Marconia,1995-05-15,Bus and Binzel 2002
+1336.0,Zeelandia,1995-05-15,Bus and Binzel 2002
+1343.0,Nicole,1997-05-24,Bus and Binzel 2002
+1348.0,Michel,1994-03-31,Bus and Binzel 2002
+1350.0,Rosselia,1995-05-14,Bus and Binzel 2002
+1351.0,Uzbekistania,1994-03-28,Bus and Binzel 2002
+1352.0,Wawel,1993-08-22,Bus and Binzel 2002
+1352.0,Wawel,1993-08-23,Bus and Binzel 2002
+1352.0,Wawel,1996-02-08,Bus and Binzel 2002
+1360.0,Tarka,1998-01-06,Bus and Binzel 2002
+1372.0,Haremari,1997-02-24,Bus and Binzel 2002
+1373.0,Cincinnati,1998-10-13,Bus and Binzel 2002
+1374.0,Isora,1997-01-18,Bus and Binzel 2002
+1385.0,Gelria,1995-12-14,Bus and Binzel 2002
+1386.0,Storeria,1997-11-24,Bus and Binzel 2002
+1403.0,Idelsonia,1995-12-11,Bus and Binzel 2002
+1406.0,Komppa,1996-04-24,Bus and Binzel 2002
+1406.0,Komppa,1996-04-27,Bus and Binzel 2002
+1407.0,Lindelof,1997-04-09,Bus and Binzel 2002
+1407.0,Lindelof,1997-04-10,Bus and Binzel 2002
+1414.0,Jerome,1996-11-30,Bus and Binzel 2002
+1420.0,Radcliffe,1995-12-10,Bus and Binzel 2002
+1423.0,Jose,1994-11-15,Bus and Binzel 2002
+1424.0,Sundmania,1994-02-25,Bus and Binzel 2002
+1427.0,Ruvuma,1995-02-11,Bus and Binzel 2002
+1428.0,Mombasa,1996-02-07,Bus and Binzel 2002
+1433.0,Geramtina,1995-02-07,Bus and Binzel 2002
+1458.0,Mineura,1996-04-30,Bus and Binzel 2002
+1471.0,Tornio,1996-09-12,Bus and Binzel 2002
+1474.0,Beira,1994-11-13,Bus and Binzel 2002
+1480.0,Aunus,1997-04-08,Bus and Binzel 2002
+1483.0,Hakoila,1995-12-10,Bus and Binzel 2002
+1483.0,Hakoila,1996-01-29,Bus and Binzel 2002
+1484.0,Postrema,1995-12-10,Bus and Binzel 2002
+1490.0,Limpopo,1998-10-15,Bus and Binzel 2002
+1493.0,Sigrid,1994-02-22,Bus and Binzel 2002
+1494.0,Savo,1995-02-11,Bus and Binzel 2002
+1502.0,Arenda,1996-10-21,Bus and Binzel 2002
+1508.0,Kemi,1995-02-11,Bus and Binzel 2002
+1510.0,Charlois,1994-11-17,Bus and Binzel 2002
+1517.0,Beograd,1996-02-09,Bus and Binzel 2002
+1520.0,Imatra,1994-02-25,Bus and Binzel 2002
+1534.0,Nasi,1996-09-12,Bus and Binzel 2002
+1539.0,Borrelly,1996-11-30,Bus and Binzel 2002
+1541.0,Estonia,1995-05-11,Bus and Binzel 2002
+1542.0,Schalen,1996-11-29,Bus and Binzel 2002
+1545.0,Thernoe,1996-10-21,Bus and Binzel 2002
+1548.0,Palomaa,1995-02-10,Bus and Binzel 2002
+1548.0,Palomaa,1995-02-12,Bus and Binzel 2002
+1549.0,Mikko,1997-01-18,Bus and Binzel 2002
+1550.0,Tito,1994-11-17,Bus and Binzel 2002
+1553.0,Bauersfelda,1995-02-09,Bus and Binzel 2002
+1560.0,Strattonia,1996-01-29,Bus and Binzel 2002
+1562.0,Gondolatsch,1996-04-23,Bus and Binzel 2002
+1563.0,Noel,1995-02-09,Bus and Binzel 2002
+1565.0,Lemaitre,1997-01-18,Bus and Binzel 2002
+1567.0,Alikoski,1996-12-01,Bus and Binzel 2002
+1587.0,Kahrstedt,1994-02-22,Bus and Binzel 2002
+1592.0,Mathieu,1997-04-07,Bus and Binzel 2002
+1593.0,Fagnes,1994-02-23,Bus and Binzel 2002
+1594.0,Danjon,1996-05-01,Bus and Binzel 2002
+1600.0,Vyssotsky,1994-02-24,Bus and Binzel 2002
+1600.0,Vyssotsky,1994-03-28,Bus and Binzel 2002
+1601.0,Patry,1996-11-26,Bus and Binzel 2002
+1601.0,Patry,1996-11-28,Bus and Binzel 2002
+1603.0,Neva,1995-12-10,Bus and Binzel 2002
+1604.0,Tombaugh,1996-10-13,Bus and Binzel 2002
+1613.0,Smiley,1995-12-10,Bus and Binzel 2002
+1618.0,Dawn,1996-04-30,Bus and Binzel 2002
+1629.0,Pecker,1996-04-25,Bus and Binzel 2002
+1634.0,Ndola,1996-10-13,Bus and Binzel 2002
+1635.0,Bohrmann,1993-08-23,Bus and Binzel 2002
+1638.0,Ruanda,1995-10-28,Bus and Binzel 2002
+1640.0,Nemo,1994-01-07,Bus and Binzel 2002
+1642.0,Hill,1995-05-13,Bus and Binzel 2002
+1653.0,Yakhontovia,1994-02-23,Bus and Binzel 2002
+1653.0,Yakhontovia,1994-04-01,Bus and Binzel 2002
+1653.0,Yakhontovia,1996-11-27,Bus and Binzel 2002
+1653.0,Yakhontovia,1996-11-29,Bus and Binzel 2002
+1655.0,Comas Sola,1997-05-30,Bus and Binzel 2002
+1659.0,Punkaharju,1995-09-03,Bus and Binzel 2002
+1660.0,Wood,1997-01-17,Bus and Binzel 2002
+1662.0,Hoffmann,1995-05-09,Bus and Binzel 2002
+1664.0,Felix,1997-01-19,Bus and Binzel 2002
+1667.0,Pels,1994-03-28,Bus and Binzel 2002
+1680.0,Per Brahe,1995-12-11,Bus and Binzel 2002
+1692.0,Subbotina,1995-05-14,Bus and Binzel 2002
+1695.0,Walbeck,1996-04-27,Bus and Binzel 2002
+1702.0,Kalahari,1996-05-01,Bus and Binzel 2002
+1705.0,Tapio,1997-11-23,Bus and Binzel 2002
+1706.0,Dieckvoss,1998-01-07,Bus and Binzel 2002
+1715.0,Salli,1997-01-18,Bus and Binzel 2002
+1716.0,Peter,1995-12-12,Bus and Binzel 2002
+1716.0,Peter,1995-12-14,Bus and Binzel 2002
+1724.0,Vladimir,1996-10-15,Bus and Binzel 2002
+1724.0,Vladimir,1996-10-16,Bus and Binzel 2002
+1726.0,Hoffmeister,1994-11-16,Bus and Binzel 2002
+1726.0,Hoffmeister,1996-01-29,Bus and Binzel 2002
+1729.0,Beryl,1998-01-07,Bus and Binzel 2002
+1730.0,Marceline,1995-05-09,Bus and Binzel 2002
+1734.0,Zhongolovich,1994-01-06,Bus and Binzel 2002
+1738.0,Oosterhoff,1997-04-07,Bus and Binzel 2002
+1747.0,Wright,1997-11-24,Bus and Binzel 2002
+1751.0,Herget,1994-01-07,Bus and Binzel 2002
+1766.0,Slipher,1995-12-15,Bus and Binzel 2002
+1766.0,Slipher,1996-02-09,Bus and Binzel 2002
+1768.0,Appenzella,1994-02-20,Bus and Binzel 2002
+1777.0,Gehrels,1997-05-27,Bus and Binzel 2002
+1783.0,Albitskij,1994-11-17,Bus and Binzel 2002
+1785.0,Wurm,1996-10-13,Bus and Binzel 2002
+1795.0,Woltjer,1996-04-27,Bus and Binzel 2002
+1796.0,Riga,1997-05-25,Bus and Binzel 2002
+1797.0,Schaumasse,1998-03-28,Bus and Binzel 2002
+1798.0,Watts,1996-09-06,Bus and Binzel 2002
+1798.0,Watts,1996-09-08,Bus and Binzel 2002
+1799.0,Koussevitzky,1998-10-15,Bus and Binzel 2002
+1807.0,Slovakia,1997-05-25,Bus and Binzel 2002
+1830.0,Pogson,1997-01-18,Bus and Binzel 2002
+1831.0,Nicholson,1996-10-12,Bus and Binzel 2002
+1836.0,Komarov,1995-12-09,Bus and Binzel 2002
+1839.0,Ragazza,1994-11-16,Bus and Binzel 2002
+1847.0,Stobbe,1996-02-07,Bus and Binzel 2002
+1848.0,Delvaux,1995-05-14,Bus and Binzel 2002
+1856.0,Ruzena,1996-12-01,Bus and Binzel 2002
+1857.0,Parchomenko,1997-05-25,Bus and Binzel 2002
+1857.0,Parchomenko,1997-05-26,Bus and Binzel 2002
+1858.0,Lobachevskij,1997-02-26,Bus and Binzel 2002
+1860.0,Barbarossa,1997-05-28,Bus and Binzel 2002
+1882.0,Rauma,1997-04-12,Bus and Binzel 2002
+1888.0,Zu Chong-Zhi,1994-02-24,Bus and Binzel 2002
+1891.0,Gondola,1996-10-21,Bus and Binzel 2002
+1903.0,Adzhimushkaj,1997-04-11,Bus and Binzel 2002
+1904.0,Massevitch,1995-05-09,Bus and Binzel 2002
+1904.0,Massevitch,1995-05-10,Bus and Binzel 2002
+1904.0,Massevitch,1998-01-06,Bus and Binzel 2002
+1923.0,Osiris,1996-02-08,Bus and Binzel 2002
+1929.0,Kollaa,1997-02-22,Bus and Binzel 2002
+1930.0,Lucifer,1995-02-09,Bus and Binzel 2002
+1932.0,Jansky,1997-11-24,Bus and Binzel 2002
+1936.0,Lugano,1994-11-14,Bus and Binzel 2002
+1948.0,Kampala,1994-01-07,Bus and Binzel 2002
+1951.0,Lick,1998-01-06,Bus and Binzel 2002
+1968.0,Mehltretter,1996-04-24,Bus and Binzel 2002
+1970.0,Sumeria,1994-11-17,Bus and Binzel 2002
+1977.0,Shura,1996-04-30,Bus and Binzel 2002
+1989.0,Tatry,1996-09-06,Bus and Binzel 2002
+1998.0,Titius,1996-09-08,Bus and Binzel 2002
+2001.0,Einstein,1997-01-19,Bus and Binzel 2002
+2019.0,van Albada,1994-01-06,Bus and Binzel 2002
+2022.0,West,1996-01-29,Bus and Binzel 2002
+2029.0,Binomi,1998-10-14,Bus and Binzel 2002
+2035.0,Stearns,1996-04-20,Bus and Binzel 2002
+2035.0,Stearns,1996-04-22,Bus and Binzel 2002
+2038.0,Bistro,1994-03-27,Bus and Binzel 2002
+2040.0,Chalonge,1995-02-12,Bus and Binzel 2002
+2042.0,Sitarski,1995-05-10,Bus and Binzel 2002
+2045.0,Peking,1997-11-23,Bus and Binzel 2002
+2053.0,Nuki,1994-11-14,Bus and Binzel 2002
+2056.0,Nancy,1997-04-15,Bus and Binzel 2002
+2060.0,Chiron,1997-05-29,Bus and Binzel 2002
+2064.0,Thomsen,1997-11-24,Bus and Binzel 2002
+2065.0,Spicer,1996-02-07,Bus and Binzel 2002
+2073.0,Janacek,1996-01-29,Bus and Binzel 2002
+2078.0,Nanking,1996-12-02,Bus and Binzel 2002
+2078.0,Nanking,1997-01-17,Bus and Binzel 2002
+2085.0,Henan,1995-10-28,Bus and Binzel 2002
+2086.0,Newell,1998-10-13,Bus and Binzel 2002
+2087.0,Kochera,1998-12-09,Bus and Binzel 2002
+2088.0,Sahlia,1996-04-30,Bus and Binzel 2002
+2089.0,Cetacea,1996-04-24,Bus and Binzel 2002
+2099.0,Opik,1998-10-14,Bus and Binzel 2002
+2106.0,Hugo,1997-05-29,Bus and Binzel 2002
+2107.0,Ilmari,1994-02-23,Bus and Binzel 2002
+2107.0,Ilmari,1994-03-30,Bus and Binzel 2002
+2118.0,Flagstaff,1995-12-14,Bus and Binzel 2002
+2131.0,Mayall,1996-10-18,Bus and Binzel 2002
+2141.0,Simferopol,1997-05-29,Bus and Binzel 2002
+2147.0,Kharadze,1994-01-05,Bus and Binzel 2002
+2152.0,Hannibal,1995-12-08,Bus and Binzel 2002
+2157.0,Ashbrook,1994-03-31,Bus and Binzel 2002
+2161.0,Grissom,1995-12-14,Bus and Binzel 2002
+2167.0,Erin,1995-05-13,Bus and Binzel 2002
+2169.0,Taiwan,1994-03-30,Bus and Binzel 2002
+2169.0,Taiwan,1996-09-12,Bus and Binzel 2002
+2185.0,Guangdong,1996-10-17,Bus and Binzel 2002
+2189.0,Zaragoza,1997-04-14,Bus and Binzel 2002
+2194.0,Arpola,1997-04-13,Bus and Binzel 2002
+2231.0,Durrell,1995-12-09,Bus and Binzel 2002
+2234.0,Schmadel,1994-03-30,Bus and Binzel 2002
+2244.0,Tesla,1996-02-08,Bus and Binzel 2002
+2246.0,Bowell,1997-04-07,Bus and Binzel 2002
+2251.0,Tikhov,1995-10-27,Bus and Binzel 2002
+2258.0,Viipuri,1996-10-18,Bus and Binzel 2002
+2268.0,Szmytowna,1995-02-07,Bus and Binzel 2002
+2271.0,Kiso,1995-12-11,Bus and Binzel 2002
+2280.0,Kunikov,1995-02-09,Bus and Binzel 2002
+2282.0,Andres Bello,1997-04-12,Bus and Binzel 2002
+2305.0,King,1996-02-07,Bus and Binzel 2002
+2306.0,Bauschinger,1996-01-29,Bus and Binzel 2002
+2308.0,Schilt,1994-02-24,Bus and Binzel 2002
+2316.0,Jo-Ann,1994-02-20,Bus and Binzel 2002
+2317.0,Galya,1994-02-20,Bus and Binzel 2002
+2328.0,Robeson,1997-04-14,Bus and Binzel 2002
+2331.0,Parvulesco,1997-05-25,Bus and Binzel 2002
+2331.0,Parvulesco,1997-05-26,Bus and Binzel 2002
+2335.0,James,1994-02-20,Bus and Binzel 2002
+2346.0,Lilio,1997-04-14,Bus and Binzel 2002
+2349.0,Kurchenko,1997-04-09,Bus and Binzel 2002
+2353.0,Alva,1997-04-13,Bus and Binzel 2002
+2354.0,Lavrov,1995-05-09,Bus and Binzel 2002
+2369.0,Chekhov,1995-05-11,Bus and Binzel 2002
+2370.0,van Altena,1995-02-09,Bus and Binzel 2002
+2371.0,Dimitrov,1998-10-13,Bus and Binzel 2002
+2373.0,Immo,1995-12-11,Bus and Binzel 2002
+2378.0,Pannekoek,1995-05-14,Bus and Binzel 2002
+2380.0,Heilongjiang,1998-12-09,Bus and Binzel 2002
+2382.0,Nonie,1996-09-11,Bus and Binzel 2002
+2386.0,Nikonov,1994-11-14,Bus and Binzel 2002
+2390.0,Nezarka,1995-02-09,Bus and Binzel 2002
+2396.0,Kochi,1995-02-10,Bus and Binzel 2002
+2401.0,Aehlita,1995-02-08,Bus and Binzel 2002
+2402.0,Satpaev,1996-10-12,Bus and Binzel 2002
+2409.0,Chapman,1996-09-11,Bus and Binzel 2002
+2410.0,Morrison,1994-01-06,Bus and Binzel 2002
+2423.0,Ibarruri,1994-02-20,Bus and Binzel 2002
+2423.0,Ibarruri,1994-02-22,Bus and Binzel 2002
+2427.0,Kobzar,1997-05-30,Bus and Binzel 2002
+2428.0,Kamenyar,1994-11-16,Bus and Binzel 2002
+2430.0,Bruce Helin,1994-03-31,Bus and Binzel 2002
+2438.0,Oleshko,1997-04-08,Bus and Binzel 2002
+2444.0,Lederle,1997-01-20,Bus and Binzel 2002
+2446.0,Lunacharsky,1995-02-08,Bus and Binzel 2002
+2448.0,Sholokhov,1994-02-23,Bus and Binzel 2002
+2451.0,Dollfus,1997-04-10,Bus and Binzel 2002
+2451.0,Dollfus,1997-04-13,Bus and Binzel 2002
+2455.0,Somville,1997-01-19,Bus and Binzel 2002
+2465.0,Wilson,1996-12-01,Bus and Binzel 2002
+2467.0,Kollontai,1996-09-06,Bus and Binzel 2002
+2468.0,Repin,1998-12-09,Bus and Binzel 2002
+2478.0,Tokai,1997-02-24,Bus and Binzel 2002
+2482.0,Perkin,1995-02-09,Bus and Binzel 2002
+2493.0,Elmer,1994-03-31,Bus and Binzel 2002
+2501.0,Lohja,1996-11-30,Bus and Binzel 2002
+2504.0,Gaviola,1996-10-15,Bus and Binzel 2002
+2507.0,Bobone,1995-12-10,Bus and Binzel 2002
+2508.0,Alupka,1999-03-24,Bus and Binzel 2002
+2509.0,Chukotka,1997-11-23,Bus and Binzel 2002
+2511.0,Patterson,1997-04-15,Bus and Binzel 2002
+2521.0,Heidi,1996-11-30,Bus and Binzel 2002
+2527.0,Gregory,1997-11-23,Bus and Binzel 2002
+2547.0,Hubei,1997-09-13,Bus and Binzel 2002
+2559.0,Svoboda,1995-12-12,Bus and Binzel 2002
+2559.0,Svoboda,1995-12-14,Bus and Binzel 2002
+2560.0,Siegma,1996-04-27,Bus and Binzel 2002
+2566.0,Kirghizia,1996-11-26,Bus and Binzel 2002
+2566.0,Kirghizia,1996-11-30,Bus and Binzel 2002
+2567.0,Elba,1995-02-09,Bus and Binzel 2002
+2569.0,Madeline,1995-02-12,Bus and Binzel 2002
+2575.0,Bulgaria,1996-04-27,Bus and Binzel 2002
+2579.0,Spartacus,1996-04-30,Bus and Binzel 2002
+2582.0,Harimaya-Bashi,1996-04-25,Bus and Binzel 2002
+2582.0,Harimaya-Bashi,1996-05-01,Bus and Binzel 2002
+2598.0,Merlin,1996-01-29,Bus and Binzel 2002
+2604.0,Marshak,1994-03-27,Bus and Binzel 2002
+2606.0,Odessa,1995-05-15,Bus and Binzel 2002
+2625.0,Jack London,1996-10-12,Bus and Binzel 2002
+2629.0,Rudra,1996-09-12,Bus and Binzel 2002
+2631.0,Zhejiang,1994-11-16,Bus and Binzel 2002
+2635.0,Huggins,1996-09-09,Bus and Binzel 2002
+2640.0,Hallstrom,1997-05-29,Bus and Binzel 2002
+2653.0,Principia,1997-04-13,Bus and Binzel 2002
+2659.0,Millis,1997-04-08,Bus and Binzel 2002
+2675.0,Tolkien,1998-01-06,Bus and Binzel 2002
+2681.0,Ostrovskij,1995-02-10,Bus and Binzel 2002
+2703.0,Rodari,1996-09-06,Bus and Binzel 2002
+2703.0,Rodari,1996-09-08,Bus and Binzel 2002
+2704.0,Julian Loewe,1997-05-28,Bus and Binzel 2002
+2708.0,Burns,1999-03-24,Bus and Binzel 2002
+2709.0,Sagan,1996-10-13,Bus and Binzel 2002
+2715.0,Mielikki,1995-05-10,Bus and Binzel 2002
+2720.0,Pyotr Pervyj,1995-02-07,Bus and Binzel 2002
+2724.0,Orlov,1995-02-09,Bus and Binzel 2002
+2730.0,Barks,1995-12-14,Bus and Binzel 2002
+2732.0,Witt,1995-05-14,Bus and Binzel 2002
+2733.0,Hamina,1999-03-23,Bus and Binzel 2002
+2736.0,Ops,1997-11-23,Bus and Binzel 2002
+2737.0,Kotka,1997-01-22,Bus and Binzel 2002
+2737.0,Kotka,1997-04-08,Bus and Binzel 2002
+2744.0,Birgitta,1996-09-11,Bus and Binzel 2002
+2746.0,Hissao,1996-12-02,Bus and Binzel 2002
+2748.0,Patrick Gene,1996-09-12,Bus and Binzel 2002
+2750.0,Loviisa,1997-01-22,Bus and Binzel 2002
+2754.0,Efimov,1996-12-01,Bus and Binzel 2002
+2762.0,Fowler,1999-03-24,Bus and Binzel 2002
+2763.0,Jeans,1997-11-23,Bus and Binzel 2002
+2772.0,Dugan,1994-01-05,Bus and Binzel 2002
+2778.0,Tangshan,1998-03-28,Bus and Binzel 2002
+2789.0,Foshan,1997-01-19,Bus and Binzel 2002
+2791.0,Paradise,1998-10-13,Bus and Binzel 2002
+2795.0,Lepage,1996-09-09,Bus and Binzel 2002
+2801.0,Huygens,1994-03-31,Bus and Binzel 2002
+2807.0,Karl Marx,1994-03-28,Bus and Binzel 2002
+2809.0,Vernadskij,1993-08-23,Bus and Binzel 2002
+2813.0,Zappala,1994-02-23,Bus and Binzel 2002
+2816.0,Pien,1996-11-30,Bus and Binzel 2002
+2818.0,Juvenalis,1995-02-11,Bus and Binzel 2002
+2827.0,Vellamo,1998-01-07,Bus and Binzel 2002
+2834.0,Christy Carol,1994-02-23,Bus and Binzel 2002
+2840.0,Kallavesi,1997-11-23,Bus and Binzel 2002
+2850.0,Mozhaiskij,1993-08-22,Bus and Binzel 2002
+2851.0,Harbin,1996-04-29,Bus and Binzel 2002
+2852.0,Declercq,1995-09-03,Bus and Binzel 2002
+2855.0,Bastian,1994-02-20,Bus and Binzel 2002
+2857.0,NOT,1996-09-12,Bus and Binzel 2002
+2861.0,Lambrecht,1996-10-12,Bus and Binzel 2002
+2864.0,Soderblom,1997-04-11,Bus and Binzel 2002
+2872.0,Gentelec,1997-04-09,Bus and Binzel 2002
+2873.0,Binzel,1993-08-23,Bus and Binzel 2002
+2873.0,Binzel,1999-03-24,Bus and Binzel 2002
+2874.0,Jim Young,1997-01-17,Bus and Binzel 2002
+2875.0,Lagerkvist,1997-02-27,Bus and Binzel 2002
+2879.0,Shimizu,1995-12-15,Bus and Binzel 2002
+2881.0,Meiden,1997-05-30,Bus and Binzel 2002
+2892.0,Filipenko,1994-02-25,Bus and Binzel 2002
+2902.0,Westerlund,1997-05-28,Bus and Binzel 2002
+2902.0,Westerlund,1997-05-30,Bus and Binzel 2002
+2905.0,Plaskett,1994-11-14,Bus and Binzel 2002
+2906.0,Caltech,1994-02-24,Bus and Binzel 2002
+2911.0,Miahelena,1994-01-06,Bus and Binzel 2002
+2911.0,Miahelena,1994-02-23,Bus and Binzel 2002
+2911.0,Miahelena,1994-03-31,Bus and Binzel 2002
+2912.0,Lapalma,1997-01-17,Bus and Binzel 2002
+2917.0,Sawyer Hogg,1996-01-29,Bus and Binzel 2002
+2925.0,Beatty,1994-03-31,Bus and Binzel 2002
+2929.0,Harris,1994-03-28,Bus and Binzel 2002
+2930.0,Euripides,1994-01-05,Bus and Binzel 2002
+2930.0,Euripides,1994-01-07,Bus and Binzel 2002
+2934.0,Aristophanes,1994-11-16,Bus and Binzel 2002
+2949.0,Kaverznev,1996-09-06,Bus and Binzel 2002
+2952.0,Lilliputia,1997-11-22,Bus and Binzel 2002
+2953.0,Vysheslavia,1995-02-07,Bus and Binzel 2002
+2955.0,Newburn,1995-02-09,Bus and Binzel 2002
+2956.0,Yeomans,1996-05-01,Bus and Binzel 2002
+2957.0,Tatsuo,1997-01-20,Bus and Binzel 2002
+2973.0,Paola,1994-02-24,Bus and Binzel 2002
+2977.0,Chivilikhin,1995-02-07,Bus and Binzel 2002
+2988.0,Korhonen,1994-02-24,Bus and Binzel 2002
+2996.0,Bowman,1994-02-22,Bus and Binzel 2002
+3000.0,Leonardo,1995-02-07,Bus and Binzel 2002
+3007.0,Reaves,1999-03-24,Bus and Binzel 2002
+3020.0,Naudts,1996-12-02,Bus and Binzel 2002
+3028.0,Zhangguoxi,1995-12-11,Bus and Binzel 2002
+3037.0,Alku,1995-12-10,Bus and Binzel 2002
+3040.0,Kozai,1994-02-19,Bus and Binzel 2002
+3060.0,Delcano,1996-09-09,Bus and Binzel 2002
+3065.0,Sarahill,1997-01-20,Bus and Binzel 2002
+3074.0,Popov,1998-01-06,Bus and Binzel 2002
+3085.0,Donna,1997-11-22,Bus and Binzel 2002
+3090.0,Tjossem,1994-02-20,Bus and Binzel 2002
+3096.0,Bezruc,1994-11-14,Bus and Binzel 2002
+3121.0,Tamines,1996-11-28,Bus and Binzel 2002
+3137.0,Horky,1997-11-24,Bus and Binzel 2002
+3151.0,Talbot,1994-11-14,Bus and Binzel 2002
+3155.0,Lee,1997-04-12,Bus and Binzel 2002
+3169.0,Ostro,1999-03-24,Bus and Binzel 2002
+3170.0,Dzhanibekov,1994-11-14,Bus and Binzel 2002
+3175.0,Netto,1997-11-24,Bus and Binzel 2002
+3179.0,Beruti,1994-02-24,Bus and Binzel 2002
+3181.0,Ahnert,1997-01-17,Bus and Binzel 2002
+3192.0,A'Hearn,1997-04-07,Bus and Binzel 2002
+3192.0,A'Hearn,1997-04-08,Bus and Binzel 2002
+3197.0,Weissman,1994-01-06,Bus and Binzel 2002
+3198.0,Wallonia,1997-11-22,Bus and Binzel 2002
+3209.0,Buchwald,1996-09-06,Bus and Binzel 2002
+3209.0,Buchwald,1996-09-12,Bus and Binzel 2002
+3214.0,Makarenko,1997-05-24,Bus and Binzel 2002
+3216.0,Harrington,1994-03-31,Bus and Binzel 2002
+3224.0,Irkutsk,1996-11-30,Bus and Binzel 2002
+3248.0,Farinella,1997-01-20,Bus and Binzel 2002
+3249.0,Musashino,1997-11-22,Bus and Binzel 2002
+3254.0,Bus,1994-03-31,Bus and Binzel 2002
+3255.0,Tholen,1995-12-10,Bus and Binzel 2002
+3256.0,Daguerre,1995-10-28,Bus and Binzel 2002
+3258.0,Somnium,1996-12-02,Bus and Binzel 2002
+3262.0,Miune,1996-04-29,Bus and Binzel 2002
+3265.0,Fletcher,1998-12-09,Bus and Binzel 2002
+3287.0,Olmstead,1996-04-28,Bus and Binzel 2002
+3306.0,Byron,1996-10-13,Bus and Binzel 2002
+3307.0,Athabasca,1996-09-08,Bus and Binzel 2002
+3309.0,Brorfelde,1997-04-09,Bus and Binzel 2002
+3311.0,Podobed,1997-01-20,Bus and Binzel 2002
+3314.0,Beals,1996-11-28,Bus and Binzel 2002
+3317.0,Paris,1997-05-25,Bus and Binzel 2002
+3317.0,Paris,1997-05-27,Bus and Binzel 2002
+3320.0,Namba,1997-09-13,Bus and Binzel 2002
+3340.0,Yinhai,1996-11-30,Bus and Binzel 2002
+3345.0,Tarkovskij,1995-02-11,Bus and Binzel 2002
+3349.0,Manas,1995-12-11,Bus and Binzel 2002
+3363.0,Bowen,1995-12-14,Bus and Binzel 2002
+3364.0,Zdenka,1997-04-09,Bus and Binzel 2002
+3365.0,Recogne,1996-10-17,Bus and Binzel 2002
+3367.0,Alex,1997-04-10,Bus and Binzel 2002
+3371.0,Giacconi,1996-11-29,Bus and Binzel 2002
+3375.0,Amy,1998-10-14,Bus and Binzel 2002
+3376.0,Armandhammer,1996-09-06,Bus and Binzel 2002
+3376.0,Armandhammer,1996-09-08,Bus and Binzel 2002
+3376.0,Armandhammer,1998-01-06,Bus and Binzel 2002
+3385.0,Bronnina,1997-01-18,Bus and Binzel 2002
+3389.0,Sinzot,1996-11-29,Bus and Binzel 2002
+3394.0,Banno,1997-05-29,Bus and Binzel 2002
+3395.0,Jitka,1995-12-14,Bus and Binzel 2002
+3401.0,Vanphilos,1997-01-17,Bus and Binzel 2002
+3406.0,Omsk,1996-02-08,Bus and Binzel 2002
+3416.0,Dorrit,1994-02-20,Bus and Binzel 2002
+3417.0,Tamblyn,1997-02-25,Bus and Binzel 2002
+3430.0,Bradfield,1996-02-09,Bus and Binzel 2002
+3435.0,Boury,1997-04-15,Bus and Binzel 2002
+3440.0,Stampfer,1997-04-10,Bus and Binzel 2002
+3443.0,Leetsungdao,1997-04-14,Bus and Binzel 2002
+3451.0,Mentor,1996-04-25,Bus and Binzel 2002
+3458.0,Boduognat,1997-11-24,Bus and Binzel 2002
+3474.0,Linsley,1995-05-13,Bus and Binzel 2002
+3491.0,Fridolin,1994-11-15,Bus and Binzel 2002
+3493.0,Stepanov,1994-11-15,Bus and Binzel 2002
+3498.0,Belton,1999-03-24,Bus and Binzel 2002
+3507.0,Vilas,1995-02-07,Bus and Binzel 2002
+3511.0,Tsvetaeva,1996-12-01,Bus and Binzel 2002
+3526.0,Jeffbell,1996-10-15,Bus and Binzel 2002
+3527.0,McCord,1999-03-24,Bus and Binzel 2002
+3533.0,Toyota,1994-01-07,Bus and Binzel 2002
+3534.0,Sax,1995-12-10,Bus and Binzel 2002
+3536.0,Schleicher,1999-03-24,Bus and Binzel 2002
+3542.0,Tanjiazhen,1995-02-08,Bus and Binzel 2002
+3545.0,Gaffey,1994-02-23,Bus and Binzel 2002
+3546.0,Atanasoff,1996-10-17,Bus and Binzel 2002
+3563.0,Canterbury,1994-01-05,Bus and Binzel 2002
+3563.0,Canterbury,1994-01-07,Bus and Binzel 2002
+3566.0,Levitan,1997-11-23,Bus and Binzel 2002
+3567.0,Alvema,1995-10-28,Bus and Binzel 2002
+3575.0,Anyuta,1997-01-19,Bus and Binzel 2002
+3576.0,Galina,1997-11-24,Bus and Binzel 2002
+3579.0,Rockholt,1995-12-15,Bus and Binzel 2002
+3581.0,Alvarez,1995-10-28,Bus and Binzel 2002
+3587.0,Descartes,1996-02-08,Bus and Binzel 2002
+3592.0,Nedbal,1994-01-05,Bus and Binzel 2002
+3611.0,Dabu,1995-12-14,Bus and Binzel 2002
+3611.0,Dabu,1996-02-09,Bus and Binzel 2002
+3627.0,Sayers,1998-01-06,Bus and Binzel 2002
+3628.0,Boznemcova,1995-12-11,Bus and Binzel 2002
+3630.0,Lubomir,1994-11-14,Bus and Binzel 2002
+3635.0,Kreutz,1997-05-29,Bus and Binzel 2002
+3636.0,Pajdusakova,1997-01-18,Bus and Binzel 2002
+3640.0,Gostin,1997-04-12,Bus and Binzel 2002
+3642.0,Frieden,1996-02-07,Bus and Binzel 2002
+3645.0,Fabini,1995-10-27,Bus and Binzel 2002
+3647.0,Dermott,1995-02-12,Bus and Binzel 2002
+3654.0,AAS,1997-11-24,Bus and Binzel 2002
+3658.0,Feldman,1998-10-14,Bus and Binzel 2002
+3669.0,Vertinskij,1997-04-15,Bus and Binzel 2002
+3670.0,Northcott,1995-12-11,Bus and Binzel 2002
+3674.0,Erbisbuhl,1997-01-19,Bus and Binzel 2002
+3678.0,Mongmanwai,1995-02-09,Bus and Binzel 2002
+3684.0,Berry,1997-02-27,Bus and Binzel 2002
+3686.0,Antoku,1996-02-08,Bus and Binzel 2002
+3687.0,Dzus,1997-04-09,Bus and Binzel 2002
+3700.0,Geowilliams,1997-04-14,Bus and Binzel 2002
+3701.0,Purkyne,1995-02-09,Bus and Binzel 2002
+3704.0,Gaoshiqi,1994-03-30,Bus and Binzel 2002
+3710.0,Bogoslovskij,1996-10-15,Bus and Binzel 2002
+3712.0,Kraft,1994-01-05,Bus and Binzel 2002
+3713.0,Pieters,1996-05-01,Bus and Binzel 2002
+3730.0,Hurban,1996-11-29,Bus and Binzel 2002
+3734.0,Waland,1996-09-11,Bus and Binzel 2002
+3737.0,Beckman,1998-10-13,Bus and Binzel 2002
+3744.0,Horn-d'Arturo,1996-12-01,Bus and Binzel 2002
+3759.0,Piironen,1996-10-21,Bus and Binzel 2002
+3762.0,Amaravella,1997-11-24,Bus and Binzel 2002
+3767.0,DiMaggio,1994-03-28,Bus and Binzel 2002
+3775.0,Ellenbeth,1995-05-10,Bus and Binzel 2002
+3782.0,Celle,1997-09-13,Bus and Binzel 2002
+3788.0,Steyaert,1994-03-30,Bus and Binzel 2002
+3792.0,Preston,1994-11-17,Bus and Binzel 2002
+3796.0,Lene,1997-04-09,Bus and Binzel 2002
+3800.0,Karayusuf,1994-02-23,Bus and Binzel 2002
+3809.0,Amici,1997-04-13,Bus and Binzel 2002
+3813.0,Fortov,1996-10-13,Bus and Binzel 2002
+3819.0,Robinson,1997-01-20,Bus and Binzel 2002
+3824.0,Brendalee,1997-11-22,Bus and Binzel 2002
+3827.0,Zdenekhorsky,1995-12-10,Bus and Binzel 2002
+3829.0,Gunma,1996-12-02,Bus and Binzel 2002
+3831.0,Pettengill,1995-05-11,Bus and Binzel 2002
+3833.0,Calingasta,1997-09-13,Bus and Binzel 2002
+3841.0,Dicicco,1997-11-23,Bus and Binzel 2002
+3844.0,Lujiaxi,1996-10-16,Bus and Binzel 2002
+3849.0,Incidentia,1997-09-13,Bus and Binzel 2002
+3850.0,Peltier,1996-09-06,Bus and Binzel 2002
+3853.0,Haas,1995-10-27,Bus and Binzel 2002
+3858.0,Dorchester,1995-05-14,Bus and Binzel 2002
+3860.0,Plovdiv,1994-03-30,Bus and Binzel 2002
+3861.0,Lorenz,1994-11-15,Bus and Binzel 2002
+3862.0,Agekian,1994-01-07,Bus and Binzel 2002
+3865.0,Lindbloom,1998-12-09,Bus and Binzel 2002
+3873.0,Roddy,1997-11-22,Bus and Binzel 2002
+3885.0,Bogorodskij,1996-01-29,Bus and Binzel 2002
+3886.0,Shcherbakovia,1995-12-15,Bus and Binzel 2002
+3900.0,Knezevic,1996-09-08,Bus and Binzel 2002
+3903.0,Kliment Ohridski,1995-02-08,Bus and Binzel 2002
+3910.0,Liszt,1995-02-07,Bus and Binzel 2002
+3920.0,Aubignan,1994-02-20,Bus and Binzel 2002
+3949.0,Mach,1997-04-15,Bus and Binzel 2002
+3958.0,Komendantov,1994-02-20,Bus and Binzel 2002
+3971.0,Voronikhin,1995-02-08,Bus and Binzel 2002
+3972.0,Richard,1997-05-29,Bus and Binzel 2002
+3976.0,Lise,1997-05-27,Bus and Binzel 2002
+3985.0,Raybatson,1995-02-07,Bus and Binzel 2002
+4001.0,Ptolemaeus,1997-05-28,Bus and Binzel 2002
+4033.0,Yatsugatake,1997-09-13,Bus and Binzel 2002
+4036.0,Whitehouse,1996-02-08,Bus and Binzel 2002
+4037.0,Ikeya,1996-02-08,Bus and Binzel 2002
+4039.0,Souseki,1996-02-08,Bus and Binzel 2002
+4051.0,Hatanaka,1996-09-11,Bus and Binzel 2002
+4072.0,Yayoi,1998-01-07,Bus and Binzel 2002
+4082.0,Swann,1995-12-11,Bus and Binzel 2002
+4096.0,Kushiro,1994-03-30,Bus and Binzel 2002
+4107.0,Rufino,1997-04-09,Bus and Binzel 2002
+4116.0,Elachi,1994-03-30,Bus and Binzel 2002
+4124.0,Herriot,1996-10-17,Bus and Binzel 2002
+4135.0,Svetlanov,1994-11-15,Bus and Binzel 2002
+4142.0,Dersu-Uzala,1994-01-06,Bus and Binzel 2002
+4156.0,Okadanoboru,1997-02-24,Bus and Binzel 2002
+4156.0,Okadanoboru,1997-04-09,Bus and Binzel 2002
+4157.0,Izu,1995-02-08,Bus and Binzel 2002
+4182.0,Mount Locke,1994-11-16,Bus and Binzel 2002
+4188.0,Kitezh,1996-02-08,Bus and Binzel 2002
+4194.0,Sweitzer,1996-12-01,Bus and Binzel 2002
+4200.0,Shizukagozen,1996-10-16,Bus and Binzel 2002
+4200.0,Shizukagozen,1996-10-17,Bus and Binzel 2002
+4205.0,David Hughes,1996-09-06,Bus and Binzel 2002
+4215.0,Kamo,1997-04-08,Bus and Binzel 2002
+4222.0,Nancita,1995-02-12,Bus and Binzel 2002
+4256.0,Kagamigawa,1997-11-23,Bus and Binzel 2002
+4261.0,Gekko,1996-09-11,Bus and Binzel 2002
+4265.0,Kani,1997-11-23,Bus and Binzel 2002
+4272.0,Entsuji,1997-11-22,Bus and Binzel 2002
+4276.0,Clifford,1994-04-01,Bus and Binzel 2002
+4280.0,Simonenko,1998-01-07,Bus and Binzel 2002
+4284.0,Kaho,1994-01-05,Bus and Binzel 2002
+4284.0,Kaho,1996-05-01,Bus and Binzel 2002
+4287.0,Trisov,1996-10-12,Bus and Binzel 2002
+4292.0,Aoba,1996-04-27,Bus and Binzel 2002
+4297.0,Eichhorn,1998-01-06,Bus and Binzel 2002
+4299.0,WIYN,1996-10-12,Bus and Binzel 2002
+4304.0,Geichenko,1994-02-20,Bus and Binzel 2002
+4305.0,Clapton,1994-11-14,Bus and Binzel 2002
+4311.0,Zguridi,1997-09-15,Bus and Binzel 2002
+4327.0,Ries,1994-01-05,Bus and Binzel 2002
+4332.0,Milton,1997-01-20,Bus and Binzel 2002
+4340.0,Dence,1997-04-06,Bus and Binzel 2002
+4342.0,Freud,1995-05-14,Bus and Binzel 2002
+4343.0,Tetsuya,1996-10-18,Bus and Binzel 2002
+4352.0,Kyoto,1995-02-08,Bus and Binzel 2002
+4353.0,Onizaki,1995-05-15,Bus and Binzel 2002
+4369.0,Seifert,1995-12-08,Bus and Binzel 2002
+4372.0,Quincy,1994-11-16,Bus and Binzel 2002
+4374.0,Tadamori,1997-01-19,Bus and Binzel 2002
+4382.0,Stravinsky,1994-02-20,Bus and Binzel 2002
+4387.0,Tanaka,1998-01-07,Bus and Binzel 2002
+4390.0,Madreteresa,1994-01-05,Bus and Binzel 2002
+4396.0,Gressmann,1996-02-09,Bus and Binzel 2002
+4407.0,Taihaku,1995-05-09,Bus and Binzel 2002
+4417.0,Lecar,1995-02-10,Bus and Binzel 2002
+4422.0,Jarre,1997-01-17,Bus and Binzel 2002
+4424.0,Arkhipova,1995-05-15,Bus and Binzel 2002
+4426.0,Roerich,1995-05-15,Bus and Binzel 2002
+4434.0,Nikulin,1996-09-06,Bus and Binzel 2002
+4435.0,Holt,1996-10-15,Bus and Binzel 2002
+4456.0,Mawson,1994-01-07,Bus and Binzel 2002
+4461.0,Sayama,1995-02-07,Bus and Binzel 2002
+4479.0,Charlieparker,1995-05-09,Bus and Binzel 2002
+4491.0,Otaru,1998-10-13,Bus and Binzel 2002
+4512.0,Sinuhe,1995-05-15,Bus and Binzel 2002
+4516.0,Pugovkin,1994-02-22,Bus and Binzel 2002
+4523.0,MIT,1994-03-31,Bus and Binzel 2002
+4534.0,Rimskij-Korsakov,1996-10-16,Bus and Binzel 2002
+4536.0,Drewpinsky,1997-04-14,Bus and Binzel 2002
+4547.0,Massachusetts,1994-02-24,Bus and Binzel 2002
+4547.0,Massachusetts,1996-11-29,Bus and Binzel 2002
+4548.0,Wielen,1998-10-13,Bus and Binzel 2002
+4558.0,Janesick,1996-02-09,Bus and Binzel 2002
+4570.0,Runcorn,1997-02-27,Bus and Binzel 2002
+4584.0,Akan,1995-05-09,Bus and Binzel 2002
+4591.0,Bryantsev,1998-10-15,Bus and Binzel 2002
+4604.0,Stekarstrom,1998-01-06,Bus and Binzel 2002
+4607.0,Seilandfarm,1997-11-24,Bus and Binzel 2002
+4610.0,Kajov,1998-12-09,Bus and Binzel 2002
+4611.0,Vulkaneifel,1996-02-08,Bus and Binzel 2002
+4619.0,Polyakhova,1995-12-10,Bus and Binzel 2002
+4628.0,Laplace,1996-02-09,Bus and Binzel 2002
+4649.0,Sumoto,1995-10-27,Bus and Binzel 2002
+4650.0,Mori,1997-09-13,Bus and Binzel 2002
+4678.0,Ninian,1997-11-24,Bus and Binzel 2002
+4682.0,Bykov,1997-11-24,Bus and Binzel 2002
+4686.0,Maisica,1997-09-13,Bus and Binzel 2002
+4701.0,Milani,1995-12-11,Bus and Binzel 2002
+4702.0,Berounka,1994-11-15,Bus and Binzel 2002
+4706.0,Dennisreuter,1997-11-23,Bus and Binzel 2002
+4711.0,Kathy,1997-11-23,Bus and Binzel 2002
+4713.0,Steel,1994-03-27,Bus and Binzel 2002
+4718.0,Araki,1999-03-23,Bus and Binzel 2002
+4719.0,Burnaby,1996-04-29,Bus and Binzel 2002
+4726.0,Federer,1996-02-09,Bus and Binzel 2002
+4733.0,ORO,1996-10-13,Bus and Binzel 2002
+4737.0,Kiladze,1997-04-13,Bus and Binzel 2002
+4744.0,Rovereto,1996-04-21,Bus and Binzel 2002
+4744.0,Rovereto,1996-04-23,Bus and Binzel 2002
+4748.0,Tokiwagozen,1996-04-28,Bus and Binzel 2002
+4750.0,Mukai,1996-10-12,Bus and Binzel 2002
+4767.0,Sutoku,1996-04-27,Bus and Binzel 2002
+4774.0,Hobetsu,1996-11-28,Bus and Binzel 2002
+4786.0,Tatianina,1995-02-11,Bus and Binzel 2002
+4796.0,Lewis,1997-11-22,Bus and Binzel 2002
+4804.0,Pasteur,1997-05-29,Bus and Binzel 2002
+4804.0,Pasteur,1997-05-30,Bus and Binzel 2002
+4817.0,Gliba,1997-11-24,Bus and Binzel 2002
+4824.0,Stradonice,1996-09-06,Bus and Binzel 2002
+4824.0,Stradonice,1996-09-08,Bus and Binzel 2002
+4838.0,Billmclaughlin,1997-11-24,Bus and Binzel 2002
+4839.0,Daisetsuzan,1997-11-23,Bus and Binzel 2002
+4844.0,Matsuyama,1995-02-11,Bus and Binzel 2002
+4845.0,Tsubetsu,1996-09-06,Bus and Binzel 2002
+4845.0,Tsubetsu,1996-09-08,Bus and Binzel 2002
+4849.0,Ardenne,1998-10-15,Bus and Binzel 2002
+4853.0,Marielukac,1995-05-10,Bus and Binzel 2002
+4884.0,Bragaria,1996-10-12,Bus and Binzel 2002
+4900.0,Maymelou,1996-09-08,Bus and Binzel 2002
+4909.0,Couteau,1997-11-24,Bus and Binzel 2002
+4910.0,Kawasato,1994-04-01,Bus and Binzel 2002
+4917.0,Yurilvovia,1996-09-12,Bus and Binzel 2002
+4923.0,Clarke,1997-04-09,Bus and Binzel 2002
+4942.0,Munroe,1997-05-26,Bus and Binzel 2002
+4944.0,Kozlovskij,1996-10-15,Bus and Binzel 2002
+4944.0,Kozlovskij,1996-10-16,Bus and Binzel 2002
+4945.0,Ikenozenni,1995-05-14,Bus and Binzel 2002
+4950.0,House,1996-09-11,Bus and Binzel 2002
+4951.0,Iwamoto,1997-04-09,Bus and Binzel 2002
+4968.0,Suzamur,1997-04-13,Bus and Binzel 2002
+4969.0,Lawrence,1995-12-11,Bus and Binzel 2002
+4977.0,Rauthgundis,1998-10-15,Bus and Binzel 2002
+4982.0,Bartini,1996-12-01,Bus and Binzel 2002
+4993.0,Cossard,1997-01-22,Bus and Binzel 2002
+4995.0,Griffin,1995-12-09,Bus and Binzel 2002
+4997.0,Ksana,1996-10-15,Bus and Binzel 2002
+5008.0,Miyazawakenji,1996-11-28,Bus and Binzel 2002
+5010.0,Amenemhet,1996-10-16,Bus and Binzel 2002
+5013.0,Suzhousanzhong,1996-12-02,Bus and Binzel 2002
+5038.0,Overbeek,1997-04-09,Bus and Binzel 2002
+5051.0,Ralph,1998-10-13,Bus and Binzel 2002
+5067.0,Occidental,1996-10-21,Bus and Binzel 2002
+5067.0,Occidental,1996-11-30,Bus and Binzel 2002
+5069.0,Tokeidai,1997-04-14,Bus and Binzel 2002
+5079.0,Brubeck,1995-12-14,Bus and Binzel 2002
+5081.0,Sanguin,1998-12-09,Bus and Binzel 2002
+5087.0,Emel'yanov,1996-09-12,Bus and Binzel 2002
+5091.0,Isakovskij,1995-12-10,Bus and Binzel 2002
+5102.0,Benfranklin,1996-12-02,Bus and Binzel 2002
+5103.0,Divis,1996-12-02,Bus and Binzel 2002
+5108.0,Lubeck,1998-10-14,Bus and Binzel 2002
+5111.0,Jacliff,1998-10-13,Bus and Binzel 2002
+5133.0,Phillipadams,1997-04-14,Bus and Binzel 2002
+5134.0,Ebilson,1997-04-10,Bus and Binzel 2002
+5142.0,Okutama,1994-11-17,Bus and Binzel 2002
+5159.0,Burbine,1994-02-23,Bus and Binzel 2002
+5184.0,Cavaille-Coll,1998-01-08,Bus and Binzel 2002
+5195.0,Kaendler,1997-05-30,Bus and Binzel 2002
+5196.0,Bustelli,1997-01-19,Bus and Binzel 2002
+5208.0,Royer,1997-02-23,Bus and Binzel 2002
+5214.0,Oozora,1996-09-06,Bus and Binzel 2002
+5222.0,Ioffe,1994-11-15,Bus and Binzel 2002
+5227.0,Bocacara,1997-11-23,Bus and Binzel 2002
+5230.0,Asahina,1998-10-15,Bus and Binzel 2002
+5234.0,Sechenov,1994-11-15,Bus and Binzel 2002
+5240.0,Kwasan,1999-03-24,Bus and Binzel 2002
+5242.0,Kenreimonin,1997-05-27,Bus and Binzel 2002
+5243.0,Clasien,1995-05-10,Bus and Binzel 2002
+5253.0,Fredclifford,1996-10-15,Bus and Binzel 2002
+5261.0,Eureka,1994-11-16,Bus and Binzel 2002
+5275.0,Zdislava,1995-05-15,Bus and Binzel 2002
+5294.0,Onnetoh,1997-04-14,Bus and Binzel 2002
+5318.0,Dientzenhofer,1997-11-23,Bus and Binzel 2002
+5329.0,Decaro,1995-02-08,Bus and Binzel 2002
+5330.0,Senrikyu,1995-02-09,Bus and Binzel 2002
+5333.0,Kanaya,1999-03-24,Bus and Binzel 2002
+5344.0,Ryabov,1996-10-15,Bus and Binzel 2002
+5348.0,Kennoguchi,1996-11-30,Bus and Binzel 2002
+5349.0,Paulharris,1994-01-06,Bus and Binzel 2002
+5364.0,Christophschafer,1994-02-20,Bus and Binzel 2002
+5379.0,Abehiroshi,1995-05-11,Bus and Binzel 2002
+5392.0,Parker,1997-02-26,Bus and Binzel 2002
+5397.0,Vojislava,1994-02-20,Bus and Binzel 2002
+5401.0,Minamioda,1996-10-17,Bus and Binzel 2002
+5407.0,1992 AX,1997-01-19,Bus and Binzel 2002
+5416.0,Estremadoyro,1995-05-10,Bus and Binzel 2002
+5438.0,Lorre,1997-01-20,Bus and Binzel 2002
+5448.0,Siebold,1997-01-20,Bus and Binzel 2002
+5448.0,Siebold,1997-02-27,Bus and Binzel 2002
+5467.0,1988 AG,1996-10-16,Bus and Binzel 2002
+5482.0,Korankei,1994-02-22,Bus and Binzel 2002
+5485.0,Kaula,1996-10-17,Bus and Binzel 2002
+5492.0,Thoma,1996-10-17,Bus and Binzel 2002
+5510.0,1988 RF7,1994-04-01,Bus and Binzel 2002
+5534.0,1941 UN,1996-10-15,Bus and Binzel 2002
+5552.0,Studnicka,1996-10-15,Bus and Binzel 2002
+5553.0,Chodas,1996-12-02,Bus and Binzel 2002
+5563.0,Yuuri,1997-01-19,Bus and Binzel 2002
+5565.0,Ukyounodaibu,1997-01-20,Bus and Binzel 2002
+5576.0,Albanese,1996-11-30,Bus and Binzel 2002
+5585.0,Parks,1995-12-15,Bus and Binzel 2002
+5588.0,Jennabelle,1995-12-14,Bus and Binzel 2002
+5591.0,Koyo,1997-02-27,Bus and Binzel 2002
+5591.0,Koyo,1997-04-07,Bus and Binzel 2002
+5595.0,Roth,1996-10-21,Bus and Binzel 2002
+5610.0,Balster,1996-10-18,Bus and Binzel 2002
+5610.0,Balster,1996-10-21,Bus and Binzel 2002
+5622.0,Percyjulian,1995-12-08,Bus and Binzel 2002
+5632.0,Ingelehmann,1997-02-25,Bus and Binzel 2002
+5632.0,Ingelehmann,1997-04-09,Bus and Binzel 2002
+5641.0,McCleese,1995-05-13,Bus and Binzel 2002
+5647.0,Sarojininaidu,1995-02-08,Bus and Binzel 2002
+5649.0,Donnashirley,1998-01-08,Bus and Binzel 2002
+5678.0,DuBridge,1994-11-14,Bus and Binzel 2002
+5685.0,Sanenobufukui,1994-11-14,Bus and Binzel 2002
+5690.0,1992 EU,1995-10-27,Bus and Binzel 2002
+5732.0,1988 WC,1998-12-09,Bus and Binzel 2002
+5732.0,1988 WC,1999-03-23,Bus and Binzel 2002
+5817.0,Robertfrazer,1994-02-19,Bus and Binzel 2002
+5840.0,Raybrown,1995-05-10,Bus and Binzel 2002
+5892.0,Milesdavis,1997-02-27,Bus and Binzel 2002
+5892.0,Milesdavis,1997-04-11,Bus and Binzel 2002
+5956.0,d'Alembert,1995-12-09,Bus and Binzel 2002
+5965.0,1990 SV15,1997-02-27,Bus and Binzel 2002
+6005.0,1989 BD,1996-10-21,Bus and Binzel 2002
+6071.0,Sakitama,1995-12-10,Bus and Binzel 2002
+6077.0,Messner,1996-01-29,Bus and Binzel 2002
+6078.0,Burt,1994-11-16,Bus and Binzel 2002
+6086.0,Vrchlicky,1996-10-17,Bus and Binzel 2002
+6129.0,Demokritos,1997-04-14,Bus and Binzel 2002
+6146.0,Adamkrafft,1997-04-11,Bus and Binzel 2002
+6192.0,Javiergorosabel,1997-04-08,Bus and Binzel 2002
+6192.0,Javiergorosabel,1997-05-29,Bus and Binzel 2002
+6211.0,Tsubame,1996-04-29,Bus and Binzel 2002
+6230.0,Fram,1994-11-14,Bus and Binzel 2002
+6233.0,Kimura,1994-11-14,Bus and Binzel 2002
+6249.0,Jennifer,1997-05-30,Bus and Binzel 2002
+6283.0,1980 VX1,1994-11-15,Bus and Binzel 2002
+6354.0,Vangelis,1999-03-24,Bus and Binzel 2002
+6364.0,Casarini,1996-10-17,Bus and Binzel 2002
+6386.0,Keithnoll,1996-11-30,Bus and Binzel 2002
+6410.0,Fujiwara,1996-10-18,Bus and Binzel 2002
+6500.0,Kodaira,1996-10-15,Bus and Binzel 2002
+6509.0,Giovannipratesi,1997-02-27,Bus and Binzel 2002
+6582.0,Flagsymphony,1995-12-09,Bus and Binzel 2002
+6585.0,O'Keefe,1995-10-27,Bus and Binzel 2002
+6592.0,Goya,1995-12-15,Bus and Binzel 2002
+6669.0,Obi,1997-04-13,Bus and Binzel 2002
+6704.0,1988 CJ,1997-01-18,Bus and Binzel 2002
+6716.0,1990 RO1,1995-12-11,Bus and Binzel 2002
+6782.0,1990 SU10,1995-12-11,Bus and Binzel 2002
+6847.0,Kunz-Hallstein,1995-10-28,Bus and Binzel 2002
+6906.0,Johnmills,1995-12-14,Bus and Binzel 2002
+6907.0,Harryford,1995-12-11,Bus and Binzel 2002
+6908.0,Kunimoto,1997-04-11,Bus and Binzel 2002
+7056.0,Kierkegaard,1997-04-10,Bus and Binzel 2002
+7081.0,Ludibunda,1996-10-16,Bus and Binzel 2002
+7110.0,Johnpearse,1995-05-10,Bus and Binzel 2002
+7170.0,Livesey,1996-10-18,Bus and Binzel 2002
+7211.0,Xerxes,1996-10-16,Bus and Binzel 2002
+7224.0,Vesnina,1996-12-01,Bus and Binzel 2002
+7225.0,Huntress,1996-12-02,Bus and Binzel 2002
+7245.0,1991 RN10,1996-11-29,Bus and Binzel 2002
+7304.0,Namiki,1994-02-24,Bus and Binzel 2002
+7397.0,1986 QS,1996-11-29,Bus and Binzel 2002
+7402.0,1987 YH,1996-11-29,Bus and Binzel 2002
+7404.0,1988 AA5,1996-10-21,Bus and Binzel 2002
+7405.0,1988 FF,1997-02-25,Bus and Binzel 2002
+7405.0,1988 FF,1997-04-08,Bus and Binzel 2002
+7451.0,Verbitskaya,1996-04-27,Bus and Binzel 2002
+7451.0,Verbitskaya,1996-04-28,Bus and Binzel 2002
+7512.0,Monicalazzarin,1997-02-26,Bus and Binzel 2002
+7512.0,Monicalazzarin,1997-04-07,Bus and Binzel 2002
+7562.0,Kagiroino-Oka,1997-02-27,Bus and Binzel 2002
+7564.0,Gokumenon,1997-01-18,Bus and Binzel 2002
+7604.0,Kridsadaporn,1995-12-15,Bus and Binzel 2002
+7728.0,Giblin,1997-04-14,Bus and Binzel 2002
+7763.0,Crabeels,1995-12-11,Bus and Binzel 2002
+7817.0,Zibiturtle,1996-04-27,Bus and Binzel 2002
+8008.0,1988 TQ4,1994-01-07,Bus and Binzel 2002
+8333.0,Medina,1996-12-02,Bus and Binzel 2002
+8334.0,1984 CF,1996-10-18,Bus and Binzel 2002
+8450.0,Egorov,1996-12-02,Bus and Binzel 2002
+8513.0,1991 PK11,1996-12-02,Bus and Binzel 2002
+8516.0,Hyakkai,1996-12-02,Bus and Binzel 2002
+9970.0,1992 ST1,1996-10-17,Bus and Binzel 2002
+9970.0,1992 ST1,1996-10-18,Bus and Binzel 2002
+10199.0,Chariklo,1997-02-25,Bus and Binzel 2002
+10473.0,Thirouin,1996-09-12,Bus and Binzel 2002
+10504.0,Doga,1996-10-17,Bus and Binzel 2002
+11785.0,Migaic,1997-04-11,Bus and Binzel 2002
+11785.0,Migaic,1997-04-12,Bus and Binzel 2002
+11906.0,1992 AE1,1997-04-15,Bus and Binzel 2002
+12281.0,Chaumont,1997-04-10,Bus and Binzel 2002
+17480.0,1991 PE10,1996-10-18,Bus and Binzel 2002
+18514.0,1996 TE11,1996-10-18,Bus and Binzel 2002
+129493.0,1995 BM2,1995-02-08,Bus and Binzel 2002
+376713.0,1995 WQ5,1995-12-15,Bus and Binzel 2002
 ,1996 PW,1996-09-08,Bus and Binzel 2002
-100480,1996 UK,1996-12-01,Bus and Binzel 2002
-22449,Ottijeff,1996-12-01,Bus and Binzel 2002
-99913,1997 CZ5,1997-02-25,Bus and Binzel 2002
-26209,1997 RD1,1997-09-13,Bus and Binzel 2002
-47035,1998 WS,1998-12-09,Bus and Binzel 2002
+100480.0,1996 UK,1996-12-01,Bus and Binzel 2002
+22449.0,Ottijeff,1996-12-01,Bus and Binzel 2002
+99913.0,1997 CZ5,1997-02-25,Bus and Binzel 2002
+26209.0,1997 RD1,1997-09-13,Bus and Binzel 2002
+47035.0,1998 WS,1998-12-09,Bus and Binzel 2002
+1.0,Ceres,1998-09-15 15:25,Burbine and Binzel 2002
+2.0,Pallas,1998-09-18 09:49,Burbine and Binzel 2002
+3.0,Juno,1998-01-04 15:45,Burbine and Binzel 2002
+4.0,Vesta,1997-01-30 14:17,Burbine and Binzel 2002
+5.0,Astraea,1999-03-01 05:19,Burbine and Binzel 2002
+6.0,Hebe,1998-05-02 13:24,Burbine and Binzel 2002
+7.0,Iris,1997-02-08 15:17,Burbine and Binzel 2002
+9.0,Metis,1999-03-01 13:57,Burbine and Binzel 2002
+10.0,Hygiea,1998-01-04 09:24,Burbine and Binzel 2002
+11.0,Parthenope,1997-10-02 14:20,Burbine and Binzel 2002
+12.0,Victoria,1999-01-27 14:29,Burbine and Binzel 2002
+13.0,Egeria,1999-12-05 09:19,Burbine and Binzel 2002
+14.0,Irene,1999-12-05 12:54,Burbine and Binzel 2002
+15.0,Eunomia,1998-09-16 14:14,Burbine and Binzel 2002
+16.0,Psyche,1998-04-30 11:25,Burbine and Binzel 2002
+18.0,Melpomene,1998-05-02 13:35,Burbine and Binzel 2002
+19.0,Fortuna,1999-02-27 09:37,Burbine and Binzel 2002
+20.0,Massalia,1998-09-16 14:04,Burbine and Binzel 2002
+21.0,Lutetia,1998-01-05 12:04,Burbine and Binzel 2002
+22.0,Kalliope,1997-02-08 06:26,Burbine and Binzel 2002
+25.0,Phocaea,1997-02-08 08:58,Burbine and Binzel 2002
+26.0,Proserpina,1999-03-01 06:00,Burbine and Binzel 2002
+28.0,Bellona,1997-02-10 08:09,Burbine and Binzel 2002
+32.0,Pomona,1998-04-30 10:06,Burbine and Binzel 2002
+33.0,Polyhymnia,1997-02-09 09:48,Burbine and Binzel 2002
+37.0,Fides,1999-05-24 07:19,Burbine and Binzel 2002
+39.0,Laetitia,1998-01-05 10:40,Burbine and Binzel 2002
+40.0,Harmonia,1997-10-02 11:27,Burbine and Binzel 2002
+42.0,Isis,1997-02-09 15:33,Burbine and Binzel 2002
+43.0,Ariadne,1997-02-08 09:28,Burbine and Binzel 2002
+44.0,Nysa,1998-09-15 13:32,Burbine and Binzel 2002
+57.0,Mnemosyne,1997-02-08 15:30,Burbine and Binzel 2002
+63.0,Ausonia,1997-02-09 05:31,Burbine and Binzel 2002
+64.0,Angelina,1997-02-08 12:45,Burbine and Binzel 2002
+65.0,Cybele,1999-02-28 06:03,Burbine and Binzel 2002
+68.0,Leto,1997-10-02 14:40,Burbine and Binzel 2002
+71.0,Niobe,1998-09-17 05:36,Burbine and Binzel 2002
+73.0,Klytia,1998-12-06 08:17,Burbine and Binzel 2002
+76.0,Freia,1999-08-11 09:31,Burbine and Binzel 2002
+80.0,Sappho,1997-10-02 15:21,Burbine and Binzel 2002
+82.0,Alkmene,1997-10-02 14:54,Burbine and Binzel 2002
+92.0,Undina,1998-04-30 14:11,Burbine and Binzel 2002
+103.0,Hera,2000-05-06 09:10,Burbine and Binzel 2002
+106.0,Dione,1999-12-06 14:40,Burbine and Binzel 2002
+113.0,Amalthea,1997-10-02 12:23,Burbine and Binzel 2002
+114.0,Kassandra,1999-12-05 08:39,Burbine and Binzel 2002
+122.0,Gerda,1999-08-11 10:18,Burbine and Binzel 2002
+126.0,Velleda,2000-03-04 11:27,Burbine and Binzel 2002
+130.0,Elektra,2000-05-07 07:55,Burbine and Binzel 2002
+140.0,Siwa,1998-01-04 12:10,Burbine and Binzel 2002
+158.0,Koronis,1998-05-01 06:25,Burbine and Binzel 2002
+167.0,Urda,1997-10-03 11:49,Burbine and Binzel 2002
+169.0,Zelia,1997-02-10 07:07,Burbine and Binzel 2002
+221.0,Eos,1998-04-29 10:43,Burbine and Binzel 2002
+233.0,Asterope,2000-05-06 08:40,Burbine and Binzel 2002
+236.0,Honoria,1999-12-05 14:53,Burbine and Binzel 2002
+243.0,Ida,1997-02-10 08:25,Burbine and Binzel 2002
+244.0,Sita,1999-05-22 13:50,Burbine and Binzel 2002
+246.0,Asporina,1997-10-02 10:30,Burbine and Binzel 2002
+253.0,Mathilde,1998-01-04 08:05,Burbine and Binzel 2002
+289.0,Nenetta,1997-02-09 10:27,Burbine and Binzel 2002
+291.0,Alice,1997-10-02 10:50,Burbine and Binzel 2002
+304.0,Olga,1997-10-03 13:42,Burbine and Binzel 2002
+308.0,Polyxo,1999-12-05 15:24,Burbine and Binzel 2002
+317.0,Roxane,1999-12-06 11:56,Burbine and Binzel 2002
+335.0,Roberta,1997-10-03 11:18,Burbine and Binzel 2002
+336.0,Lacadiera,1999-02-28 11:01,Burbine and Binzel 2002
+346.0,Hermentaria,1997-02-08 13:27,Burbine and Binzel 2002
+349.0,Dembowska,1998-01-04 09:08,Burbine and Binzel 2002
+352.0,Gisela,1997-02-10 10:14,Burbine and Binzel 2002
+354.0,Eleonora,1997-02-09 15:50,Burbine and Binzel 2002
+364.0,Isara,1999-03-01 12:54,Burbine and Binzel 2002
+374.0,Burgundia,1999-05-24 14:30,Burbine and Binzel 2002
+379.0,Huenna,1999-03-01 05:39,Burbine and Binzel 2002
+389.0,Industria,1997-10-01 11:42,Burbine and Binzel 2002
+402.0,Chloe,1999-08-11 13:10,Burbine and Binzel 2002
+416.0,Vaticana,1997-02-10 07:24,Burbine and Binzel 2002
+431.0,Nephele,2000-03-03 14:00,Burbine and Binzel 2002
+446.0,Aeternitas,1997-10-01 13:14,Burbine and Binzel 2002
+458.0,Hercynia,1999-12-06 12:23,Burbine and Binzel 2002
+470.0,Kilia,1999-08-11 12:07,Burbine and Binzel 2002
+477.0,Italia,1999-12-06 09:35,Burbine and Binzel 2002
+478.0,Tergeste,1999-08-11 07:13,Burbine and Binzel 2002
+480.0,Hansa,1997-10-03 13:21,Burbine and Binzel 2002
+509.0,Iolanda,2000-05-06 12:57,Burbine and Binzel 2002
+511.0,Davida,1999-05-24 09:30,Burbine and Binzel 2002
+513.0,Centesima,2000-03-02 10:03,Burbine and Binzel 2002
+515.0,Athalia,1999-03-01 08:48,Burbine and Binzel 2002
+554.0,Peraga,2001-12-06 11:30,Burbine and Binzel 2002
+562.0,Salome,2000-05-07 11:51,Burbine and Binzel 2002
+584.0,Semiramis,1997-02-09 05:50,Burbine and Binzel 2002
+599.0,Luisa,1998-05-02 08:32,Burbine and Binzel 2002
+611.0,Valeria,1999-12-05 10:36,Burbine and Binzel 2002
+625.0,Xenia,1998-04-30 08:44,Burbine and Binzel 2002
+653.0,Berenike,1998-01-04 13:14,Burbine and Binzel 2002
+661.0,Cloelia,1999-08-10 10:23,Burbine and Binzel 2002
+675.0,Ludmilla,1998-05-01 07:04,Burbine and Binzel 2002
+702.0,Alauda,1999-03-01 09:07,Burbine and Binzel 2002
+714.0,Ulula,2000-05-05 10:57,Burbine and Binzel 2002
+720.0,Bohlinia,1998-05-02 13:01,Burbine and Binzel 2002
+737.0,Arequipa,1997-02-10 08:48,Burbine and Binzel 2002
+753.0,Tiflis,1999-12-05 07:10,Burbine and Binzel 2002
+773.0,Irmintraud,1997-02-09 10:55,Burbine and Binzel 2002
+774.0,Armor,1998-09-16 14:27,Burbine and Binzel 2002
+787.0,Moskva,1999-03-01 14:18,Burbine and Binzel 2002
+808.0,Merxia,1997-10-03 14:18,Burbine and Binzel 2002
+811.0,Nauheima,1998-05-02 12:33,Burbine and Binzel 2002
+825.0,Tanina,1999-03-01 11:53,Burbine and Binzel 2002
+863.0,Benkoela,1998-04-30 09:34,Burbine and Binzel 2002
+913.0,Otila,1998-09-15 14:12,Burbine and Binzel 2002
+915.0,Cosette,1999-02-28 07:26,Burbine and Binzel 2002
+918.0,Itha,1997-10-02 13:32,Burbine and Binzel 2002
+950.0,Ahrensa,1998-04-29 13:31,Burbine and Binzel 2002
+951.0,Gaspra,2000-03-02 09:28,Burbine and Binzel 2002
+980.0,Anacostia,1999-12-05 13:15,Burbine and Binzel 2002
+1126.0,Otero,1998-05-01 08:32,Burbine and Binzel 2002
+1148.0,Rarahu,1999-12-06 12:50,Burbine and Binzel 2002
+1273.0,Helma,1998-04-30 10:50,Burbine and Binzel 2002
+1284.0,Latvia,2000-03-03 12:11,Burbine and Binzel 2002
+1289.0,Kutaissi,1999-03-01 11:11,Burbine and Binzel 2002
+1324.0,Knysna,1998-01-04 14:36,Burbine and Binzel 2002
+1350.0,Rosselia,1999-02-28 09:26,Burbine and Binzel 2002
+1459.0,Magnya,2000-01-15 08:03,Burbine and Binzel 2002
+1483.0,Hakoila,1998-09-18 09:13,Burbine and Binzel 2002
+1518.0,Rovaniemi,1999-02-28 06:26,Burbine and Binzel 2002
+1584.0,Fuji,1999-02-28 06:26,Burbine and Binzel 2002
+1587.0,Kahrstedt,1998-05-02 07:41,Burbine and Binzel 2002
+1600.0,Vyssotsky,1999-05-24 07:48,Burbine and Binzel 2002
+1626.0,Sadeya,1998-09-18 05:10,Burbine and Binzel 2002
+1658.0,Innes,1997-02-10 13:10,Burbine and Binzel 2002
+1807.0,Slovakia,1999-01-27 08:40,Burbine and Binzel 2002
+1904.0,Massevitch,1998-01-05 12:51,Burbine and Binzel 2002
+1906.0,Naef,1998-09-17 14:51,Burbine and Binzel 2002
+1929.0,Kollaa,1997-02-08 07:45,Burbine and Binzel 2002
+1933.0,Tinchen,1998-05-02 08:57,Burbine and Binzel 2002
+2014.0,Vasilevskis,1999-05-24 09:00,Burbine and Binzel 2002
+2038.0,Bistro,1998-05-01 11:03,Burbine and Binzel 2002
+2045.0,Peking,1999-02-27 08:43,Burbine and Binzel 2002
+2078.0,Nanking,1997-02-10 09:36,Burbine and Binzel 2002
+2159.0,Kukkamaki,1997-02-10 06:25,Burbine and Binzel 2002
+2396.0,Kochi,1999-03-01 06:12,Burbine and Binzel 2002
+2442.0,Corbett,1998-09-16 06:20,Burbine and Binzel 2002
+2579.0,Spartacus,1997-10-02 12:51,Burbine and Binzel 2002
+2590.0,Mourao,1997-02-09 08:16,Burbine and Binzel 2002
+2653.0,Principia,1998-09-15 11:40,Burbine and Binzel 2002
+2715.0,Mielikki,1997-10-03 14:36,Burbine and Binzel 2002
+2732.0,Witt,1997-10-03 12:14,Burbine and Binzel 2002
+2763.0,Jeans,1999-01-27 11:37,Burbine and Binzel 2002
+2851.0,Harbin,1999-03-01 09:21,Burbine and Binzel 2002
+2873.0,Binzel,1999-05-24 08:27,Burbine and Binzel 2002
+2902.0,Westerlund,2000-05-06 09:39,Burbine and Binzel 2002
+3167.0,Babcock,1998-01-05 14:27,Burbine and Binzel 2002
+3268.0,De Sanctis,1997-10-01 12:17,Burbine and Binzel 2002
+3376.0,Armandhammer,1998-01-04 11:26,Burbine and Binzel 2002
+3474.0,Linsley,1999-05-24 09:50,Burbine and Binzel 2002
+3545.0,Gaffey,1999-05-23 09:15,Burbine and Binzel 2002
+3628.0,Boznemcova,1997-02-09 08:51,Burbine and Binzel 2002
+3628.0,Boznemcova,1997-02-09 11:20,Burbine and Binzel 2002
+3657.0,Ermolova,1997-02-09 07:05,Burbine and Binzel 2002
+3767.0,DiMaggio,1999-05-24 13:55,Burbine and Binzel 2002
+3819.0,Robinson,1998-04-29 09:28,Burbine and Binzel 2002
+3849.0,Incidentia,1999-03-01 07:05,Burbine and Binzel 2002
+3903.0,Kliment Ohridski,1997-09-29 11:47,Burbine and Binzel 2002
+3944.0,Halliday,1998-05-02 11:11,Burbine and Binzel 2002
+3968.0,Koptelov,1998-04-29 08:33,Burbine and Binzel 2002
+4005.0,Dyagilev,1997-02-08 10:43,Burbine and Binzel 2002
+4051.0,Hatanaka,1998-01-05 10:54,Burbine and Binzel 2002
+4062.0,Schiaparelli,1999-03-01 07:55,Burbine and Binzel 2002
+4142.0,Dersu-Uzala,1998-09-16 14:52,Burbine and Binzel 2002
+4145.0,Maximova,1998-09-15 12:32,Burbine and Binzel 2002
+4147.0,Lennon,1998-04-29 07:24,Burbine and Binzel 2002
+4188.0,Kitezh,1998-09-15 14:40,Burbine and Binzel 2002
+4215.0,Kamo,1998-09-15 10:28,Burbine and Binzel 2002
+4311.0,Zguridi,2000-05-07 10:33,Burbine and Binzel 2002
+4407.0,Taihaku,2000-05-07 11:09,Burbine and Binzel 2002
+4512.0,Sinuhe,1999-03-01 09:48,Burbine and Binzel 2002
+4606.0,Saheki,1997-10-01 10:48,Burbine and Binzel 2002
+4713.0,Steel,1999-02-27 10:01,Burbine and Binzel 2002
+4900.0,Maymelou,1999-05-23 13:28,Burbine and Binzel 2002
+5195.0,Kaendler,2000-05-06 12:00,Burbine and Binzel 2002
+5840.0,Raybrown,1999-02-28 09:56,Burbine and Binzel 2002
+7081.0,Ludibunda,2000-05-07 12:31,Burbine and Binzel 2002

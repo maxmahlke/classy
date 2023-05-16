@@ -54,12 +54,7 @@ descriptions.
 +------------------------------+---------------------------------------------------------------------------------------------------------------------+
 | ``source``                   | String representing the source of the spectrum (e.g. ``'24CAS'``).                                                  |
 +------------------------------+---------------------------------------------------------------------------------------------------------------------+
-| ``date_obs``                 | Observation epoch of the spectrum in `ISOT format <https://en.wikipedia.org/wiki/ISO_8601>`_:                       |
-|                              | ``YYYY-MM-DDTHH:MM:SS``. If the time of the day is not know, ``HH:MM:SS`` is set to ``00:00:00``.                   |
-|                              | If the date is not know, the ``date_obs`` attribute is an empty string.                                             |
-|                              | If the spectrum is an average of observations at different dates, all dates are given,                              |
-|                              | separated by a ``,``: ``2004-03-02T00:00:00,2004-05-16T00:00:00``.                                                  |
-+------------------------------+---------------------------------------------------------------------------------------------------------------------+
+
 
 .. include:: sources/24cas.rst
 

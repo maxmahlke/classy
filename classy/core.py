@@ -188,6 +188,67 @@ class Spectrum:
             self.refl = np.log(self.refl) - alpha
             self._alpha = alpha
 
+    #
+    # def preprocess(
+    #     self,
+    #     smooth_method="savgol",
+    #     smooth_params=None,
+    #     resample_params=None,
+    #     taxonomy="mahlke",
+    # ):
+    #     """Preprocess a spectrum for classification in a given taxonomic system.
+    #
+    #     Parameters
+    #     ----------
+    #     smooth_method : str or None
+    #         Optional. The smoothing method to apply to the spectrum. Choose
+    #         from ['savgol', 'spline']. Default is 'savgol'. If set to None, no
+    #         smoothing is applied.
+    #     smooth_params : dict
+    #         Optional. The smoothing parameters passed to the respective
+    #         smoothing functions. Must be valid arguments of the
+    #         ``scipy.signal.savgol_filter`` or ``scipy.interpolate.UnivariateSpline``
+    #         functions depending on the chosen smoothing method.
+    #     resample_params : dict
+    #         Optional. The resampling parameters passed to the ``scipy.interpolate.interp1d`` function.
+    #     taxonomy : str
+    #         Optional. The taxonomic system to prepare the spectrum for. Choose from
+    #         ['mahlke', 'demeo', 'bus', 'tholen']. Default is 'mahlke'.
+    #     """
+    #
+    #     # ------
+    #     # Smoothing is universal and the first step
+    #     if smooth_method == "savgol":
+    #         self.refl = preprocessing.savitzky_golay(self.refl, smooth_params)
+    #         self.refl_plot = self.refl
+    #     elif smooth_method == "spline":
+    #         self.refl = preprocessing.univariate_spline(
+    #             self.wave, self.refl, smooth_params
+    #         )
+    #         self.refl_plot = self.refl
+    #     else:
+    #         # No smoothing
+    #         self.refl_plot = self.refl  # for plotting only
+    #         self.refl = self.refl  # for classification only
+    #
+    #     # Never change the original wave and refl attributes
+    #     # Only change the _pre suffixed ones
+    #     self.wave_pre = self.wave
+    #     self.wave_plot = self.wave
+    #
+    #     # ------
+    #     # Remaining steps depend on the taxonomic scheme
+    #     if "mahlke" in taxonomy.lower():
+    #         taxonomies.mahlke.preprocess(self, resample_params)
+    #
+    #     elif "demeo" in taxonomy.lower():
+    #         taxonomies.demeo.preprocess(self, resample_params)
+    #
+    #     elif "bus" in taxonomy.lower():
+    #         taxonomies.bus.preprocess(self, resample_params)
+    #
+    #     elif "tholen" in taxonomy.lower():
+    #         taxonomies.tholen.preprocess(self, resample_params)
 
     def classify(self, taxonomy="mahlke", preprocess_remote=False):
         """Classify a spectrum in a given taxonomic system.

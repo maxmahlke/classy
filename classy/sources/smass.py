@@ -116,7 +116,7 @@ def _retrieve_spectra():
 
     ARCH_DIR_REF_BIB = [
         ("smass1data_new", "smass1", "Xu+ 1995", "1995Icar..115....1X"),
-        ("smass2data", "smass2", "Bus and Binzel 2002", "2002Icar..158..106B"),
+        ("smass2data", "smass2", "Bus and Binzel+ 2002", "2002Icar..158..106B"),
         ("smassirdata", "smassir", "Burbine and Binzel 2002", "2002Icar..159..468B"),
         ("smassneodata", "smassneo", "Binzel+ 2001", "2001Icar..151..139B"),
         ("smassref5", "sf36ref5", "Binzel+ 2001", "2001M&PS...36.1167B"),
@@ -134,7 +134,7 @@ def _retrieve_spectra():
     entries = []
     logger.info("Indexing SMASS spectra...")
 
-    log = load_obslog()
+    # log = load_obslog()
     for _, dir, ref, bib in ARCH_DIR_REF_BIB:
         PATH_DIR = PATH_SMASS / dir
 
@@ -167,15 +167,7 @@ def _retrieve_spectra():
 
             data = _load_data(file_, dir, name)
             wave = data["wave"]
-
-            entry = log[(log["name"] == name) & (log["shortbib"] == ref)]
-
-            if entry.empty:
-                date_obs = ""
-            elif len(entry) == 1:
-                date_obs = entry.date_obs.values[0]
-            elif len(entry) > 1:
-                date_obs = ",".join(entry.date_obs.values)
+            date_obs = ""
 
             # ------
             # Append to index
