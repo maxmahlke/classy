@@ -670,7 +670,39 @@ class Spectra(list):
                 raise ValueError(
                     f"Could not resolve '{id_}'. A recognisable name, number, or designation is required."
                 )
-            spectra += data.load_spectra(name, source=source)
+
+        classy_index = index.load()
+
+        if classy_index.empty:
+            logger.error(
+                f"No reflectance spectra are available. Run '$ classy status' to retrieve them."
+            )
+
+        spectra = classy_index[(classy_index["name"] == name)]
+
+        if source is not None:
+            if not isinstance(source, (list, tuple)):
+                source = [source]
+            spectra = spectra[spectra.source.isin(source)]
+
+        if shortbib is not None:
+            if not isinstance(shortbib, (list, tuple)):
+                shortbib = [shortbib]
+            spectra = spectra[spectra.shortbib.isin(shortbib)]
+
+        if bibcode is not None:
+            if not isinstance(bibcode, (list, tuple)):
+                bibcode = [bibcode]
+            spectra = spectra[spectra.bibcode.isin(bibcode)]
+
+        if spectra.empty:
+            name, number = rocks.id(name)
+            logger.warning(
+                f"Did not find any spectra of ({number}) {name} in {', '.join(source)} "
+            )
+            return None
+
+        spectra = cache.load_spectra(spectra)
         return super().__init__(spectra)
 
     # def __setitem__(self, index, item):
