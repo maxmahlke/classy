@@ -37,7 +37,9 @@ def assign_classes(data):
     # 2. Continuum cluster follow decision tree
     for cluster in classy.defs.X_COMPLEX:
 
-        if cluster == 37:
+        if cluster == 37 and (
+            pd.isna(data["pV"].values[0]) or data["pV"].values[0] > -1
+        ):
 
             # Split L from M in cluster 37
             MASK_37 = GMMS[37].predict(data[["z1", "z3"]])
