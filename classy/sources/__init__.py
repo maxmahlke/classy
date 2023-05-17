@@ -3,7 +3,19 @@ from .pds import ecas, primass, s3os2
 
 from classy import index
 
-SOURCES = index.load()["source"].unique()
+SOURCES = [
+    "24CAS",
+    "52CAS",
+    "AKARI",
+    "ECAS",
+    "Gaia",
+    "MITHNEOS",
+    "Misc",
+    "PRIMASS",
+    "S3OS2",
+    "SCAS",
+    "SMASS",
+]
 
 
 def _retrieve_spectra():
