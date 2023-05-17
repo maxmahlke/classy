@@ -37,7 +37,19 @@ After installing, the ``classy`` executable is available system-wide and the
 
        >>> import classy
 
-The command line interface has one main function: ``classy spectra``. :ref:`Let's try it out.<available_data>`
+
+To get started, you can retrieve all `public asteroid spectra <available_data>`_ using the ``$ classy status`` command.
+
+.. code-block:: shell
+
+  $ classy status
+
+  Contents of /home/max/.cache/classy:
+
+      0 asteroid reflectance spectra from 0 sources
+
+  Choose one of these actions:
+  [0] Do nothing [1] Clear the cache [2] Retrieve all spectra (0): 2
 
 .. _cache_directory:
 
