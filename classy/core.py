@@ -28,7 +28,6 @@ class Spectrum:
         pV_err=None,
         name=None,
         number=None,
-        preprocessed=False,
         **kwargs,
     ):
         """Create a Spectrum.
@@ -52,9 +51,6 @@ class Spectrum:
             The name of the asteroid the spectrum is referring to.
         number : int
             The number of the asteroid the spectrum is referring to.
-        preprocessed : bool
-            Whether the reflectance bins and albedo have already been preprocessed
-            following Mahlke+ 2022. Default is False.
 
         Notes
         -----
@@ -276,14 +272,6 @@ class Spectrum:
         if not self.is_classifiable(taxonomy):
             getattr(taxonomies, taxonomy).add_classification_results(self, results=None)
             return
-
-        # Should spectra from online repositories be preprocessed?
-        # if self.source in sources.SOURCES and preprocess_remote:
-        #     # Get the source-specific preprocessing settings for this taxonomy
-        #     for func, params in (
-        #         getattr(sources, self.source.lower()).PREPROCESSING[taxonomy].items()
-        #     ):
-        #         getattr(self, func)(**params)
 
         # Store for resetting after classification
         self._wave_pre_class = self.wave.copy()
