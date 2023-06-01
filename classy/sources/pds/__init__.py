@@ -81,87 +81,87 @@ def _retrieve_spectra():
         getattr(sources.pds, repo)._create_index(PATH_REPO)
 
 
-def _create_index():
-    """Create index of all PDS spectra in the cache directory."""
-
-    pds_index = pd.DataFrame()
-
-    for repo, URL in REPOSITORIES.items():
-        # Each repo handles its own index creation
-        PATH_REPO = PATH_PDS / URL.split("/")[-1]
-        index = getattr(sources.pds, repo)._create_index(PATH_REPO.with_suffix(""))
-        pds_index = pd.concat([pds_index, index])
-
-    # All done
-    pds_index["number"] = pds_index["number"].astype("Int64")
-    pds_index.to_csv(PATH_PDS / "index.csv", index=False)
-
-
-def _create_indexsitory(PATH_REPO):
-    """Create index of all spectra in specifiec repository."""
-
-    index = pd.DataFrame()
-
-    # repo does not have a data/ subdirectory to store only the spectra
-    dir_search = (
-        PATH_REPO / "data"
-        if repo not in ["reddy_vesta", "rivkin", "reddy_nea", "iannini"]
-        else PATH_REPO
-    )
-
-    for dir in dir_search.iterdir():
-        if not dir.is_dir():
-            continue
-
-        if repo == "52cas" and dir.name == "data0":
-            # contains metadata of the 52CAS
-            continue
-
-        if (
-            repo in ["reddy_vesta", "reddy_nea", "rivkin", "iannini"]
-            and dir.name != "data"
-        ):
-            continue
-        if repo in ["reddy_nea", "rivkin"]:
-            search = "**/*lbl"
-        else:
-            search = "**/*xml"
-
-        for xml_file in (dir_search / dir).glob(search):
-            if xml_file.name.startswith("repo_gbo"):
-                continue
-
-            if repo not in ["reddy_nea", "rivkin"]:
-                id_, ref, date_obs = parse_xml(xml_file, repo)
-            else:
-                id_, ref, date_obs = parse_lbl(xml_file, repo)
-
-            if repo not in ["hendrix", "reddy_nea", "ianni"]:
-                file_ = xml_file.with_suffix(".tab")
-            else:
-                file_ = xml_file.with_suffix(".csv")
-
-            bibcode, shortbib = REPOSITORIES[repo]["REF"][ref]
-
-            # Identify
-            name, number = rocks.id(id_)
-
-            entry = pd.DataFrame(
-                data={
-                    "name": name,
-                    "number": number,
-                    "filename": str(file_).split("/classy/")[1],
-                    "shortbib": shortbib,
-                    "bibcode": bibcode,
-                    "repo": repo,
-                    "date_obs": date_obs,
-                },
-                index=[0],
-            )
-
-            index = pd.concat([index, entry])
-
-    return index
+# def _create_index():
+#     """Create index of all PDS spectra in the cache directory."""
+#
+#     pds_index = pd.DataFrame()
+#
+#     for repo, URL in REPOSITORIES.items():
+#         # Each repo handles its own index creation
+#         PATH_REPO = PATH_PDS / URL.split("/")[-1]
+#         index = getattr(sources.pds, repo)._create_index(PATH_REPO.with_suffix(""))
+#         pds_index = pd.concat([pds_index, index])
+#
+#     # All done
+#     pds_index["number"] = pds_index["number"].astype("Int64")
+#     pds_index.to_csv(PATH_PDS / "index.csv", index=False)
+#
+#
+# def _create_indexsitory(PATH_REPO):
+#     """Create index of all spectra in specifiec repository."""
+#
+#     index = pd.DataFrame()
+#
+#     # repo does not have a data/ subdirectory to store only the spectra
+#     dir_search = (
+#         PATH_REPO / "data"
+#         if repo not in ["reddy_vesta", "rivkin", "reddy_nea", "iannini"]
+#         else PATH_REPO
+#     )
+#
+#     for dir in dir_search.iterdir():
+#         if not dir.is_dir():
+#             continue
+#
+#         if repo == "52cas" and dir.name == "data0":
+#             # contains metadata of the 52CAS
+#             continue
+#
+#         if (
+#             repo in ["reddy_vesta", "reddy_nea", "rivkin", "iannini"]
+#             and dir.name != "data"
+#         ):
+#             continue
+#         if repo in ["reddy_nea", "rivkin"]:
+#             search = "**/*lbl"
+#         else:
+#             search = "**/*xml"
+#
+#         for xml_file in (dir_search / dir).glob(search):
+#             if xml_file.name.startswith("repo_gbo"):
+#                 continue
+#
+#             if repo not in ["reddy_nea", "rivkin"]:
+#                 id_, ref, date_obs = parse_xml(xml_file, repo)
+#             else:
+#                 id_, ref, date_obs = parse_lbl(xml_file, repo)
+#
+#             if repo not in ["hendrix", "reddy_nea", "ianni"]:
+#                 file_ = xml_file.with_suffix(".tab")
+#             else:
+#                 file_ = xml_file.with_suffix(".csv")
+#
+#             bibcode, shortbib = REPOSITORIES[repo]["REF"][ref]
+#
+#             # Identify
+#             name, number = rocks.id(id_)
+#
+#             entry = pd.DataFrame(
+#                 data={
+#                     "name": name,
+#                     "number": number,
+#                     "filename": str(file_).split("/classy/")[1],
+#                     "shortbib": shortbib,
+#                     "bibcode": bibcode,
+#                     "repo": repo,
+#                     "date_obs": date_obs,
+#                 },
+#                 index=[0],
+#             )
+#
+#             index = pd.concat([index, entry])
+#
+#     return index
 
 
 def parse_xml(PATH_XML):
