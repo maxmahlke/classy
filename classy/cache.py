@@ -5,6 +5,8 @@ import shutil
 
 import numpy as np
 import pandas as pd
+import percache
+import requests
 import rich
 import rocks
 
@@ -14,6 +16,7 @@ from classy.log import logger
 from classy import index
 from classy import sources
 
+cache = percache.Cache(str(config.PATH_CACHE / "cache"))
 # ------
 # Indeces of spectra
 # def load_index(source):
@@ -77,3 +80,51 @@ def echo_inventory():
                 rich.print()
         else:
             rich.print("\n")
+
+
+@cache
+def miriade_ephems(name, epochs):
+    """Gets asteroid ephemerides from IMCCE Miriade.
+
+    Parameters
+    ----------
+    name : str
+        Name or designation of asteroid.
+    epochs : list
+        List of observation epochs in iso format.
+
+    Returns
+    -------
+    :returns: pd.DataFrame - Input dataframe with ephemerides columns appended
+                     False - If query failed somehow
+    """
+
+    # Pass sorted list of epochs to speed up query
+    files = {"epochs": ("epochs", "\n".join(sorted(epochs)))}
+
+    # ------
+    # Query Miriade for phase angles
+    url = "http://vo.imcce.fr/webservices/miriade/ephemcc_query.php"
+
+    params = {
+        "-name": f"a:{name}",
+        "-mime": "json",
+        "-tcoor": "5",
+        "-output": "--jul",
+        "-tscale": "UTC",
+    }
+
+    # Execute query
+    try:
+        r = requests.post(url, params=params, files=files, timeout=50)
+    except requests.exceptions.ReadTimeout:
+        return False
+    j = r.json()
+
+    # Read JSON response
+    try:
+        ephem = pd.DataFrame.from_dict(j["data"])
+    except KeyError:
+        return False
+
+    return ephem
