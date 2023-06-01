@@ -1,4 +1,7 @@
 """Module to manage the global spectra index in classy."""
+from datetime import datetime
+from functools import cache
+
 import numpy as np
 import pandas as pd
 
@@ -8,6 +11,7 @@ from classy import config
 PATH = config.PATH_CACHE / "index.csv"
 
 
+@cache
 def load():
     """Load the global spectra index.
 
@@ -66,3 +70,25 @@ def add(entries):
     index = pd.concat([index, entries], ignore_index=True)
 
     save(index)
+
+
+def convert_to_isot(dates, format):
+    """Convert list of dates to ISOT format.
+
+    Parameters
+    ----------
+    dates : str or list of str
+        The dates to convert.
+    format : str
+        The current format string of the dates.
+    """
+    if isinstance(dates, str):
+        dates = [dates]
+
+    try:
+        date_obs = ",".join(
+            [datetime.strptime(date, format).isoformat(sep="T") for date in dates]
+        )
+    except ValueError:
+        breakpoint()
+    return date_obs
