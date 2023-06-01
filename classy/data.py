@@ -34,19 +34,6 @@ def load_spectra(name, source):
     -------
     list of classy.Spectrum
     """
-
-    # index_spectra = pd.DataFrame()
-    #
-    # for s in source:
-    #     index = cache.load_index(s)
-    #     index = index.loc[index["name"] == name]
-    #
-    #     if not index.empty:
-    #         N = len(index)
-    #         logger.debug(f"Found {N} spectr{'a' if N > 1 else 'um'} in {s}")
-    #
-    #     index["source"] = s
-    #     index_spectra = pd.concat([index_spectra, index])
     classy_index = index.load()
     index_spectra = classy_index[
         (classy_index["name"] == name) & classy_index["source"].isin(source)
