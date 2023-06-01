@@ -42,6 +42,7 @@ def _create_index(PATH_REPO):
                     "host": "pds",
                     "collection": "fornasier_m_types",
                     "filename": str(file_).split("/classy/")[1],
+                    "public": True,
                 },
                 index=[0],
             )

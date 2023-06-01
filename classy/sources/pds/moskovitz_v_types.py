@@ -55,6 +55,7 @@ def _create_index(PATH_REPO):
                     "source": "Misc",
                     "host": "pds",
                     "collection": "moskovitz_v_types",
+                    "public": True,
                 },
                 index=[0],
             )

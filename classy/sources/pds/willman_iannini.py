@@ -45,6 +45,7 @@ def _create_index(PATH_REPO):
                     "source": "Misc",
                     "host": "pds",
                     "collection": "willman_iannini",
+                    "public": True,
                 },
                 index=[0],
             )

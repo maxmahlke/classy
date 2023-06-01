@@ -37,6 +37,7 @@ def _create_index(PATH_REPO):
                 "wave_min": min(WAVE),
                 "wave_max": max(WAVE),
                 "N": len(WAVE),
+                "public": True,
             },
             index=[0],
         )
@@ -54,10 +55,25 @@ def _load_data(meta):
     pd.DataFrame
     """
     obs = pd.read_csv(config.PATH_CACHE / meta.filename)
-
     obs = obs.loc[obs["name"] == meta["name"]]
 
     # Convert colours to reflectances
+    refl, refl_err = _compute_reflectance_from_colours(obs)
+    flags = _add_flags(obs)
+
+    data = pd.DataFrame(
+        data={
+            "refl": refl[~np.isnan(refl)],
+            "refl_err": refl_err[~np.isnan(refl)],
+            "wave": np.array(WAVE)[~np.isnan(refl)],
+            "flag": flags[~np.isnan(refl)],
+        },
+    )
+
+    return data
+
+
+def _compute_reflectance_from_colours(obs):
     refl = []
     refl_err = []
 
@@ -88,7 +104,10 @@ def _load_data(meta):
     refl = np.array(refl)
 
     refl_err = np.array(refl_err)
+    return refl, refl_err
 
+
+def _add_flags(obs):
     flags = []
 
     for color in ["S_V", "U_V", "B_V", "V_V", "V_W", "V_X", "V_P", "V_Z"]:
@@ -96,21 +115,10 @@ def _load_data(meta):
             flag_value = 0
         else:
             flag_value = int(obs[f"flag_{color}"].values[0])
-        # setattr(spec, f"flag_{color}", flag_value)
         flags.append(flag_value)
 
-    flag = np.array(flags)
-
-    data = pd.DataFrame(
-        data={
-            "refl": refl[~np.isnan(refl)],
-            "refl_err": refl_err[~np.isnan(refl)],
-            "wave": np.array(WAVE)[~np.isnan(refl)],
-            "flag": flag[~np.isnan(refl)],
-        },
-    )
-
-    return data
+    flags = np.array(flags)
+    return flags
 
 
 def _create_mean_colors_file(PATH_REPO):

@@ -44,6 +44,7 @@ def _create_index(PATH_REPO):
                     "source": "Misc",
                     "host": "pds",
                     "collection": "fornasier_trojans",
+                    "public": True,
                 },
                 index=[0],
             )

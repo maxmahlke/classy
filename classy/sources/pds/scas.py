@@ -52,6 +52,7 @@ def _create_index(PATH_REPO):
                 "source": "SCAS",
                 "host": "pds",
                 "collection": "scas",
+                "public": True,
             },
             index=[0],
         )

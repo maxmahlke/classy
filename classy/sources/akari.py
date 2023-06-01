@@ -95,7 +95,6 @@ def _retrieve_spectra():
 
     entries = []
     for _, row in akari.iterrows():
-
         name, number = row["name"], row.number
 
         filename = f"akari/AcuA_1.0/reflectance/{row.filename}"
@@ -123,6 +122,7 @@ def _retrieve_spectra():
                 "source": "AKARI",
                 "host": "akari",
                 "collection": "AcuA",
+                "public": True,
             },
             index=[0],
         )
@@ -134,7 +134,6 @@ def _retrieve_spectra():
 
 
 def _load_data(PATH_SPEC):
-
     # Load spectrum
     data = pd.read_csv(
         PATH_SPEC,

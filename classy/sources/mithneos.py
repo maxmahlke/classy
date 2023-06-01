@@ -16,9 +16,7 @@ def load_spectrum(spec):
     """Load a cached MITHNEOS spectrum."""
     PATH_SPEC = config.PATH_CACHE / spec.filename
 
-    data = pd.read_csv(
-        PATH_SPEC, names=["wave", "refl", "err", "flag"], delimiter="\s+"
-    )
+    data = _load_data(PATH_SPEC)
     # 2 - reject. This is flag 0 in MITHNEOS
     flags = [0 if f != 0 else 2 for f in data["flag"].values]
 
@@ -103,10 +101,16 @@ def _retrieve_spectra():
 
                 if file_.name in POLISHOOK_DATES:
                     date_obs = POLISHOOK_DATES[file_.name]
+
+                    if date_obs:
+                        date_obs = index.convert_to_isot(date_obs, format="%Y-%m-%d")
+
             filename = str(file_).split("classy/")[-1]
 
             data = _load_data(file_)
             wave = data["wave"]
+            if pd.isna(date_obs):
+                bibcode = ""
 
             entry = pd.DataFrame(
                 data={
@@ -123,6 +127,7 @@ def _retrieve_spectra():
                     "source": "MITHNEOS",
                     "host": "mithneos",
                     "collection": "mithneos",
+                    "public": True,
                 },
                 index=[0],
             )
@@ -180,6 +185,9 @@ def _retrieve_spectra():
 
                 if not match.empty:
                     date_obs = match["date_obs"].values[0]
+
+                    if not pd.isna(date_obs) and not "T" in date_obs:
+                        date_obs = index.convert_to_isot(date_obs, format="%Y-%m-%d")
                     shortbib = match["shortbib"].values[0]
                     bibcode = match["bibcode"].values[0]
                 else:
@@ -195,6 +203,8 @@ def _retrieve_spectra():
                     shortbib = "Unpublished"
                 if pd.isna(bibcode):
                     bibcode = "Unpublished"
+                if pd.isna(date_obs):
+                    bibcode = ""
 
                 entry = pd.DataFrame(
                     data={
@@ -210,6 +220,7 @@ def _retrieve_spectra():
                         "source": "MITHNEOS",
                         "host": "mithneos",
                         "collection": "mithneos",
+                        "public": True,
                     },
                     index=[0],
                 )
@@ -245,11 +256,13 @@ def _download(URL, PATH_OUT):
 
 def _load_data(PATH_SPEC):
     data = pd.read_csv(
-        PATH_SPEC, names=["wave", "refl", "err", "flag"], delimiter="\s+", comment="#"
+        PATH_SPEC,
+        names=["wave", "refl", "err", "flag"],
+        delimiter="\s+",
+        comment="#",
     )
+
     data = data[data.refl > 0]
-    # 2 - reject. This is flag 0 in MITHNEOS
-    flags = [0 if f != 0 else 2 for f in data["flag"].values]
     return data
 
 

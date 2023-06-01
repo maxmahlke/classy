@@ -56,6 +56,7 @@ def _create_index(PATH_REPO):
                     "source": "Misc",
                     "host": "pds",
                     "collection": "irtf",
+                    "public": True,
                 },
                 index=[0],
             )

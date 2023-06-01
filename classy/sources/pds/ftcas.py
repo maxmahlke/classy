@@ -105,6 +105,7 @@ def _create_index(PATH_REPO):
                 "source": "52CAS",
                 "host": "pds",
                 "collection": "ftcas",
+                "public": True,
             },
             index=[0],
         )

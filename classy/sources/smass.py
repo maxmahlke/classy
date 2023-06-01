@@ -7,6 +7,7 @@ import rocks
 
 from classy import config
 from classy import core
+from classy import data
 from classy import index
 from classy.log import logger
 from classy import tools
@@ -38,6 +39,8 @@ def load_spectrum(spec):
         bibcode=spec.bibcode,
         shortbib=spec.shortbib,
         host="smass",
+        date_obs=spec.date_obs,
+        _filename=spec.filename,
     )
     spec._source = "SMASS"
     return spec
@@ -116,7 +119,7 @@ def _retrieve_spectra():
 
     ARCH_DIR_REF_BIB = [
         ("smass1data_new", "smass1", "Xu+ 1995", "1995Icar..115....1X"),
-        ("smass2data", "smass2", "Bus and Binzel+ 2002", "2002Icar..158..106B"),
+        ("smass2data", "smass2", "Bus and Binzel 2002", "2002Icar..158..106B"),
         ("smassirdata", "smassir", "Burbine and Binzel 2002", "2002Icar..159..468B"),
         ("smassneodata", "smassneo", "Binzel+ 2001", "2001Icar..151..139B"),
         ("smassref5", "sf36ref5", "Binzel+ 2001", "2001M&PS...36.1167B"),
@@ -134,7 +137,7 @@ def _retrieve_spectra():
     entries = []
     logger.info("Indexing SMASS spectra...")
 
-    # log = load_obslog()
+    log = load_obslog()
     for _, dir, ref, bib in ARCH_DIR_REF_BIB:
         PATH_DIR = PATH_SMASS / dir
 
@@ -167,7 +170,18 @@ def _retrieve_spectra():
 
             data = _load_data(file_, dir, name)
             wave = data["wave"]
-            date_obs = ""
+
+            entry = log[(log["name"] == name) & (log["shortbib"] == ref)]
+
+            if entry.empty:
+                date_obs = ""
+            else:
+                format = (
+                    "%Y-%m-%d"
+                    if ref not in ["Burbine and Binzel 2002", "Binzel+ 2004"]
+                    else "%Y-%m-%d %H:%M"
+                )
+                date_obs = index.convert_to_isot(entry.date_obs.values, format=format)
 
             # ------
             # Append to index
@@ -185,6 +199,7 @@ def _retrieve_spectra():
                     "source": "SMASS",
                     "host": "smass",
                     "collection": "smass",
+                    "public": True,
                 },
                 index=[0],
             )

@@ -67,6 +67,7 @@ def _create_index(PATH_REPO):
                     "source": "PRIMASS",
                     "host": "pds",
                     "collection": "primass",
+                    "public": True,
                 },
                 index=[0],
             )
