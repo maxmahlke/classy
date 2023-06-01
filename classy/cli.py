@@ -84,7 +84,7 @@ def spectra(id_, classify, taxonomy, templates, source, exclude, save, v):
         logger.debug(f"Looking for reflectance spectra of ({number}) {name}")
 
     if not source:
-        source = classy.sources.SOURCES
+        source = None
 
     if exclude:
         source = [s for s in source if s not in exclude]
