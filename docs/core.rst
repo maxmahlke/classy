@@ -5,11 +5,6 @@
 Basic Usage
 ===========
 
-General:
-bibcode, shortbib, date_obs
-date_obs in %Y-%m-%d %H:%M:%S if HMS available else %Y-%m-%d if Ymd available else ''
-extension of index: add phase angle and taxonomic class
-
 ``classy`` is a tool for the analysis of reflectance spectra. Every spectrum is
 represented the ``Spectrum`` class.
 
