@@ -5,10 +5,13 @@ import pandas as pd
 import rocks
 from scipy import interpolate, signal
 
+from classy import cache
 from classy import data
 from classy import decision_tree
 from classy import defs
+from classy.feature import Feature
 from classy.log import logger
+from classy import index
 from classy import mixnorm
 from classy import plotting
 from classy import preprocessing
@@ -184,69 +187,32 @@ class Spectrum:
             self.refl = np.log(self.refl) - alpha
             self._alpha = alpha
 
-    #
-    # def preprocess(
-    #     self,
-    #     smooth_method="savgol",
-    #     smooth_params=None,
-    #     resample_params=None,
-    #     taxonomy="mahlke",
-    # ):
-    #     """Preprocess a spectrum for classification in a given taxonomic system.
-    #
-    #     Parameters
-    #     ----------
-    #     smooth_method : str or None
-    #         Optional. The smoothing method to apply to the spectrum. Choose
-    #         from ['savgol', 'spline']. Default is 'savgol'. If set to None, no
-    #         smoothing is applied.
-    #     smooth_params : dict
-    #         Optional. The smoothing parameters passed to the respective
-    #         smoothing functions. Must be valid arguments of the
-    #         ``scipy.signal.savgol_filter`` or ``scipy.interpolate.UnivariateSpline``
-    #         functions depending on the chosen smoothing method.
-    #     resample_params : dict
-    #         Optional. The resampling parameters passed to the ``scipy.interpolate.interp1d`` function.
-    #     taxonomy : str
-    #         Optional. The taxonomic system to prepare the spectrum for. Choose from
-    #         ['mahlke', 'demeo', 'bus', 'tholen']. Default is 'mahlke'.
-    #     """
-    #
-    #     # ------
-    #     # Smoothing is universal and the first step
-    #     if smooth_method == "savgol":
-    #         self.refl = preprocessing.savitzky_golay(self.refl, smooth_params)
-    #         self.refl_plot = self.refl
-    #     elif smooth_method == "spline":
-    #         self.refl = preprocessing.univariate_spline(
-    #             self.wave, self.refl, smooth_params
-    #         )
-    #         self.refl_plot = self.refl
-    #     else:
-    #         # No smoothing
-    #         self.refl_plot = self.refl  # for plotting only
-    #         self.refl = self.refl  # for classification only
-    #
-    #     # Never change the original wave and refl attributes
-    #     # Only change the _pre suffixed ones
-    #     self.wave_pre = self.wave
-    #     self.wave_plot = self.wave
-    #
-    #     # ------
-    #     # Remaining steps depend on the taxonomic scheme
-    #     if "mahlke" in taxonomy.lower():
-    #         taxonomies.mahlke.preprocess(self, resample_params)
-    #
-    #     elif "demeo" in taxonomy.lower():
-    #         taxonomies.demeo.preprocess(self, resample_params)
-    #
-    #     elif "bus" in taxonomy.lower():
-    #         taxonomies.bus.preprocess(self, resample_params)
-    #
-    #     elif "tholen" in taxonomy.lower():
-    #         taxonomies.tholen.preprocess(self, resample_params)
+    def compute_phase_angle(self):
+        """Compute the asteroid's phase angle at the time of observation."""
 
-    def classify(self, taxonomy="mahlke", preprocess_remote=False):
+        if not hasattr(self, "date_obs"):
+            raise AttributeError(
+                "The spectrum requires a 'date_obs' attribute to compute the phase angle."
+            )
+        if not hasattr(self, "name"):
+            raise AttributeError(
+                "The spectrum requires a 'name' attribute to compute the phase angle."
+            )
+        if not self.date_obs:
+            logger.debug("'date_obs' is empty, cannot compute phase angle")
+
+        ephem = cache.miriade_ephems(self.name, self.date_obs.split(","))
+
+        if isinstance(ephem, bool):
+            self.phase = np.nan
+            return
+
+        if len(ephem) == 1:
+            self.phase = ephem.phase.to_list()[0]
+        else:
+            self.phase = ephem.phase.to_list()
+
+    def classify(self, taxonomy="mahlke"):
         """Classify a spectrum in a given taxonomic system.
 
         Parameters
@@ -337,15 +303,13 @@ class Spectrum:
 
         self.refl = self.refl[~np.isnan(self.refl)]
 
-    def detect_features(self, feature="all", skip_validation=False):
+    def detect_features(self, feature="all"):
         """Run automatic recognition of e-, h-, and/or k-feature.
 
         Parameters
         ----------
         feature : str
             The feature to detect. Choose from ['all', 'e', 'h', 'k']. Default is 'all'.
-        skip_validation : bool
-            Whether to skip the interactive validation of the band fit. Default is False.
 
         Notes
         -----
@@ -366,11 +330,13 @@ class Spectrum:
         else:
             features = list(feature)
 
-        for feature in features:
-            feature_instance = Feature(name=feature)
-            feature_instance.fit(self.wave, self.refl, skip_validation=skip_validation)
+        for name in features:
+            feature = Feature(name, self.wave, self.refl, self.refl_err)
 
-            setattr(self, feature, feature_instance)
+            if feature.is_observed:
+                feature.fit()
+
+            setattr(self, name, feature)
 
     def add_feature_flags(self, data_classified):
         """Detect features in spectra and amend the classification."""
@@ -378,7 +344,10 @@ class Spectrum:
         for i, sample in data_classified.reset_index(drop=True).iterrows():
             for feature, props in defs.FEATURE.items():
                 if sample.class_ in props["candidates"]:
-                    if getattr(self, feature).is_present:
+                    if (
+                        getattr(self, feature).is_observed
+                        and getattr(self, feature).is_present
+                    ):
                         if feature == "h":
                             data_classified.loc[i, "class_"] = "Ch"
                             break
@@ -428,10 +397,9 @@ class Spectrum:
             logger.info("No 'path_out' provided, storing results to ./classy_spec.csv")
             result.to_csv("./classy_spec.csv", index=False)
 
-    # ------
-    # Utility functions, not to be called directly
 
-
+# ------
+# Utility functions, not to be called directly
 def _basic_checks(wave, refl, unc, flag):
     """Basic quality checks for spectra."""
 
@@ -490,134 +458,10 @@ def _basic_checks(wave, refl, unc, flag):
     return wave, refl, unc, flag
 
 
-class Feature:
-    def __init__(self, name):
-        """Instantiate a Feature.
-
-        Parameters
-        ----------
-        name : str
-            Name of the feature, choose from ['e', 'h', 'k'].
-        """
-
-        if name not in ["e", "h", "k"]:
-            raise ValueError(
-                f"Passed feature name is {name}, expected one of: ['e', 'h', 'k']"
-            )
-
-        self.name = name
-
-        # Wavelength limits for fit set heuristically from training data
-        self.upper = defs.FEATURE[name]["upper"]
-        self.lower = defs.FEATURE[name]["lower"]
-
-    def fit(self, wave, refl, skip_validation):
-        """Fit the feature-region using a polynomial."""
-
-        # X-range of the polynomial fit
-        xrange = np.arange(0.45, 2.45, 0.0001)
-        xrange_fit = (self.lower < xrange) & (self.upper > xrange)
-
-        # Cut data down to region of interest
-        self.refl = refl[(wave > self.lower - 0.3) & (wave < self.upper + 0.3)]
-        self.wave = wave[(wave > self.lower - 0.3) & (wave < self.upper + 0.3)]
-
-        range_fit = (self.lower < self.wave) & (self.upper > self.wave)
-
-        # if (
-        #     xrange[xrange_fit].min() < wave.min()
-        #     or xrange[xrange_fit].max() > wave.max()
-        #     or len(xrange[xrange_fit]) < 5
-        # ):
-        if len(self.wave[range_fit]) < 4:  # we need at least 4 data points
-            logger.debug(
-                f"Passed spectrum does not cover the {self.name}-feature wavelength region."
-            )
-            self.is_present = False
-            self.is_observed = False
-            return
-        else:
-            self.is_observed = True
-
-        slope = self._fit_continuum()
-        refl_no_continuum = self._remove_continuum(slope)
-        band = self._fit_band(refl_no_continuum)
-
-        self.compute_band_center_and_depth(band)
-        self._compute_snr(band, refl_no_continuum)
-        self.is_present = self._band_present()
-
-        if not skip_validation:
-            pass
-
-    def _fit_continuum(self):
-        # Define fit interval
-        range_fit = (self.lower < self.wave) & (self.upper > self.wave)
-
-        # Fit first-order polynomial
-        slope = np.polyfit(self.wave[range_fit], self.refl[range_fit], 1)
-
-        # Turn into callable polynomial function
-        return np.poly1d(slope)
-
-    def _remove_continuum(self, slope):
-        return self.refl / slope(self.wave)
-
-    def _fit_band(self, refl_no_continuum):
-        # Define fit parameters
-        FIT_DEGREE = 4
-
-        range_fit = (self.lower < self.wave) & (self.upper > self.wave)
-
-        # Fit polynomial order 2-4 to band center
-        band, *_ = np.polyfit(
-            self.wave[range_fit], refl_no_continuum[range_fit], FIT_DEGREE, full=True
-        )
-
-        # Turn into callable polynomial function
-        return np.poly1d(band)
-
-    def compute_band_center_and_depth(self, band):
-        xrange = np.arange(0.45, 2.45, 0.0001)
-        xrange_fit = (self.lower < xrange) & (self.upper > xrange)
-
-        # band center = minimum of continuum-removed band
-        self.center = xrange[xrange_fit][np.argmin(band(xrange[xrange_fit]))]
-        self.depth = max(band(xrange[xrange_fit])) - band(self.center)  # in %
-
-    def _compute_snr(self, band, refl_no_continuum):
-        range_fit = (self.lower < self.wave) & (self.upper > self.wave)
-
-        # Approximate noise of band
-        diff = [
-            band(w) - refl_no_continuum[range_fit][i]
-            for i, w in enumerate(self.wave[range_fit])
-        ]
-
-        noise = np.std(diff)
-        self.snr = self.depth / noise
-
-    def _band_present(self):
-        mean, sigma = defs.FEATURE[self.name]["center"]
-        if mean - 3 * sigma >= self.center or self.center >= mean + 3 * sigma:
-            return False
-        elif self.snr < 1.0:
-            return False
-        else:
-            return True
-
-    def remove_slope(self):
-        # Fit first-order polynomial
-        slope = np.polyfit(wave[range_fit], refl[range_fit], 1)
-
-        # Turn into callable polynomial function
-        return np.poly1d(slope)
-
-
 class Spectra(list):
     """List of several spectra of individual asteroid."""
 
-    def __init__(self, id_, source=None):
+    def __init__(self, id_, source=None, bibcode=None, shortbib=None):
         """Create a list of spectra of an asteroid from online repositories.
 
         Parameters
@@ -629,17 +473,9 @@ class Spectra(list):
             from classy.sources.SOURCES. Default is None, which returns all spectra.
         """
 
-        if source is not None:
-            if isinstance(source, str):
-                source = [source]
-
-            for s in source:
-                if s not in sources.SOURCES:
-                    raise ValueError(
-                        f"Unknown source '{s}'. Choose from {sources.SOURCES}."
-                    )
-        else:
-            source = sources.SOURCES
+        # if isinstance(id_, pd.DataFrame):
+        #     spectra = cache.load_spectra(spectra)
+        #     return super().__init__(spectra)
 
         # Need this check for __add__
         if not isinstance(id_, list):
@@ -712,6 +548,10 @@ class Spectra(list):
     def classify(self, taxonomy="mahlke"):
         for spec in self:
             spec.classify(taxonomy=taxonomy)
+
+    def detect_features(self):
+        for spec in self:
+            spec.detect_features()
 
     def to_csv(self, path_out=None):
         results = {}
