@@ -776,14 +776,15 @@ def plot_user_spectrum(ax, spec):
         alpha=0.5,
     )
 
-    ax.fill_between(
-        wave,
-        refl + err / 2,
-        refl - err / 2,
-        color=spec._color,
-        alpha=0.3,
-        ec="none",
-    )
+    if err is not None:
+        ax.fill_between(
+            wave,
+            refl + err / 2,
+            refl - err / 2,
+            color=spec._color,
+            alpha=0.3,
+            ec="none",
+        )
 
     line = [l1]
 
