@@ -112,6 +112,19 @@ def spectra(id_, classify, taxonomy, templates, source, exclude, save, v):
 
 
 @cli_classy.command()
+@click.argument("path", type=str)
+def add(path):
+    """Add a private spectra collection."""
+    path = Path(path)
+
+    if not path.is_file():
+        click.echo("You need to pass the path of an index CSV file.")
+        sys.exit()
+
+    sources.private.parse_index(path)
+
+
+@cli_classy.command()
 def status():
     """Manage the index of asteroid spectra."""
     from rich import prompt
