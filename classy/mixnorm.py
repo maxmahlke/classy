@@ -54,7 +54,7 @@ def normalize(spec):
     #         ls="--",
     #         c="red",
     #     )
-    spec.refl= (
+    spec.refl = (
         spec.refl
         / np.nanmean(spec.refl)
         * np.nanmean(neighbours.loc[idx_nearest_neighbours, classy.defs.WAVE_GRID_STR])

@@ -40,7 +40,8 @@ FEATURE = {
         "candidates": ["B", "C", "P", "X"],
         "center": [0.69335, 0.011],
         "lower": 0.549,
-        "upper": 0.834,
+        # "upper": 0.834,
+        "upper": 0.934,
     },
     "k": {
         "candidates": ["P", "M", "E", "X"],

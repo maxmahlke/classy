@@ -59,7 +59,6 @@ def remove():
 
 
 def echo_inventory():
-
     idx = index.load()
     sources_ = list(idx.source.unique())
 
