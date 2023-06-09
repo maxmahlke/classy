@@ -141,7 +141,7 @@ def _retrieve_spectra():
     entries["source"] = "Gaia"
     entries["host"] = "gaia"
     entries["collection"] = "gaia"
-    entrires["public"] = True
+    entries["public"] = True
     # for name, number, filename in zip(names, numbers, list(archives.values())):
     #     entry = pd.DataFrame(
     #         data={
