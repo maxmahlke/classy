@@ -94,7 +94,7 @@ def classify(spec):
             spec, f"class_{class_}", spec.data_classified[f"class_{class_}"].values[0]
         )
 
-    if spec.h.is_present:
+    if spec.h.is_observed and spec.h.is_present:
         spec.class_Ch = spec.class_C + spec.class_B + spec.class_P
         spec.class_C = 0
         spec.class_B = 0
