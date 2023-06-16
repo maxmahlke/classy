@@ -17,16 +17,6 @@ from classy import index
 from classy import sources
 
 cache = percache.Cache(str(config.PATH_CACHE / "cache"))
-# ------
-# Indeces of spectra
-# def load_index(source):
-#     """Load an index file."""
-#     if source not in sources.SOURCES:
-#         raise ValueError(
-#             f"Unknown spectra source '{source}'. Choose one of {sources.SOURCES}."
-#         )
-#
-#     return getattr(sources, source.lower()).load_index()
 
 
 def load_mahlke_index():

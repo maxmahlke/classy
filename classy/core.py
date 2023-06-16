@@ -501,6 +501,7 @@ class Spectra(list):
             logger.error(
                 f"No reflectance spectra are available. Run '$ classy status' to retrieve them."
             )
+            return None
 
         spectra = classy_index[(classy_index["name"] == name)]
 
