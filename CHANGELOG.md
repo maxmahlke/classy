@@ -1,3 +1,6 @@
+# 0.5.1 -
+- Fail gracefully with error if no spectra index is available
+
 # 0.5 - 2023-05-12
 - Add "classy status" command to manage cache directory
 - Add PRIMASS-L, 52CAS, 24CAS, SCAS, and other repositories from PDS to sources
@@ -79,7 +82,7 @@
     from classy import Preprocessor
     from classy import Classifier
 
-# 0.2 - 2022-05-3
+# 0.2 - 2022-05-03
 - Initial release
 
 # 0.1 - 2021
