@@ -561,7 +561,7 @@ class Spectra(list):
     def _df(self, idx):
         """Instantiate Spectra using entries from the classy spectra index."""
         if isinstance(idx, pd.Series):
-            idx = pd.Series.to_frame()
+            idx = pd.DataFrame(idx).transpose()
 
         for _, entry in idx.iterrows():
             spec = Spectra(
