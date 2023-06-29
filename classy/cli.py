@@ -87,6 +87,10 @@ def spectra(id_, classify, taxonomy, templates, source, exclude, save, v):
         source = None
 
     if exclude:
+        # If exclude but no sources defined (default case), load sources
+        if source is None:
+            source = index.load().source.unique()
+
         source = [s for s in source if s not in exclude]
 
     # Load spectra
