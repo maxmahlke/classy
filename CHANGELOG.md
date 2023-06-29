@@ -1,4 +1,5 @@
 # 0.5.1 -
+- Add your private collection of spectra to the classy index using '$ classy add'. Refer to the docs for more info.
 - Fail gracefully with error if no spectra index is available
 
 # 0.5 - 2023-05-12
