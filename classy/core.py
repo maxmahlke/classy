@@ -99,6 +99,11 @@ class Spectrum:
         # Attribute to differentiate user-provided and online spectra
         self._source = "User"
 
+        # Add features
+        self.e = Feature("e", self.wave, self.refl, self.refl_err)
+        self.h = Feature("h", self.wave, self.refl, self.refl_err)
+        self.k = Feature("k", self.wave, self.refl, self.refl_err)
+
     def __len__(self):
         return len(self.wave)
 
@@ -472,10 +477,6 @@ class Spectra(list):
             Only return spectrum from specified sources. Choose one or more
             from classy.sources.SOURCES. Default is None, which returns all spectra.
         """
-
-        # if isinstance(id_, pd.DataFrame):
-        #     spectra = cache.load_spectra(spectra)
-        #     return super().__init__(spectra)
 
         # Need this check for __add__
         if not isinstance(id_, list):

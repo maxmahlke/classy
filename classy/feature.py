@@ -29,7 +29,7 @@ class Feature:
         self.wave_spec = wave
         self.refl_spec = refl
 
-        if all(np.isnan(r) for r in refl_err):
+        if refl_err is None or all(np.isnan(r) for r in refl_err):
             refl_err = None
 
         self.refl_err_spec = refl_err
@@ -55,6 +55,9 @@ class Feature:
             (self.wave_spec > self.lower) & (self.wave_spec < self.upper)
         ]
 
+        # Set interpolation range for continuum, fit, and parameter estimation
+        self.range_interp = np.arange(self.lower, self.upper, 0.001)
+
     def _is_observed(self):
         """Check whether the spectral waverange covers the feature."""
 
@@ -78,8 +81,15 @@ class Feature:
 
         return True
 
-    def fit(self):
-        """Fit the feature-region using a Gaussian model."""
+    def fit(self, method="polynomial"):
+        """Fit the feature-region using a Gaussian model.
+
+        Parameters
+        ----------
+        method : str
+            The fit method to parametrize the band. Choose from ['polynomial', 'gaussian'].
+        """
+        self.fit_method = method
 
         # Compute continuum and convert band to energy space
         self.continuum = compute_continuum(self.wave, self.refl)
@@ -93,6 +103,31 @@ class Feature:
         else:
             self.refl_err_energy = None
 
+        if self.fit_method == "polynomial":
+            self._fit_polynomial()
+        elif self.fit_method == "gaussian":
+            self._fit_gaussian()
+        else:
+            raise ValueError(
+                f"Unknown fit method '{self.fit_method}'. Choose from ['polynomial', 'gaussian']."
+            )
+
+        self.is_present = self._is_present()
+
+    def _fit_polynomial(self, k=3):
+        """Fit a polynomial to parametrize the feature."""
+
+        poly = np.polyfit(self.wave, self.refl / self.continuum(self.wave), deg=k)
+
+        # Turn into callable polynomial function
+        self.fit_function = np.poly1d(poly)
+
+        # Record band center and depth
+        self.center = self.range_interp[np.argmin(self.fit_function(self.range_interp))]
+        self.depth = 1 - self.fit_function(self.center)
+
+    def _fit_gaussian(self):
+        """Fit a Gaussian Model function."""
         self.refl_energy = (-1) * np.log10(self.refl / self.continuum(self.wave))
         self.wave_energy = 10000 / self.wave
 
@@ -129,8 +164,6 @@ class Feature:
         )
         self.snr = self.amplitude / self.noise
 
-        self.is_present = self._is_present()
-
     def _is_present(self):
         """Check whether the feature is present based on predefined limits."""
         mean, sigma = defs.FEATURE[self.name]["center"]
@@ -138,17 +171,17 @@ class Feature:
         if mean - 3 * sigma >= self.center or self.center >= mean + 3 * sigma:
             return False
 
-        elif self.snr < 1.0:
+        elif self.depth < 0.5:
             return False
 
         else:
             return True
 
-    def plot(self, path_out):
+    def plot_gaussian(self, save=None):
         """Plot the feature. If it was fit, the model fit is added."""
 
         # Has the model been fit?
-        is_fit = hasattr(self, "snr")
+        is_fit = hasattr(self, "center")
 
         # Different axes arrangement depending on fit
         if is_fit:
@@ -177,16 +210,16 @@ class Feature:
             self.refl_spec,
             yerr=self.refl_err_spec,
             ls="-",
-            c="gray",
+            c="dimgray",
             label="Spectrum",
         )
 
         if is_fit:
             ax_spec.plot(
-                xrange, self.continuum(xrange), ls=":", c="black", label="Continuum"
+                xrange, self.continuum(xrange), ls="-", c="black", label="Continuum"
             )
-        ax_spec.axvline(self.lower, ls=":", c="steelblue")
-        ax_spec.axvline(self.upper, ls=":", c="steelblue", label="Feature Limits")
+        ax_spec.axvline(self.lower, ls="-", c="steelblue")
+        ax_spec.axvline(self.upper, ls="-", c="steelblue", label="Feature Limits")
 
         # ------
         # Plot feature range + fit in wavelength space
@@ -197,8 +230,8 @@ class Feature:
                 yerr=self.refl_err / self.continuum(self.wave)
                 if self.refl_err is not None
                 else None,
-                ls="-",
-                c="gray",
+                ls="--",
+                c="dimgray",
                 label="Feature / Continuum",
             )
 
@@ -208,7 +241,9 @@ class Feature:
                 c="black",
                 label="Fit",
             )
-            ax_feat.axvline(self.center, label=f"Center: {self.center:.2f}um")
+            ax_feat.axvline(
+                self.center, ls=":", label=rf"Center: {self.center:.2f} $\mu$m"
+            )
         else:
             ax_feat.errorbar(
                 self.wave,
@@ -249,12 +284,12 @@ class Feature:
 
         ax_spec.legend()
         ax_feat.legend()
-        ax_spec.set(xlabel="Wavelength / um", ylabel="Reflectance")
-        ax_feat.set(xlabel="Wavelength / um", ylabel="Reflectance")
+        ax_spec.set(xlabel=r"Wavelength / $\mu$m", ylabel="Reflectance")
+        ax_feat.set(xlabel=r"Wavelength / $\mu$m", ylabel="Reflectance")
 
         if is_fit:
             ax_fit.legend()
-            ax_fit.set(xlabel="Wavenumber / cm-1", ylabel="Absorbance")
+            ax_fit.set(xlabel=r"Wavenumber / cm$^{-1}$", ylabel="Absorbance")
 
             ax_fit.text(
                 0.1,
@@ -275,15 +310,156 @@ class Feature:
         # plt.plot(wave, band(wave), ls="-", c="red")
         # plt.gca().text(0.1, 0.1, f"SNR: {self.snr}", transform=plt.gca().transAxes)
         # plt.show()
-        plt.savefig(path_out)
-        plt.close()
+        if save is not None:
+            plt.savefig(save)
+            plt.close()
+        else:
+            plt.show()
 
-    def remove_slope(self):
-        # Fit first-order polynomial
-        slope = np.polyfit(wave[range_fit], refl[range_fit], 1)
+    def plot(self, **kwargs):
+        """Plot the feature. If it was fit, the model fit is added."""
 
-        # Turn into callable polynomial function
-        return np.poly1d(slope)
+        if hasattr(self, "fit_method") and self.fit_method == "gaussian":
+            self.plot_gaussian(**kwargs)
+        else:
+            self.plot_polynomial(**kwargs)
+
+    def plot_polynomial(self, save=None):
+
+        # Has the model been fit?
+        is_fit = hasattr(self, "center")
+
+        fig, ax = plt.subplots()
+
+        # ------
+        # Plot complete spectrum and continuum
+        norm = max(self.refl_spec) / (1 - self.depth)
+        ax.errorbar(
+            self.wave_spec,
+            self.refl_spec / norm,
+            yerr=self.refl_err_spec,
+            ls="-",
+            c="gray",
+            label="Spectrum",
+        )
+
+        if is_fit:
+            ax.plot(
+                self.range_interp,
+                self.continuum(self.range_interp) / norm,
+                ls="-",
+                lw=0.7,
+                c="black",
+                label="Continuum",
+            )
+        ax.axvline(self.lower, ls="-", c="gray", lw=0.4)
+        ax.axvline(self.upper, ls="-", c="gray", lw=0.4, label="Feature Limits")
+
+        # ------
+        # Plot continuum and feature
+        if is_fit:
+            ax.errorbar(
+                self.wave,
+                self.refl / self.continuum(self.wave),
+                yerr=self.refl_err / self.continuum(self.wave)
+                if self.refl_err is not None
+                else None,
+                ls=":",
+                c="dimgray",
+                label="Feature / Continuum",
+            )
+
+            ax.plot(
+                self.range_interp,
+                self.fit_function(self.range_interp),
+                c="black",
+                label="Fit",
+            )
+            ax.plot(
+                [self.center, self.center],
+                [1 - self.depth, 1],
+                ls="-",
+                c="black",
+                label=rf"Center: {self.center:.2f} $\mu$m",
+            )
+            ax.axvline(
+                self.center, ls=":", lw=0.7, label=rf"Center: {self.center:.2f} $\mu$m"
+            )
+            ax.text(self.center + 0.005, 0.99, rf"Center: {self.center:.3f} $\mu$m")
+            ax.text(self.center + 0.005, 0.98, rf"Depth: {self.depth:.2f}\%")
+        else:
+            ax_feat.errorbar(
+                self.wave,
+                self.refl,
+                yerr=self.refl_err,
+                ls="-",
+                c="gray",
+                label="Feature",
+            )
+
+        # ------
+        # Plot fit
+        # if is_fit:
+        #     ax_fit.errorbar(
+        #         self.wave_energy,
+        #         self.refl_energy,
+        #         yerr=self.refl_err_energy if self.refl_err_energy is not None else None,
+        #         ls="" if self.refl_err_energy is not None else "-",
+        #         c="gray",
+        #         label="Feature",
+        #     )
+        #     ax_fit.plot(
+        #         xrange_energy,
+        #         self.fit.eval(x=xrange_energy),
+        #         ls="-",
+        #         c="black",
+        #         label="Fit",
+        #     )
+        #
+        # ax_org.set_title(
+        #     f"{self.spec.source}|{self.name}: {center:.2f}+-{sigma:.2f}, SNR={snr:.2f}"
+        # )
+        # ax_org.errorbar(
+        #     center,
+        # 1.03,
+        # xerr=sigma,
+        # )
+
+        ax.legend()
+        # ax_feat.legend()
+        ax.set(xlabel=r"Wavelength / $\mu$m", ylabel="Reflectance")
+        ax.set_ylim(ax.get_ylim()[0], 1)
+        # ax.set_xlim(self.lower - 0.04, self.upper + 0.04)
+        # ax_feat.set(xlabel=r"Wavelength / $\mu$m", ylabel="Reflectance")
+
+        # if is_fit:
+        #     ax_fit.legend()
+        #     ax_fit.set(xlabel=r"Wavenumber / cm$^{-1}$", ylabel="Absorbance")
+        #
+        #     ax_fit.text(
+        #         0.1,
+        #         0.5,
+        #         "Present" if self.is_present else "Not Present",
+        #         color="green" if self.is_present else "firebrick",
+        #         transform=ax_fit.transAxes,
+        #     )
+        #     ax_fit.text(0.1, 0.4, f"SNR: {self.snr:.2f}", transform=ax_fit.transAxes)
+        #     ax_fit.text(
+        #         0.1, 0.3, f"Amp: {self.amplitude:.2f}", transform=ax_fit.transAxes
+        #     )
+        #     ax_fit.text(
+        #         0.1, 0.2, f"Noise: {self.noise:.2f}", transform=ax_fit.transAxes
+        # )
+        # for comp in eval_comps.values():
+        #     ax_fit.plot(feat.wave, comp)
+        # plt.plot(wave, band(wave), ls="-", c="red")
+        # plt.gca().text(0.1, 0.1, f"SNR: {self.snr}", transform=plt.gca().transAxes)
+        # plt.show()
+        if save is not None:
+            plt.savefig(save)
+            plt.close()
+        else:
+            plt.show()
 
 
 def compute_continuum(wave, refl):
