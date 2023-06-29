@@ -53,20 +53,6 @@ def add(entries):
         overlap = overlap.set_index("index")
         index = index.drop(overlap.index)
 
-        # for entry in entries:
-        #
-        #     # If name,source,filename combination already in index, replace it
-        #     if not index.empty:
-        #
-        #         existing = index.loc[
-        #             (index["name"] == entry["name"].values[0])
-        #             & (index.source == entry.source.values[0])
-        #             & (index.filename == entry.filename.values[0])
-        #         ]
-        #
-        #         if not existing.empty:
-        #             index = index.drop(existing.index)
-
     index = pd.concat([index, entries], ignore_index=True)
 
     save(index)
