@@ -31,6 +31,8 @@ class Spectrum:
         pV_err=None,
         name=None,
         number=None,
+        keep_negative=False,
+        keep_NaN=False,
         **kwargs,
     ):
         """Create a Spectrum.
@@ -54,6 +56,10 @@ class Spectrum:
             The name of the asteroid the spectrum is referring to.
         number : int
             The number of the asteroid the spectrum is referring to.
+        keep_negative : bool
+            Do not remove negative wavelength or reflectance values.
+        keep_NaN : bool
+            Do not remove NaN wavelength or reflectance values.
 
         Notes
         -----
@@ -448,6 +454,28 @@ def _basic_checks(wave, refl, unc, flag):
 
         refl = refl[[r > 0 for r in refl]]
 
+    # Any negative values in wavelength?
+    if any([w < 0 for w in wave]):
+        logger.debug("Found negative values in wavelength. Removing them.")
+        refl = refl[[w > 0 for w in wave]]
+        flag = flag[[w > 0 for w in wave]]
+
+        if unc is not None:
+            unc = unc[[w > 0 for w in wave]]
+
+        wave = wave[[w > 0 for w in wave]]
+
+    # Any NaN values in reflectance?
+    if any([np.isnan(w) for w in wave]):
+        logger.debug("Found NaN values in wavelength. Removing them.")
+        refl = refl[[np.isfinite(w) for w in wave]]
+        flag = flag[[np.isfinite(w) for w in wave]]
+
+        if unc is not None:
+            unc = unc[[np.isfinite(w) for w in wave]]
+
+        wave = wave[[np.isfinite(w) for w in wave]]
+
     # Wavelength ordered ascending?
     if list(wave) != list(sorted(wave)):
         # logger.warning("Wavelength values are not in ascending order. Ordering them.")
@@ -466,7 +494,7 @@ def _basic_checks(wave, refl, unc, flag):
 class Spectra(list):
     """List of several spectra of individual asteroid."""
 
-    def __init__(self, id_, source=None, bibcode=None, shortbib=None):
+    def __init__(self, id_, source=None, bibcode=None, shortbib=None, filename=None):
         """Create a list of spectra of an asteroid from online repositories.
 
         Parameters
@@ -521,6 +549,11 @@ class Spectra(list):
                 bibcode = [bibcode]
             spectra = spectra[spectra.bibcode.isin(bibcode)]
 
+        if filename is not None:
+            if not isinstance(filename, (list, tuple)):
+                filename = [filename]
+            spectra = spectra[spectra.filename.isin(filename)]
+
         if spectra.empty:
             name, number = rocks.id(name)
             logger.warning(
@@ -530,6 +563,65 @@ class Spectra(list):
 
         spectra = cache.load_spectra(spectra)
         return super().__init__(spectra)
+
+    @classmethod
+    def from_index(cls, idx):
+        """Load spectra by passing parts of the classy index.
+
+        Parameters
+        ----------
+        idx : pd.Series or pd.DataFrame
+            Part of the classy spectra index.
+
+        Returns
+        -------
+        classy.Spectra
+            The spectra contained in the passed index.
+
+        """
+        if not isinstance(idx, (pd.Series, pd.DataFrame)):
+            raise TypeError(
+                f"The passed index is of type {type(idx)}, expected either pd.Series or pd.DataFrame."
+            )
+
+        if isinstance(idx, pd.Series):
+            idx = pd.Series.to_frame()
+
+        spectra = []
+
+        for _, entry in idx.iterrows():
+            spec = cls(
+                id_=entry["name"],
+                source=entry["source"],
+                shortbib=entry["shortbib"],
+                filename=entry["filename"],
+            )[0]
+            spectra.append(spec)
+
+        return cls.__new__(spectra)
+
+    @classmethod
+    def from_list(cls, spectra):
+        """Load spectra by passing a list of classy.Spectrum instances.
+
+        Parameters
+        ----------
+        spectra : list of classy.Spectrum
+            The spectra.
+
+        Returns
+        -------
+        classy.Spectra
+        """
+        if not isinstance(spectra, list):
+            raise TypeError(f"Expected a list, got {type(spectra)}.")
+
+        for spec in spectra:
+            if not isinstance(spec, Spectrum):
+                raise TypeError(
+                    f"All spectra should be of type Spectrum, got {type(spec)}."
+                )
+        return cls.__new__(spectra)
 
     def __add__(self, rhs):
         if isinstance(rhs, Spectrum):
