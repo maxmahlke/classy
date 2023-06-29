@@ -21,13 +21,16 @@ public repositories (e.g. Gaia, SMASS, MITHNEOS).\ [#f1]_
 .. image:: gfx/ceres_classification.png
  :align: center
  :class: only-light
- :width: 900
+ :width: 1000
 
 .. image:: gfx/ceres_classification_dark.png
  :align: center
  :class: only-dark
- :width: 900
+ :width: 1000
 
+.. card:: → Classify Your Observation
+    :text-align: center
+    :link: https://example.com
 
 .. highlight:: python
 
