@@ -29,7 +29,7 @@ command.
   Choose one of these actions:
   [0] Do nothing [1] Clear the cache [2] Retrieve all spectra (0): 2
 
-.. admonition:: Available Data
+.. admonition:: Available Public Data
    :class: important
 
    Number of Spectra: **68,024**
