@@ -1,5 +1,7 @@
 """Implement the Spectrum class in classy."""
 
+from functools import singledispatchmethod
+
 import numpy as np
 import pandas as pd
 import rocks
@@ -494,65 +496,40 @@ def _basic_checks(wave, refl, unc, flag):
 class Spectra(list):
     """List of several spectra of individual asteroid."""
 
-    def __init__(self, id_, source=None, bibcode=None, shortbib=None, filename=None):
-        """Create a list of spectra of an asteroid from online repositories.
+    @singledispatchmethod
+    def __init__(self, arg, **kwargs):
+        raise TypeError(
+            f"Unsupported argument type '{type(arg)}'. Expected int, float, str, list, pd.Series, or pd.DataFrame."
+        )
 
-        Parameters
-        ----------
-        id_ : str, int
-            The name, number, or designation of the asteroid.
-        source : str, list of string
-            Only return spectrum from specified sources. Choose one or more
-            from classy.sources.SOURCES. Default is None, which returns all spectra.
-        """
+    @__init__.register(int)
+    @__init__.register(str)
+    @__init__.register(float)
+    def _id(self, id_, **kwargs):
+        """Instantiate Spectra from asteroid identifier. Select subsample of spectra using index keys."""
+        name, number = rocks.id(id_)
 
-        # Need this check for __add__
-        if not isinstance(id_, list):
-            id_ = [id_]
-
-        spectra = []
-
-        for i in id_:
-            if isinstance(i, Spectrum):
-                spectra.append(i)
-                continue
-
-            name, number = rocks.id(id_)
-
-            if name is None:
-                raise ValueError(
-                    f"Could not resolve '{id_}'. A recognisable name, number, or designation is required."
-                )
-
-        classy_index = index.load()
-
-        if classy_index.empty:
-            logger.error(
-                f"No reflectance spectra are available. Run '$ classy status' to retrieve them."
+        if name is None:
+            raise ValueError(
+                f"Could not resolve '{id_}'. A recognisable name, number, or designation is required."
             )
+
+        # Look up asteroid in index
+        idx = index.load()
+
+        if idx.empty:
             return None
 
-        spectra = classy_index[(classy_index["name"] == name)]
+        spectra = idx[(idx["name"] == name)]
 
-        if source is not None:
-            if not isinstance(source, (list, tuple)):
-                source = [source]
-            spectra = spectra[spectra.source.isin(source)]
+        # Further subselection based on user arguments
+        for criterion, value in kwargs.items():
+            if criterion not in spectra:
+                raise AttributeError("Unknown selection parameter")
 
-        if shortbib is not None:
-            if not isinstance(shortbib, (list, tuple)):
-                shortbib = [shortbib]
-            spectra = spectra[spectra.shortbib.isin(shortbib)]
-
-        if bibcode is not None:
-            if not isinstance(bibcode, (list, tuple)):
-                bibcode = [bibcode]
-            spectra = spectra[spectra.bibcode.isin(bibcode)]
-
-        if filename is not None:
-            if not isinstance(filename, (list, tuple)):
-                filename = [filename]
-            spectra = spectra[spectra.filename.isin(filename)]
+            if not isinstance(value, (list, tuple)):
+                value = [value]
+            spectra = spectra[spectra[criterion].isin(value)]
 
         if spectra.empty:
             name, number = rocks.id(name)
@@ -562,66 +539,38 @@ class Spectra(list):
             return None
 
         spectra = cache.load_spectra(spectra)
-        return super().__init__(spectra)
 
-    @classmethod
-    def from_index(cls, idx):
-        """Load spectra by passing parts of the classy index.
+        for spec in spectra:
+            self.append(spec)
 
-        Parameters
-        ----------
-        idx : pd.Series or pd.DataFrame
-            Part of the classy spectra index.
+    @__init__.register
+    def _list(self, spectra: list):
+        """Instantiate Spectra by passing a list of Spectrum instances."""
+        # Need this check for __add__
+        if not isinstance(spectra, list):
+            spectra = [spectra]
 
-        Returns
-        -------
-        classy.Spectra
-            The spectra contained in the passed index.
+        for spec in spectra:
+            if isinstance(spec, Spectrum):
+                self.append(spec)
+            else:
+                raise TypeError(f"Expected classy.Spectrum, got '{type(spec)}'.")
 
-        """
-        if not isinstance(idx, (pd.Series, pd.DataFrame)):
-            raise TypeError(
-                f"The passed index is of type {type(idx)}, expected either pd.Series or pd.DataFrame."
-            )
-
+    @__init__.register(pd.DataFrame)
+    @__init__.register(pd.Series)
+    def _df(self, idx):
+        """Instantiate Spectra using entries from the classy spectra index."""
         if isinstance(idx, pd.Series):
             idx = pd.Series.to_frame()
 
-        spectra = []
-
         for _, entry in idx.iterrows():
-            spec = cls(
-                id_=entry["name"],
+            spec = Spectra(
+                entry["name"],
                 source=entry["source"],
                 shortbib=entry["shortbib"],
                 filename=entry["filename"],
             )[0]
-            spectra.append(spec)
-
-        return cls.__new__(spectra)
-
-    @classmethod
-    def from_list(cls, spectra):
-        """Load spectra by passing a list of classy.Spectrum instances.
-
-        Parameters
-        ----------
-        spectra : list of classy.Spectrum
-            The spectra.
-
-        Returns
-        -------
-        classy.Spectra
-        """
-        if not isinstance(spectra, list):
-            raise TypeError(f"Expected a list, got {type(spectra)}.")
-
-        for spec in spectra:
-            if not isinstance(spec, Spectrum):
-                raise TypeError(
-                    f"All spectra should be of type Spectrum, got {type(spec)}."
-                )
-        return cls.__new__(spectra)
+            self.append(spec)
 
     def __add__(self, rhs):
         if isinstance(rhs, Spectrum):
