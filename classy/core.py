@@ -95,9 +95,9 @@ class Spectrum:
         self._source = "User"
 
         # Add features
-        self.e = Feature("e", self.wave, self.refl, self.refl_err)
-        self.h = Feature("h", self.wave, self.refl, self.refl_err)
-        self.k = Feature("k", self.wave, self.refl, self.refl_err)
+        self.e = Feature("e", self)
+        self.h = Feature("h", self)
+        self.k = Feature("k", self)
 
     def __len__(self):
         return len(self.wave)
