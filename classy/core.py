@@ -343,10 +343,10 @@ class Spectrum:
             features = list(feature)
 
         for name in features:
-            feature = Feature(name, self.wave, self.refl, self.refl_err)
+            feature = Feature(name, self)
 
             if feature.is_observed:
-                feature.fit()
+                feature.compute_fit()
 
             setattr(self, name, feature)
 

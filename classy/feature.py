@@ -11,7 +11,7 @@ from classy import config
 
 
 class Feature:
-    def __init__(self, name, wave, refl, refl_err=None):
+    def __init__(self, name, spec):
         """Instantiate a Feature.
 
         Parameters
@@ -81,7 +81,7 @@ class Feature:
 
         return True
 
-    def fit(self, method="polynomial"):
+    def compute_fit(self, method="polynomial", **kwargs):
         """Fit the feature-region using a Gaussian model.
 
         Parameters
