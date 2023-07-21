@@ -192,8 +192,11 @@ class InteractiveFeatureFit(QtWidgets.QMainWindow):
         # Feature
         label_feat = QtWidgets.QLabel("Feature")
         self.select_feat = QtWidgets.QComboBox()
+
+        # TODO: If feature is not observed, it should not be selectable
         for feat in ["h", "e", "k"]:
             self.select_feat.addItem(feat)
+
         self.select_feat.currentIndexChanged.connect(self._change_feature)
         feature = QtWidgets.QHBoxLayout()
         feature.addWidget(label_feat)
