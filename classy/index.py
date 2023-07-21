@@ -6,9 +6,11 @@ import numpy as np
 import pandas as pd
 
 from classy import config
+from classy.log import logger
 
 # Path to the global spectra index
 PATH = config.PATH_CACHE / "index.csv"
+PATH_PARAMS = config.PATH_CACHE / "params.csv"
 
 
 @cache
@@ -75,10 +77,21 @@ def convert_to_isot(dates, format):
     if isinstance(dates, str):
         dates = [dates]
 
-    try:
-        date_obs = ",".join(
-            [datetime.strptime(date, format).isoformat(sep="T") for date in dates]
-        )
-    except ValueError:
-        breakpoint()
+    date_obs = ",".join(
+        [datetime.strptime(date, format).isoformat(sep="T") for date in dates]
+    )
     return date_obs
+
+
+def load_features():
+    """Load the feature index."""
+    if not PATH_PARAMS.is_file():
+        return pd.DataFrame()
+    return pd.read_csv(PATH_PARAMS, index_col="classy_id")
+
+
+def store_features(features):
+    """Store the feature index after copying metadata from the spectra index."""
+    with np.errstate(invalid="ignore"):
+        features["number"] = features["number"].astype("Int64")
+    features.to_csv(PATH_PARAMS, index=True, index_label="classy_id")
