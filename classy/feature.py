@@ -56,17 +56,10 @@ class Feature:
         """Check whether the spectral waverange covers the feature."""
 
         # Ensure spectral range is covered
-        if self.lower < self.wave_spec.min() or self.upper > self.wave_spec.max():
+        if self.lower < self.spec.wave.min() or self.upper > self.spec.wave.max():
             return False
 
-        if (
-            len(
-                self.wave_spec[
-                    (self.lower < self.wave_spec) & (self.upper > self.wave_spec)
-                ]
-            )
-            < 4
-        ):  # we need at least 4 data points
+        if len(self.wave) < 4:  # we need at least 4 data points
             logger.debug(
                 f"Passed spectrum does not cover the {self.name}-feature wavelength region."
             )
@@ -86,7 +79,8 @@ class Feature:
         self.fit_method = method
 
         # Compute continuum and convert band to energy space
-        self.continuum = compute_continuum(self.wave, self.refl)
+        if not hasattr(self, "continuum"):
+            self.compute_continuum()
 
         if self.refl_err is not None:
             self.refl_err_energy = np.abs(
@@ -98,9 +92,9 @@ class Feature:
             self.refl_err_energy = None
 
         if self.fit_method == "polynomial":
-            self._fit_polynomial()
+            self._fit_polynomial(**kwargs)
         elif self.fit_method == "gaussian":
-            self._fit_gaussian()
+            self._fit_gaussian(**kwargs)
         else:
             raise ValueError(
                 f"Unknown fit method '{self.fit_method}'. Choose from ['polynomial', 'gaussian']."
@@ -108,13 +102,13 @@ class Feature:
 
         self.is_present = self._is_present()
 
-    def _fit_polynomial(self, k=3):
+    def _fit_polynomial(self, degree=3):
         """Fit a polynomial to parametrize the feature."""
 
-        poly = np.polyfit(self.wave, self.refl / self.continuum(self.wave), deg=k)
+        poly = np.polyfit(self.wave, self.refl / self.continuum(self.wave), deg=degree)
 
         # Turn into callable polynomial function
-        self.fit_function = np.poly1d(poly)
+        self.fit = np.poly1d(poly)
 
         # Record band center and depth
         self.center = self.range_interp[np.argmin(self.fit_function(self.range_interp))]
