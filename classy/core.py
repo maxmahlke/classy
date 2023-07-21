@@ -519,22 +519,29 @@ class Spectra(list):
         if idx.empty:
             return None
 
-        spectra = idx[(idx["name"] == name)]
+        spectra = idx[idx["name"] == name]
 
         # Further subselection based on user arguments
         for criterion, value in kwargs.items():
             if criterion not in spectra:
                 raise AttributeError("Unknown selection parameter")
 
+            if value is None:
+                continue
+
             if not isinstance(value, (list, tuple)):
                 value = [value]
+
             spectra = spectra[spectra[criterion].isin(value)]
 
         if spectra.empty:
             name, number = rocks.id(name)
-            logger.warning(
-                f"Did not find any spectra of ({number}) {name} in {', '.join(source)} "
-            )
+            if "source" in kwargs:
+                if not isinstance(kwargs["source"], list):
+                    kwargs["source"] = [kwargs["source"]]
+                logger.warning(
+                    f"Did not find a spectrum of ({number}) {name} in {', '.join(kwargs['source'])} "
+                )
             return None
 
         spectra = cache.load_spectra(spectra)
