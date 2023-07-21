@@ -111,8 +111,18 @@ class Feature:
         self.fit = np.poly1d(poly)
 
         # Record band center and depth
-        self.center = self.range_interp[np.argmin(self.fit_function(self.range_interp))]
-        self.depth = 1 - self.fit_function(self.center)
+        self.center = self._compute_center()
+        self.depth = (1 - self.fit(self.center)) * 100
+
+    def _compute_center(self):
+        wave_interp = np.arange(self.lower, self.upper, 0.01)
+        peak = signal.find_peaks(-self.fit(wave_interp))  # '-' to find the minimum
+        try:
+            peak_x = wave_interp[peak[0]][0]
+        except IndexError:
+            peak_x = np.nan
+
+        return peak_x
 
     def _fit_gaussian(self):
         """Fit a Gaussian Model function."""
