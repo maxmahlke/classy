@@ -81,7 +81,7 @@ def get_id_from_filename(file_):
             match = number.group(0)
         except AttributeError:
             return None
-    return id_
+    return match
 
 
 AMBIGUOUS = {
