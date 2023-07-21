@@ -1,13 +1,10 @@
 import re
-from urllib.request import urlretrieve
 
-import numpy as np
 import pandas as pd
 import rocks
 
 from classy import config
 from classy import core
-from classy import data
 from classy import index
 from classy.log import logger
 from classy import tools
