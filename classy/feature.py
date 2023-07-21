@@ -17,20 +17,13 @@ class Feature:
         name : str
             Name of the feature, choose from ['e', 'h', 'k'].
         """
-
         if name not in ["e", "h", "k"]:
             raise ValueError(
                 f"Passed feature name is {name}, expected one of: ['e', 'h', 'k']"
             )
 
         self.name = name
-        self.wave_spec = wave
-        self.refl_spec = refl
-
-        if refl_err is None or all(np.isnan(r) for r in refl_err):
-            refl_err = None
-
-        self.refl_err_spec = refl_err
+        self.spec = spec
 
         # Wavelength limits for fit set heuristically from training data
         self.upper = defs.FEATURE[name]["upper"]
@@ -38,23 +31,26 @@ class Feature:
 
         self.is_observed = self._is_observed()
 
-        # Limit observation to feature range
-        self.refl = self.refl_spec[
-            (self.wave_spec > self.lower) & (self.wave_spec < self.upper)
-        ]
-
-        if self.refl_err_spec is not None:
-            self.refl_err = self.refl_err_spec[
-                (self.wave_spec > self.lower) & (self.wave_spec < self.upper)
-            ]
-        else:
-            self.refl_err = None
-        self.wave = self.wave_spec[
-            (self.wave_spec > self.lower) & (self.wave_spec < self.upper)
-        ]
-
         # Set interpolation range for continuum, fit, and parameter estimation
         self.range_interp = np.arange(self.lower, self.upper, 0.001)
+
+    @property
+    def wave(self):
+        return self.spec.wave[
+            (self.spec.wave > self.lower) & (self.spec.wave < self.upper)
+        ]
+
+    @property
+    def refl(self):
+        return self.spec.refl[
+            (self.spec.wave > self.lower) & (self.spec.wave < self.upper)
+        ]
+
+    @property
+    def refl_err(self):
+        return self.spec.refl_err[
+            (self.spec.wave > self.lower) & (self.spec.wave < self.upper)
+        ]
 
     def _is_observed(self):
         """Check whether the spectral waverange covers the feature."""
