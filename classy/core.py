@@ -108,6 +108,9 @@ class Spectrum:
         self.refl = self.refl_original.copy()
         self.refl_err = self.refl_err_original.copy()
 
+    def unsmooth(self):
+        self.reset_data()
+
     def __len__(self):
         return len(self.wave)
 
