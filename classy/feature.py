@@ -2,12 +2,10 @@ import lmfit
 import matplotlib.pyplot as plt
 import numpy as np
 from scipy.spatial import ConvexHull
-from scipy import interpolate
+from scipy import interpolate, signal
 
 from classy import defs
 from classy.log import logger
-from classy import core
-from classy import config
 
 
 class Feature:
