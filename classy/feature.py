@@ -147,13 +147,14 @@ class Feature:
         self.center = 10000 / self.center_energy
 
         self.sigma_energy = self.fit.result.params["sigma"]
-        self.sigma = sigma = abs(
+        self.sigma = abs(
             10000 / (self.center_energy - 1 / 2 * self.sigma_energy)
             + 10000 / (self.center_energy + 1 / 2 * self.sigma_energy)
         )
 
         self.amplitude = self.fit.result.params["amplitude"].value
         self.amplitude /= self.sigma_energy * np.sqrt(2 * np.pi)
+        self.depth = 1 - self.amplitude
 
         self.noise = (
             np.mean(self.refl_err_energy)  # from the measurement
@@ -204,9 +205,9 @@ class Feature:
         # ------
         # Plot complete spectrum and continuum
         ax_spec.errorbar(
-            self.wave_spec,
-            self.refl_spec,
-            yerr=self.refl_err_spec,
+            self.spec.wave,
+            self.spec.refl,
+            yerr=self.spec.refl_err,
             ls="-",
             c="dimgray",
             label="Spectrum",
@@ -323,7 +324,6 @@ class Feature:
             self.plot_polynomial(**kwargs)
 
     def plot_polynomial(self, save=None):
-
         # Has the model been fit?
         is_fit = hasattr(self, "center")
 
@@ -331,11 +331,11 @@ class Feature:
 
         # ------
         # Plot complete spectrum and continuum
-        norm = max(self.refl_spec) / (1 - self.depth)
+        norm = max(self.spec.refl) / (1 - self.depth)
         ax.errorbar(
-            self.wave_spec,
-            self.refl_spec / norm,
-            yerr=self.refl_err_spec,
+            self.spec.wave,
+            self.spec.refl / norm,
+            yerr=self.spec.refl_err,
             ls="-",
             c="gray",
             label="Spectrum",
@@ -369,7 +369,7 @@ class Feature:
 
             ax.plot(
                 self.range_interp,
-                self.fit_function(self.range_interp),
+                self.fit(self.range_interp),
                 c="black",
                 label="Fit",
             )
@@ -459,33 +459,70 @@ class Feature:
         else:
             plt.show()
 
+    def compute_continuum(self, method="linear"):
+        if method == "linear":
+            cont_func = self.compute_linear_continuum()
+        elif method == "hull":
+            cont_func = self.compute_hull_continuum()
+        else:
+            raise ValueError(
+                f"Unknown continuum method '{method}', expected one of ['linear', 'hull']."
+            )
 
-def compute_continuum(wave, refl):
-    """Compute the continuum of a spectrum using convex-hull.
+        self.continuum = cont_func
 
-    Parameters
-    ----------
-    wave : np.ndarray
-        The wavelengths of the feature.
-    refl : np.ndarray
-        The reflectances of the feature.
+    def compute_linear_continuum(self):
+        """Compute spectral conintuum between lower and upper limit.
+        Uses two extreme points of spectrum and fits a linear function.
+        """
 
-    Returns
-    -------
-    func
-        Function to evaluate the continuum at given values.
-    """
+        # Continuum is fit to actualy datapoints rather than interpolated range
+        continuum = np.polyfit(
+            [self.wave[0], self.wave[-1]], [self.refl[0], self.refl[-1]], deg=1
+        )
 
-    # Ensure that there are no NaNs
-    x = wave[~np.isnan(refl)]
-    y = refl[~np.isnan(refl)]
+        # return callable function
+        return np.poly1d(continuum)
 
-    points = np.c_[x, y]
-    augmented = np.concatenate(
-        [points, [(x[0], np.min(y) - 1), (x[-1], np.min(y) - 1)]], axis=0
-    )
+    def compute_hull_continuum(self, _):
+        """Compute the continuum of a spectrum using convex-hull.
 
-    hull = ConvexHull(augmented, qhull_options="")
-    continuum_points = points[np.sort([v for v in hull.vertices if v < len(points)])]
-    continuum = interpolate.interp1d(*continuum_points.T, fill_value="extrapolate")
-    return continuum
+        Parameters
+        ----------
+        wave : np.ndarray
+            The wavelengths of the feature.
+        refl : np.ndarray
+            The reflectances of the feature.
+
+        Returns
+        -------
+        func
+            Function to evaluate the continuum at given values.
+        """
+
+        # Ensure that there are no NaNs
+        x = self.wave[~np.isnan(self.refl)]
+        y = self.refl[~np.isnan(self.refl)]
+
+        points = np.c_[x, y]
+        augmented = np.concatenate(
+            [points, [(x[0], np.min(y) - 1), (x[-1], np.min(y) - 1)]], axis=0
+        )
+
+        hull = ConvexHull(augmented, qhull_options="")
+        continuum_points = points[
+            np.sort([v for v in hull.vertices if v < len(points)])
+        ]
+        continuum = interpolate.interp1d(*continuum_points.T, fill_value="extrapolate")
+        return continuum
+
+    def fit_interactive(self):
+        """Run GUI to fit feature interactively."""
+        from . import gui
+
+        gui.main(self)
+
+    def _compute_noise(self):
+        # Compute mean std of fit against spectrum
+        diff = abs(self.refl / self.continuum(self.wave) - self.fit(self.wave))
+        self.noise = np.mean(diff)
