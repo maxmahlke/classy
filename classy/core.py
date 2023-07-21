@@ -5,11 +5,8 @@ from functools import singledispatchmethod
 import numpy as np
 import pandas as pd
 import rocks
-from scipy import interpolate, signal
 
 from classy import cache
-from classy import data
-from classy import decision_tree
 from classy import defs
 from classy.feature import Feature
 from classy.log import logger
@@ -17,9 +14,7 @@ from classy import index
 from classy import mixnorm
 from classy import plotting
 from classy import preprocessing
-from classy import tools
 from classy import taxonomies
-from classy import sources
 
 
 class Spectrum:
