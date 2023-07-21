@@ -284,6 +284,7 @@ def load_spectrum(meta):
         source=meta.source,
         host=meta.host,
         collection=meta.collection,
+        _classy_id=meta.name,  # the classy index index
     )
     spec._source = meta.source
 

@@ -51,6 +51,7 @@ def load_spectrum(spec):
         nb_samples=obs.nb_samples.tolist()[0],
         num_of_spectra=obs.num_of_spectra.tolist()[0],
         host="gaia",
+        _classy_id=spec.name,  # the classy index index
     )
     spec._source = "Gaia"
 

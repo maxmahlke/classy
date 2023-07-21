@@ -34,6 +34,7 @@ def load_spectrum(spec):
         shortbib=spec.shortbib,
         host="mithneos",
         date_obs=spec.date_obs,
+        _classy_id=spec.name,  # the classy index index
     )
     spec._source = "MITHNEOS"
     return spec
