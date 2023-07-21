@@ -33,8 +33,6 @@ class Spectrum:
         pV_err=None,
         name=None,
         number=None,
-        keep_negative=False,
-        keep_NaN=False,
         **kwargs,
     ):
         """Create a Spectrum.
@@ -58,10 +56,6 @@ class Spectrum:
             The name of the asteroid the spectrum is referring to.
         number : int
             The number of the asteroid the spectrum is referring to.
-        keep_negative : bool
-            Do not remove negative wavelength or reflectance values.
-        keep_NaN : bool
-            Do not remove NaN wavelength or reflectance values.
 
         Notes
         -----
