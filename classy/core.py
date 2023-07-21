@@ -72,13 +72,11 @@ class Spectrum:
             flag = [0] * len(wave)
 
         # Verify validity of observations
-        wave, refl, refl_err, flag = _basic_checks(wave, refl, refl_err, flag)
+        self.wave, self.refl, self.refl_err, self.flag = _basic_checks(
+            wave, refl, refl_err, flag
+        )
 
         # Assign data
-        self.wave = wave
-        self.refl = refl
-        self.refl_err = refl_err
-        self.flag = flag
         self.pV = pV
         self.pV_err = pV_err
 
