@@ -99,6 +99,9 @@ class Spectrum:
         self.h = Feature("h", self)
         self.k = Feature("k", self)
 
+        self.wave_original = self.wave.copy()
+        self.refl_original = self.refl.copy()
+        self.refl_err_original = None if self.refl_err is None else self.refl_err.copy()
     def __len__(self):
         return len(self.wave)
 
