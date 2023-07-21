@@ -33,3 +33,9 @@ Requirements for the input data:
 When smoothing, the window size and polynomial degree are saved to the
 preprocessed data. If the columns "smooth_window" and "smooth_degree" are found,
 the smoothing is done automatically.
+
+
+---
+Interactive
+The smoothing parameters are set per spectrum, not per feature. Changing them between
+features and storing will overwrite previous settings.

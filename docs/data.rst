@@ -36,31 +36,6 @@ command.
 
    Number of Individual Asteroids: **62,045**
 
-The ``python`` interface allows more advanced analyses and access to the
-metadata. All public spectra have the attributes below, while additional
-attributes are available on a per-source basis, see the individual repository
-descriptions.
-
-+------------------------------+---------------------------------------------------------------------------------------------------------------------+
-| Attribute                    | Description                                                                                                         |
-+------------------------------+---------------------------------------------------------------------------------------------------------------------+
-| ``name``                     | Name or provisional designation of the target asteroid.                                                             |
-+------------------------------+---------------------------------------------------------------------------------------------------------------------+
-| ``number``                   | Number of the target asteroid.                                                                                      |
-+------------------------------+---------------------------------------------------------------------------------------------------------------------+
-| ``shortbib``                 | Short version of reference of the spectrum.                                                                         |
-+------------------------------+---------------------------------------------------------------------------------------------------------------------+
-| ``bibcode``                  | Bibcode of reference publication of the spectrum.                                                                   |
-+------------------------------+---------------------------------------------------------------------------------------------------------------------+
-| ``source``                   | String representing the source of the spectrum (e.g. ``'24CAS'``).                                                  |
-+------------------------------+---------------------------------------------------------------------------------------------------------------------+
-| ``date_obs``                 | Observation epoch of the spectrum in `ISOT format <https://en.wikipedia.org/wiki/ISO_8601>`_:                       |
-|                              | ``YYYY-MM-DDTHH:MM:SS``. If the time of the day is not know, ``HH:MM:SS`` is set to ``00:00:00``.                   |
-|                              | If the date is not know, the ``date_obs`` attribute is an empty string.                                             |
-|                              | If the spectrum is an average of observations at different dates, all dates are given,                              |
-|                              | separated by a ``,``: ``2004-03-02T00:00:00,2004-05-16T00:00:00``.                                                  |
-+------------------------------+---------------------------------------------------------------------------------------------------------------------+
-
 .. include:: sources/24cas.rst
 
 .. include:: sources/52cas.rst

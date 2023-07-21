@@ -8,16 +8,24 @@ Basic Usage
 ``classy`` is a tool for the analysis of reflectance spectra. Every spectrum is
 represented the ``Spectrum`` class.
 
-Getting Data
+Typical analysis steps are:
+
+- **Loading Data** - either ingesting your own or retrieving spectra from public repositories
+- **Preprocessing** - this includes primarily feature recognition and smoothing
+- **Classification** - the main use case of ``classy``
+- **Plotting / Exporting** - visualising or storing the analysis results
+
+Each step is explained further below.
+
+Loading Data
 ------------
 
 .. _getting_data:
 
-The ``Spectrum`` class stores the data and metadata of the spectra. It is the
-main interface to classify and plot observations. You can build a spectrum in
+The ``Spectrum`` class stores the data and metadata of the spectra. You can build a spectrum in
 two ways: from your own data or by retrieving data from :ref:`public
 repositories<available_data>`. Each ``Spectrum`` can contain any metadata you
-require, provided as arguments to the constructor or set via the dot-notation.
+require.
 
 .. tab-set::
 
@@ -26,6 +34,14 @@ require, provided as arguments to the constructor or set via the dot-notation.
     Use the ``classy.Spectrum`` class to ingest your own data. Required
     arguments are ``wave``, the list of wavelength values, and ``refl``, the
     list of reflectance values.
+
+    +---------------------+-------------------+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+    | Parameter           | Accepted values   | Explanation                                                                                                                                                                                                                                                         |
+    +---------------------+-------------------+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+    | ``wave``            | ``list of float`` | The wavelength bins of the spectrum **in micron**.                                                                                                                                                                                                                  |
+    +---------------------+-------------------+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+    | ``refl``            | ``list of float`` | The reflectance values of the spectrum.                                                                                                                                                                                                                             |
+    +---------------------+-------------------+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
 
     .. code-block:: python
 
@@ -120,58 +136,70 @@ require, provided as arguments to the constructor or set via the dot-notation.
        lutetia_literature = classy.Spectra(21)  # returns a list of classy.Spectrum objects
        lutetia_spectra = [my_lutetia] + [lutetia_literature]  # add my_lutetia to the literature results
 
-  .. tab-item:: Arguments
+  .. tab-item:: Metadata
 
-        Arguments for ``classy.Spectrum``.
+        You can provide any argument you like to ``classy.Spectrum`` to store metadata relevant for your analysis. However, some
+        keywords are special to ``classy`` and can be used your analysis:
 
         .. _predefined_keywords:
 
-        Required Arguments - can't do much without these:
+        +---------------------+-------------------+---------------------------------------------------------------------------------------------------------------------------------------------------------+
+        | Parameter           | Accepted values   | Explanation                                                                                                                                             |
+        +---------------------+-------------------+---------------------------------------------------------------------------------------------------------------------------------------------------------+
+        | ``refl_err``        | ``list of float`` | The uncertainty of the reflectance values of the spectrum.                                                                                              |
+        +---------------------+-------------------+---------------------------------------------------------------------------------------------------------------------------------------------------------+
+        | ``name``            | ``str``           | The name of the observed asteroid. It is used to identify the asteroid using `rocks <https://github.com/maxmahlke/rocks>`_.                             |
+        +---------------------+-------------------+---------------------------------------------------------------------------------------------------------------------------------------------------------+
+        | ``number``          | ``float``         | The number of the observed asteroid. It is used to identify the asteroid using `rocks <https://github.com/maxmahlke/rocks>`_.                           |
+        +---------------------+-------------------+---------------------------------------------------------------------------------------------------------------------------------------------------------+
+        | ``albedo``          | ``float``         | The albedo of the observed asteroid. If the asteroid was identified, it is looked up with `rocks <https://github.com/maxmahlke/rocks>`_.                |
+        +---------------------+-------------------+---------------------------------------------------------------------------------------------------------------------------------------------------------+
+        | ``albedo_err``      | ``float``         | The uncertainty of the albedo.                                                                                                                          |
+        +---------------------+-------------------+---------------------------------------------------------------------------------------------------------------------------------------------------------+
+        | ``pV``              | ``float``         | Same as ``albedo``.                                                                                                                                     |
+        +---------------------+-------------------+---------------------------------------------------------------------------------------------------------------------------------------------------------+
+        | ``pV_err``          | ``float``         | Same as ``albedo_err``.                                                                                                                                 |
+        +---------------------+-------------------+---------------------------------------------------------------------------------------------------------------------------------------------------------+
+        | ``e``, ``h``, ``k`` | ``-``             | Reserved for the corresponding spectral features, see Preprocessing > Feature Detection.                                                                |
+        +---------------------+-------------------+---------------------------------------------------------------------------------------------------------------------------------------------------------+
+        | ``date_obs``        | ``str``           | Observation epoch of the spectrum in `ISOT format <https://en.wikipedia.org/wiki/ISO_8601>`_:                                                           |
+        |                     |                   | ``YYYY-MM-DDTHH:MM:SS``. It is used to compute the phase angle of the asteroid at the epoch of observation.                                             |
+        +---------------------+-------------------+---------------------------------------------------------------------------------------------------------------------------------------------------------+
+        | ``phase``           | ``float``         | The phase angle at the epoch of observation in degree.                                                                                                  |
+        +---------------------+-------------------+---------------------------------------------------------------------------------------------------------------------------------------------------------+
 
-        +---------------------+-------------------+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
-        | Parameter           | Accepted values   | Explanation                                                                                                                                                                                                                                                         |
-        +---------------------+-------------------+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
-        | ``wave``            | ``list of float`` | The wavelength bins of the spectrum **in micron**.                                                                                                                                                                                                                  |
-        +---------------------+-------------------+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
-        | ``refl``            | ``list of float`` | The reflectance values of the spectrum.                                                                                                                                                                                                                             |
-        +---------------------+-------------------+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+        All public spectra further have the attributes below, while additional
+        attributes are available on a per-source basis, see the individual
+        repository descriptions.
 
-        Pre-defined Arguments - these will be considered in the analysis/plots if provided:
+        +------------------------------+---------------------------------------------------------------------------------------------------------------------+
+        | Attribute                    | Description                                                                                                         |
+        +------------------------------+---------------------------------------------------------------------------------------------------------------------+
+        | ``shortbib``                 | Short version of reference of the spectrum.                                                                         |
+        +------------------------------+---------------------------------------------------------------------------------------------------------------------+
+        | ``bibcode``                  | Bibcode of reference publication of the spectrum.                                                                   |
+        +------------------------------+---------------------------------------------------------------------------------------------------------------------+
+        | ``source``                   | String representing the source of the spectrum (e.g. ``'24CAS'``).                                                  |
+        +------------------------------+---------------------------------------------------------------------------------------------------------------------+
 
-        +---------------------+-------------------+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
-        | Parameter           | Accepted values   | Explanation                                                                                                                                                                                                                                                         |
-        +---------------------+-------------------+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
-        | ``refl_err``        | ``list of float`` | The uncertainty of the reflectance values of the spectrum.                                                                                                                                                                                                          |
-        +---------------------+-------------------+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
-        | ``pV``              | ``float``         | The albedo of the observed asteroid. If it is ``None``, ``classy`` will look it up using `rocks <https://github.com/maxmahlke/rocks>`_.                                                                                                                             |
-        +---------------------+-------------------+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
-        | ``pV_err``          | ``float``         | The uncertainty of the albedo.                                                                                                                                                                                                                                      |
-        +---------------------+-------------------+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
-        | ``albedo``          | ``float``         | Same as ``pV``.                                                                                                                                                                                                                                                     |
-        +---------------------+-------------------+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
-        | ``albedo_err``      | ``float``         | Same as ``pV_err``.                                                                                                                                                                                                                                                 |
-        +---------------------+-------------------+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
-        | ``flag``            | ``list of int``   | Flag value of the reflectance values. A nice system is the one by Gaia: ``0`` - good, ``1`` - mediocre, ``2``- bad.                                                                                                                                                 |
-        +---------------------+-------------------+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
-        | ``name``            | ``str``           | The name of the observed asteroid. If it is ``None`` but ``number`` was provided, ``classy`` will fill it in using `rocks <https://github.com/maxmahlke/rocks>`_.                                                                                                   |
-        +---------------------+-------------------+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
-        | ``number``          | ``float``         | The number of the observed asteroid. If it is ``None`` but ``name`` was provided, ``classy`` will fill it in using `rocks <https://github.com/maxmahlke/rocks>`_.                                                                                                   |
-        +---------------------+-------------------+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+        A lot of effort further went into extracting the ``date_obs`` parameters of these spectra from the literature.
+        This is not possible in some cases. If the time of the day is not know, ``HH:MM:SS`` is set to ``00:00:00``.
+        If the date is not know, the ``date_obs`` attribute is an empty string.
+        If the spectrum is an average of observations at different dates, all dates are given,
+        separated by a ``,``: ``2004-03-02T00:00:00,2004-05-16T00:00:00``.
 
-        Other Arguments - for your convenience only:
 
-        +---------------------+-------------------+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
-        | Parameter           | Accepted values   | Explanation                                                                                                                                                                                                                                                         |
-        +---------------------+-------------------+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
-        | ``*``               | ``*``             | Any other parameter passed to ``Spectrum`` instance will be added and made accessible as attribute. This allows storing of metadata which is useful to your specific analysis. E.g. ``my_obs = Spectrum([...], phase_angle=45)`` -> ``my_obs.phase_angle # 45``     |
-        +---------------------+-------------------+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
 
 Preprocessing
 -------------
 
 In most cases, reflectance spectra need to be preprocessed prior to the
-classification. ``classy`` offers some preprocessing functionality. All functions
-describe below can be applied to either a single ``class.Spectrum`` or to many ``classy.Spectra``.
+classification. ``classy`` offers basic preprocessing functionality.
+
+.. important::
+
+  The original spectrum data file is never changed. At any point, you can go
+  back to the original observation.
 
 .. _feature_detection:
 .. _norm_mixnorm:
@@ -179,6 +207,46 @@ describe below can be applied to either a single ``class.Spectrum`` or to many `
 .. _slope_removal:
 
 .. tab-set::
+
+   .. tab-item:: Feature Detection
+
+        ``classy`` recognises three spectral absorption features as ``special``: the ``e``, ``h``, and ``k``
+        features. They are defined in `Mahlke, Carry, and Mattei 2022 <https://arxiv.org/abs/2203.11229>`_ and plotted below.
+
+        .. image:: gfx/feature_flags.png
+           :align: center
+           :class: only-light
+           :width: 600
+
+        .. image:: gfx/feature_flags_dark.png
+           :align: center
+           :class: only-dark
+           :width: 600
+
+        The presence or absence of these features can change the taxonomic classification of the spectrum.
+        Each ``classy.Spectrum`` has the attributes ``e``, ``h``, and ``k``, which represent these features.
+
+        .. code-block:: python
+
+           >>> ceres = classy.Spectra("Fortuna", source='SMASS')[0]  # returns classy.Spectrum
+           >>> ceres.h.is_observed # is the 0.7mu hydration feature covered by the wavelength range?
+           True
+           >>> ceres.h.is_present  #  is the 0.7mu hydration feature present in the spectrum?
+           True
+           >>> ceres.h.center  #  what is the center wavelength of the feature?
+           0.68
+
+        Note the difference between ``is_observed`` (does the spectrum cover the feature wavelength range?) and ``is_present``
+        (is the band visible in this spectrum?).
+
+        When a ``classy.Spectrum`` is created, ``classy`` automatically creates the feature attributes and sets
+        the ``is_observed`` values corresponding to the wavelength values. It will further perform a simple band fit
+        to determine whether it is present and band parameters like the center wavelength and the depth.
+
+        .. warning::
+
+           The band parametrisation that ``classy`` does automatically is rudimentary. It is recommended to use the
+           interactive feature-fitting routine instead, see :ref:`Advanced Usage <advanced>`.
 
    .. tab-item:: Smoothing
 
@@ -198,6 +266,11 @@ describe below can be applied to either a single ``class.Spectrum`` or to many `
            >>> ceres = classy.Spectra(1, source='Gaia')[0]  # returns classy.Spectrum
            >>> ceres.smooth(method='savgol', window_length=7, polyorder=3)  # args passed to scipy.signal.savgol_filter
            >>> ceres.smooth(method='spline', k=3, s=2)  # args passed to scipy.interpolate.UniVariateSpline
+
+        .. important::
+
+           The choice of apt smoothing parameters is often a tedious iterative process (smooth, plot, smooth, plot, ...).
+           Use the interactive smoothing routine instead, see :ref:`Advanced Usage <advanced>`.
 
    .. tab-item:: Normalising
 
@@ -247,18 +320,6 @@ describe below can be applied to either a single ``class.Spectrum`` or to many `
 
         .. TODO: Add truncating here
 
-   .. tab-item:: Filtering
-
-        Filtering by flags
-
-        Most spectra need to be smoothed prior to being classified.
-
-        .. important::
-
-            Generally, set reflectance values to nan instead of removing
-            them. This makes it easier as otherwise you have to truncate flag and other
-            equal length attributes.
-
    .. tab-item:: Remove Slope
 
        A polynomial of degree 1 is fit to the entire spectrum and the
@@ -269,21 +330,6 @@ describe below can be applied to either a single ``class.Spectrum`` or to many `
 
          >>> spec.remove_slope()
          >>> spec.slope # list containing [slope, intercept] of fitted polynomial
-
-
-   .. tab-item:: Feature Detection
-
-        .. image:: gfx/feature_flags.png
-           :align: center
-           :class: only-light
-           :width: 600
-
-        .. image:: gfx/feature_flags_dark.png
-           :align: center
-           :class: only-dark
-           :width: 600
-
-        Done when the spectrum is instantiated.
 
 Classifying
 -----------

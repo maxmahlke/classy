@@ -16,7 +16,7 @@
 A ``python`` tool to classify asteroid reflectance spectra in the framework of the
 asteroid taxonomy presented in `Mahlke, Carry, and Mattei 2022
 <https://arxiv.org/abs/2203.11229>`_ and to compare with spectra in
-public repositories (e.g. Gaia, SMASS, MITHNEOS).\ [#f1]_
+public repositories.\ [#f1]_
 
 .. image:: gfx/ceres_classification.png
  :align: center
@@ -28,17 +28,13 @@ public repositories (e.g. Gaia, SMASS, MITHNEOS).\ [#f1]_
  :class: only-dark
  :width: 1000
 
-.. card:: → Classify Your Observation
-    :text-align: center
-    :link: https://example.com
 
 .. highlight:: python
 
 
 |br|
 
-:octicon:`telescope;1em` **Quick query and download of reflectance spectra in public repositories**.
-
+:octicon:`telescope;1em` **Your spectra or the ones from public repositories**.
 
 .. grid:: 2
 
@@ -46,7 +42,7 @@ public repositories (e.g. Gaia, SMASS, MITHNEOS).\ [#f1]_
       :link: public_data
       :link-type: ref
 
-      Quick look-up and visualization of public spectra in different repositories.
+      Who has observed spectra of (13) *Egeria*? In which wavelength range?
 
 
     .. grid-item-card::
@@ -57,7 +53,7 @@ public repositories (e.g. Gaia, SMASS, MITHNEOS).\ [#f1]_
       references.
 
 |br|
-:octicon:`beaker;1em` **Taxonomic classification of reflectance spectra.**
+:octicon:`beaker;1em` **Taxonomic classification and more.**
 
 .. grid:: 2
 
@@ -76,7 +72,7 @@ public repositories (e.g. Gaia, SMASS, MITHNEOS).\ [#f1]_
 
 |br|
 
-:octicon:`zap;1em` **And more!**
+:octicon:`zap;1em` **Less ugh, more fun!**
 
 .. grid:: 2
 
@@ -84,14 +80,19 @@ public repositories (e.g. Gaia, SMASS, MITHNEOS).\ [#f1]_
       :link: getting_data
       :link-type: ref
 
-      Automatic retrieval of most-likely visual albedo to improve classification
-      accuracy.
+      Automatic retrieval of albedo and phase angle.
 
     .. grid-item-card::
       :link: available_data
       :link-type: ref
 
-      Are my spectra available through ``classy``?
+      Preprocess a spectrum once and then never again.
+
+
+
+.. .. card:: Classify Your Observation →
+..     :text-align: center
+..     :link:
 
 .. rubric:: Footnotes
    :caption:
@@ -107,6 +108,7 @@ public repositories (e.g. Gaia, SMASS, MITHNEOS).\ [#f1]_
    Home<self>
    Install<getting_started>
    Basic Usage<core>
+   Advanced Usage<advanced>
    Public Data<data>
    Taxonomies<taxonomies>
    Tutorials<tutorial>
