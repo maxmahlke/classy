@@ -55,6 +55,8 @@ def savitzky_golay(refl, **kwargs):
         logger.debug("No polyorder supplied to Savitzky-Golay filter. Using 3.")
         kwargs["polyorder"] = 3
 
+    kwargs = {k: v for k, v in kwargs.items() if k in ['polyorder', 'window_length']}
+
     # There might be NaN values in the reflectance. They should be ignored.
     refl[~np.isnan(refl)] = signal.savgol_filter(refl[~np.isnan(refl)], **kwargs)
     return refl
@@ -93,6 +95,8 @@ def univariate_spline(wave, refl, **kwargs):
     if "w" not in kwargs:
         logger.debug("No weights supplied to spline fit. Using 1 for all values.")
         kwargs["w"] = [1] * len(wave)
+
+    kwargs = {k: v for k, v in kwargs.items() if k in ['w', 'k']}
 
     # Temporarily replace NaN by 0
     refl[np.isnan(refl)] = 0
