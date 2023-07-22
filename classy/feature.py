@@ -48,6 +48,9 @@ class Feature:
 
     @property
     def refl_err(self):
+        if self.spec.refl_err is None:
+            return None
+
         return self.spec.refl_err[
             (self.spec.wave > self.lower) & (self.spec.wave < self.upper)
         ]
@@ -115,7 +118,7 @@ class Feature:
         self.depth = (1 - self.fit(self.center)) * 100
 
     def _compute_center(self):
-        wave_interp = np.arange(self.lower, self.upper, 0.01)
+        wave_interp = np.arange(self.lower, self.upper, 0.001)
         peak = signal.find_peaks(-self.fit(wave_interp))  # '-' to find the minimum
         try:
             peak_x = wave_interp[peak[0]][0]
