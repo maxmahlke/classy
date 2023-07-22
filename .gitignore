@@ -3,6 +3,8 @@ develop/
 tests/htmlcov
 classy.md
 docs/gfx/make_dark.sh
+docs/_static/logo_classy.png
+tests/htmlcov
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
