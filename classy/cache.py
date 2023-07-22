@@ -1,18 +1,13 @@
 """Cache management for classy."""
 
-from pathlib import Path
 import shutil
 
-import numpy as np
 import pandas as pd
 import percache
 import requests
 import rich
-import rocks
 
 from classy import config
-from classy import core
-from classy.log import logger
 from classy import index
 from classy import sources
 
