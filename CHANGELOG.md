@@ -1,7 +1,7 @@
-# 0.5.1 -
+# 0.6 - 2023-07-22
 - Add your private collection of spectra to the classy index using '$ classy add'.
 - Add function to compute phase angle from observation date for identified asteroids
-- Add interactive smoothing and fitting GUI. [undocumented]
+- Add interactive smoothing and fitting GUI.
 - Fail gracefully with error if no spectra index is available
 
 # 0.5 - 2023-05-12
