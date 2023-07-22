@@ -38,29 +38,37 @@ class InteractiveFeatureFit(QtWidgets.QMainWindow):
     def _init_params(self):
         """Initialise the fit parameters."""
 
-        DEFAULTS = {
-            "smooth": False,
+        PARAMS_SMOOTH = {
+            "smooth": True,
             "method_smooth": "savgol",
             "deg_savgol": 3,
-            "window_savgol": 25,
+            "window_savgol": int(len(self.feat.spec.wave) / 2),
             "deg_spline": 4,
-            "deg_poly": 3,
+        }
+
+        PARAMS_FEATURE = {
+            "deg_poly": 4,
             "type_continuum": "linear",
             "lower": self.feat.lower,
             "upper": self.feat.upper,
             "present": "",
         }
 
-        for key, value in DEFAULTS.items():
+        for key, value in PARAMS_SMOOTH.items():
+            setattr(self, key, value)
+        for key, value in PARAMS_FEATURE.items():
             setattr(self, key, value)
 
         # Load feature index
-        _id = self.feat.spec._classy_id
+        _id = self.feat.spec.classy_id
         index_feat = classy.index.load_features()
 
         # Override default parameter values with saved ones
         if _id in index_feat.index.values:
-            for param in DEFAULTS.keys():
+            for param in PARAMS_SMOOTH.keys():
+                setattr(self, param, index_feat.loc[_id, f"{param}"])
+
+            for param in PARAMS_FEATURE.keys():
                 if param in ["lower", "upper"]:
                     setattr(
                         self.feat,
@@ -116,7 +124,7 @@ class InteractiveFeatureFit(QtWidgets.QMainWindow):
         self.check_smooth.stateChanged.connect(self._update_smoothing)
 
         label_id = QtWidgets.QLabel(
-            f"({self.feat.spec.number}) {self.feat.spec.name} - {self.feat.spec._source} - {self.feat.spec._filename}"
+            f"({self.feat.spec.number}) {self.feat.spec.name} - {self.feat.spec.source} - {self.feat.spec.filename}"
         )
 
         radio_savgol = QtWidgets.QRadioButton("Savitzky-Golay")
@@ -484,7 +492,7 @@ class InteractiveFeatureFit(QtWidgets.QMainWindow):
         index_feat = classy.index.load_features()
 
         # Use classy index number as identifier
-        _id = self.feat.spec._classy_id
+        _id = self.feat.spec.classy_id
 
         # Add smoothing parameters
         for param in [
@@ -497,7 +505,7 @@ class InteractiveFeatureFit(QtWidgets.QMainWindow):
             index_feat.loc[_id, f"{param}"] = getattr(self, param)
 
         # Store metadata
-        for param in ["name", "number", "source", "shortbib", "bibcode", "_filename"]:
+        for param in ["name", "number", "source", "shortbib", "bibcode", "filename"]:
             index_feat.loc[_id, param] = getattr(self.feat.spec, param)
 
         # Store feature index
@@ -510,7 +518,7 @@ class InteractiveFeatureFit(QtWidgets.QMainWindow):
         index_feat = classy.index.load_features()
 
         # Use classy index number as identifier
-        _id = self.feat.spec._classy_id
+        _id = self.feat.spec.classy_id
 
         # Add feature parameters
         for param in ["lower", "upper", "center", "depth", "noise"]:
@@ -523,7 +531,7 @@ class InteractiveFeatureFit(QtWidgets.QMainWindow):
         ] = self.select_present.currentText()
 
         # Store metadata
-        for param in ["name", "number", "source", "shortbib", "bibcode", "_filename"]:
+        for param in ["name", "number", "source", "shortbib", "bibcode", "filename"]:
             index_feat.loc[_id, param] = getattr(self.feat.spec, param)
 
         # Store feature index
