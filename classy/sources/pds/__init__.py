@@ -114,25 +114,6 @@ def parse_xml(PATH_XML):
 
     ref = ref[0].text if ref else None
     return id_, ref, date_obs
-    # if repo == "sawyer":
-    #     ref = "SAWYER1991"
-    # # elif repo == "moskovitz":
-    # #     breakpoint()
-    # elif repo == "reddy_main_belt":
-    #     ref = "REDDYETAL"  # unpublished, giving PDS reference
-    # elif repo == "52cas":
-    #     ref = "52CAS"  # unpublished, giving PDS reference
-    # elif repo == "hendrix":
-    #     ref = "HENDRIX&VILAS2006"
-    # else:
-    #     try:
-    #     except IndexError:
-    #         if repo == "moskovitz":
-    #             ref = "MOSKOVITZ"
-    # if id_ == "multiple asteroids":
-    #     print(id_)
-    #
-    # return id_, ref, date_obs
 
 
 def parse_lbl(file_):
@@ -195,7 +176,8 @@ def load_spectrum(meta):
         source=meta.source,
         host=meta.host,
         collection=meta.collection,
-        _classy_id=meta.name,  # the classy index index
+        filename=meta.filename,
+        classy_id=meta.name,  # the classy index index
     )
 
     # Add further metadata

@@ -23,9 +23,9 @@ def load_spectrum(meta):
         bibcode=meta["bibcode"],
         shortbib=meta["shortbib"],
         date_obs=meta["date_obs"],
-        _filename=meta["filename"],
-        _source="private",
-        _classy_id=meta.name,
+        filename=meta["filename"],
+        source="private",
+        classy_id=meta.name,
     )
 
     return spec

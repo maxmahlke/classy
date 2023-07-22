@@ -37,10 +37,9 @@ def load_spectrum(spec):
         shortbib=spec.shortbib,
         host="smass",
         date_obs=spec.date_obs,
-        _filename=spec.filename,
-        _classy_id=spec.name,  # the classy index index
+        filename=spec.filename,
+        classy_id=spec.name,  # the classy index index
     )
-    spec._source = "SMASS"
     return spec
 
 

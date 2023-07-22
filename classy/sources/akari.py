@@ -50,9 +50,8 @@ def load_spectrum(spec):
         flag_thermal=data.flag_thermal.values,
         flag_stellar=data.flag_stellar.values,
         host="akari",
-        _classy_id=spec.name,  # the classy index index
+        classy_id=spec.name,  # the classy index index
     )
-    spec._source = "AKARI"
 
     return spec
 

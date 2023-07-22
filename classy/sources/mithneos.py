@@ -27,16 +27,14 @@ def load_spectrum(spec):
         flag=flags,
         filename=spec.filename,
         source="MITHNEOS",
-        # run=spec.run,
         name=spec["name"],
         number=spec.number,
         bibcode=spec.bibcode,
         shortbib=spec.shortbib,
         host="mithneos",
         date_obs=spec.date_obs,
-        _classy_id=spec.name,  # the classy index index
+        classy_id=spec.name,  # the classy index index
     )
-    spec._source = "MITHNEOS"
     return spec
 
 
