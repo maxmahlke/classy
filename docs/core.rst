@@ -168,6 +168,9 @@ require.
         | ``phase``           | ``float``         | The phase angle at the epoch of observation in degree.                                                                                                  |
         +---------------------+-------------------+---------------------------------------------------------------------------------------------------------------------------------------------------------+
 
+        The computation of the phase angle from the epoch of observation uses the `Miriade <https://ssp.imcce.fr/webservices/miriade/>`_ webservice. The query results
+        are cached to speed up repeated queries.
+
         All public spectra further have the attributes below, while additional
         attributes are available on a per-source basis, see the individual
         repository descriptions.
