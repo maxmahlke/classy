@@ -92,7 +92,7 @@ class Spectrum:
         self.__dict__.update(**kwargs)
 
         # Attribute to differentiate user-provided and online spectra
-        self._source = "User"
+        # self._source = "User"
 
         # Add features
         self.e = Feature("e", self)
@@ -106,7 +106,9 @@ class Spectrum:
     def reset_data(self):
         self.wave = self.wave_original.copy()
         self.refl = self.refl_original.copy()
-        self.refl_err = self.refl_err_original.copy()
+        self.refl_err = (
+            None if self.refl_err_original is None else self.refl_err_original.copy()
+        )
 
     def unsmooth(self):
         self.reset_data()
@@ -431,12 +433,12 @@ def _basic_checks(wave, refl, unc, flag):
     # Equal lengths?
     assert (
         wave.shape == refl.shape
-    ), f"The passed wavelength and reflectance arrays are of different shapes."
+    ), "The passed wavelength and reflectance arrays are of different shapes."
 
     if unc is not None:
         assert (
             refl.shape == unc.shape
-        ), f"The passed reflectance and uncertainty arrays are of different shapes."
+        ), "The passed reflectance and uncertainty arrays are of different shapes."
 
     # Any NaN values in reflectance?
     if any([np.isnan(r) for r in refl]):
