@@ -7,10 +7,8 @@ warnings.filterwarnings(
 import classy
 import matplotlib as mpl
 import matplotlib.pyplot as plt
-from matplotlib.widgets import Button, TextBox
 import numpy as np
 
-from classy import cache
 from classy import taxonomies
 
 
@@ -330,9 +328,6 @@ def plot_spectra(spectra, taxonomy=None, save=None, templates=None):
     for source in _sources:
         lines_source, labels_source = [], []
         for spec in spectra:
-            if spec._source != source:
-                continue
-
             if taxonomy == "mahlke" and spec.source != "Gaia":
                 # spec.wave_plot = spec._wave_pre_norm
                 # spec.refl_plot = spec._refl_pre_norm
