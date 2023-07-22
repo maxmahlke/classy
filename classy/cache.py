@@ -3,7 +3,8 @@
 import shutil
 
 import pandas as pd
-import percache
+
+# import percache
 import requests
 import rich
 
@@ -11,7 +12,7 @@ from classy import config
 from classy import index
 from classy import sources
 
-cache = percache.Cache(str(config.PATH_CACHE / "cache"))
+# cache = percache.Cache(str(config.PATH_CACHE / "cache"))
 
 
 def load_mahlke_index():
@@ -66,7 +67,7 @@ def echo_inventory():
             rich.print("\n")
 
 
-@cache
+# @cache
 def miriade_ephems(name, epochs):
     """Gets asteroid ephemerides from IMCCE Miriade.
 
