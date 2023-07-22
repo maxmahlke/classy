@@ -409,6 +409,11 @@ class Spectrum:
             logger.info("No 'path_out' provided, storing results to ./classy_spec.csv")
             result.to_csv("./classy_spec.csv", index=False)
 
+    def preprocess(self):
+        """Launch GUI to preprocess spectrum."""
+        # TODO: The GUI should be a method of the spectrum, not of the feature
+        self.h.fit_interactive()
+
 
 # ------
 # Utility functions, not to be called directly
