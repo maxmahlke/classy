@@ -63,6 +63,7 @@ def get_id_from_filename(file_):
         id_ = id_[: -len("ir8")]
 
     # Asteroid Unnumbered: extract designation
+    match = None
     if id_.startswith("au"):
         id_ = id_.lstrip("au")
         designation = re.match(
@@ -76,10 +77,8 @@ def get_id_from_filename(file_):
     elif id_.startswith("a"):
         id_ = id_.lstrip("a")
         number = re.match(r"(\d\d\d\d\d\d)", id_)
-        try:
+        if number:
             match = number.group(0)
-        except AttributeError:
-            return None
     return match
 
 
