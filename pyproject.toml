@@ -29,6 +29,7 @@ scikit-learn = "^1.2.1"
 space-rocks = "^1.7.2"
 tox = "^4.4.5"
 importlib-resources = "^5.10.2"
+lmfit = "^1.2.0"
 
 [tool.poetry.extras]
 docs = ["sphinx", "sphinx-redactor-theme"]
