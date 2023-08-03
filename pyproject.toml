@@ -12,7 +12,7 @@ packages = [{'include' = 'classy'}]
 include = ["data/mixnorm", 'data/mcfa']
 
 [tool.poetry.dependencies]
-python = ">=3.8,<3.11"
+python = ">=3.8"
 sphinx = {version = "^4", optional = true}
 sphinx-redactor-theme = {version = "^0.0.1", optional = true}
 sphinx-hoverxref = {version = "*", optional = true}
