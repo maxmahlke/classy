@@ -1,8 +1,6 @@
 from . import akari, gaia, mithneos, pds, private, smass
 from .pds import ecas, primass, s3os2
 
-from classy import index
-
 SOURCES = [
     "24CAS",
     "52CAS",
