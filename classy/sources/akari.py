@@ -73,6 +73,8 @@ def _retrieve_spectra():
     # with requests.get(URL, stream=True) as file_:
     #     with tarfile.open(fileobj=file_.raw, mode="r:gz") as archive:
     # archive.extractall(PATH_AKARI)
+    if not (PATH_AKARI / "AcuA_1.0/target.txt").is_file():
+        return
 
     # Create index
     akari = pd.read_csv(
