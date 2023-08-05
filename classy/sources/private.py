@@ -25,7 +25,6 @@ def load_spectrum(meta):
         date_obs=meta["date_obs"],
         filename=meta["filename"],
         source="private",
-        classy_id=meta.name,
     )
 
     return spec

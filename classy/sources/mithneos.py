@@ -33,7 +33,6 @@ def load_spectrum(spec):
         shortbib=spec.shortbib,
         host="mithneos",
         date_obs=spec.date_obs,
-        classy_id=spec.name,  # the classy index index
     )
     return spec
 

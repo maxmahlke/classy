@@ -177,7 +177,6 @@ def load_spectrum(meta):
         host=meta.host,
         collection=meta.collection,
         filename=meta.filename,
-        classy_id=meta.name,  # the classy index index
     )
 
     # Add further metadata
