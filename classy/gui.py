@@ -38,49 +38,34 @@ class InteractiveFeatureFit(QtWidgets.QMainWindow):
     def _init_params(self):
         """Initialise the fit parameters."""
 
-        PARAMS_SMOOTH = {
-            "smooth": True,
-            "method_smooth": "savgol",
-            "deg_savgol": 3,
-            "window_savgol": int(len(self.feat.spec.wave) / 2),
-            "deg_spline": 4,
-        }
+        # PARAMS_FEATURE = {
+        #     "deg_poly": 4,
+        #     "type_continuum": "linear",
+        #     "lower": self.feat.lower,
+        #     "upper": self.feat.upper,
+        #     "present": "",
+        # }
 
-        PARAMS_FEATURE = {
-            "deg_poly": 4,
-            "type_continuum": "linear",
-            "lower": self.feat.lower,
-            "upper": self.feat.upper,
-            "present": "",
-        }
-
-        for key, value in PARAMS_SMOOTH.items():
-            setattr(self, key, value)
-        for key, value in PARAMS_FEATURE.items():
-            setattr(self, key, value)
-
-        # Load feature index
-        _id = self.feat.spec.classy_id
-        index_feat = classy.index.load_features()
-
-        # Override default parameter values with saved ones
-        if _id in index_feat.index.values:
-            for param in PARAMS_SMOOTH.keys():
-                setattr(self, param, index_feat.loc[_id, f"{param}"])
-
-            for param in PARAMS_FEATURE.keys():
-                if param in ["lower", "upper"]:
-                    setattr(
-                        self.feat,
-                        param,
-                        index_feat.loc[_id, f"{self.feat.name}_{param}"],
-                    )
-                else:
-                    setattr(
-                        self, param, index_feat.loc[_id, f"{self.feat.name}_{param}"]
-                    )
-
-            logger.debug("Read smoothing and feature parameters from index file.")
+        # for key, value in PARAMS_FEATURE.items():
+        #     setattr(self, key, value)
+        #
+        # if self.feat.has_fit_parameters:
+        #     params_fit = self.feat.load_fit_parameters()
+        #
+        #
+        # # Override default parameter values with saved ones
+        # if id_ in features.index.values:
+        #     for param in PARAMS_FEATURE.keys():
+        #         if param in ["lower", "upper"]:
+        #             setattr(
+        #                 self.feat,
+        #                 param,
+        #                 features.loc[id_, f"{param}"],
+        #             )
+        #         else:
+        #             setattr(self, param, features.loc[id_, f"{self.feat.name}_{param}"])
+        #
+        #     logger.debug("Read feature parameters from index file.")
 
     def _init_gui(self):
         """Initialise the GUI for fitting."""
@@ -115,63 +100,13 @@ class InteractiveFeatureFit(QtWidgets.QMainWindow):
         # ------
         # Current parameters indicator
 
-        # Smoothing - Savitzky-Golay
-        self.check_smooth = QtWidgets.QCheckBox("Smoothing")
-
-        if self.smooth:  # might already have been set from the cache
-            self.check_smooth.setChecked(True)
-
-        self.check_smooth.stateChanged.connect(self._update_smoothing)
-
-        label_id = QtWidgets.QLabel(
-            f"({self.feat.spec.number}) {self.feat.spec.name} - {self.feat.spec.source} - {self.feat.spec.filename}"
-        )
-
-        radio_savgol = QtWidgets.QRadioButton("Savitzky-Golay")
-        radio_savgol.setChecked(True)
-        radio_savgol.toggled.connect(self._update_smoothing)
-
-        self.input_savgol_deg = pg.SpinBox(
-            value=self.deg_savgol, step=1, bounds=[0, None]
-        )
-        self.input_savgol_deg.valueChanged.connect(self._update_smoothing)
-        label_savgol_deg = QtWidgets.QLabel("Degree")
-
-        self.input_savgol_window = pg.SpinBox(
-            value=self.window_savgol, step=1, bounds=[0, len(self.feat.spec.wave)]
-        )
-        self.input_savgol_window.sigValueChanged.connect(self._update_smoothing)
-        label_savgol_window = QtWidgets.QLabel("Window")
-
-        degree_savgol = QtWidgets.QHBoxLayout()
-        degree_savgol.addWidget(self.input_savgol_deg)
-        degree_savgol.addWidget(label_savgol_deg)
-        window_savgol = QtWidgets.QHBoxLayout()
-        window_savgol.addWidget(self.input_savgol_window)
-        window_savgol.addWidget(label_savgol_window)
-
-        # Smoothing - Spline
-        self.radio_spline = QtWidgets.QRadioButton("UnivariateSpline")
-        self.radio_spline.setChecked(False)
-        self.radio_spline.toggled.connect(self._update_smoothing)
-
-        self.input_spline_deg = pg.SpinBox(
-            value=self.deg_spline, step=1, bounds=[0, None]
-        )
-        self.input_spline_deg.valueChanged.connect(self._update_smoothing)
-        label_spline_deg = QtWidgets.QLabel("Degree")
-
-        degree_spline = QtWidgets.QHBoxLayout()
-        degree_spline.addWidget(self.input_spline_deg)
-        degree_spline.addWidget(label_spline_deg)
-
         # Store and reset buttons
-        button_store_smooth = QtWidgets.QPushButton("Save Smoothing", self)
         button_store_feat = QtWidgets.QPushButton("Save Feature", self)
-        button_exit = QtWidgets.QPushButton("Exit", self)
-        button_store_smooth.clicked.connect(self._store_parameters_smooth)
-        button_store_feat.clicked.connect(self._store_parameters_feat)
+        button_exit = QtWidgets.QPushButton("Quit classy", self)
+        button_close = QtWidgets.QPushButton("Close Window", self)
+        button_store_feat.clicked.connect(self._store_feature)
         button_exit.clicked.connect(self._exit)
+        button_close.clicked.connect(self._close)
 
         self.notify = QtWidgets.QLabel("")
         # ------
@@ -182,19 +117,17 @@ class InteractiveFeatureFit(QtWidgets.QMainWindow):
         addL = layout.addLayout
         right = QtCore.Qt.AlignRight
 
+        label_id = QtWidgets.QLabel(
+            f"({self.feat.spec.number}) {self.feat.spec.name} - {self.feat.spec.filename}"
+        )
+
         addW(label_id, 0, 0, 1, 4)
         addW(self.notify, 0, 4, 1, 1)
-        addW(button_store_smooth, 0, 5)
-        addW(button_store_feat, 0, 6)
-        addW(button_exit, 0, 7)
+        addW(button_store_feat, 7, 0)
+        addW(button_exit, 7, 2)
+        addW(button_close, 7, 1)
         addW(self.plot_spec, 1, 0, 4, 4)
         addW(self.plot_feat, 1, 4, 4, 4)
-        addW(self.check_smooth, 6, 0, right)
-        addW(radio_savgol, 6, 1)
-        addL(degree_savgol, 6, 2)
-        addL(window_savgol, 6, 3)
-        addW(self.radio_spline, 7, 1)
-        addL(degree_spline, 7, 2)
 
         # ------
         # Feature
@@ -215,22 +148,24 @@ class InteractiveFeatureFit(QtWidgets.QMainWindow):
         for feat in ["", "Yes", "No"]:
             self.select_present.addItem(feat)
 
-        if self.present == "Yes":
+        if self.feat.is_present == "Yes":
             self.select_present.setCurrentIndex(1)
-        elif self.present == "No":
+        elif self.feat.is_present == "No":
             self.select_present.setCurrentIndex(2)
         present = QtWidgets.QHBoxLayout()
         present.addWidget(label_present)
         present.addWidget(self.select_present)
 
-        addL(feature, 6, 4, right)
-        addL(present, 7, 4, right)
+        addL(feature, 6, 0, right)
+        addL(present, 6, 1, right)
 
         # Polynomial degree and continuum selection
         label_poly = QtWidgets.QLabel("Polynomial")
         label_cont = QtWidgets.QLabel("Continuum")
 
-        self.input_poly_deg = pg.SpinBox(value=self.deg_poly, step=1, bounds=[0, None])
+        self.input_poly_deg = pg.SpinBox(
+            value=self.feat.deg_poly, step=1, bounds=[0, None]
+        )
         self.input_poly_deg.valueChanged.connect(self._change_poly_degree)
 
         label_poly_deg = QtWidgets.QLabel("Degree")
@@ -279,7 +214,6 @@ class InteractiveFeatureFit(QtWidgets.QMainWindow):
         # Fitted polynomial
         self._plot_fit()
 
-        self._update_smoothing()
         self._plot_noise()
 
         # Center
@@ -288,7 +222,6 @@ class InteractiveFeatureFit(QtWidgets.QMainWindow):
 
         # Plot feature region
         self._plot_feature()
-        self._update_smoothing()
         self.feat._compute_center()
         self._plot_center()
 
@@ -319,48 +252,9 @@ class InteractiveFeatureFit(QtWidgets.QMainWindow):
             self.text_depth.setParentItem(self.plot_feat.getPlotItem())
             self.text_depth.anchor(itemPos=(0, 1), parentPos=(0, 1), offset=(70, -80))
 
-    def _get_smoothing_parameters(self):
-        """Extract the smoothing parameters from the GUI."""
-        return {
-            "smooth": self.check_smooth.isChecked(),
-            "method": "spline" if self.radio_spline.isChecked() else "savgol",
-            "window_length": int(self.input_savgol_window.value()),
-            "polyorder": int(self.input_savgol_deg.value()),
-            "k": int(self.input_spline_deg.value()),
-        }
-
-    def _update_smoothing(self):
-        # Plot the smoothed data or empty data
-        params = self._get_smoothing_parameters()
-        self.smooth = params["smooth"]
-        self.smooth_method = params["method"]
-        self.deg_savgol = params["polyorder"]
-        self.window_savgol = params["window_length"]
-        self.deg_spline = params["k"]
-
-        self.feat.spec.unsmooth()
-        if params["smooth"]:
-            self.feat.spec.smooth(**params)
-            data_ghost = [self.feat.spec.wave_original, self.feat.spec.refl_original]
-
-        else:
-            data_ghost = [[], []]
-
-        data_spec = [self.feat.spec.wave, self.feat.spec.refl]
-
-        if hasattr(self, "plot_ghost"):
-            self.plot_ghost.setData(*data_ghost)
-        else:
-            self.plot_ghost = self.plot_spec.plot(*data_ghost, pen=(255, 0, 255, 200))
-        self.plotted_spec.setData(*data_spec)
-        self._plot_fit()
-        self._plot_continuum()
-        self._plot_feature()
-        self._plot_noise()
-
     def _plot_continuum(self):
         """Plot the continuum function."""
-        self.feat.compute_continuum(self.type_continuum)
+        self.feat.compute_continuum(self.feat.type_continuum)
         data = (self.feat.wave, self.feat.continuum(self.feat.wave))
         if hasattr(self, "plot_cont"):
             self.plot_cont.setData(data[0], data[1])
@@ -428,6 +322,14 @@ class InteractiveFeatureFit(QtWidgets.QMainWindow):
             self.plot_noise_upper = self.plot_feat.plot(data_upper[0], data_upper[1])
             self.plot_noise_lower = self.plot_feat.plot(data_lower[0], data_lower[1])
 
+    def keyPressEvent(self, event):
+        if event.key() == 77:  # m
+            self.select_present.setCurrentIndex(0)
+        if event.key() == 78:  # n
+            self.select_present.setCurrentIndex(2)
+        if event.key() == 89:  # y
+            self.select_present.setCurrentIndex(1)
+
     def _change_continuum_type(self):
         """Function for radio buttons to switch continuum types."""
         button = self.sender()
@@ -441,7 +343,7 @@ class InteractiveFeatureFit(QtWidgets.QMainWindow):
 
     def _change_poly_degree(self, degree):
         """Function to update polynomial degree from user input."""
-        self.deg_poly = int(degree)
+        self.feat.deg_poly = int(degree)
 
         # Fitted polynomial
         self._plot_fit()
@@ -487,66 +389,319 @@ class InteractiveFeatureFit(QtWidgets.QMainWindow):
         # TODO: This should change the GUI parameters if feature
         # is already present in index
 
-    def _store_parameters_smooth(self):
+    def _store_feature(self):
+        if self.select_present.currentText() == "":
+            qm = QtWidgets.QMessageBox
+            ret = qm.question(
+                self,
+                "",
+                "The feature is not marked as present/absent. Really save?",
+                qm.Yes | qm.No,
+            )
+
+            if ret == qm.No:
+                return
         # Load feature index
-        index_feat = classy.index.load_features()
+        features = classy.index.load_features()
 
         # Use classy index number as identifier
-        _id = self.feat.spec.classy_id
+        id_ = (self.feat.spec.filename, self.feat.name)
+
+        # Add feature parameters
+        for param in ["lower", "upper", "center", "depth", "noise"]:
+            features.loc[id_, f"{param}"] = getattr(self.feat, param)
+
+        features.loc[id_, "type_continuum"] = self.feat.type_continuum
+        features.loc[id_, "deg_poly"] = self.feat.deg_poly
+        features.loc[id_, "is_present"] = self.select_present.currentText()
+
+        # Store metadata
+        for param in ["name", "number", "source", "shortbib", "bibcode"]:
+            features.loc[id_, param] = getattr(self.feat.spec, param)
+
+        # Store feature index
+        classy.index.store_features(features)
+        logger.info("Feature parameters saved to file.")
+        self.notify.setText("Feature parameters stored.")
+
+    def _close(self):
+        """Bye bye."""
+        self.close()
+
+    def _exit(self):
+        """Bye bye."""
+        qm = QtWidgets.QMessageBox
+        ret = qm.question(
+            self, "", "Are you sure? This will stop the classy process.", qm.Yes | qm.No
+        )
+
+        if ret == qm.Yes:
+            sys.exit()
+
+
+class InteractiveSmoothing(QtWidgets.QMainWindow):
+    """Open a GUI to fit a spectral feature interactively."""
+
+    def __init__(self, spec):
+        """Initialise the fit and launch the GUI.
+
+        Parameters
+        ----------
+        spec : classy.Spectrum
+            The spectrum to smooth.
+
+        Notes
+        -----
+        The smoothing parameters are stored in the classy cache directory.
+        """
+        self.spec = spec
+        self._init_params()
+        self._init_gui()
+        self._init_plot()
+
+    def _init_params(self):
+        """Initialise the fit parameters."""
+
+        PARAMS_SMOOTH = {
+            "smooth": True,
+            "method": "savgol",
+            "deg_savgol": 3,
+            "window_savgol": int(len(self.spec) / 2),
+            "deg_spline": 4,
+        }
+
+        for key, value in PARAMS_SMOOTH.items():
+            setattr(self, key, value)
+
+        # Load smoothing index
+        smoothing = classy.index.load_smoothing()
+        id_ = self.spec.filename
+
+        # Override default parameter values with saved ones
+        if id_ in smoothing.index.values:
+            for param in PARAMS_SMOOTH.keys():
+                setattr(self, param, smoothing.loc[id_, param])
+
+            logger.debug("Read smoothing parameters from index file.")
+
+    def _init_gui(self):
+        """Initialise the GUI for fitting."""
+
+        # ------
+        # The application window
+        super(InteractiveSmoothing, self).__init__()
+        self._title = "classy: Smoothing"
+        self.setWindowTitle(self._title)
+        self.resize(1200, 800)
+
+        # ------
+        # Initialise widgets and fill layout
+        self._main = QtWidgets.QWidget()
+        self.setCentralWidget(self._main)
+        layout = QtWidgets.QGridLayout(self._main)
+
+        # ------
+        # Main plotting widget
+        self.plot_spec = pg.PlotWidget(name="spec")
+
+        # ------
+        # Current parameters indicator
+
+        # Smoothing - Savitzky-Golay
+        self.check_smooth = QtWidgets.QCheckBox("Smoothing")
+
+        if self.smooth:  # might already have been set from the cache
+            self.check_smooth.setChecked(True)
+
+        self.check_smooth.stateChanged.connect(self._update_smoothing)
+
+        label_id = QtWidgets.QLabel(
+            f"({self.spec.number}) {self.spec.name} - {self.spec.filename}"
+        )
+
+        radio_savgol = QtWidgets.QRadioButton("Savitzky-Golay")
+        radio_savgol.setChecked(True)
+        radio_savgol.toggled.connect(self._update_smoothing)
+
+        self.input_savgol_deg = pg.SpinBox(
+            value=self.deg_savgol, step=1, bounds=[0, None]
+        )
+        self.input_savgol_deg.valueChanged.connect(self._update_smoothing)
+        label_savgol_deg = QtWidgets.QLabel("Degree")
+
+        self.input_savgol_window = pg.SpinBox(
+            value=self.window_savgol, step=1, bounds=[0, len(self.spec)]
+        )
+        self.input_savgol_window.sigValueChanged.connect(self._update_smoothing)
+        label_savgol_window = QtWidgets.QLabel("Window")
+
+        degree_savgol = QtWidgets.QHBoxLayout()
+        degree_savgol.addWidget(self.input_savgol_deg)
+        degree_savgol.addWidget(label_savgol_deg)
+        window_savgol = QtWidgets.QHBoxLayout()
+        window_savgol.addWidget(self.input_savgol_window)
+        window_savgol.addWidget(label_savgol_window)
+
+        # Smoothing - Spline
+        self.radio_spline = QtWidgets.QRadioButton("UnivariateSpline")
+        self.radio_spline.setChecked(False)
+        self.radio_spline.toggled.connect(self._update_smoothing)
+
+        self.input_spline_deg = pg.SpinBox(
+            value=self.deg_spline, step=1, bounds=[0, None]
+        )
+        self.input_spline_deg.valueChanged.connect(self._update_smoothing)
+        label_spline_deg = QtWidgets.QLabel("Degree")
+
+        degree_spline = QtWidgets.QHBoxLayout()
+        degree_spline.addWidget(self.input_spline_deg)
+        degree_spline.addWidget(label_spline_deg)
+
+        # Store and reset buttons
+        button_store_smooth = QtWidgets.QPushButton("Save Smoothing", self)
+        button_close = QtWidgets.QPushButton("Close Window", self)
+        button_exit = QtWidgets.QPushButton("Quit classy", self)
+        button_store_smooth.clicked.connect(self._store_smoothing)
+        button_close.clicked.connect(self._close)
+        button_exit.clicked.connect(self._exit)
+
+        self.notify = QtWidgets.QLabel("")
+        # ------
+        # Add widgets and layouts to GUI
+
+        # row, col, row_span, col_span
+        addW = layout.addWidget
+        addL = layout.addLayout
+        right = QtCore.Qt.AlignRight
+
+        addW(label_id, 0, 0, 1, 4)
+        addW(self.notify, 0, 2)
+        addW(button_store_smooth, 7, 0)
+        addW(button_close, 7, 1)
+        addW(button_exit, 7, 2)
+        addW(self.plot_spec, 1, 0, 4, 8)
+        addW(self.check_smooth, 6, 0, right)
+        addW(radio_savgol, 6, 5)
+        addL(degree_savgol, 6, 6)
+        addL(window_savgol, 6, 7)
+        addW(self.radio_spline, 7, 5)
+        addL(degree_spline, 7, 6)
+
+        for i in range(1, 4):
+            layout.setColumnStretch(i, 1)
+            layout.setRowStretch(i, 1)
+        for i in range(4, 8):
+            layout.setRowStretch(i, 0)
+        layout.setRowStretch(0, 0)
+
+    def _init_plot(self):
+        """Initialise the fitting functions and plot results."""
+
+        # Plot original Spectrum
+        self.plotted_spec = self.plot_spec.plot(
+            self.spec.wave, self.spec.refl, pen=(255, 255, 255, 200)
+        )
+
+        # Zoom out to show context
+        ymin, ymax = self.spec.refl.min(), self.spec.refl.max()
+        yrange = ymax - ymin
+        self.plot_spec.setYRange(ymin - 0.25 * yrange, ymax + 0.25 * yrange)
+
+        # Continuum
+
+        # Fitted polynomial
+
+        self._update_smoothing()
+
+        # Center
+
+    def _get_smoothing_parameters(self):
+        """Extract the smoothing parameters from the GUI."""
+        return {
+            "smooth": self.check_smooth.isChecked(),
+            "method": "spline" if self.radio_spline.isChecked() else "savgol",
+            "window_length": int(self.input_savgol_window.value()),
+            "polyorder": int(self.input_savgol_deg.value()),
+            "k": int(self.input_spline_deg.value()),
+        }
+
+    def _update_smoothing(self):
+        # Plot the smoothed data or empty data
+        params = self._get_smoothing_parameters()
+        self.smooth = params["smooth"]
+        self.smooth_method = params["method"]
+        self.deg_savgol = params["polyorder"]
+        self.window_savgol = params["window_length"]
+        self.deg_spline = params["k"]
+
+        self.spec.unsmooth()
+        if params["smooth"]:
+            self.spec.smooth(**params)
+            data_ghost = [self.spec.wave_original, self.spec.refl_original]
+
+        else:
+            data_ghost = [[], []]
+
+        data_spec = [self.spec.wave, self.spec.refl]
+
+        if hasattr(self, "plot_ghost"):
+            self.plot_ghost.setData(*data_ghost)
+        else:
+            self.plot_ghost = self.plot_spec.plot(*data_ghost, pen=(255, 0, 255, 200))
+        self.plotted_spec.setData(*data_spec)
+
+    def _store_smoothing(self):
+        # Load smoothing index
+        smoothing = classy.index.load_smoothing()
+
+        # Use classy index number as identifier
+        id_ = self.spec.filename
 
         # Add smoothing parameters
         for param in [
             "smooth",
-            "method_smooth",
+            "method",
             "deg_savgol",
             "window_savgol",
             "deg_spline",
         ]:
-            index_feat.loc[_id, f"{param}"] = getattr(self, param)
+            smoothing.loc[id_, f"{param}"] = getattr(self, param)
 
         # Store metadata
         for param in ["name", "number", "source", "shortbib", "bibcode", "filename"]:
-            index_feat.loc[_id, param] = getattr(self.feat.spec, param)
+            smoothing.loc[id_, param] = getattr(self.spec, param)
 
-        # Store feature index
-        classy.index.store_features(index_feat)
+        # Store smoothing index
+        classy.index.store_smoothing(smoothing)
         logger.info("Smoothing Parameters saved to file.")
         self.notify.setText("Smoothing parameters stored.")
 
-    def _store_parameters_feat(self):
-        # Load feature index
-        index_feat = classy.index.load_features()
-
-        # Use classy index number as identifier
-        _id = self.feat.spec.classy_id
-
-        # Add feature parameters
-        for param in ["lower", "upper", "center", "depth", "noise"]:
-            index_feat.loc[_id, f"{self.feat.name}_{param}"] = getattr(self.feat, param)
-
-        index_feat.loc[_id, f"{self.feat.name}_type_continuum"] = self.type_continuum
-        index_feat.loc[_id, f"{self.feat.name}_deg_poly"] = self.deg_poly
-        index_feat.loc[
-            _id, f"{self.feat.name}_present"
-        ] = self.select_present.currentText()
-
-        # Store metadata
-        for param in ["name", "number", "source", "shortbib", "bibcode", "filename"]:
-            index_feat.loc[_id, param] = getattr(self.feat.spec, param)
-
-        # Store feature index
-        classy.index.store_features(index_feat)
-        logger.info("Feature parameters saved to file.")
-        self.notify.setText("Feature parameters stored.")
+    def _close(self):
+        """Bye bye."""
+        self.close()
 
     def _exit(self):
         """Bye bye."""
-        self.close()
+        qm = QtWidgets.QMessageBox
+        ret = qm.question(
+            self, "", "Are you sure? This will stop the classy process.", qm.Yes | qm.No
+        )
+
+        if ret == qm.Yes:
+            sys.exit()
 
 
 def main(feature):
     qapp = QtWidgets.QApplication(sys.argv)
     app = InteractiveFeatureFit(feature)
+    app.show()
+    qapp.exec_()
+    qapp.quit()
+
+
+def smooth(spec):
+    qapp = QtWidgets.QApplication(sys.argv)
+    app = InteractiveSmoothing(spec)
     app.show()
     qapp.exec_()
     qapp.quit()
