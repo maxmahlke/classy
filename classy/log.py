@@ -3,7 +3,7 @@
 import logging
 from rich.logging import RichHandler
 
-# Use rich to have colourful logging messages
+# Use rich to have colorful logging messages
 handler = RichHandler(rich_tracebacks=True, show_path=False, show_time=False)
 handler.setFormatter(logging.Formatter("[%(name)s] %(message)s"))
 

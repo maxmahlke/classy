@@ -58,7 +58,7 @@ def _load_data(meta):
     obs = obs.loc[obs["name"] == meta["name"]]
 
     # Convert colours to reflectances
-    refl, refl_err = _compute_reflectance_from_colours(obs)
+    refl, refl_err = _compute_reflectance_from_colors(obs)
     flags = _add_flags(obs)
 
     data = pd.DataFrame(
@@ -73,7 +73,7 @@ def _load_data(meta):
     return data
 
 
-def _compute_reflectance_from_colours(obs):
+def _compute_reflectance_from_colors(obs):
     refl = []
     refl_err = []
 
