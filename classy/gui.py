@@ -5,9 +5,7 @@ import sys
 import classy
 from classy.log import logger
 
-from matplotlib.backends.qt_compat import QtCore, QtGui, QtWidgets
-import numpy as np
-from scipy.signal import find_peaks
+from matplotlib.backends.qt_compat import QtGui
 
 import pyqtgraph as pg
 from pyqtgraph.Qt import QtCore, QtWidgets
@@ -33,8 +31,6 @@ class InteractiveFeatureFit(QtWidgets.QMainWindow):
         self.feat = feature
         self._init_gui()
         self._init_plot()
-
-    
 
     def _init_gui(self):
         """Initialise the GUI for fitting."""
@@ -435,8 +431,10 @@ class InteractiveSmoothing(QtWidgets.QMainWindow):
             "smooth": True,
             "method": "savgol",
             "deg_savgol": 3,
-            "window_savgol": int(len(self.spec) / 2),
+            "window_savgol": int(len(self.spec) / 4),
             "deg_spline": 4,
+            "wave_min": self.spec.wave.min(),
+            "wave_max": self.spec.wave.max(),
         }
 
         for key, value in PARAMS_SMOOTH.items():
@@ -473,6 +471,14 @@ class InteractiveSmoothing(QtWidgets.QMainWindow):
         # Main plotting widget
         self.plot_spec = pg.PlotWidget(name="spec")
 
+        # Truncation range window
+        self.window = pg.LinearRegionItem(
+            [self.wave_min, self.wave_max],
+            bounds=[self.spec.wave.min(), self.spec.wave.max()],
+        )
+        self.window.sigRegionChanged.connect(self._changed_trunc_region)
+        self.window.setZValue(-10)
+        self.plot_spec.addItem(self.window)
         # ------
         # Current parameters indicator
 
@@ -516,9 +522,7 @@ class InteractiveSmoothing(QtWidgets.QMainWindow):
         self.radio_spline.setChecked(False)
         self.radio_spline.toggled.connect(self._update_smoothing)
 
-        self.input_spline_deg = pg.SpinBox(
-            value=self.deg_spline, step=1, bounds=[0, None]
-        )
+        self.input_spline_deg = pg.SpinBox(value=self.deg_spline, step=1, bounds=[1, 5])
         self.input_spline_deg.valueChanged.connect(self._update_smoothing)
         label_spline_deg = QtWidgets.QLabel("Degree")
 
@@ -584,6 +588,14 @@ class InteractiveSmoothing(QtWidgets.QMainWindow):
 
         # Center
 
+    def _changed_trunc_region(self, region):
+        if region is not None:
+            # Recompute the spectral range of the feature
+            self.wave_min, self.wave_max = region.getRegion()
+        else:
+            self.window.setRegion((self.spec.wave.min(), self.spec.wave.max()))
+        self._update_smoothing()
+
     def _get_smoothing_parameters(self):
         """Extract the smoothing parameters from the GUI."""
         return {
@@ -604,6 +616,20 @@ class InteractiveSmoothing(QtWidgets.QMainWindow):
         self.deg_spline = params["k"]
 
         self.spec.unsmooth()
+
+        cond = (self.spec.wave >= self.wave_min) & (self.spec.wave <= self.wave_max)
+
+        self.spec.refl = self.spec.refl[cond]
+        self.spec.wave = self.spec.wave[cond]
+
+        if self.spec.refl_err is not None:
+            self.spec.refl_err = self.spec.refl_err[cond]
+
+        if self.window_savgol > len(self.spec):
+            self.window_savgol = len(self.spec)
+            params["window_length"] = len(self.spec)
+            self.input_savgol_window.setValue(len(self.spec))
+
         if params["smooth"]:
             self.spec.smooth(**params)
             data_ghost = [self.spec.wave_original, self.spec.refl_original]
@@ -633,6 +659,8 @@ class InteractiveSmoothing(QtWidgets.QMainWindow):
             "deg_savgol",
             "window_savgol",
             "deg_spline",
+            "wave_min",
+            "wave_max",
         ]:
             smoothing.loc[id_, f"{param}"] = getattr(self, param)
 
