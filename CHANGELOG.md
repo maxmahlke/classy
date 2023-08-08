@@ -1,3 +1,6 @@
+# 0.6.1 - 2023-08-08
+- Add Tholen and DeMeo classes to output of `classy.Spectrum.to_csv()`
+
 # 0.6 - 2023-07-22
 - Add your private collection of spectra to the classy index using '$ classy add'.
 - Add function to compute phase angle from observation date for identified asteroids
