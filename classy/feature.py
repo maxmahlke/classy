@@ -56,6 +56,11 @@ class Feature:
     @property
     def has_fit_parameters(self):
         """Check whether the given feature of this spectrum has been parameterized already."""
+
+        # We need at least a filename to store the parameters
+        if not hasattr(self.spec, "filename"):
+            return False
+
         features = self.load_fit_parameters()
 
         # Override default parameter values with saved ones
@@ -90,7 +95,6 @@ class Feature:
     def refl_err(self):
         if self.spec.refl_err is None:
             return None
-
         return self.spec.refl_err[
             (self.spec.wave > self.lower) & (self.spec.wave < self.upper)
         ]

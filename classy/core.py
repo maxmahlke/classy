@@ -116,6 +116,10 @@ class Spectrum:
 
     @property
     def has_smoothing_parameters(self):
+        # We need at least a filename to store the parameters
+        if not hasattr(self, "filename"):
+            return False
+
         smoothing = index.load_smoothing()
 
         if self.filename in smoothing.index.values:
@@ -210,6 +214,10 @@ class Spectrum:
             wave_max = smoothing["wave_max"]
 
         self.refl = self.refl[(self.wave >= wave_min) & (self.wave <= wave_max)]
+        if self.refl_err is not None:
+            self.refl_err = self.refl_err[
+                (self.wave >= wave_min) & (self.wave <= wave_max)
+            ]
         self.wave = self.wave[(self.wave >= wave_min) & (self.wave <= wave_max)]
 
         if self.wave.size == 0:
