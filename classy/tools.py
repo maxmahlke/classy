@@ -90,8 +90,15 @@ def download_archive(URL, PATH_ARCHIVE, unpack=True, remove=True):
 
 def copy_url(task, url, path, prog):
     """Copy data from a url to a local file."""
+    from urllib.request import Request, urlopen  # Python 3
+
     try:
-        response = urlopen(url)
+        req = Request(url)
+        req.add_header(
+            "User-Agent",
+            "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_10_0) AppleWebKit/600.1.17 (KHTML, like Gecko) Version/8.0 Safari/600.1.17",
+        )
+        response = urlopen(req)
     except urllib.error.URLError:
         return False
     # This will break if the response doesn't contain content length
