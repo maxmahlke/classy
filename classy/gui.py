@@ -175,7 +175,13 @@ class InteractiveFeatureFit(QtWidgets.QMainWindow):
         )
 
         # Zoom out to show context
-        ymin, ymax = self.feat.spec.refl.min(), self.feat.spec.refl.max()
+        if self.feat.spec.is_smoothed:
+            ymin, ymax = (
+                self.feat.spec.refl_original.min(),
+                self.feat.spec.refl_original.max(),
+            )
+        else:
+            ymin, ymax = self.feat.spec.refl.min(), self.feat.spec.refl.max()
         yrange = ymax - ymin
         self.plot_spec.setYRange(ymin - 0.25 * yrange, ymax + 0.25 * yrange)
 
