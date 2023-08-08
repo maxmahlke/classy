@@ -6,6 +6,7 @@ from scipy import interpolate, signal
 
 from classy import defs
 from classy.log import logger
+from classy import index
 
 
 class Feature:
@@ -25,14 +26,53 @@ class Feature:
         self.name = name
         self.spec = spec
 
-        # Wavelength limits for fit set heuristically from training data
+        # Initialize default feature and fit parameters
         self.upper = defs.FEATURE[name]["upper"]
         self.lower = defs.FEATURE[name]["lower"]
 
-        self.is_observed = self._is_observed()
+        self.deg_poly = 4
+        self.type_continuum = "linear"
+
+        self.is_present = False
+
+        # Update parameters if present in feature index
+        if self.has_fit_parameters:
+            params = self.load_fit_parameters()
+
+            for param, value in params.items():
+                if param in [
+                    "name",
+                    "number",
+                    "source",
+                    "shortbib",
+                    "bibcode",
+                ]:
+                    continue
+                setattr(self, param, value)
 
         # Set interpolation range for continuum, fit, and parameter estimation
         self.range_interp = np.arange(self.lower, self.upper, 0.001)
+
+    @property
+    def has_fit_parameters(self):
+        """Check whether the given feature of this spectrum has been parameterized already."""
+        features = self.load_fit_parameters()
+
+        # Override default parameter values with saved ones
+        if features is None:
+            return False
+        return True
+
+    def load_fit_parameters(self):
+        # Load feature index
+        features = index.load_features()
+
+        ind = (self.spec.filename, self.name)
+
+        if ind not in features.index:
+            return None
+
+        return features.loc[ind].to_dict()
 
     @property
     def wave(self):
@@ -55,7 +95,8 @@ class Feature:
             (self.spec.wave > self.lower) & (self.spec.wave < self.upper)
         ]
 
-    def _is_observed(self):
+    @property
+    def is_observed(self):
         """Check whether the spectral waverange covers the feature."""
 
         # Ensure spectral range is covered
@@ -102,8 +143,6 @@ class Feature:
             raise ValueError(
                 f"Unknown fit method '{self.fit_method}'. Choose from ['polynomial', 'gaussian']."
             )
-
-        self.is_present = self._is_present()
 
     def _fit_polynomial(self, degree=3):
         """Fit a polynomial to parametrize the feature."""
@@ -166,18 +205,18 @@ class Feature:
         )
         self.snr = self.amplitude / self.noise
 
-    def _is_present(self):
-        """Check whether the feature is present based on predefined limits."""
-        mean, sigma = defs.FEATURE[self.name]["center"]
-
-        if mean - 3 * sigma >= self.center or self.center >= mean + 3 * sigma:
-            return False
-
-        elif self.depth < 0.5:
-            return False
-
-        else:
-            return True
+    # def _is_present(self):
+    #     """Check whether the feature is present based on predefined limits."""
+    #     mean, sigma = defs.FEATURE[self.name]["center"]
+    #
+    #     if mean - 3 * sigma >= self.center or self.center >= mean + 3 * sigma:
+    #         return False
+    #
+    #     elif self.depth < 0.5:
+    #         return False
+    #
+    #     else:
+    #         return True
 
     def plot_gaussian(self, save=None):
         """Plot the feature. If it was fit, the model fit is added."""
