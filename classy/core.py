@@ -155,13 +155,13 @@ class Spectrum:
             The smoothing method. Choose from ['savgol', 'spline']. Default is 'savgol'.
         """
         if not kwargs:
-            if not has_smoothing_parameters:
+            if not self.has_smoothing_parameters:
                 raise ValueError(
                     "No smoothing parameters on file. smooth() needs to be called with the smoothing parameters specified."
                 )
             smoothing = self.load_smoothing_parameters()
 
-            for key in ["method", "dev_savgol", "window_savgol", "dev_spline"]:
+            for key in ["method", "deg_savgol", "window_savgol", "deg_spline"]:
                 kwargs[key] = smoothing[key]
 
         if method == "savgol":
@@ -205,7 +205,7 @@ class Spectrum:
                 raise ValueError(
                     "No truncation parameters on file. truncate() needs to be called with the minimum and maximum wavelength specified."
                 )
-            smoothing = load_smoothing_parameters()
+            smoothing = self.load_smoothing_parameters()
             wave_min = smoothing["wave_min"]
             wave_max = smoothing["wave_max"]
 
