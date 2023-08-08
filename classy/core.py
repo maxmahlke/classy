@@ -112,6 +112,23 @@ class Spectrum:
 
     def unsmooth(self):
         self.reset_data()
+        self.is_smoothed = False
+
+    @property
+    def has_smoothing_parameters(self):
+        smoothing = index.load_smoothing()
+
+        if self.filename in smoothing.index.values:
+            return True
+        return False
+
+    def load_smoothing_parameters(self):
+        smoothing = index.load_smoothing()
+        return smoothing.loc[self.filename].to_dict()
+
+    def smooth_interactive(self):
+        preprocessing.smooth_interactive(self)
+        self.is_smoothed = True
 
     def __len__(self):
         return len(self.wave)
@@ -137,6 +154,15 @@ class Spectrum:
         method : str
             The smoothing method. Choose from ['savgol', 'spline']. Default is 'savgol'.
         """
+        if not kwargs:
+            if not has_smoothing_parameters:
+                raise ValueError(
+                    "No smoothing parameters on file. smooth() needs to be called with the smoothing parameters specified."
+                )
+            smoothing = self.load_smoothing_parameters()
+
+            for key in ["method", "dev_savgol", "window_savgol", "dev_spline"]:
+                kwargs[key] = smoothing[key]
 
         if method == "savgol":
             self.refl = preprocessing.savitzky_golay(self.refl, **kwargs)
@@ -146,6 +172,7 @@ class Spectrum:
             raise ValueError(
                 f"Unknown smoothing method '{method}'. Choose from ['savgol', 'spline']."
             )
+        self.is_smoothed = True
 
     @property
     def albedo(self):
@@ -163,7 +190,7 @@ class Spectrum:
     def albedo_err(self, value):
         self.pV_err = value
 
-    def truncate(self, wave_min, wave_max):
+    def truncate(self, wave_min=None, wave_max=None):
         """Truncate wavelength range to minimum and maximum value.
 
         Parameters
@@ -173,6 +200,15 @@ class Spectrum:
         wave_max : float
             The upper wavelength to truncate at.
         """
+        if wave_min is None or wave_max is None:
+            if not self.has_smoothing_parameters:
+                raise ValueError(
+                    "No truncation parameters on file. truncate() needs to be called with the minimum and maximum wavelength specified."
+                )
+            smoothing = load_smoothing_parameters()
+            wave_min = smoothing["wave_min"]
+            wave_max = smoothing["wave_max"]
+
         self.refl = self.refl[(self.wave >= wave_min) & (self.wave <= wave_max)]
         self.wave = self.wave[(self.wave >= wave_min) & (self.wave <= wave_max)]
 
@@ -411,10 +447,13 @@ class Spectrum:
             logger.info("No 'path_out' provided, storing results to ./classy_spec.csv")
             result.to_csv("./classy_spec.csv", index=False)
 
-    def preprocess(self):
-        """Launch GUI to preprocess spectrum."""
-        # TODO: The GUI should be a method of the spectrum, not of the feature
-        self.h.fit_interactive()
+    # def preprocess(self, **kwargs):
+    #     """Apply preprocessing."""
+    #     # TODO: The GUI should be a method of the spectrum, not of the feature
+    #     #
+    #     # this is just smoothing and truncating
+    #     self.truncate(**kwargs)
+    #     self.smooth(**kwargs)
 
 
 # ------
@@ -511,7 +550,7 @@ class Spectra(list):
     @__init__.register(int)
     @__init__.register(str)
     @__init__.register(float)
-    def _id(self, id_, **kwargs):
+    def id_(self, id_, **kwargs):
         """Instantiate Spectra from asteroid identifier. Select subsample of spectra using index keys."""
         name, number = rocks.id(id_)
 
