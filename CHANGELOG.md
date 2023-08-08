@@ -1,4 +1,5 @@
 # 0.6.1 - 2023-08-08
+- Catch error if AKARI download fails
 - Add Tholen and DeMeo classes to output of `classy.Spectrum.to_csv()`
 
 # 0.6 - 2023-07-22
