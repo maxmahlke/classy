@@ -31,41 +31,10 @@ class InteractiveFeatureFit(QtWidgets.QMainWindow):
         The best fit parameters are stored in the classy cache directory.
         """
         self.feat = feature
-        self._init_params()
         self._init_gui()
         self._init_plot()
 
-    def _init_params(self):
-        """Initialise the fit parameters."""
-
-        # PARAMS_FEATURE = {
-        #     "deg_poly": 4,
-        #     "type_continuum": "linear",
-        #     "lower": self.feat.lower,
-        #     "upper": self.feat.upper,
-        #     "present": "",
-        # }
-
-        # for key, value in PARAMS_FEATURE.items():
-        #     setattr(self, key, value)
-        #
-        # if self.feat.has_fit_parameters:
-        #     params_fit = self.feat.load_fit_parameters()
-        #
-        #
-        # # Override default parameter values with saved ones
-        # if id_ in features.index.values:
-        #     for param in PARAMS_FEATURE.keys():
-        #         if param in ["lower", "upper"]:
-        #             setattr(
-        #                 self.feat,
-        #                 param,
-        #                 features.loc[id_, f"{param}"],
-        #             )
-        #         else:
-        #             setattr(self, param, features.loc[id_, f"{self.feat.name}_{param}"])
-        #
-        #     logger.debug("Read feature parameters from index file.")
+    
 
     def _init_gui(self):
         """Initialise the GUI for fitting."""
