@@ -1,14 +1,9 @@
-from pathlib import Path
-import sys
-
 import numpy as np
-import pandas as pd
 from scipy import interpolate, signal
 import sklearn
 
 from classy import config
-from classy import core
-from classy import defs
+from classy import gui
 from classy.log import logger
 from classy import tools
 
@@ -55,7 +50,7 @@ def savitzky_golay(refl, **kwargs):
         logger.debug("No polyorder supplied to Savitzky-Golay filter. Using 3.")
         kwargs["polyorder"] = 3
 
-    kwargs = {k: v for k, v in kwargs.items() if k in ['polyorder', 'window_length']}
+    kwargs = {k: v for k, v in kwargs.items() if k in ["polyorder", "window_length"]}
 
     # There might be NaN values in the reflectance. They should be ignored.
     refl[~np.isnan(refl)] = signal.savgol_filter(refl[~np.isnan(refl)], **kwargs)
@@ -96,7 +91,7 @@ def univariate_spline(wave, refl, **kwargs):
         logger.debug("No weights supplied to spline fit. Using 1 for all values.")
         kwargs["w"] = [1] * len(wave)
 
-    kwargs = {k: v for k, v in kwargs.items() if k in ['w', 'k']}
+    kwargs = {k: v for k, v in kwargs.items() if k in ["w", "k"]}
 
     # Temporarily replace NaN by 0
     refl[np.isnan(refl)] = 0
@@ -146,7 +141,6 @@ def resample(wave, refl, grid, **kwargs):
             kwargs["fill_value"] = (refl[0], refl[-1])
     else:
         if _within_extrapolation_limit(wave.min(), wave.max(), min(grid), max(grid)):
-
             kwargs["bounds_error"] = False
             kwargs["fill_value"] = (refl[0], refl[-1])
 
@@ -239,3 +233,7 @@ def _normalize_l2(refl):
     """Normalize the reflectance using the L2 norm."""
     return sklearn.preprocessing.normalize(refl.reshape(1, -1))[0]
 
+
+def smooth_interactive(spec):
+    """"""
+    gui.smooth(spec)
