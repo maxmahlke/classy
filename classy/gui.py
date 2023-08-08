@@ -629,13 +629,7 @@ class InteractiveSmoothing(QtWidgets.QMainWindow):
 
         self.spec.unsmooth()
 
-        cond = (self.spec.wave >= self.wave_min) & (self.spec.wave <= self.wave_max)
-
-        self.spec.refl = self.spec.refl[cond]
-        self.spec.wave = self.spec.wave[cond]
-
-        if self.spec.refl_err is not None:
-            self.spec.refl_err = self.spec.refl_err[cond]
+        self.spec.truncate(self.wave_min, self.wave_max)
 
         if self.window_savgol > len(self.spec):
             self.window_savgol = len(self.spec)
