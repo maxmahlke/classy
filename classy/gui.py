@@ -163,6 +163,12 @@ class InteractiveFeatureFit(QtWidgets.QMainWindow):
     def _init_plot(self):
         """Initialise the fitting functions and plot results."""
 
+        if self.feat.spec.is_smoothed:
+            self.plotted_original_spec = self.plot_spec.plot(
+                self.feat.spec.wave_original,
+                self.feat.spec.refl_original,
+                pen=(100, 100, 100, 200),
+            )
         # Plot original Spectrum
         self.plotted_spec = self.plot_spec.plot(
             self.feat.spec.wave, self.feat.spec.refl, pen=(255, 255, 255, 200)
