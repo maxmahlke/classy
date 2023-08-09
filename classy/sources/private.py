@@ -10,14 +10,20 @@ from classy import index
 def load_spectrum(meta):
     """Load a spectrum of a private repository."""
 
-    data = np.loadtxt(meta.filename)
+    data = load_data(meta.filename)
 
     wave = data[:, 0]
     refl = data[:, 1]
 
+    if data.shape[1] > 1:
+        refl_err = data[:, 2]
+    else:
+        refl_err = None
+
     spec = classy.Spectrum(
         wave=wave,
         refl=refl,
+        refl_err=refl_err,
         name=meta["name"],
         number=meta["number"],
         bibcode=meta["bibcode"],
@@ -25,7 +31,6 @@ def load_spectrum(meta):
         date_obs=meta["date_obs"],
         filename=meta["filename"],
         source="private",
-        classy_id=meta.name,
     )
 
     return spec
@@ -61,7 +66,7 @@ def parse_index(PATH_INDEX):
         entry["filename"] = row.filename
 
         # Get sampling stats
-        data = np.loadtxt(row.filename)
+        data = load_data(row.filename)
         wave = data[:, 0]
 
         entry["wave_min"] = wave.min()
@@ -82,3 +87,11 @@ def parse_index(PATH_INDEX):
     entries = pd.DataFrame(entries, index=range(len(entries)))
     index.add(entries)
     print(f"Added {len(entries)} spectra to the classy index.")
+
+
+def load_data(filename):
+    try:
+        data = np.loadtxt(filename)
+    except ValueError:
+        data = np.loadtxt(filename, delimiter=",")
+    return data
