@@ -1,4 +1,4 @@
-import re
+from urllib.request import urlretrieve
 
 import pandas as pd
 import rocks
@@ -43,54 +43,70 @@ def _retrieve_spectra():
     entries = []
     logger.info("Indexing M4AST spectra...")
 
-    from tqdm import tqdm
-    from urllib.request import urlretrieve
+    from rich.progress import (
+        BarColumn,
+        DownloadColumn,
+        Progress,
+        TextColumn,
+        MofNCompleteColumn,
+    )
 
-    for _, row in tqdm(catalogue.iterrows(), total=len(catalogue)):
-        # Download spectrum
-        filename = row.access_url.split("/")[-1]
+    progress = Progress(
+        TextColumn("{task.description}", justify="right"),
+        BarColumn(bar_width=None),
+        MofNCompleteColumn(),
+        disable=False,
+    )
+    with progress:
+        task = progress.add_task("M4AST", total=len(catalogue))
 
-        # urlretrieve(row.access_url, PATH_M4AST / filename)
+        for _, row in catalogue.iterrows():
+            progress.update(task, advance=1)
 
-        name, number = rocks.id(row.target_name)
-        date_obs = ""
+            # Download spectrum
+            filename = row.access_url.split("/")[-1]
 
-        if not pd.isna(row.bib_reference):
-            bib = row.bib_reference.split("/")[-1]
-            bib = REFERENCES[bib][0]
-            ref = REFERENCES[bib][1]
-        else:
-            bib = "Unpublished"
-            ref = "Unpublished"
+            # urlretrieve(row.access_url, PATH_M4AST / filename)
 
-        # Do not index these spectra - already in SMASS/PRIMASS
-        if ref in ["Binzel+ 2001", "Morate+ 2016"]:
-            continue
+            name, number = rocks.id(row.target_name)
+            date_obs = ""
 
-        data = _load_data(PATH_M4AST / filename)
-        wave = data["wave"]
+            if not pd.isna(row.bib_reference):
+                bib = row.bib_reference.split("/")[-1]
+                bib = REFERENCES[bib][0]
+                ref = REFERENCES[bib][1]
+            else:
+                bib = "Unpublished"
+                ref = "Unpublished"
 
-        # ------
-        # Append to index
-        entry = pd.DataFrame(
-            data={
-                "name": name,
-                "number": number,
-                "filename": f"m4ast/{filename}",
-                "shortbib": ref,
-                "bibcode": bib,
-                "wave_min": min(wave),
-                "wave_max": max(wave),
-                "N": len(wave),
-                "date_obs": date_obs,
-                "source": "M4AST",
-                "host": "m4ast",
-                "collection": "m4ast",
-                "public": True,
-            },
-            index=[0],
-        )
-        entries.append(entry)
+            # Do not index these spectra - already in SMASS/PRIMASS
+            if ref in ["Binzel+ 2001", "Morate+ 2016"]:
+                continue
+
+            data = _load_data(PATH_M4AST / filename)
+            wave = data["wave"]
+
+            # ------
+            # Append to index
+            entry = pd.DataFrame(
+                data={
+                    "name": name,
+                    "number": number,
+                    "filename": f"m4ast/{filename}",
+                    "shortbib": ref,
+                    "bibcode": bib,
+                    "wave_min": min(wave),
+                    "wave_max": max(wave),
+                    "N": len(wave),
+                    "date_obs": date_obs,
+                    "source": "M4AST",
+                    "host": "m4ast",
+                    "collection": "m4ast",
+                    "public": True,
+                },
+                index=[0],
+            )
+            entries.append(entry)
     entries = pd.concat(entries)
     index.add(entries)
     logger.info(f"Added {len(entries)} M4AST spectra to the classy index.")
