@@ -6,7 +6,7 @@ import rocks
 
 from classy import index
 
-SHORTBIB = "Marsset+2014"
+SHORTBIB = "Marsset+ 2014"
 BIBCODE = "2014AA...568L...7M"
 
 
