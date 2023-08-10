@@ -20,10 +20,10 @@ SOURCES = [
 
 def _retrieve_spectra():
     """Retrieve all spectra that classy knows about."""
-    # pds._retrieve_spectra()
-    # cds._retrieve_spectra()
+    pds._retrieve_spectra()
+    cds._retrieve_spectra()
     m4ast._retrieve_spectra()
-    # akari._retrieve_spectra()
-    # smass._retrieve_spectra()
-    # mithneos._retrieve_spectra()
-    # gaia._retrieve_spectra()
+    akari._retrieve_spectra()
+    smass._retrieve_spectra()
+    mithneos._retrieve_spectra()
+    gaia._retrieve_spectra()
