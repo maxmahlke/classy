@@ -30,7 +30,7 @@ def load_spectrum(meta):
         shortbib=meta["shortbib"],
         date_obs=meta["date_obs"],
         filename=meta["filename"],
-        source="private",
+        source="Private",
     )
 
     return spec
