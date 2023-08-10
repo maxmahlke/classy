@@ -31,25 +31,25 @@ from classy import sources
 from classy import tools
 
 REPOSITORIES = {
-    # "scas": "https://sbnarchive.psi.edu/pds4/non_mission/gbo.ast.7-color-survey.zip",
-    # "tfcas": "https://sbnarchive.psi.edu/pds4/non_mission/gbo.ast.24-color-survey.zip",
-    # "ftcas": "https://sbnarchive.psi.edu/pds4/non_mission/gbo.ast.52-color-survey.zip",
-    # "ecas": "https://sbnarchive.psi.edu/pds4/non_mission/gbo.ast.ecas.phot.zip",
-    # "fornasier_m_types": "https://sbnarchive.psi.edu/pds4/non_mission/gbo.ast-m-type.fornasier.spectra.zip",
-    # "fornasier_trojans": "https://sbnarchive.psi.edu/pds4/non_mission/gbo.ast-trojan.fornasier-etal.spectra.zip",
-    # "irtf": "https://sbnarchive.psi.edu/pds4/non_mission/gbo.ast.irtf-spex-collection.spectra.zip",
+    "scas": "https://sbnarchive.psi.edu/pds4/non_mission/gbo.ast.7-color-survey.zip",
+    "tfcas": "https://sbnarchive.psi.edu/pds4/non_mission/gbo.ast.24-color-survey.zip",
+    "ftcas": "https://sbnarchive.psi.edu/pds4/non_mission/gbo.ast.52-color-survey.zip",
+    "ecas": "https://sbnarchive.psi.edu/pds4/non_mission/gbo.ast.ecas.phot.zip",
+    "fornasier_m_types": "https://sbnarchive.psi.edu/pds4/non_mission/gbo.ast-m-type.fornasier.spectra.zip",
+    "fornasier_trojans": "https://sbnarchive.psi.edu/pds4/non_mission/gbo.ast-trojan.fornasier-etal.spectra.zip",
+    "irtf": "https://sbnarchive.psi.edu/pds4/non_mission/gbo.ast.irtf-spex-collection.spectra.zip",
     "gartrelleetal": "https://sbnarchive.psi.edu/pds4/non_mission/gbo.ast-dtype.gartrelleetal.irtf.spectra_V1_0.zip",
-    # "hardersenspec": "https://sbnarchive.psi.edu/pds3/non_mission/EAR_A_I0046_3_HARDERSENSPEC_V1_0.zip",
-    # "moskovitz_v_types": "https://sbnarchive.psi.edu/pds4/non_mission/gbo.ast-v-type.moscovitz.spectra.zip",
-    # "reddy_main_belt": "https://sbnarchive.psi.edu/pds4/non_mission/gbo.ast-mb.reddy.spectra.zip",
-    # "reddy_nea": "https://sbnarchive.psi.edu/pds3/non_mission/EAR_A_I0046_5_REDDYSPEC_V1_0.zip",
-    # "reddy_nea_mc": "https://sbnarchive.psi.edu/pds4/non_mission/ast_spectra_reddy_neos_marscrossers_V1_0.zip",
-    # "reddy_vesta": "https://sbnarchive.psi.edu/pds4/non_mission/gbo.ast-vesta.reddy.spectra.zip",
-    # "willman_iannini": "https://sbnarchive.psi.edu/pds4/non_mission/gbo.ast-iannini-family.spectra.zip",
-    # "s3os2": "https://sbnarchive.psi.edu/pds3/non_mission/EAR_A_I0052_8_S3OS2_V1_0.zip",
-    # "sawyer": "https://sbnarchive.psi.edu/pds4/non_mission/gbo.ast.sawyer.spectra_V1_0.zip",
-    # "primass": "https://sbnarchive.psi.edu/pds4/non_mission/gbo.ast.primass-l.spectra_V1_0.zip",
-    # "vilas": "https://sbnarchive.psi.edu/pds4/non_mission/gbo.ast.vilas.spectra.zip",
+    "hardersenspec": "https://sbnarchive.psi.edu/pds3/non_mission/EAR_A_I0046_3_HARDERSENSPEC_V1_0.zip",
+    "moskovitz_v_types": "https://sbnarchive.psi.edu/pds4/non_mission/gbo.ast-v-type.moscovitz.spectra.zip",
+    "reddy_main_belt": "https://sbnarchive.psi.edu/pds4/non_mission/gbo.ast-mb.reddy.spectra.zip",
+    "reddy_nea": "https://sbnarchive.psi.edu/pds3/non_mission/EAR_A_I0046_5_REDDYSPEC_V1_0.zip",
+    "reddy_nea_mc": "https://sbnarchive.psi.edu/pds4/non_mission/ast_spectra_reddy_neos_marscrossers_V1_0.zip",
+    "reddy_vesta": "https://sbnarchive.psi.edu/pds4/non_mission/gbo.ast-vesta.reddy.spectra.zip",
+    "willman_iannini": "https://sbnarchive.psi.edu/pds4/non_mission/gbo.ast-iannini-family.spectra.zip",
+    "s3os2": "https://sbnarchive.psi.edu/pds3/non_mission/EAR_A_I0052_8_S3OS2_V1_0.zip",
+    "sawyer": "https://sbnarchive.psi.edu/pds4/non_mission/gbo.ast.sawyer.spectra_V1_0.zip",
+    "primass": "https://sbnarchive.psi.edu/pds4/non_mission/gbo.ast.primass-l.spectra_V1_0.zip",
+    "vilas": "https://sbnarchive.psi.edu/pds4/non_mission/gbo.ast.vilas.spectra.zip",
     # TODO: Add these resources
     # "hendrix_iue": "https://sbnarchive.psi.edu/pds4/non_mission/iue.ast.hendrix.spectra_V2_0.zip",
     # "lebofsky_three_micron": "https://sbnarchive.psi.edu/pds4/non_mission/gbo.ast.lebofsky-etal.3-micron-spectra.zip",
@@ -68,10 +68,10 @@ def _retrieve_spectra():
         PATH_ARCHIVE = PATH_PDS / URL.split("/")[-1]
 
         # Download repository
-        # success = tools.download_archive(URL, PATH_ARCHIVE, encoding="zip")
-        #
-        # if not success:
-        #     continue
+        success = tools.download_archive(URL, PATH_ARCHIVE, encoding="zip")
+
+        if not success:
+            continue
 
         # Add spectra to index
         PATH_REPO = PATH_ARCHIVE.with_suffix("")
