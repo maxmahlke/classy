@@ -29,8 +29,6 @@ from classy import core
 from classy import sources
 from classy import tools
 
-PATH_PDS = config.PATH_CACHE / "pds/"
-
 REPOSITORIES = {
     # "scas": "https://sbnarchive.psi.edu/pds4/non_mission/gbo.ast.7-color-survey.zip",
     # "tfcas": "https://sbnarchive.psi.edu/pds4/non_mission/gbo.ast.24-color-survey.zip",
