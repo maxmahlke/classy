@@ -46,6 +46,8 @@ command.
 
 .. include:: sources/gaia.rst
 
+.. include:: sources/m4ast.rst
+
 .. include:: sources/mithneos.rst
 
 .. include:: sources/misc.rst
