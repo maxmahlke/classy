@@ -1,4 +1,5 @@
 """Module to manage the global spectra index in classy."""
+import sys
 from datetime import datetime
 from functools import cache
 
@@ -23,9 +24,10 @@ def load():
         The global spectra index. Empty if index does not exist yet.
     """
     if not PATH.is_file():
-        logger.error(
-            f"No reflectance spectra are available. Run '$ classy status' to retrieve them."
-        )
+        if "status" not in sys.argv:
+            logger.error(
+                f"No reflectance spectra are available. Run '$ classy status' to retrieve them."
+            )
         return pd.DataFrame(data={"name": [], "source": [], "filename": []}, index=[])
 
     return pd.read_csv(PATH, dtype={"number": "Int64"}, low_memory=False)
