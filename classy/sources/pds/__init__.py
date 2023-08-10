@@ -3,7 +3,9 @@ from . import (
     fornasier_m_types,
     fornasier_trojans,
     ftcas,
+    gartrelleetal,
     irtf,
+    hardersenspec,
     primass,
     moskovitz_v_types,
     reddy_main_belt,
@@ -28,8 +30,6 @@ from classy import core
 from classy import sources
 from classy import tools
 
-PATH_PDS = config.PATH_CACHE / "pds/"
-
 REPOSITORIES = {
     "scas": "https://sbnarchive.psi.edu/pds4/non_mission/gbo.ast.7-color-survey.zip",
     "tfcas": "https://sbnarchive.psi.edu/pds4/non_mission/gbo.ast.24-color-survey.zip",
@@ -38,6 +38,8 @@ REPOSITORIES = {
     "fornasier_m_types": "https://sbnarchive.psi.edu/pds4/non_mission/gbo.ast-m-type.fornasier.spectra.zip",
     "fornasier_trojans": "https://sbnarchive.psi.edu/pds4/non_mission/gbo.ast-trojan.fornasier-etal.spectra.zip",
     "irtf": "https://sbnarchive.psi.edu/pds4/non_mission/gbo.ast.irtf-spex-collection.spectra.zip",
+    "gartrelleetal": "https://sbnarchive.psi.edu/pds4/non_mission/gbo.ast-dtype.gartrelleetal.irtf.spectra_V1_0.zip",
+    "hardersenspec": "https://sbnarchive.psi.edu/pds3/non_mission/EAR_A_I0046_3_HARDERSENSPEC_V1_0.zip",
     "moskovitz_v_types": "https://sbnarchive.psi.edu/pds4/non_mission/gbo.ast-v-type.moscovitz.spectra.zip",
     "reddy_main_belt": "https://sbnarchive.psi.edu/pds4/non_mission/gbo.ast-mb.reddy.spectra.zip",
     "reddy_nea": "https://sbnarchive.psi.edu/pds3/non_mission/EAR_A_I0046_5_REDDYSPEC_V1_0.zip",
@@ -48,6 +50,7 @@ REPOSITORIES = {
     "sawyer": "https://sbnarchive.psi.edu/pds4/non_mission/gbo.ast.sawyer.spectra_V1_0.zip",
     "primass": "https://sbnarchive.psi.edu/pds4/non_mission/gbo.ast.primass-l.spectra_V1_0.zip",
     "vilas": "https://sbnarchive.psi.edu/pds4/non_mission/gbo.ast.vilas.spectra.zip",
+    # TODO: Add these resources
     # "hendrix_iue": "https://sbnarchive.psi.edu/pds4/non_mission/iue.ast.hendrix.spectra_V2_0.zip",
     # "lebofsky_three_micron": "https://sbnarchive.psi.edu/pds4/non_mission/gbo.ast.lebofsky-etal.3-micron-spectra.zip",
     # "rivkin_three_micron": "https://sbnarchive.psi.edu/pds3/non_mission/EAR_A_3_RDR_RIVKIN_THREE_MICRON_V3_0.zip",
@@ -65,7 +68,7 @@ def _retrieve_spectra():
         PATH_ARCHIVE = PATH_PDS / URL.split("/")[-1]
 
         # Download repository
-        success = tools.download_archive(URL, PATH_ARCHIVE)
+        success = tools.download_archive(URL, PATH_ARCHIVE, encoding="zip")
 
         if not success:
             continue
@@ -133,20 +136,15 @@ def parse_lbl(file_):
                 id_ = target.split("ASTEROID")[-1]
 
                 break
-        else:
-            print("unknown id_", file_)
         for line in f.split("\n"):
             if line.startswith("START_TIME"):
                 date_obs = line.split("=")[-1].strip('" ')
                 break
-        else:
-            print("unknown date-obs", file_)
         for line in f.split("\n"):
             if line.startswith("REFERENCE_KEY_ID"):
                 ref = line.split("=")[-1].strip('" ')
                 break
         else:
-            print("unknown ref", file_)
             ref = None
     return id_, ref, date_obs
 

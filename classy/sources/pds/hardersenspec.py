@@ -6,8 +6,12 @@ from classy import config
 from classy.sources import pds
 
 REFERENCES = {
-    "FORNASIERETAL2004": ["2004Icar..172..221F", "Fornasier+ 2004"],
-    "FORNASIERETAL2007": ["2007Icar..190..622F", "Fornasier+ 2007"],
+    "HARDERSENETAL2004B": ["2004Icar..167..170H", "Hardersen+ 2004"],
+    "HARDERSENETAL2005": ["2005Icar..175..141H", "Hardersen+ 2005"],
+    "HARDERSENETAL2011": ["2011MPS...46.1910H", "Hardersen+ 2011"],
+    "HARDERSENETAL2015": ["2014Icar..242..269H", "Hardersen+ 2014"],
+    "HARDERSENETAL2015B": ["2015ApJS..221...19H", "Hardersen+ 2015"],
+    "HARDERSENETAL2018": ["2018AJ....156...11H", "Hardersen+ 2018"],
 }
 
 
@@ -21,42 +25,19 @@ def _create_index(PATH_REPO):
         if not dir.is_dir():
             continue
 
-        # Extract meta from XML file
-        for xml_file in dir.glob("**/*xml"):
-            id_, ref, date_obs = pds.parse_xml(xml_file)
-            file_ = xml_file.with_suffix(".tab")
+        # Extract meta from LBL file
+        for lbl_file in dir.glob("**/*lbl"):
+            id_, ref, date_obs = pds.parse_lbl(lbl_file)
+            file_ = lbl_file.with_suffix(".tab")
 
             # Identify asteroid
+            id_ = id_.split()[0]
             name, number = rocks.id(id_)
 
-            # The XML always contains both references, so default is Fornasier+ 2004
-            if number in [
-                23549,
-                24452,
-                47967,
-                124729,
-                5511,
-                51359,
-                11663,
-                32794,
-                56968,
-                99328,
-                105685,
-                120453,
-                9030,
-                11488,
-                31820,
-                48252,
-                84709,
-                4829,
-                30698,
-                31821,
-                76804,
-                111113,
-            ]:
-                ref = "FORNASIERETAL2007"
+            if ref is None:
+                ref = "HARDERSENETAL2018"
 
-            # Convert ref from XML to bibcode and shortbib
+            # Convert ref from lbl to bibcode and shortbib
             bibcode, shortbib = REFERENCES[ref]
 
             # Create index entry
@@ -68,9 +49,9 @@ def _create_index(PATH_REPO):
                     "shortbib": shortbib,
                     "bibcode": bibcode,
                     "filename": str(file_).split("/classy/")[1],
-                    "source": "Misc",
+                    "source": "PDS",
                     "host": "pds",
-                    "collection": "fornasier_trojans",
+                    "collection": "hardersenspec",
                     "public": True,
                 },
                 index=[0],
@@ -80,10 +61,9 @@ def _create_index(PATH_REPO):
             data = _load_data(entry.squeeze())
             entry["wave_min"] = min(data["wave"])
             entry["wave_max"] = max(data["wave"])
-            entry["N"] = data["wave"]
+            entry["N"] = len(data["wave"])
 
             entries.append(entry)
-
     entries = pd.concat(entries)
     index.add(entries)
 
@@ -94,9 +74,8 @@ def _load_data(meta):
     Returns
     -------
     pd.DataFrame
-
     """
     file_ = config.PATH_CACHE / meta.filename
     data = pd.read_csv(file_, names=["wave", "refl", "refl_err"], delimiter=r"\s+")
-    data["wave"] /= 10000
+    data = data[data.wave != 0]
     return data

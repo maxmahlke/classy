@@ -1,3 +1,15 @@
+# 0.6.2 -
+- Add M4AST to sources
+- Add Gartrelle+ 2021 to sources
+- Add Marsset+ 2021 to sources
+- Add Hardersen+ 2004, 2011, 2014, 2015, 2018 to sources
+- Fix references for Fornasier+ 2007 spectra
+- Highlight public/private repositories differently in `classy status`
+
+# 0.6.1 - 2023-08-08
+- Catch error if AKARI download fails
+- Add Tholen and DeMeo classes to output of `classy.Spectrum.to_csv()`
+
 # 0.6 - 2023-07-22
 - Add your private collection of spectra to the classy index using '$ classy add'.
 - Add function to compute phase angle from observation date for identified asteroids

@@ -443,6 +443,8 @@ class Spectrum:
             "number",
             "class_",
             *[f"class_{letter}" for letter in defs.CLASSES],
+            "class_tholen",
+            "class_demeo",
         ]:
             if hasattr(self, attr):
                 result[attr] = getattr(self, attr)

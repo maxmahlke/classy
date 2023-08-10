@@ -126,7 +126,9 @@ def _retrieve_spectra():
 
     for file_, _, _, _ in ARCH_DIR_REF_BIB:
         url_archive = f"{URL}/{file_}.tar.gz"
-        tools.download_archive(url_archive, PATH_SMASS)
+        tools.download_archive(
+            url_archive, PATH_SMASS / f"{file_}.tar.gz", encoding="tar.gz"
+        )
 
     # Add to global spectra index.
     entries = []

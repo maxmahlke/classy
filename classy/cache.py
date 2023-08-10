@@ -51,7 +51,7 @@ def echo_inventory():
     rich.print(
         f"""\nContents of {config.PATH_CACHE}:
 
-    {len(idx)} asteroid reflectance spectra from {len(sources_)} sources
+    {len(idx)} asteroid reflectance spectra from {len(sources_)} sources ([bold]public[/bold]|[dim]private[/dim])
       """
     )
 
@@ -59,7 +59,13 @@ def echo_inventory():
         for i, (source, obs) in enumerate(
             idx.sort_values("source").groupby("source"), 1
         ):
-            rich.print(f"    {source:<8} {len(obs):>5}", end="")
+            # TODO: Only show (public|private) if there are private sources
+            public = all(obs.public)
+
+            rich.print(
+                f"    {'[dim]' if not public else '[bold]'}{source:<8}{'[/dim]' if not public else '[/bold]'} {len(obs):>5}",
+                end="",
+            )
 
             if not i % 4:
                 rich.print()

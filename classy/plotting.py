@@ -322,12 +322,14 @@ def plot_spectra(spectra, taxonomy=None, save=None, templates=None):
     else:
         fig, ax_spec = plt.subplots(figsize=(10, 7))
 
-    # 1. Plot spectra, grouped by _source
-    _sources = sorted(set(spec._source for spec in spectra))
+    # 1. Plot spectra, grouped by source
+    _sources = sorted(set(spec.source for spec in spectra))
 
     for source in _sources:
         lines_source, labels_source = [], []
         for spec in spectra:
+            if spec.source != source:
+                continue
             if taxonomy == "mahlke" and spec.source != "Gaia":
                 # spec.wave_plot = spec._wave_pre_norm
                 # spec.refl_plot = spec._refl_pre_norm

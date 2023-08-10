@@ -40,7 +40,7 @@ from functools import partial
 from urllib.request import urlopen
 
 
-def download_archive(URL, PATH_ARCHIVE, unpack=True, remove=True):
+def download_archive(URL, PATH_ARCHIVE, unpack=True, remove=True, encoding=None):
     """Download remote archive file to directory. Optionally unpack and remove the file.
 
     Parameters
@@ -48,54 +48,75 @@ def download_archive(URL, PATH_ARCHIVE, unpack=True, remove=True):
     URL : str
         The URl to the remote archive.
     PATH_ARCHIVE : pathlib.Path
-        The directory to store the archive under.
+        The path where the retrieved data/archive is stored.
     unpack : bool
         Whether to unpack the archive in place. Default is True.
     remove : bool
         Whether to remove the archive file after the download. Default is True.
+    encoding : str
+        The compression encoding. Default is None. Must be specified if unpack is True.
     """
 
-    # Add filename
-    if "/pds/" in str(PATH_ARCHIVE):
-        PATH_ARCHIVE = PATH_ARCHIVE.parent / URL.split("/")[-1]
-    else:
-        PATH_ARCHIVE = PATH_ARCHIVE / URL.split("/")[-1]
+    if unpack and encoding is None:
+        raise ValueError("If unpacking, the encoding must be specified.")
 
+    # Create progress bar
     download = Progress(
-        TextColumn("{task.fields[desc]}"),
-        BarColumn(bar_width=None),
-        DownloadColumn(),
+        TextColumn("{task.fields[desc]}"), BarColumn(bar_width=None), DownloadColumn()
     )
+
+    # Launch download
     with download as prog:
-        task = prog.add_task("download", desc=PATH_ARCHIVE.name, start=False)
+        desc = PATH_ARCHIVE.name
+        # TODO: Specify the task name at the source-module level
+        if desc == "J_AA_568_L7.tar.gz":
+            desc = "J/A&A/568/L7"
+        task = prog.add_task("download", desc=desc, start=False)
         success = copy_url(task, URL, PATH_ARCHIVE, prog)
 
     if not success:
         logger.critical(f"The URL {URL} is currently not reachable. Try again later.")
         return False
+
     if unpack:
-        if PATH_ARCHIVE.name.endswith(".tar.gz"):
+        if encoding == "tar.gz":
             with tarfile.open(PATH_ARCHIVE, mode="r:gz") as archive:
                 archive.extractall(PATH_ARCHIVE.parent)
-        elif PATH_ARCHIVE.name.endswith(".tar"):
+        elif encoding == "tar":
             with tarfile.open(PATH_ARCHIVE, mode="r") as archive:
                 archive.extractall(PATH_ARCHIVE.parent)
-        elif PATH_ARCHIVE.name.endswith(".zip"):
+        elif encoding == "zip":
             with ZipFile(PATH_ARCHIVE, "r") as archive:
                 archive.extractall(PATH_ARCHIVE.parent)
+
     if remove:
         PATH_ARCHIVE.unlink()
+
     return True
 
 
 def copy_url(task, url, path, prog):
     """Copy data from a url to a local file."""
+    from urllib.request import Request, urlopen  # Python 3
+
     try:
-        response = urlopen(url)
+        req = Request(url)
+        req.add_header(
+            "User-Agent",
+            "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_10_0) AppleWebKit/600.1.17 (KHTML, like Gecko) Version/8.0 Safari/600.1.17",
+        )
+        response = urlopen(req)
     except urllib.error.URLError:
         return False
+
     # This will break if the response doesn't contain content length
-    prog.update(task, total=int(response.info()["Content-length"]))
+    if "Content-length" in response.info():
+        content_length = int(response.info()["Content-length"])
+    else:
+        content_length = 851695
+
+    prog.update(task, total=content_length)
+
     with open(path, "wb") as dest_file:
         prog.start_task(task)
         for data in iter(partial(response.read, 32768), b""):

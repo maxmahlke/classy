@@ -1,0 +1,226 @@
+obs_id,target_name,target_class,access_url,bib_reference,alt_target_name
+1985RV2_20141217_950_00,1985RV2,asteroid,http://spectre.imcce.fr/v1/m4ast/Spectre/1985RV2_20141217_950_00.txt,http://adsabs.harvard.edu/abs/2016A%26A...586A.129M,J85R02V
+1985RV2_20141217_950_01,1985RV2,asteroid,http://spectre.imcce.fr/v1/m4ast/Spectre/1985RV2_20141217_950_01.txt,http://adsabs.harvard.edu/abs/2016A%26A...586A.129M,J85R02V
+1988RJ6_20141218_950_00,1988RJ6,asteroid,http://spectre.imcce.fr/v1/m4ast/Spectre/1988RJ6_20141218_950_00.txt,http://adsabs.harvard.edu/abs/2016A%26A...586A.129M,J88R06J
+1991RJ2_20140903_950_00,1991RJ2,asteroid,http://spectre.imcce.fr/v1/m4ast/Spectre/1991RJ2_20140903_950_00.txt,,2001 FP6
+1992HF_20150526_950_00,1992HF,asteroid,http://spectre.imcce.fr/v1/m4ast/Spectre/1992HF_20150526_950_00.txt,,J92H00F
+1993OD_20131021_568_00,1993OD,asteroid,http://spectre.imcce.fr/v1/m4ast/Spectre/1993OD_20131021_568_00.txt,,1992_AY2
+1993QP_20140718_950_00,1993QP,asteroid,http://spectre.imcce.fr/v1/m4ast/Spectre/1993QP_20140718_950_00.txt,,J93Q00P
+1996FG3_19990101_675_00,1996FG3,asteroid,http://spectre.imcce.fr/v1/m4ast/Spectre/1996FG3_19990101_675_00.txt,http://adsabs.harvard.edu/abs/2001Icar..151..139B,1996_FG3
+1996FG3_20090330_568_00,1996FG3,asteroid,http://spectre.imcce.fr/v1/m4ast/Spectre/1996FG3_20090330_568_00.txt,http://adsabs.harvard.edu/abs/2011A%26A...530L..12D,1996_FG3
+1996FG3_20110109_950_00,1996FG3,asteroid,http://spectre.imcce.fr/v1/m4ast/Spectre/1996FG3_20110109_950_00.txt,http://adsabs.harvard.edu/abs/2011A%26A...530L..12D,1996_FG3
+1996RH25_20140915_950_00,1996RH25,asteroid,http://spectre.imcce.fr/v1/m4ast/Spectre/1996RH25_20140915_950_00.txt,http://adsabs.harvard.edu/abs/2016A%26A...586A.129M,J96R25H
+1996ST2_20140919_950_00,1996ST2,asteroid,http://spectre.imcce.fr/v1/m4ast/Spectre/1996ST2_20140919_950_00.txt,http://adsabs.harvard.edu/abs/2016A%26A...586A.129M,J96S02T
+1996XR5_20140914_950_00,1996XR5,asteroid,http://spectre.imcce.fr/v1/m4ast/Spectre/1996XR5_20140914_950_00.txt,http://adsabs.harvard.edu/abs/2016A%26A...586A.129M,J96X05R
+1997AN2_20131021_568_00,1997AN2,asteroid,http://spectre.imcce.fr/v1/m4ast/Spectre/1997AN2_20131021_568_00.txt,,1985_UW1
+1997GH28_20140212_950_00,1997GH28,asteroid,http://spectre.imcce.fr/v1/m4ast/Spectre/1997GH28_20140212_950_00.txt,,J97G28H
+1998ES_20140917_950_00,1998ES,asteroid,http://spectre.imcce.fr/v1/m4ast/Spectre/1998ES_20140917_950_00.txt,http://adsabs.harvard.edu/abs/2016A%26A...586A.129M,1998 ES
+1998FK15_20140915_950_00,1998FK15,asteroid,http://spectre.imcce.fr/v1/m4ast/Spectre/1998FK15_20140915_950_00.txt,http://adsabs.harvard.edu/abs/2016A%26A...586A.129M,J98F15K
+1998FM61_20140918_950_00,1998FM61,asteroid,http://spectre.imcce.fr/v1/m4ast/Spectre/1998FM61_20140918_950_00.txt,http://adsabs.harvard.edu/abs/2016A%26A...586A.129M,J98F61M
+1998HJ77_20140915_950_00,1998HJ77,asteroid,http://spectre.imcce.fr/v1/m4ast/Spectre/1998HJ77_20140915_950_00.txt,http://adsabs.harvard.edu/abs/2016A%26A...586A.129M,J98H77J
+1998HW51_20141013_950_00,1998HW51,asteroid,http://spectre.imcce.fr/v1/m4ast/Spectre/1998HW51_20141013_950_00.txt,http://adsabs.harvard.edu/abs/2016A%26A...586A.129M,J98H51W
+1998SC26_20150119_950_00,1998SC26,asteroid,http://spectre.imcce.fr/v1/m4ast/Spectre/1998SC26_20150119_950_00.txt,http://adsabs.harvard.edu/abs/2016A%26A...586A.129M,J98S26C
+1998SC75_20150504_950_00,1998SC75,asteroid,http://spectre.imcce.fr/v1/m4ast/Spectre/1998SC75_20150504_950_00.txt,http://adsabs.harvard.edu/abs/2016A%26A...586A.129M,1998 SC75
+1998SM61_20150115_950_00,1998SM61,asteroid,http://spectre.imcce.fr/v1/m4ast/Spectre/1998SM61_20150115_950_00.txt,http://adsabs.harvard.edu/abs/2016A%26A...586A.129M,J98S61M
+1998WQ5_20040823_568_00,1998WQ5,asteroid,http://spectre.imcce.fr/v1/m4ast/Spectre/1998WQ5_20040823_568_00.txt,,1998_WQ5
+1999FG51_20141007_950_00,1999FG51,asteroid,http://spectre.imcce.fr/v1/m4ast/Spectre/1999FG51_20141007_950_00.txt,http://adsabs.harvard.edu/abs/2016A%26A...586A.129M,J99F51G
+1999HO2_20141217_950_00,1999HO2,asteroid,http://spectre.imcce.fr/v1/m4ast/Spectre/1999HO2_20141217_950_00.txt,http://adsabs.harvard.edu/abs/2016A%26A...586A.129M,J99H02O
+1999JF55_20141013_950_00,1999JF55,asteroid,http://spectre.imcce.fr/v1/m4ast/Spectre/1999JF55_20141013_950_00.txt,http://adsabs.harvard.edu/abs/2016A%26A...586A.129M,J99J55F
+1999JG23_20141014_950_00,1999JG23,asteroid,http://spectre.imcce.fr/v1/m4ast/Spectre/1999JG23_20141014_950_00.txt,http://adsabs.harvard.edu/abs/2016A%26A...586A.129M,J99J23G
+1999JX41_20141014_950_00,1999JX41,asteroid,http://spectre.imcce.fr/v1/m4ast/Spectre/1999JX41_20141014_950_00.txt,http://adsabs.harvard.edu/abs/2016A%26A...586A.129M,J99J41X
+1999JZ112_20141215_950_01,1999JZ112,asteroid,http://spectre.imcce.fr/v1/m4ast/Spectre/1999JZ112_20141215_950_01.txt,http://adsabs.harvard.edu/abs/2016A%26A...586A.129M,J99JB2Z
+1999LM13_20140914_950_00,1999LM13,asteroid,http://spectre.imcce.fr/v1/m4ast/Spectre/1999LM13_20140914_950_00.txt,http://adsabs.harvard.edu/abs/2016A%26A...586A.129M,J99L13M
+1999NE28_20141010_950_00,1999NE28,asteroid,http://spectre.imcce.fr/v1/m4ast/Spectre/1999NE28_20141010_950_00.txt,http://adsabs.harvard.edu/abs/2016A%26A...586A.129M,J99N28E
+1999RH50_20141007_950_00,1999RH50,asteroid,http://spectre.imcce.fr/v1/m4ast/Spectre/1999RH50_20141007_950_00.txt,http://adsabs.harvard.edu/abs/2016A%26A...586A.129M,J99R50H
+1999RK189_20141217_950_00,1999RK189,asteroid,http://spectre.imcce.fr/v1/m4ast/Spectre/1999RK189_20141217_950_00.txt,http://adsabs.harvard.edu/abs/2016A%26A...586A.129M,J99RI9K
+1999RL199_20141125_950_00,1999RL199,asteroid,http://spectre.imcce.fr/v1/m4ast/Spectre/1999RL199_20141125_950_00.txt,http://adsabs.harvard.edu/abs/2016A%26A...586A.129M,J99RJ9L
+1999RM137_20140918_950_00,1999RM137,asteroid,http://spectre.imcce.fr/v1/m4ast/Spectre/1999RM137_20140918_950_00.txt,http://adsabs.harvard.edu/abs/2016A%26A...586A.129M,J99RD7M
+1999RS193_20141214_950_00,1999RS193,asteroid,http://spectre.imcce.fr/v1/m4ast/Spectre/1999RS193_20141214_950_00.txt,http://adsabs.harvard.edu/abs/2016A%26A...586A.129M,J99RJ3S
+1999SB7_20141218_950_00,1999SB7,asteroid,http://spectre.imcce.fr/v1/m4ast/Spectre/1999SB7_20141218_950_00.txt,http://adsabs.harvard.edu/abs/2016A%26A...586A.129M,J99S07B
+1999TB1_20150114_950_00,1999TB1,asteroid,http://spectre.imcce.fr/v1/m4ast/Spectre/1999TB1_20150114_950_00.txt,http://adsabs.harvard.edu/abs/2016A%26A...586A.129M,J99T01B
+1999TH165_20141014_950_00,1999TH165,asteroid,http://spectre.imcce.fr/v1/m4ast/Spectre/1999TH165_20141014_950_00.txt,http://adsabs.harvard.edu/abs/2016A%26A...586A.129M,J99TG5H
+1999TL103_20140915_950_00,1999TL103,asteroid,http://spectre.imcce.fr/v1/m4ast/Spectre/1999TL103_20140915_950_00.txt,http://adsabs.harvard.edu/abs/2016A%26A...586A.129M,J99TA3L
+1999TL149_20150120_950_00,1999TL149,asteroid,http://spectre.imcce.fr/v1/m4ast/Spectre/1999TL149_20150120_950_00.txt,http://adsabs.harvard.edu/abs/2016A%26A...586A.129M,J99TE9L
+1999TM123_20141217_950_00,1999TM123,asteroid,http://spectre.imcce.fr/v1/m4ast/Spectre/1999TM123_20141217_950_00.txt,http://adsabs.harvard.edu/abs/2016A%26A...586A.129M,J99TC3M
+1999TO9_20150126_950_00,1999TO9,asteroid,http://spectre.imcce.fr/v1/m4ast/Spectre/1999TO9_20150126_950_00.txt,http://adsabs.harvard.edu/abs/2016A%26A...586A.129M,J99T09O
+1999TR195_20150119_950_00,1999TR195,asteroid,http://spectre.imcce.fr/v1/m4ast/Spectre/1999TR195_20150119_950_00.txt,http://adsabs.harvard.edu/abs/2016A%26A...586A.129M,J99TJ5R
+1999TW200_20141202_950_00,1999TW200,asteroid,http://spectre.imcce.fr/v1/m4ast/Spectre/1999TW200_20141202_950_00.txt,http://adsabs.harvard.edu/abs/2016A%26A...586A.129M,1999 TW200
+1999TX176_20141216_950_00,1999TX176,asteroid,http://spectre.imcce.fr/v1/m4ast/Spectre/1999TX176_20141216_950_00.txt,http://adsabs.harvard.edu/abs/2016A%26A...586A.129M,J99TH6X
+1999VM55_20150114_950_00,1999VM55,asteroid,http://spectre.imcce.fr/v1/m4ast/Spectre/1999VM55_20150114_950_00.txt,http://adsabs.harvard.edu/abs/2016A%26A...586A.129M,J99V55M
+1999VR80_20150114_950_00,1999VR80,asteroid,http://spectre.imcce.fr/v1/m4ast/Spectre/1999VR80_20150114_950_00.txt,http://adsabs.harvard.edu/abs/2016A%26A...586A.129M,J99V80R
+1999VY30_20150119_950_00,1999VY30,asteroid,http://spectre.imcce.fr/v1/m4ast/Spectre/1999VY30_20150119_950_00.txt,http://adsabs.harvard.edu/abs/2016A%26A...586A.129M,J99V30Y
+1999XB100_20150504_950_00,1999XB100,asteroid,http://spectre.imcce.fr/v1/m4ast/Spectre/1999XB100_20150504_950_00.txt,http://adsabs.harvard.edu/abs/2016A%26A...586A.129M,J99XA0B
+1999XX262_20140903_950_00,1999XX262,asteroid,http://spectre.imcce.fr/v1/m4ast/Spectre/1999XX262_20140903_950_00.txt,,J99XQ2X
+2000AC102_20150114_950_00,2000AC102,asteroid,http://spectre.imcce.fr/v1/m4ast/Spectre/2000AC102_20150114_950_00.txt,http://adsabs.harvard.edu/abs/2016A%26A...586A.129M,K00AA2C
+2000AR77_20150505_950_00,2000AR77,asteroid,http://spectre.imcce.fr/v1/m4ast/Spectre/2000AR77_20150505_950_00.txt,http://adsabs.harvard.edu/abs/2016A%26A...586A.129M,K00A77R
+2000AZ90_20150115_950_00,2000AZ90,asteroid,http://spectre.imcce.fr/v1/m4ast/Spectre/2000AZ90_20150115_950_00.txt,http://adsabs.harvard.edu/abs/2016A%26A...586A.129M,K00A90Z
+2000EX106_20150311_950_00,2000EX106,asteroid,http://spectre.imcce.fr/v1/m4ast/Spectre/2000EX106_20150311_950_00.txt,,K00EA6X
+2000HD74_20150523_950_00,2000HD74,asteroid,http://spectre.imcce.fr/v1/m4ast/Spectre/2000HD74_20150523_950_00.txt,,K00H74D
+2000LY27_20150524_950_00,2000LY27,asteroid,http://spectre.imcce.fr/v1/m4ast/Spectre/2000LY27_20150524_950_00.txt,,K00L27Y
+2000OC49_20140913_950_00,2000OC49,asteroid,http://spectre.imcce.fr/v1/m4ast/Spectre/2000OC49_20140913_950_00.txt,http://adsabs.harvard.edu/abs/2016A%26A...586A.129M,K00O49C
+2000OG44_20150722_950_00,2000OG44,asteroid,http://spectre.imcce.fr/v1/m4ast/Spectre/2000OG44_20150722_950_00.txt,,K00O44G
+2000SQ304_20140917_950_00,2000SQ304,asteroid,http://spectre.imcce.fr/v1/m4ast/Spectre/2000SQ304_20140917_950_00.txt,http://adsabs.harvard.edu/abs/2016A%26A...586A.129M,K00SU4Q
+2000UV13_20050620_262_00,2000UV13,asteroid,http://spectre.imcce.fr/v1/m4ast/Spectre/2000UV13_20050620_262_00.txt,,2000_UV13
+2000WO61_20141013_950_00,2000WO61,asteroid,http://spectre.imcce.fr/v1/m4ast/Spectre/2000WO61_20141013_950_00.txt,http://adsabs.harvard.edu/abs/2016A%26A...586A.129M,K00W61O
+2000WO67_20150527_950_00,2000WO67,asteroid,http://spectre.imcce.fr/v1/m4ast/Spectre/2000WO67_20150527_950_00.txt,,K00W67O
+2000WR61_20140915_950_00,2000WR61,asteroid,http://spectre.imcce.fr/v1/m4ast/Spectre/2000WR61_20140915_950_00.txt,http://adsabs.harvard.edu/abs/2016A%26A...586A.129M,K00W61R
+2000WT143_20140915_950_00,2000WT143,asteroid,http://spectre.imcce.fr/v1/m4ast/Spectre/2000WT143_20140915_950_00.txt,http://adsabs.harvard.edu/abs/2016A%26A...586A.129M,K00WE3T
+2000WW109_20140913_950_00,2000WW109,asteroid,http://spectre.imcce.fr/v1/m4ast/Spectre/2000WW109_20140913_950_00.txt,http://adsabs.harvard.edu/abs/2016A%26A...586A.129M,K00WA9W
+2000XK26_20141216_950_00,2000XK26,asteroid,http://spectre.imcce.fr/v1/m4ast/Spectre/2000XK26_20141216_950_00.txt,http://adsabs.harvard.edu/abs/2016A%26A...586A.129M,K00X26K
+2000YF52_20141012_950_00,2000YF52,asteroid,http://spectre.imcce.fr/v1/m4ast/Spectre/2000YF52_20141012_950_00.txt,http://adsabs.harvard.edu/abs/2016A%26A...586A.129M,K00Y52F
+2000YJ66_20140821_950_00,2000YJ66,asteroid,http://spectre.imcce.fr/v1/m4ast/Spectre/2000YJ66_20140821_950_00.txt,,K00Y66J
+2000YK29_20140212_950_00,2000YK29,asteroid,http://spectre.imcce.fr/v1/m4ast/Spectre/2000YK29_20140212_950_00.txt,,K00Y29K
+2000YL29_20070715_950_00,2000YL29,asteroid,http://spectre.imcce.fr/v1/m4ast/Spectre/2000YL29_20070715_950_00.txt,,2000_YL29
+2000YQ86_20140919_950_00,2000YQ86,asteroid,http://spectre.imcce.fr/v1/m4ast/Spectre/2000YQ86_20140919_950_00.txt,http://adsabs.harvard.edu/abs/2016A%26A...586A.129M,K00Y86Q
+2000YZ6_20141125_950_00,2000YZ6,asteroid,http://spectre.imcce.fr/v1/m4ast/Spectre/2000YZ6_20141125_950_00.txt,http://adsabs.harvard.edu/abs/2016A%26A...586A.129M,2000 YZ6
+2001AH15_20141008_950_00,2001AH15,asteroid,http://spectre.imcce.fr/v1/m4ast/Spectre/2001AH15_20141008_950_00.txt,http://adsabs.harvard.edu/abs/2016A%26A...586A.129M,K01A15H
+2001AH16_20141013_950_00,2001AH16,asteroid,http://spectre.imcce.fr/v1/m4ast/Spectre/2001AH16_20141013_950_00.txt,http://adsabs.harvard.edu/abs/2016A%26A...586A.129M,K01A16H
+2001AN15_20140919_950_00,2001AN15,asteroid,http://spectre.imcce.fr/v1/m4ast/Spectre/2001AN15_20140919_950_00.txt,http://adsabs.harvard.edu/abs/2016A%26A...586A.129M,K01A15N
+2001BA63_20140913_950_00,2001BA63,asteroid,http://spectre.imcce.fr/v1/m4ast/Spectre/2001BA63_20140913_950_00.txt,http://adsabs.harvard.edu/abs/2016A%26A...586A.129M,K01B63A
+2001BE22_20141218_950_00,2001BE22,asteroid,http://spectre.imcce.fr/v1/m4ast/Spectre/2001BE22_20141218_950_00.txt,http://adsabs.harvard.edu/abs/2016A%26A...586A.129M,K01B22E
+2001BZ34_20140816_950_00,2001BZ34,asteroid,http://spectre.imcce.fr/v1/m4ast/Spectre/2001BZ34_20140816_950_00.txt,http://adsabs.harvard.edu/abs/2016A%26A...586A.129M,K01B34Z
+2001CF12_20141125_950_00,2001CF12,asteroid,http://spectre.imcce.fr/v1/m4ast/Spectre/2001CF12_20141125_950_00.txt,http://adsabs.harvard.edu/abs/2016A%26A...586A.129M,K01C12F
+2001CP44_20061026_262_00,2001CP44,asteroid,http://spectre.imcce.fr/v1/m4ast/Spectre/2001CP44_20061026_262_00.txt,,1973_GM
+2001CP44_20140212_950_00,2001CP44,asteroid,http://spectre.imcce.fr/v1/m4ast/Spectre/2001CP44_20140212_950_00.txt,,K01C44P
+2001CP44_20140514_950_00,2001CP44,asteroid,http://spectre.imcce.fr/v1/m4ast/Spectre/2001CP44_20140514_950_00.txt,,K01C44P
+2001DC6_20141218_950_00,2001DC6,asteroid,http://spectre.imcce.fr/v1/m4ast/Spectre/2001DC6_20141218_950_00.txt,http://adsabs.harvard.edu/abs/2016A%26A...586A.129M,K01D06C
+2001FH33_20141217_950_00,2001FH33,asteroid,http://spectre.imcce.fr/v1/m4ast/Spectre/2001FH33_20141217_950_00.txt,http://adsabs.harvard.edu/abs/2016A%26A...586A.129M,K01F33H
+2001FR157_20141216_950_00,2001FR157,asteroid,http://spectre.imcce.fr/v1/m4ast/Spectre/2001FR157_20141216_950_00.txt,http://adsabs.harvard.edu/abs/2016A%26A...586A.129M,K01FF7R
+2001GB_20141010_950_00,2001GB,asteroid,http://spectre.imcce.fr/v1/m4ast/Spectre/2001GB_20141010_950_00.txt,http://adsabs.harvard.edu/abs/2016A%26A...586A.129M,K01G00B
+2001HG53_20141216_950_00,2001HG53,asteroid,http://spectre.imcce.fr/v1/m4ast/Spectre/2001HG53_20141216_950_00.txt,http://adsabs.harvard.edu/abs/2016A%26A...586A.129M,K01H53G
+2001KY66_20141230_950_00,2001KY66,asteroid,http://spectre.imcce.fr/v1/m4ast/Spectre/2001KY66_20141230_950_00.txt,,K01K66Y
+2001OZ13_20051031_262_00,2001OZ13,asteroid,http://spectre.imcce.fr/v1/m4ast/Spectre/2001OZ13_20051031_262_00.txt,,2001_OZ13
+2001OZ13_20051031_262_01,2001OZ13,asteroid,http://spectre.imcce.fr/v1/m4ast/Spectre/2001OZ13_20051031_262_01.txt,,2001_OZ13
+2001RZ11_20140821_950_00,2001RZ11,asteroid,http://spectre.imcce.fr/v1/m4ast/Spectre/2001RZ11_20140821_950_00.txt,,K01R11Z
+2001SW169_20080827_568_00,2001SW169,asteroid,http://spectre.imcce.fr/v1/m4ast/Spectre/2001SW169_20080827_568_00.txt,,2001_SW169
+2002CA141_20141012_950_00,2002CA141,asteroid,http://spectre.imcce.fr/v1/m4ast/Spectre/2002CA141_20141012_950_00.txt,http://adsabs.harvard.edu/abs/2016A%26A...586A.129M,K02CE1A
+2002CD8_20141013_950_00,2002CD8,asteroid,http://spectre.imcce.fr/v1/m4ast/Spectre/2002CD8_20141013_950_00.txt,http://adsabs.harvard.edu/abs/2016A%26A...586A.129M,K02C08D
+2002CE26_20140813_950_00,2002CE26,asteroid,http://spectre.imcce.fr/v1/m4ast/Spectre/2002CE26_20140813_950_00.txt,,K02C26E
+2002CE26_20140903_950_00,2002CE26,asteroid,http://spectre.imcce.fr/v1/m4ast/Spectre/2002CE26_20140903_950_00.txt,,K02C26E
+2002CK142_20141012_950_00,2002CK142,asteroid,http://spectre.imcce.fr/v1/m4ast/Spectre/2002CK142_20141012_950_00.txt,http://adsabs.harvard.edu/abs/2016A%26A...586A.129M,K02CE2K
+2002CQ236_20140920_950_00,2002CQ236,asteroid,http://spectre.imcce.fr/v1/m4ast/Spectre/2002CQ236_20140920_950_00.txt,http://adsabs.harvard.edu/abs/2016A%26A...586A.129M,K02CN6Q
+2002GL74_20140918_950_00,2002GL74,asteroid,http://spectre.imcce.fr/v1/m4ast/Spectre/2002GL74_20140918_950_00.txt,http://adsabs.harvard.edu/abs/2016A%26A...586A.129M,K02G74L
+2002GM2_20150311_950_00,2002GM2,asteroid,http://spectre.imcce.fr/v1/m4ast/Spectre/2002GM2_20150311_950_00.txt,,
+2002LU4_20141202_950_00,2002LU4,asteroid,http://spectre.imcce.fr/v1/m4ast/Spectre/2002LU4_20141202_950_00.txt,http://adsabs.harvard.edu/abs/2016A%26A...586A.129M,K02L04U
+2002NG43_20141213_950_00,2002NG43,asteroid,http://spectre.imcce.fr/v1/m4ast/Spectre/2002NG43_20141213_950_00.txt,http://adsabs.harvard.edu/abs/2016A%26A...586A.129M,K02N43G
+2002NV_20150207_950_00,2002NV,asteroid,http://spectre.imcce.fr/v1/m4ast/Spectre/2002NV_20150207_950_00.txt,,
+2002OA22_20130921_568_00,2002OA22,asteroid,http://spectre.imcce.fr/v1/m4ast/Spectre/2002OA22_20130921_568_00.txt,,2002_OA22
+2002PB91_20150126_950_00,2002PB91,asteroid,http://spectre.imcce.fr/v1/m4ast/Spectre/2002PB91_20150126_950_00.txt,http://adsabs.harvard.edu/abs/2016A%26A...586A.129M,K02P91B
+2002RS28_20150527_950_00,2002RS28,asteroid,http://spectre.imcce.fr/v1/m4ast/Spectre/2002RS28_20150527_950_00.txt,,K02R28S
+2002SM30_20150121_950_00,2002SM30,asteroid,http://spectre.imcce.fr/v1/m4ast/Spectre/2002SM30_20150121_950_00.txt,http://adsabs.harvard.edu/abs/2016A%26A...586A.129M,K02S30M
+2002TC9_20060819_950_00,2002TC9,asteroid,http://spectre.imcce.fr/v1/m4ast/Spectre/2002TC9_20060819_950_00.txt,,2002_TC9
+2002VU94_20140728_950_00,2002VU94,asteroid,http://spectre.imcce.fr/v1/m4ast/Spectre/2002VU94_20140728_950_00.txt,,K02V94U
+2002VY94_20141230_950_00,2002VY94,asteroid,http://spectre.imcce.fr/v1/m4ast/Spectre/2002VY94_20141230_950_00.txt,,K02V94Y
+2003MV11_20141125_950_00,2003MV11,asteroid,http://spectre.imcce.fr/v1/m4ast/Spectre/2003MV11_20141125_950_00.txt,http://adsabs.harvard.edu/abs/2016A%26A...586A.129M,K03M11V
+2003PO1_20141007_950_00,2003PO1,asteroid,http://spectre.imcce.fr/v1/m4ast/Spectre/2003PO1_20141007_950_00.txt,http://adsabs.harvard.edu/abs/2016A%26A...586A.129M,K03P01O
+2003QE17_20140913_950_00,2003QE17,asteroid,http://spectre.imcce.fr/v1/m4ast/Spectre/2003QE17_20140913_950_00.txt,http://adsabs.harvard.edu/abs/2016A%26A...586A.129M,K03Q17E
+2003QH56_20141215_950_00,2003QH56,asteroid,http://spectre.imcce.fr/v1/m4ast/Spectre/2003QH56_20141215_950_00.txt,http://adsabs.harvard.edu/abs/2016A%26A...586A.129M,K03Q56H
+2003QO104_20000101_950_00,2003QO104,asteroid,http://spectre.imcce.fr/v1/m4ast/Spectre/2003QO104_20000101_950_00.txt,,2003_QO104
+2003QS59_20141012_950_00,2003QS59,asteroid,http://spectre.imcce.fr/v1/m4ast/Spectre/2003QS59_20141012_950_00.txt,http://adsabs.harvard.edu/abs/2016A%26A...586A.129M,K03Q59S
+2003QW63_20140918_950_00,2003QW63,asteroid,http://spectre.imcce.fr/v1/m4ast/Spectre/2003QW63_20140918_950_00.txt,http://adsabs.harvard.edu/abs/2016A%26A...586A.129M,K03Q63W
+2003QW63_20141202_950_00,2003QW63,asteroid,http://spectre.imcce.fr/v1/m4ast/Spectre/2003QW63_20141202_950_00.txt,http://adsabs.harvard.edu/abs/2016A%26A...586A.129M,K03Q63W
+2003SA36_20141012_950_00,2003SA36,asteroid,http://spectre.imcce.fr/v1/m4ast/Spectre/2003SA36_20141012_950_00.txt,http://adsabs.harvard.edu/abs/2016A%26A...586A.129M,K03S36A
+2003SW288_20141014_950_00,2003SW288,asteroid,http://spectre.imcce.fr/v1/m4ast/Spectre/2003SW288_20141014_950_00.txt,http://adsabs.harvard.edu/abs/2016A%26A...586A.129M,K03SS8W
+2003SX220_20150119_950_00,2003SX220,asteroid,http://spectre.imcce.fr/v1/m4ast/Spectre/2003SX220_20150119_950_00.txt,http://adsabs.harvard.edu/abs/2016A%26A...586A.129M,2003 SX220
+2003WL117_20150119_950_00,2003WL117,asteroid,http://spectre.imcce.fr/v1/m4ast/Spectre/2003WL117_20150119_950_00.txt,http://adsabs.harvard.edu/abs/2016A%26A...586A.129M,K03WB7L
+2003WX39_20141207_950_00,2003WX39,asteroid,http://spectre.imcce.fr/v1/m4ast/Spectre/2003WX39_20141207_950_00.txt,http://adsabs.harvard.edu/abs/2016A%26A...586A.129M,K03W39X
+2003XP17_20150126_950_00,2003XP17,asteroid,http://spectre.imcce.fr/v1/m4ast/Spectre/2003XP17_20150126_950_00.txt,http://adsabs.harvard.edu/abs/2016A%26A...586A.129M,2003 XP17
+2003YY12_20150116_950_00,2003YY12,asteroid,http://spectre.imcce.fr/v1/m4ast/Spectre/2003YY12_20150116_950_00.txt,http://adsabs.harvard.edu/abs/2016A%26A...586A.129M,K03Y12Y
+2004AF_20150206_950_00,2004AF,asteroid,http://spectre.imcce.fr/v1/m4ast/Spectre/2004AF_20150206_950_00.txt,,K04A00F
+2004BL86_20150206_950_00,2004BL86,asteroid,http://spectre.imcce.fr/v1/m4ast/Spectre/2004BL86_20150206_950_00.txt,http://adsabs.harvard.edu/abs/2015A%26A...581A...3B,K04B86L
+2004BL86_20150207_568_00,2004BL86,asteroid,http://spectre.imcce.fr/v1/m4ast/Spectre/2004BL86_20150207_568_00.txt,http://adsabs.harvard.edu/abs/2015A%26A...581A...3B,K04B86L
+2004BV88_20141214_950_00,2004BV88,asteroid,http://spectre.imcce.fr/v1/m4ast/Spectre/2004BV88_20141214_950_00.txt,http://adsabs.harvard.edu/abs/2016A%26A...586A.129M,K04B88V
+2004EW82_20150126_950_00,2004EW82,asteroid,http://spectre.imcce.fr/v1/m4ast/Spectre/2004EW82_20150126_950_00.txt,http://adsabs.harvard.edu/abs/2016A%26A...586A.129M,2004 EW82
+2004FZ1_20000101_950_00,2004FZ1,asteroid,http://spectre.imcce.fr/v1/m4ast/Spectre/2004FZ1_20000101_950_00.txt,,2004_FZ1
+2004JA27_20000101_950_00,2004JA27,asteroid,http://spectre.imcce.fr/v1/m4ast/Spectre/2004JA27_20000101_950_00.txt,,2004_JA27
+2004JN13_20141230_950_00,2004JN13,asteroid,http://spectre.imcce.fr/v1/m4ast/Spectre/2004JN13_20141230_950_00.txt,,K04J13N
+2004JN13_20150207_950_00,2004JN13,asteroid,http://spectre.imcce.fr/v1/m4ast/Spectre/2004JN13_20150207_950_00.txt,,K04J13N
+2004RN9_20040923_568_00,2004RN9,asteroid,http://spectre.imcce.fr/v1/m4ast/Spectre/2004RN9_20040923_568_00.txt,,2004_RN9
+2004RQ10_20000101_950_00,2004RQ10,asteroid,http://spectre.imcce.fr/v1/m4ast/Spectre/2004RQ10_20000101_950_00.txt,,2004_RQ10
+2004TD10_20041021_568_00,2004TD10,asteroid,http://spectre.imcce.fr/v1/m4ast/Spectre/2004TD10_20041021_568_00.txt,,2004_TD10
+2004TP1_20000101_950_00,2004TP1,asteroid,http://spectre.imcce.fr/v1/m4ast/Spectre/2004TP1_20000101_950_00.txt,,2004_TP1
+2005JF21_20150524_950_00,2005JF21,asteroid,http://spectre.imcce.fr/v1/m4ast/Spectre/2005JF21_20150524_950_00.txt,,K05J21F
+2005JF21_20150721_950_00,2005JF21,asteroid,http://spectre.imcce.fr/v1/m4ast/Spectre/2005JF21_20150721_950_00.txt,,K05J21F
+2005NA56_20150207_950_00,2005NA56,asteroid,http://spectre.imcce.fr/v1/m4ast/Spectre/2005NA56_20150207_950_00.txt,,K05N56A
+2005TR15_20140718_950_00,2005TR15,asteroid,http://spectre.imcce.fr/v1/m4ast/Spectre/2005TR15_20140718_950_00.txt,,
+2006AQ_20140903_950_00,2006AQ,asteroid,http://spectre.imcce.fr/v1/m4ast/Spectre/2006AQ_20140903_950_00.txt,,K06A00Q
+2006AT2_20150206_950_00,2006AT2,asteroid,http://spectre.imcce.fr/v1/m4ast/Spectre/2006AT2_20150206_950_00.txt,,
+2006KM103_20140821_950_00,2006KM103,asteroid,http://spectre.imcce.fr/v1/m4ast/Spectre/2006KM103_20140821_950_00.txt,,K06KA3M
+2006RE98_20150126_950_00,2006RE98,asteroid,http://spectre.imcce.fr/v1/m4ast/Spectre/2006RE98_20150126_950_00.txt,http://adsabs.harvard.edu/abs/2016A%26A...586A.129M,K06R98E
+2006SU131_20150524_950_00,2006SU131,asteroid,http://spectre.imcce.fr/v1/m4ast/Spectre/2006SU131_20150524_950_00.txt,,K06SD1U
+2006WP127_20150722_950_00,2006WP127,asteroid,http://spectre.imcce.fr/v1/m4ast/Spectre/2006WP127_20150722_950_00.txt,,K06WC7P
+2007ED125_20150311_950_00,2007ED125,asteroid,http://spectre.imcce.fr/v1/m4ast/Spectre/2007ED125_20150311_950_00.txt,,K07EC5D
+2007RT147_20141230_950_00,2007RT147,asteroid,http://spectre.imcce.fr/v1/m4ast/Spectre/2007RT147_20141230_950_00.txt,,K07RE7T
+2007SJ_20131021_568_00,2007SJ,asteroid,http://spectre.imcce.fr/v1/m4ast/Spectre/2007SJ_20131021_568_00.txt,,2007_SJ
+2008CY45_20141214_950_00,2008CY45,asteroid,http://spectre.imcce.fr/v1/m4ast/Spectre/2008CY45_20141214_950_00.txt,http://adsabs.harvard.edu/abs/2016A%26A...586A.129M,K08C45Y
+2008OB9_20140903_950_00,2008OB9,asteroid,http://spectre.imcce.fr/v1/m4ast/Spectre/2008OB9_20140903_950_00.txt,,K08O09B
+2008RG1_20140903_950_00,2008RG1,asteroid,http://spectre.imcce.fr/v1/m4ast/Spectre/2008RG1_20140903_950_00.txt,,2008_RG1
+2009BJ81_20140212_950_00,2009BJ81,asteroid,http://spectre.imcce.fr/v1/m4ast/Spectre/2009BJ81_20140212_950_00.txt,,K09B81J
+2009QF31_20140212_950_00,2009QF31,asteroid,http://spectre.imcce.fr/v1/m4ast/Spectre/2009QF31_20140212_950_00.txt,,K09Q31F
+2010LE15_20140728_950_00,2010LE15,asteroid,http://spectre.imcce.fr/v1/m4ast/Spectre/2010LE15_20140728_950_00.txt,,K10L15E
+2010SL13_20140212_950_00,2010SL13,asteroid,http://spectre.imcce.fr/v1/m4ast/Spectre/2010SL13_20140212_950_00.txt,,K10S13L
+2011WK15_20141230_950_00,2011WK15,asteroid,http://spectre.imcce.fr/v1/m4ast/Spectre/2011WK15_20141230_950_00.txt,,
+2012TW236_20141230_950_00,2012TW236,asteroid,http://spectre.imcce.fr/v1/m4ast/Spectre/2012TW236_20141230_950_00.txt,,K12TN6W
+2013WT67_20140902_950_00,2013WT67,asteroid,http://spectre.imcce.fr/v1/m4ast/Spectre/2013WT67_20140902_950_00.txt,,K13W67T
+2576PL_20141217_950_01,2576PL,asteroid,http://spectre.imcce.fr/v1/m4ast/Spectre/2576PL_20141217_950_01.txt,http://adsabs.harvard.edu/abs/2016A%26A...586A.129M,PLS2576
+3919T2_20141010_950_00,3919T2,asteroid,http://spectre.imcce.fr/v1/m4ast/Spectre/3919T2_20141010_950_00.txt,http://adsabs.harvard.edu/abs/2016A%26A...586A.129M,3919 T-2
+4788PL_20070715_950_00,4788PL,asteroid,http://spectre.imcce.fr/v1/m4ast/Spectre/4788PL_20070715_950_00.txt,,2003_SV84
+5122T3_20150114_950_00,5122T3,asteroid,http://spectre.imcce.fr/v1/m4ast/Spectre/5122T3_20150114_950_00.txt,http://adsabs.harvard.edu/abs/2016A%26A...586A.129M,T3S5122
+Adorea_20120220_950_00,Adorea,asteroid,http://spectre.imcce.fr/v1/m4ast/Spectre/Adorea_20120220_950_00.txt,http://adsabs.harvard.edu/abs/2016Icar..269....1F,
+Aesculapia_20121218_950_00,Aesculapia,asteroid,http://spectre.imcce.fr/v1/m4ast/Spectre/Aesculapia_20121218_950_00.txt,http://adsabs.harvard.edu/abs/2016Icar..269....1F,A923 VG
+Alcock_20121218_950_00,Alcock,asteroid,http://spectre.imcce.fr/v1/m4ast/Spectre/Alcock_20121218_950_00.txt,http://adsabs.harvard.edu/abs/2016Icar..269....1F,1984 UV
+Alfven_20121217_950_00,Alfven,asteroid,http://spectre.imcce.fr/v1/m4ast/Spectre/Alfven_20121217_950_00.txt,http://adsabs.harvard.edu/abs/2016Icar..269....1F,4506 P-L
+Annagerman_20120219_950_00,Annagerman,asteroid,http://spectre.imcce.fr/v1/m4ast/Spectre/Annagerman_20120219_950_00.txt,http://adsabs.harvard.edu/abs/2016Icar..269....1F,1975 VD2
+Antiope_20121218_950_00,Antiope,asteroid,http://spectre.imcce.fr/v1/m4ast/Spectre/Antiope_20121218_950_00.txt,http://adsabs.harvard.edu/abs/2016Icar..269....1F,1952 BK2
+Apophis_20000101_950_00,Apophis,asteroid,http://spectre.imcce.fr/v1/m4ast/Spectre/Apophis_20000101_950_00.txt,,2004_MN4
+Apophis_20000101_950_01,Apophis,asteroid,http://spectre.imcce.fr/v1/m4ast/Spectre/Apophis_20000101_950_01.txt,,2004_MN4
+Apophis_20050108_568_00,Apophis,asteroid,http://spectre.imcce.fr/v1/m4ast/Spectre/Apophis_20050108_568_00.txt,http://adsabs.harvard.edu/abs/2009Icar..200..480B,2004_MN4
+Astronomia_20100302_568_00,Astronomia,asteroid,http://spectre.imcce.fr/v1/m4ast/Spectre/Astronomia_20100302_568_00.txt,http://adsabs.harvard.edu/abs/2018RoAJ...28...33B,1154
+Beagle_20121218_950_00,Beagle,asteroid,http://spectre.imcce.fr/v1/m4ast/Spectre/Beagle_20121218_950_00.txt,http://adsabs.harvard.edu/abs/2016Icar..269....1F,1908BU
+Betulia_20150526_950_00,Betulia,asteroid,http://spectre.imcce.fr/v1/m4ast/Spectre/Betulia_20150526_950_00.txt,,1950 KA
+Deakferenc_20140917_950_00,Deakferenc,asteroid,http://spectre.imcce.fr/v1/m4ast/Spectre/Deakferenc_20140917_950_00.txt,http://adsabs.harvard.edu/abs/2016A%26A...586A.129M,2001 AC
+Erato_20120219_950_00,Erato,asteroid,http://spectre.imcce.fr/v1/m4ast/Spectre/Erato_20120219_950_00.txt,http://adsabs.harvard.edu/abs/2016Icar..269....1F,1906 BE
+Gavrilin_20150206_950_00,Gavrilin,asteroid,http://spectre.imcce.fr/v1/m4ast/Spectre/Gavrilin_20150206_950_00.txt,,1975 AN
+Geographos_20141230_950_00,Geographos,asteroid,http://spectre.imcce.fr/v1/m4ast/Spectre/Geographos_20141230_950_00.txt,,1951 RA
+Gismonda_20121218_950_00,Gismonda,asteroid,http://spectre.imcce.fr/v1/m4ast/Spectre/Gismonda_20121218_950_00.txt,http://adsabs.harvard.edu/abs/2016Icar..269....1F,1902JR
+Glarona_20120219_950_00,Glarona,asteroid,http://spectre.imcce.fr/v1/m4ast/Spectre/Glarona_20120219_950_00.txt,http://adsabs.harvard.edu/abs/2016Icar..269....1F,1965 SC
+Graz_20130921_568_00,Graz,asteroid,http://spectre.imcce.fr/v1/m4ast/Spectre/Graz_20130921_568_00.txt,,1953_GG
+Graz_20131021_568_00,Graz,asteroid,http://spectre.imcce.fr/v1/m4ast/Spectre/Graz_20131021_568_00.txt,,1953_GG
+Hecht_20111116_568_00,Hecht,asteroid,http://spectre.imcce.fr/v1/m4ast/Spectre/Hecht_20111116_568_00.txt,http://adsabs.harvard.edu/abs/2016RoAJ...26..127B,1983 WM
+Ichikawa_20121218_950_00,Ichikawa,asteroid,http://spectre.imcce.fr/v1/m4ast/Spectre/Ichikawa_20121218_950_00.txt,http://adsabs.harvard.edu/abs/2016Icar..269....1F,1989 UD
+Ishtar_20051031_262_00,Ishtar,asteroid,http://spectre.imcce.fr/v1/m4ast/Spectre/Ishtar_20051031_262_00.txt,,1992_AA
+Janina_20120219_950_00,Janina,asteroid,http://spectre.imcce.fr/v1/m4ast/Spectre/Janina_20120219_950_00.txt,http://adsabs.harvard.edu/abs/2016Icar..269....1F,1894AU
+Jena_20121218_950_00,Jena,asteroid,http://spectre.imcce.fr/v1/m4ast/Spectre/Jena_20121218_950_00.txt,http://adsabs.harvard.edu/abs/2016Icar..269....1F,1904NQ
+Jerrynelson_20141218_950_00,Jerrynelson,asteroid,http://spectre.imcce.fr/v1/m4ast/Spectre/Jerrynelson_20141218_950_00.txt,http://adsabs.harvard.edu/abs/2016A%26A...586A.129M,1999 TE213
+Kondojiro_20150207_950_00,Kondojiro,asteroid,http://spectre.imcce.fr/v1/m4ast/Spectre/Kondojiro_20150207_950_00.txt,,1994 EQ3
+Kourakuen_20111115_568_00,Kourakuen,asteroid,http://spectre.imcce.fr/v1/m4ast/Spectre/Kourakuen_20111115_568_00.txt,,1977_DD1
+Lermontov_20120220_950_00,Lermontov,asteroid,http://spectre.imcce.fr/v1/m4ast/Spectre/Lermontov_20120220_950_00.txt,http://adsabs.harvard.edu/abs/2016Icar..269....1F,1977 ST1
+Levy_20150206_950_00,Levy,asteroid,http://spectre.imcce.fr/v1/m4ast/Spectre/Levy_20150206_950_00.txt,,1985 QS
+Li_20120219_950_01,Li,asteroid,http://spectre.imcce.fr/v1/m4ast/Spectre/Li_20120219_950_01.txt,http://adsabs.harvard.edu/abs/2016Icar..269....1F,1921JU
+Lina_20121219_950_00,Lina,asteroid,http://spectre.imcce.fr/v1/m4ast/Spectre/Lina_20121219_950_00.txt,http://adsabs.harvard.edu/abs/2016Icar..269....1F,1901FZ
+Lipperta_20120220_950_00,Lipperta,asteroid,http://spectre.imcce.fr/v1/m4ast/Spectre/Lipperta_20120220_950_00.txt,http://adsabs.harvard.edu/abs/2016Icar..269....1F,1916AT
+Masaakikoyama_20050619_262_00,Masaakikoyama,asteroid,http://spectre.imcce.fr/v1/m4ast/Spectre/Masaakikoyama_20050619_262_00.txt,,1992_JE
+Memoria_20121219_950_00,Memoria,asteroid,http://spectre.imcce.fr/v1/m4ast/Spectre/Memoria_20121219_950_00.txt,http://adsabs.harvard.edu/abs/2016Icar..269....1F,1932 QA
+Nicolabonev_20150112_950_00,Nicolabonev,asteroid,http://spectre.imcce.fr/v1/m4ast/Spectre/Nicolabonev_20150112_950_00.txt,http://adsabs.harvard.edu/abs/2016A%26A...586A.129M,1988 RM8
+Oljato_19811229_568_00,Oljato,asteroid,http://spectre.imcce.fr/v1/m4ast/Spectre/Oljato_19811229_568_00.txt,http://adsabs.harvard.edu/abs/1993JGR....98.3031M,1947_XC
+Oljato_19830706_711_00,Oljato,asteroid,http://spectre.imcce.fr/v1/m4ast/Spectre/Oljato_19830706_711_00.txt,http://adsabs.harvard.edu/abs/1993JGR....98.3031M,1947_XC
+Parvamenon_20140918_950_00,Parvamenon,asteroid,http://spectre.imcce.fr/v1/m4ast/Spectre/Parvamenon_20140918_950_00.txt,http://adsabs.harvard.edu/abs/2016A%26A...586A.129M,1998 FC34
+Ptah_20000101_950_00,Ptah,asteroid,http://spectre.imcce.fr/v1/m4ast/Spectre/Ptah_20000101_950_00.txt,,6743_P-L
+Romania_20150524_950_00,Romania,asteroid,http://spectre.imcce.fr/v1/m4ast/Spectre/Romania_20150524_950_00.txt,,1981 EG15
+Rupertwildt_20121218_950_00,Rupertwildt,asteroid,http://spectre.imcce.fr/v1/m4ast/Spectre/Rupertwildt_20121218_950_00.txt,http://adsabs.harvard.edu/abs/2016Icar..269....1F,1951 UK
+Sabrina_20121218_950_00,Sabrina,asteroid,http://spectre.imcce.fr/v1/m4ast/Spectre/Sabrina_20121218_950_00.txt,http://adsabs.harvard.edu/abs/2016Icar..269....1F,1979 YK
+Safronov_20121217_950_00,Safronov,asteroid,http://spectre.imcce.fr/v1/m4ast/Spectre/Safronov_20121217_950_00.txt,http://adsabs.harvard.edu/abs/2016Icar..269....1F,1983 WZ
+Saskia_20120219_950_00,Saskia,asteroid,http://spectre.imcce.fr/v1/m4ast/Spectre/Saskia_20120219_950_00.txt,http://adsabs.harvard.edu/abs/2016Icar..269....1F,1900FP
+SoyuzApollo_20121219_950_00,SoyuzApollo,asteroid,http://spectre.imcce.fr/v1/m4ast/Spectre/SoyuzApollo_20121219_950_00.txt,http://adsabs.harvard.edu/abs/2016Icar..269....1F,1977 OH
+Steins_20061222_568_00,Steins,asteroid,http://spectre.imcce.fr/v1/m4ast/Spectre/Steins_20061222_568_00.txt,http://adsabs.harvard.edu/abs/2007A%26A...473L..33N,1969_VC
+Steins_20070121_568_00,Steins,asteroid,http://spectre.imcce.fr/v1/m4ast/Spectre/Steins_20070121_568_00.txt,http://adsabs.harvard.edu/abs/2007A%26A...473L..33N,1969_VC
+Steins_20070312_568_00,Steins,asteroid,http://spectre.imcce.fr/v1/m4ast/Spectre/Steins_20070312_568_00.txt,http://adsabs.harvard.edu/abs/2007A%26A...473L..33N,1969_VC
+Steins_20070313_568_00,Steins,asteroid,http://spectre.imcce.fr/v1/m4ast/Spectre/Steins_20070313_568_00.txt,http://adsabs.harvard.edu/abs/2007A%26A...473L..33N,1969_VC
+Themis_20121218_950_00,Themis,asteroid,http://spectre.imcce.fr/v1/m4ast/Spectre/Themis_20121218_950_00.txt,http://adsabs.harvard.edu/abs/2016Icar..269....1F,1947 BA
+Veryuslaviya_20140816_950_00,Veryuslaviya,asteroid,http://spectre.imcce.fr/v1/m4ast/Spectre/Veryuslaviya_20140816_950_00.txt,http://adsabs.harvard.edu/abs/2016A%26A...586A.129M,1974 SF
+Vivian_20120220_950_00,Vivian,asteroid,http://spectre.imcce.fr/v1/m4ast/Spectre/Vivian_20120220_950_00.txt,http://adsabs.harvard.edu/abs/2016Icar..269....1F,1948 PL
+Vladimirskij_20121217_950_00,Vladimirskij,asteroid,http://spectre.imcce.fr/v1/m4ast/Spectre/Vladimirskij_20121217_950_00.txt,http://adsabs.harvard.edu/abs/2016Icar..269....1F,1978 QJ2
+Voloshina_20121218_950_00,Voloshina,asteroid,http://spectre.imcce.fr/v1/m4ast/Spectre/Voloshina_20121218_950_00.txt,http://adsabs.harvard.edu/abs/2016Icar..269....1F,1968 UL
+Werdandi_20120219_950_00,Werdandi,asteroid,http://spectre.imcce.fr/v1/m4ast/Spectre/Werdandi_20120219_950_00.txt,http://adsabs.harvard.edu/abs/2016Icar..269....1F,1906WJ
+Yazhi_20121218_950_00,Yazhi,asteroid,http://spectre.imcce.fr/v1/m4ast/Spectre/Yazhi_20121218_950_00.txt,http://adsabs.harvard.edu/abs/2016Icar..269....1F,1980 ED
+vanRhijn_20121217_950_00,vanRhijn,asteroid,http://spectre.imcce.fr/v1/m4ast/Spectre/vanRhijn_20121217_950_00.txt,http://adsabs.harvard.edu/abs/2016Icar..269....1F,1935 SQ1

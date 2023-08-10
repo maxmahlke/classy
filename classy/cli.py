@@ -151,7 +151,8 @@ def status():
 
     if decision == "1":
         decision = prompt.Prompt.ask(
-            f"\nThis will delete the cache directory and all its contents. Are you sure?",
+            "\nThis will delete the cache directory and all its contents,\n"
+            "[bold]including the preprocessing- and feature parameters[/bold]. Are you sure?",
             choices=["y", "n"],
             show_choices=True,
         )
@@ -164,5 +165,3 @@ def status():
         rocks.set_log_level("CRITICAL")
         classy.set_log_level("CRITICAL")
         sources._retrieve_spectra()
-
-        # cache.echo_inventory()
