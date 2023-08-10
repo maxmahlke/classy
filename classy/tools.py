@@ -67,7 +67,11 @@ def download_archive(URL, PATH_ARCHIVE, unpack=True, remove=True, encoding=None)
 
     # Launch download
     with download as prog:
-        task = prog.add_task("download", desc=PATH_ARCHIVE.name, start=False)
+        desc = PATH_ARCHIVE.name
+        # TODO: Specify the task name at the source-module level
+        if desc == "J_AA_568_L7.tar.gz":
+            desc = "J/A&A/568/L7"
+        task = prog.add_task("download", desc=desc, start=False)
         success = copy_url(task, URL, PATH_ARCHIVE, prog)
 
     if not success:
@@ -109,7 +113,7 @@ def copy_url(task, url, path, prog):
     if "Content-length" in response.info():
         content_length = int(response.info()["Content-length"])
     else:
-        content_length = 100
+        content_length = 851695
 
     prog.update(task, total=content_length)
 
