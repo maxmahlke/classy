@@ -59,6 +59,7 @@ def echo_inventory():
         for i, (source, obs) in enumerate(
             idx.sort_values("source").groupby("source"), 1
         ):
+            # TODO: Only show (public|private) if there are private sources
             public = all(obs.public)
 
             rich.print(
