@@ -26,11 +26,38 @@ def _create_index(PATH_REPO):
             id_, ref, date_obs = pds.parse_xml(xml_file)
             file_ = xml_file.with_suffix(".tab")
 
-            # Convert ref from XML to bibcode and shortbib
-            bibcode, shortbib = REFERENCES[ref]
-
             # Identify asteroid
             name, number = rocks.id(id_)
+
+            # The XML always contains both references, so default is Fornasier+ 2004
+            if number in [
+                23549,
+                24452,
+                47967,
+                124729,
+                5511,
+                51359,
+                11663,
+                32794,
+                56968,
+                99328,
+                105685,
+                120453,
+                9030,
+                11488,
+                31820,
+                48252,
+                84709,
+                4829,
+                30698,
+                31821,
+                76804,
+                111113,
+            ]:
+                ref = "FORNASIERETAL2007"
+
+            # Convert ref from XML to bibcode and shortbib
+            bibcode, shortbib = REFERENCES[ref]
 
             # Create index entry
             entry = pd.DataFrame(
