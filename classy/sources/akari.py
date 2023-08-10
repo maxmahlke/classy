@@ -58,10 +58,6 @@ def load_spectrum(spec):
 
 def _retrieve_spectra():
     """Download the AcuA-spec archive to cache."""
-
-    import tarfile
-    import requests
-
     URL = "https://darts.isas.jaxa.jp/pub/akari/AKARI-IRC_Spectrum_Pointed_AcuA_1.0/AcuA_1.0.tar.gz"
     PATH_AKARI = config.PATH_CACHE / "akari"
 
@@ -69,10 +65,8 @@ def _retrieve_spectra():
 
     # Retrieve spectra
     logger.info("Retrieving AKARI AcuA-spec reflectance spectra to cache...")
-    tools.download_archive(URL, PATH_AKARI)
-    # with requests.get(URL, stream=True) as file_:
-    #     with tarfile.open(fileobj=file_.raw, mode="r:gz") as archive:
-    # archive.extractall(PATH_AKARI)
+    tools.download_archive(URL, PATH_AKARI / "AcuA_1.0.tar.gz", encoding="tar.gz")
+
     if not (PATH_AKARI / "AcuA_1.0/target.txt").is_file():
         return
 

@@ -15,7 +15,7 @@ def load_spectrum(meta):
     wave = data[:, 0]
     refl = data[:, 1]
 
-    if data.shape[1] > 1:
+    if data.shape[1] > 2:
         refl_err = data[:, 2]
     else:
         refl_err = None
