@@ -66,7 +66,7 @@ def _retrieve_spectra():
             # Download spectrum
             filename = row.access_url.split("/")[-1]
 
-            # urlretrieve(row.access_url, PATH_M4AST / filename)
+            urlretrieve(row.access_url, PATH_M4AST / filename)
 
             name, number = rocks.id(row.target_name)
             date_obs = ""

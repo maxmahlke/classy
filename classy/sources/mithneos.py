@@ -59,7 +59,9 @@ def _retrieve_spectra():
     for dir, URL in DIR_URLS:
         # continue
         (PATH_OUT / dir).mkdir(exist_ok=True, parents=True)
-        tools.download_archive(URL, PATH_OUT / dir)
+        tools.download_archive(
+            URL, PATH_OUT / dir / URL.split("/")[-1], encoding=URL.split(".")[-1]
+        )
     log = load_obslog()
 
     # Create index for these archives
