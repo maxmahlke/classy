@@ -16,6 +16,8 @@ import classy.preprocessing
 from classy import taxonomies
 from classy import sources
 
+# from classy import progress
+
 
 @click.group()
 @click.version_option(version=classy.__version__, message="%(version)s")
@@ -165,3 +167,31 @@ def status():
         rocks.set_log_level("CRITICAL")
         classy.set_log_level("CRITICAL")
         sources._retrieve_spectra()
+
+
+@cli_classy.command()
+@click.argument("collection", type=str)
+def preprocess(collection):
+    """Run interactive preprocessing for spectra in a collection."""
+    idx = index.load()
+    print(idx.collection.unique())
+    idx = idx[idx.source == collection]
+
+    # with progress.mofn as mofn:
+    #     task = mofn.add_task("Preprocessing Spetra")
+
+    for i, (_, spec) in enumerate(idx.iterrows()):
+        print(i, len(idx))
+        spec = classy.Spectra(spec)[0]
+
+        if not spec.has_smoothing_parameters:
+            spec.smooth_interactive()
+        else:
+            spec.smooth()
+
+        for feature in ["e", "h", "k"]:
+            feature = getattr(spec, feature)
+            if feature.is_observed and not feature.has_fit_parameters:
+                feature.fit_interactive()
+
+        # mofn.update(step=1)
