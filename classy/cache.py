@@ -45,13 +45,17 @@ def remove():
 
 
 def echo_inventory():
+    """Echo inventory statistics based on the classy spectra index."""
     idx = index.load()
     sources_ = list(idx.source.unique())
+
+    all_public = idx[idx.host == "Private"].empty
+    legend = "([bold]public[/bold]|[dim]private[/dim])" if not all_public else ""
 
     rich.print(
         f"""\nContents of {config.PATH_CACHE}:
 
-    {len(idx)} asteroid reflectance spectra from {len(sources_)} sources ([bold]public[/bold]|[dim]private[/dim])
+    {len(idx)} asteroid reflectance spectra from {len(sources_)} sources {legend}
       """
     )
 
@@ -59,11 +63,11 @@ def echo_inventory():
         for i, (source, obs) in enumerate(
             idx.sort_values("source").groupby("source"), 1
         ):
-            # TODO: Only show (public|private) if there are private sources
-            public = all(obs.public)
+            public = obs.host.values[0] != "Private"
+            highlight = "dim" if not public else "bold"
 
             rich.print(
-                f"    {'[dim]' if not public else '[bold]'}{source:<8}{'[/dim]' if not public else '[/bold]'} {len(obs):>5}",
+                f"    [{highlight}]{source:<8}[/{highlight}] {len(obs):>5}",
                 end="",
             )
 
