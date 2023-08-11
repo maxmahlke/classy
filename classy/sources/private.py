@@ -79,6 +79,7 @@ def parse_index(PATH_INDEX):
                 entry[col] = row[col]
 
         entry["host"] = "Private"
+        entry["module"] = "private"
         entry["public"] = False
 
         entries.append(entry)

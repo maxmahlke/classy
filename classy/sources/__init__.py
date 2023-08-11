@@ -36,15 +36,12 @@ def load_spectrum(idx):
         The requested spectrum.
     """
 
-    # Resolve where to look for the data and spectrum kwargs based on host and
-    # collection modules
-    host = getattr(sources, idx.host)
-
-    if idx.host in ["PDS", "CDS"]:
-        host = getattr(host, idx.collection)
+    # Resolve where to look for the data and spectrum kwargs based on host module
+    host = getattr(sources, idx.host) if idx.host in ["PDS", "CDS"] else sources
+    module = getattr(host, idx.module)
 
     # Load data and metadata
-    data, meta = host._load_data(idx)
+    data, meta = module._load_data(idx)
 
     # ------
     # Instantiate spectrum
@@ -57,7 +54,7 @@ def load_spectrum(idx):
         setattr(spec, col, data[col])
 
     # Add metadata from index
-    for attr in ["shortbib", "bibcode", "source", "host", "collection", "date_obs"]:
+    for attr in ["shortbib", "bibcode", "host", "source", "date_obs"]:
         setattr(spec, attr, idx[attr])
 
     # Add collection-specific metadata

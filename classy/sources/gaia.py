@@ -124,7 +124,7 @@ def _retrieve_spectra():
     entries["N"] = 16
     entries["date_obs"] = ""
     entries["source"] = "Gaia"
-    entries["host"] = "gaia"
-    entries["collection"] = "gaia"
+    entries["host"] = "Gaia"
+    entries["module"] = "gaia"
 
     index.add(entries)
