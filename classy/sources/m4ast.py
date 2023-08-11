@@ -18,7 +18,7 @@ REFERENCES = {
     "2011A&A...530L..12D": ["2011A&A...530L..12D", "de León+ 2011"],
     "2015A%26A...581A...3B": ["2015A&A...581A...3B", "Birlan+ 2015"],
     "2015A&A...581A...3B": ["2015A&A...581A...3B", "Birlan+ 2015"],
-    "2016Icar..269....1F": ["2016Icar..269....1F", "Fornasaier+ 2016"],
+    "2016Icar..269....1F": ["2016Icar..269....1F", "Fornasier+ 2016"],
     "2009Icar..200..480B": ["2009Icar..200..480B", "Binzel+ 2009"],
     "2018RoAJ...28...33B": ["2018RoAJ...28...33B", "Birlan & Nedelcu 2018"],
     "2016RoAJ...26..127B": ["2016RoAJ...26..127B", "Birlan 2016"],
@@ -38,6 +38,20 @@ def _retrieve_spectra():
     logger.info("Retrieving all M4AST reflectance spectra to cache...")
 
     catalogue = load_catalogue()
+
+    for ind, row in catalogue.iterrows():
+        if not pd.isna(row.bib_reference):
+            bib = row.bib_reference.split("/")[-1]
+            bib = REFERENCES[bib][0]
+            ref = REFERENCES[bib][1]
+        else:
+            bib = "Unpublished"
+            ref = "Unpublished"
+        catalogue.loc[ind, "bibcode"] = bib
+        catalogue.loc[ind, "shortbib"] = ref
+
+    # Do not index these spectra - already in SMASS/PRIMASS
+    catalogue = catalogue[~catalogue.shortbib.isin(["Binzel+ 2001", "Morate+ 2016"])]
 
     # Add to global spectra index.
     entries = []
@@ -71,18 +85,6 @@ def _retrieve_spectra():
             name, number = rocks.id(row.target_name)
             date_obs = ""
 
-            if not pd.isna(row.bib_reference):
-                bib = row.bib_reference.split("/")[-1]
-                bib = REFERENCES[bib][0]
-                ref = REFERENCES[bib][1]
-            else:
-                bib = "Unpublished"
-                ref = "Unpublished"
-
-            # Do not index these spectra - already in SMASS/PRIMASS
-            if ref in ["Binzel+ 2001", "Morate+ 2016"]:
-                continue
-
             data = _load_data(PATH_M4AST / filename)
             wave = data["wave"]
 
@@ -93,8 +95,8 @@ def _retrieve_spectra():
                     "name": name,
                     "number": number,
                     "filename": f"m4ast/{filename}",
-                    "shortbib": ref,
-                    "bibcode": bib,
+                    "shortbib": row.shortbib,
+                    "bibcode": row.bibcode,
                     "wave_min": min(wave),
                     "wave_max": max(wave),
                     "N": len(wave),
