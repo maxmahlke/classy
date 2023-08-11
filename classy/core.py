@@ -103,6 +103,8 @@ class Spectrum:
         self.refl_original = self.refl.copy()
         self.refl_err_original = None if self.refl_err is None else self.refl_err.copy()
 
+        self.is_smoothed = False
+
     def reset_data(self):
         self.wave = self.wave_original.copy()
         self.refl = self.refl_original.copy()
