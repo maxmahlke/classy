@@ -5,6 +5,7 @@ classy.md
 docs/gfx/make_dark.sh
 docs/_static/logo_classy.png
 tests/htmlcov
+pyrightconfig.json
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
