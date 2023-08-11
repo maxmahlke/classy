@@ -78,6 +78,8 @@ def get_id_from_filename(file_):
         number = re.match(r"(\d\d\d\d\d\d)", id_)
         if number:
             match = number.group(0)
+    else:
+        match = id_
     return match
 
 
