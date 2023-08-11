@@ -78,7 +78,7 @@ def parse_index(PATH_INDEX):
             if col in ind.columns:
                 entry[col] = row[col]
 
-        entry["host"] = "private"
+        entry["host"] = "Private"
         entry["public"] = False
 
         entries.append(entry)
