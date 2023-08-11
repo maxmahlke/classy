@@ -7,6 +7,8 @@ from classy.sources import pds
 
 REFERENCES = {"SAWYER1991": ["1991PhDT.......105S", "Sawyer 1991"]}
 
+DATA_KWARGS = {"names": ["wave", "refl", "refl_err"], "delimiter": r"\s+"}
+
 
 def _create_index(PATH_REPO):
     """Create index of spectra collection."""
