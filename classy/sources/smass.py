@@ -10,39 +10,38 @@ from classy.log import logger
 from classy import tools
 
 
-def load_spectrum(spec):
-    """Load a cached SMASS spectrum."""
-    PATH_SPEC = config.PATH_CACHE / spec.filename
+def _load_data(idx):
+    """Load data and metadata of a cached Gaia spectrum.
 
-    data = pd.read_csv(
-        PATH_SPEC, names=["wave", "refl", "err", "flag"], delimiter="\s+"
-    )
+    Parameters
+    ----------
+    idx : pd.Series
+        A row from the classy spectra index.
 
-    if "smass1/" in spec.filename:
-        data.wave /= 10000
+    Returns
+    -------
+    pd.DataFrame, dict
+        The data and metadata. List-like attributes are in the dataframe,
+        single-value attributes in the dictionary.
+    """
 
-    # 2 - reject. This is flag 0 in SMASS
-    flags = [0 if f != 0 else 2 for f in data["flag"].values]
+    # Load spectrum data file
+    PATH_DATA = config.PATH_CACHE / idx.filename
+    data = pd.read_csv(PATH_DATA, names=["wave", "refl", "refl_err"], delimiter=r"\s+")
 
-    spec = core.Spectrum(
-        wave=data["wave"],
-        refl=data["refl"],
-        refl_err=data["err"],
-        flag=flags,
-        source="SMASS",
-        run=spec.filename.split("."),
-        name=spec["name"],
-        number=spec.number,
-        bibcode=spec.bibcode,
-        shortbib=spec.shortbib,
-        host="smass",
-        date_obs=spec.date_obs,
-        filename=spec.filename,
-    )
-    return spec
+    data["flag"] = [0 if f != 0 else 2 for f in data["flag"]]
+
+    # Adapt wavelength of smass1
+    if "/smass1/" in str(PATH_DATA):
+        if idx["name"] != "Schiaparelli":
+            data["wave"] /= 10000
+
+    # No metadata to return
+    return data, {}
 
 
 def load_obslog():
+    """Load the SMASS observation log from cache or from remote."""
     PATH_LOG = config.PATH_CACHE / "smass/obslog.csv"
     if not PATH_LOG.is_file():
         tools._retrieve_from_github(host="smass", which="obslog", path=PATH_LOG)
@@ -206,12 +205,3 @@ def _retrieve_spectra():
     entries = pd.concat(entries)
     index.add(entries)
     logger.info(f"Added {len(entries)} SMASS spectra to the classy index.")
-
-
-def _load_data(PATH, dir, name):
-    data = pd.read_csv(PATH, names=["wave", "refl", "refl_err"], delimiter=r"\s+")
-
-    if dir == "smass1":
-        if name != "Schiaparelli":
-            data["wave"] /= 10000
-    return data

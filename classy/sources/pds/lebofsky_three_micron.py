@@ -12,6 +12,25 @@ REFERENCES = {
 }
 
 
+def _load_data(idx):
+    """Load data and metadata of a cached Gaia spectrum.
+
+    Parameters
+    ----------
+    idx : pd.Series
+        A row from the classy spectra index.
+
+    Returns
+    -------
+    pd.DataFrame, dict
+        The data and metadata. List-like attributes are in the dataframe,
+        single-value attributes in the dictionary.
+    """
+    file_ = config.PATH_CACHE / idx.filename
+    data = pd.read_csv(file_, names=["wave", "refl", "refl_err"], delimiter=r"\s+")
+    return data, {}
+
+
 def _create_index(PATH_REPO):
     """Create index of spectra collection."""
 
@@ -44,9 +63,8 @@ def _create_index(PATH_REPO):
                     "bibcode": bibcode,
                     "filename": str(file_).split("/classy/")[1],
                     "source": "Misc",
-                    "host": "pds",
-                    "collection": "lebofsky_three_micron",
-                    "public": True,
+                    "host": "PDS",
+                    "module": "lebofsky_three_micron",
                 },
                 index=[0],
             )
@@ -59,16 +77,3 @@ def _create_index(PATH_REPO):
 
             index = pd.concat([index, entry])
     return index
-
-
-def _load_data(meta):
-    """Load spectrum data.
-
-    Returns
-    -------
-    pd.DataFrame
-
-    """
-    file_ = config.PATH_CACHE / meta.filename
-    data = pd.read_csv(file_, names=["wave", "refl", "refl_err"], delimiter=r"\s+")
-    return data

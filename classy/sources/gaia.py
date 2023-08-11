@@ -1,95 +1,71 @@
-import numpy as np
 import pandas as pd
 import rocks
 
 from classy import config
-from classy import core
-from classy.log import logger
 from classy import index
+from classy import progress
+
+SHORTBIB, BIBCODE = "Galluccio+ 2022", "2022arXiv220612174G"
 
 
-def load_spectrum(spec):
-    """Load a cached Gaia spectrum.
+def _load_data(idx):
+    """Load data and metadata of a cached Gaia spectrum.
 
     Parameters
     ----------
-    spec : pd.Series
+    idx : pd.Series
+        A row from the classy spectra index.
 
     Returns
     -------
-    astro.core.Spectrum
-
+    pd.DataFrame, dict
+        The data and metadata. List-like attributes are in the dataframe,
+        single-value attributes in the dictionary.
     """
-    PATH_SPEC = config.PATH_CACHE / spec.filename
 
-    obs = pd.read_csv(PATH_SPEC, dtype={"reflectance_spectrum_flag": int})
-    obs = obs.loc[obs["name"] == spec["name"]]
+    # Load spectrum data file
+    PATH_DATA = config.PATH_CACHE / idx.filename
+    data = pd.read_csv(PATH_DATA, dtype={"flag": int})
+
+    # Select asteroid of index and rename columns to fit classy scheme
+    data = data.loc[data["name"] == idx["name"]]
 
     # Apply correction by Tinaut-Ruano+ 2023
-    corr = [1.07, 1.05, 1.02, 1.01, 1.00]
-    refl = obs.reflectance_spectrum.values
-    refl[: len(corr)] *= corr
+    CORR = [1.07, 1.05, 1.02, 1.01, 1.00]
+    data.refl[: len(CORR)] *= CORR
 
-    spec = core.Spectrum(
-        wave=obs.wavelength.values / 1000,
-        wavelength=obs.wavelength.values / 1000,
-        refl=refl,
-        reflectance_spectrum=refl,
-        refl_err=obs.reflectance_spectrum_err.values,
-        reflectance_spectrum_err=obs.reflectance_spectrum_err.values,
-        flag=obs.reflectance_spectrum_flag.values,
-        reflectance_spectrum_flag=obs.reflectance_spectrum_flag.values,
-        source="Gaia",
-        shortbib="Galluccio+ 2022",
-        bibcode="2022arXiv220612174G",
-        name=spec["name"],
-        number=spec.number,
-        source_id=obs.source_id.tolist()[0],
-        number_mp=obs.source_id.tolist()[0],
-        solution_id=obs.solution_id.tolist()[0],
-        denomination=obs.denomination.tolist()[0],
-        nb_samples=obs.nb_samples.tolist()[0],
-        num_of_spectra=obs.num_of_spectra.tolist()[0],
-        host="gaia",
-    )
+    # Record metadata
+    meta = {
+        "source_id": data.source_id.values[0],
+        "number_mp": data.number_mp.values[0],
+        "solution_id": data.solution_id.values[0],
+        "denomination": data.denomination.values[0],
+        "nb_samples": data.nb_samples.values[0],
+        "num_of_spectra": data.num_of_spectra.values[0],
+    }
 
-    return spec
+    # Slim down data
+    data = data[["wave", "refl", "refl_err", "flag"]]
+    return data, meta
 
 
 def _retrieve_spectra():
     """Retrieve Gaia DR3 reflectance spectra to cache."""
 
-    logger.info(
-        "Retrieving Gaia DR3 reflectance spectra [13MB] to cache and creating index..."
-    )
-
     # Create directory structure
     PATH_GAIA = config.PATH_CACHE / "gaia"
     PATH_GAIA.mkdir(parents=True, exist_ok=True)
 
+    # ------
     # Retrieve observations
     URL = "http://cdn.gea.esac.esa.int/Gaia/gdr3/Solar_system/sso_reflectance_spectrum/SsoReflectanceSpectrum_"
-    N_gaia = 20  # 20 separate gaia archives
-
     archives = {}
 
     # Observations are split into 20 parts
-    from rich.progress import (
-        BarColumn,
-        DownloadColumn,
-        Progress,
-        TextColumn,
-        MofNCompleteColumn,
-    )
+    with progress.mofn as mofn:
+        task = mofn.add_task("Gaia DR3", total=20)
 
-    progress = Progress(
-        TextColumn("{task.description}", justify="right"),
-        BarColumn(bar_width=None),
-        MofNCompleteColumn(),
-    )
-    with progress:
-        task = progress.add_task("Gaia DR3", total=N_gaia)
-        for idx in range(N_gaia):
+        for idx in range(20):
             # Retrieve the spectra
             part = pd.read_csv(f"{URL}{idx:02}.csv.gz", compression="gzip", comment="#")
 
@@ -108,17 +84,26 @@ def _retrieve_spectra():
 
                 archives[asteroid] = f"SsoReflectanceSpectrum_{idx:02}"
 
+            # Adapt to classy naming scheme
+            part = part.rename(
+                columns={
+                    "wavelength": "wave",
+                    "reflectance_spectrum": "refl",
+                    "reflectance_spectrum_err": "refl_err",
+                    "reflectance_spectrum_flag": "flag",
+                }
+            )
+
+            # Use wavelenght in micron
+            part.wave /= 1000
+
             # Store to cache
             part.to_csv(PATH_GAIA / f"SsoReflectanceSpectrum_{idx:02}.csv", index=False)
-            progress.update(task, advance=1)
+            mofn.update(task, advance=1)
 
-    # Convert index to dataframe, store to cache
+    # ------
+    # Convert index of asteroids in archives to dataframe, append to classy index
     names, numbers = zip(*rocks.identify(list(archives.keys())))
-
-    entries = []
-    shortbib, bibcode = "Galluccio+ 2022", "2022arXiv220612174G"
-
-    Nentries = len(names)
 
     entries = pd.DataFrame(
         data={
@@ -128,40 +113,18 @@ def _retrieve_spectra():
                 "gaia/" + filename + ".csv" for filename in list(archives.values())
             ],
         },
-        index=[0] * Nentries,
+        index=[0] * len(names),
     )
 
-    entries["shortbib"] = shortbib
-    entries["bibcode"] = bibcode
+    # Add metadata
+    entries["shortbib"] = SHORTBIB
+    entries["bibcode"] = BIBCODE
     entries["wave_min"] = 0.374
     entries["wave_max"] = 1.034
     entries["N"] = 16
     entries["date_obs"] = ""
     entries["source"] = "Gaia"
-    entries["host"] = "gaia"
-    entries["collection"] = "gaia"
-    entries["public"] = True
-    # for name, number, filename in zip(names, numbers, list(archives.values())):
-    #     entry = pd.DataFrame(
-    #         data={
-    #             "name": name,
-    #             "number": number,
-    #             "filename": "gaia/" + filename + ".csv",
-    #             "shortbib": shortbib,
-    #             "bibcode": bibcode,
-    #             "wave_min": 0.374,
-    #             "wave_max": 1.034,
-    #             "N": 16,
-    #             "date_obs": "",
-    #             "source": "Gaia",
-    #             "host": "gaia",
-    #             "collection": "gaia",
-    #         },
-    #         index=[0],
-    #     )
-    #     entries.append(entry)
+    entries["host"] = "Gaia"
+    entries["module"] = "gaia"
 
-    # index.to_csv(PATH_GAIA / "index.csv", index=False)
-    # entries = pd.concat(entries)
     index.add(entries)
-    logger.info(f"Added {len(entries)} Gaia spectra to the classy index.")

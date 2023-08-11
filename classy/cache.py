@@ -31,10 +31,7 @@ def load_spectra(idx_spectra):
     list of classy.core.Spectrum
     """
 
-    spectra = [
-        getattr(sources, spec.host.lower()).load_spectrum(spec)
-        for _, spec in idx_spectra.iterrows()
-    ]
+    spectra = [sources.load_spectrum(spec) for _, spec in idx_spectra.iterrows()]
 
     return spectra
 

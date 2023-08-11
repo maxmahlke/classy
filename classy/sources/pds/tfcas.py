@@ -13,6 +13,7 @@ REFERENCES = {
     2: ["1984Icar...59...25M", "McFadden+ 1984"],
 }
 
+
 WAVE = np.array(
     [
         0.33,
@@ -43,6 +44,32 @@ WAVE = np.array(
         1.1,
     ]
 )
+
+
+def _load_data(idx):
+    """Load data and metadata of a cached Gaia spectrum.
+
+    Parameters
+    ----------
+    idx : pd.Series
+        A row from the classy spectra index.
+
+    Returns
+    -------
+    pd.DataFrame, dict
+        The data and metadata. List-like attributes are in the dataframe,
+        single-value attributes in the dictionary.
+    """
+    tfcas = _load_tfcas(config.PATH_CACHE / idx.filename)
+    tfcas = tfcas.loc[tfcas.number == idx.number]
+
+    # Convert colours to reflectances
+    refl = tfcas[[f"REFL_{i}" for i in range(1, 27)]].values[0]
+    refl_err = tfcas[[f"REFL_{i}_UNC" for i in range(1, 27)]].values[0]
+
+    # Convert color indices to reflectance
+    data = pd.DataFrame(data={"wave": WAVE, "refl": refl, "refl_err": refl_err})
+    return data, {}
 
 
 def _create_index(PATH_REPO):
@@ -79,9 +106,8 @@ def _create_index(PATH_REPO):
                 "bibcode": bibcode,
                 "filename": str(file_).split("/classy/")[1],
                 "source": "24CAS",
-                "host": "pds",
-                "collection": "tfcas",
-                "public": True,
+                "host": "PDS",
+                "module": "tfcas",
             },
             index=[0],
         )
@@ -174,24 +200,4 @@ def _load_tfcas(PATH):
     data = data.replace(-9.99, np.nan)
     data = data.replace(9.99, np.nan)
 
-    return data
-
-
-def _load_data(meta):
-    """Load spectrum data.
-
-    Returns
-    -------
-    pd.DataFrame
-
-    """
-    tfcas = _load_tfcas(config.PATH_CACHE / meta.filename)
-    tfcas = tfcas.loc[tfcas.number == meta.number]
-
-    # Convert colours to reflectances
-    refl = tfcas[[f"REFL_{i}" for i in range(1, 27)]].values[0]
-    refl_err = tfcas[[f"REFL_{i}_UNC" for i in range(1, 27)]].values[0]
-
-    # Convert color indices to reflectance
-    data = pd.DataFrame(data={"wave": WAVE, "refl": refl, "refl_err": refl_err})
     return data

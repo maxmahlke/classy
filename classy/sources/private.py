@@ -3,37 +3,38 @@ import numpy as np
 import pandas as pd
 import rocks
 
-import classy
+from classy import config
 from classy import index
 
 
-def load_spectrum(meta):
-    """Load a spectrum of a private repository."""
+def _load_data(idx):
+    """Load data and metadata of a cached Gaia spectrum.
 
-    data = load_data(meta.filename)
+    Parameters
+    ----------
+    idx : pd.Series
+        A row from the classy spectra index.
 
-    wave = data[:, 0]
-    refl = data[:, 1]
+    Returns
+    -------
+    pd.DataFrame, dict
+        The data and metadata. List-like attributes are in the dataframe,
+        single-value attributes in the dictionary.
+    """
+    PATH_DATA = config.PATH_CACHE / idx.filename
 
-    if data.shape[1] > 2:
-        refl_err = data[:, 2]
-    else:
-        refl_err = None
+    # Try two different delimiters
+    try:
+        data = np.loadtxt(PATH_DATA)
+    except ValueError:
+        data = np.loadtxt(PATH_DATA, delimiter="\s+")
 
-    spec = classy.Spectrum(
-        wave=wave,
-        refl=refl,
-        refl_err=refl_err,
-        name=meta["name"],
-        number=meta["number"],
-        bibcode=meta["bibcode"],
-        shortbib=meta["shortbib"],
-        date_obs=meta["date_obs"],
-        filename=meta["filename"],
-        source="Private",
-    )
+    data = pd.DataFrame(data)
 
-    return spec
+    # Rename the columns that are present
+    COLS = ["wave", "refl", "refl_err", "flag"]
+    data = data.rename(columns={col: COLS.pop() for col in data.columns})
+    return data
 
 
 def parse_index(PATH_INDEX):
@@ -79,7 +80,7 @@ def parse_index(PATH_INDEX):
                 entry[col] = row[col]
 
         entry["host"] = "Private"
-        entry["public"] = False
+        entry["module"] = "private"
 
         entries.append(entry)
 
@@ -87,11 +88,3 @@ def parse_index(PATH_INDEX):
     entries = pd.DataFrame(entries, index=range(len(entries)))
     index.add(entries)
     print(f"Added {len(entries)} spectra to the classy index.")
-
-
-def load_data(filename):
-    try:
-        data = np.loadtxt(filename)
-    except ValueError:
-        data = np.loadtxt(filename, delimiter=",")
-    return data
