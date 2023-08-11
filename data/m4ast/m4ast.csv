@@ -162,9 +162,9 @@ obs_id,target_name,target_class,access_url,bib_reference,alt_target_name
 2011WK15_20141230_950_00,2011WK15,asteroid,http://spectre.imcce.fr/v1/m4ast/Spectre/2011WK15_20141230_950_00.txt,,
 2012TW236_20141230_950_00,2012TW236,asteroid,http://spectre.imcce.fr/v1/m4ast/Spectre/2012TW236_20141230_950_00.txt,,K12TN6W
 2013WT67_20140902_950_00,2013WT67,asteroid,http://spectre.imcce.fr/v1/m4ast/Spectre/2013WT67_20140902_950_00.txt,,K13W67T
-2576PL_20141217_950_01,2576PL,asteroid,http://spectre.imcce.fr/v1/m4ast/Spectre/2576PL_20141217_950_01.txt,http://adsabs.harvard.edu/abs/2016A%26A...586A.129M,PLS2576
+2576PL_20141217_950_01,2576P-L,asteroid,http://spectre.imcce.fr/v1/m4ast/Spectre/2576PL_20141217_950_01.txt,http://adsabs.harvard.edu/abs/2016A%26A...586A.129M,PLS2576
 3919T2_20141010_950_00,3919T2,asteroid,http://spectre.imcce.fr/v1/m4ast/Spectre/3919T2_20141010_950_00.txt,http://adsabs.harvard.edu/abs/2016A%26A...586A.129M,3919 T-2
-4788PL_20070715_950_00,4788PL,asteroid,http://spectre.imcce.fr/v1/m4ast/Spectre/4788PL_20070715_950_00.txt,,2003_SV84
+4788PL_20070715_950_00,4788P-L,asteroid,http://spectre.imcce.fr/v1/m4ast/Spectre/4788PL_20070715_950_00.txt,,2003_SV84
 5122T3_20150114_950_00,5122T3,asteroid,http://spectre.imcce.fr/v1/m4ast/Spectre/5122T3_20150114_950_00.txt,http://adsabs.harvard.edu/abs/2016A%26A...586A.129M,T3S5122
 Adorea_20120220_950_00,Adorea,asteroid,http://spectre.imcce.fr/v1/m4ast/Spectre/Adorea_20120220_950_00.txt,http://adsabs.harvard.edu/abs/2016Icar..269....1F,
 Aesculapia_20121218_950_00,Aesculapia,asteroid,http://spectre.imcce.fr/v1/m4ast/Spectre/Aesculapia_20121218_950_00.txt,http://adsabs.harvard.edu/abs/2016Icar..269....1F,A923 VG
@@ -211,7 +211,7 @@ Rupertwildt_20121218_950_00,Rupertwildt,asteroid,http://spectre.imcce.fr/v1/m4as
 Sabrina_20121218_950_00,Sabrina,asteroid,http://spectre.imcce.fr/v1/m4ast/Spectre/Sabrina_20121218_950_00.txt,http://adsabs.harvard.edu/abs/2016Icar..269....1F,1979 YK
 Safronov_20121217_950_00,Safronov,asteroid,http://spectre.imcce.fr/v1/m4ast/Spectre/Safronov_20121217_950_00.txt,http://adsabs.harvard.edu/abs/2016Icar..269....1F,1983 WZ
 Saskia_20120219_950_00,Saskia,asteroid,http://spectre.imcce.fr/v1/m4ast/Spectre/Saskia_20120219_950_00.txt,http://adsabs.harvard.edu/abs/2016Icar..269....1F,1900FP
-SoyuzApollo_20121219_950_00,SoyuzApollo,asteroid,http://spectre.imcce.fr/v1/m4ast/Spectre/SoyuzApollo_20121219_950_00.txt,http://adsabs.harvard.edu/abs/2016Icar..269....1F,1977 OH
+SoyuzApollo_20121219_950_00,Soyuz-Apollo,asteroid,http://spectre.imcce.fr/v1/m4ast/Spectre/SoyuzApollo_20121219_950_00.txt,http://adsabs.harvard.edu/abs/2016Icar..269....1F,1977 OH
 Steins_20061222_568_00,Steins,asteroid,http://spectre.imcce.fr/v1/m4ast/Spectre/Steins_20061222_568_00.txt,http://adsabs.harvard.edu/abs/2007A%26A...473L..33N,1969_VC
 Steins_20070121_568_00,Steins,asteroid,http://spectre.imcce.fr/v1/m4ast/Spectre/Steins_20070121_568_00.txt,http://adsabs.harvard.edu/abs/2007A%26A...473L..33N,1969_VC
 Steins_20070312_568_00,Steins,asteroid,http://spectre.imcce.fr/v1/m4ast/Spectre/Steins_20070312_568_00.txt,http://adsabs.harvard.edu/abs/2007A%26A...473L..33N,1969_VC
