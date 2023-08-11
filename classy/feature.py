@@ -564,6 +564,10 @@ class Feature:
 
     def fit_interactive(self):
         """Run GUI to fit feature interactively."""
+
+        if not self.is_observed:
+            logger.warning("The feature is not covered by the observed wavelength.")
+
         from . import gui
 
         gui.main(self)
