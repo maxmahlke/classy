@@ -25,7 +25,7 @@ def _load_data(idx):
 
     # Load spectrum data file
     PATH_DATA = config.PATH_CACHE / idx.filename
-    data = pd.read_csv(PATH_DATA, dtype={"reflectance_spectrum_flag": int})
+    data = pd.read_csv(PATH_DATA, dtype={"flag": int})
 
     # Select asteroid of index and rename columns to fit classy scheme
     data = data.loc[data["name"] == idx["name"]]
