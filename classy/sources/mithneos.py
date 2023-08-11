@@ -5,39 +5,52 @@ import rocks
 
 
 from classy import config
-from classy import core
 from classy import index
-from classy.log import logger
-from classy import tools
+from classy import progress
 from classy import sources
+from classy import tools
+
+BASE_URL = "http://smass.mit.edu/data"
+
+REFERENCES = {
+    "demeo2019": ["DeMeo+ 2019", "2019Icar..322...13D"],
+    "polishook2014": ["Polishook+ 2014", "2014Icar..233....9P"],
+}
 
 
-def load_spectrum(spec):
-    """Load a cached MITHNEOS spectrum."""
-    PATH_SPEC = config.PATH_CACHE / spec.filename
+def _load_data(idx):
+    """Load data and metadata of a cached Gaia spectrum.
 
-    data = _load_data(PATH_SPEC)
-    # 2 - reject. This is flag 0 in MITHNEOS
-    flags = [0 if f != 0 else 2 for f in data["flag"].values]
+    Parameters
+    ----------
+    idx : pd.Series
+        A row from the classy spectra index.
 
-    spec = core.Spectrum(
-        wave=data["wave"],
-        refl=data["refl"],
-        refl_err=data["err"],
-        flag=flags,
-        filename=spec.filename,
-        source="MITHNEOS",
-        name=spec["name"],
-        number=spec.number,
-        bibcode=spec.bibcode,
-        shortbib=spec.shortbib,
-        host="mithneos",
-        date_obs=spec.date_obs,
+    Returns
+    -------
+    pd.DataFrame, dict
+        The data and metadata. List-like attributes are in the dataframe,
+        single-value attributes in the dictionary.
+    """
+
+    # Load spectrum data file
+    PATH_DATA = config.PATH_CACHE / idx.filename
+    data = pd.read_csv(
+        PATH_DATA, names=["wave", "refl", "err", "flag"], delimiter="\s+", comment="#"
     )
-    return spec
+
+    # Logic cuts
+    data = data[data.wave > 0]
+    data = data[data.refl > 0]
+
+    # 2 - reject. This is flag 0 in MITHNEOS
+    data["flag"] = [0 if f != 0 else 2 for f in data["flag"].values]
+
+    return data, {}
 
 
 def load_obslog():
+    """Load MITHNEOS observation log from cache or from remote."""
     PATH_LOG = config.PATH_CACHE / "mithneos/obslog.csv"
     if not PATH_LOG.is_file():
         tools._retrieve_from_github(host="mithneos", which="obslog", path=PATH_LOG)
@@ -45,22 +58,23 @@ def load_obslog():
 
 
 def _retrieve_spectra():
+    """Retrieve the MITHNEOS spectra from remote."""
+
     PATH_OUT = config.PATH_CACHE / "mithneos/"
 
-    # Start with three archives
+    # ------
+    # Start with separate archives
     DIR_URLS = [
-        ("demeo2019", "http://smass.mit.edu/data/minus/DeMeo2019_spectra.tar"),
-        (
-            "polishook2014",
-            "http://smass.mit.edu/data/minus/Spectra31AsteroidPairs_Polishook.zip",
-        ),
+        ("demeo2019", f"{BASE_URL}/minus/DeMeo2019_spectra.tar"),
+        ("polishook2014", f"{BASE_URL}/minus/Spectra31AsteroidPairs_Polishook.zip"),
     ]
+
     for dir, URL in DIR_URLS:
-        # continue
         (PATH_OUT / dir).mkdir(exist_ok=True, parents=True)
         tools.download_archive(
             URL, PATH_OUT / dir / URL.split("/")[-1], encoding=URL.split(".")[-1]
         )
+
     log = load_obslog()
 
     # Create index for these archives
@@ -89,16 +103,14 @@ def _retrieve_spectra():
             name, number = rocks.id(id_)
 
             date_obs = ""  # get's filled in below
+            shortbib, bibcode = REFERENCES[dir]
 
             if dir == "demeo2019":
-                shortbib, bibcode = ["DeMeo+ 2019", "2019Icar..322...13D"]
                 date_obs = log.loc[
                     (log.run == file_.name.split(".")[1]) & (log["name"] == name),
                     "date_obs",
                 ].values[0]
             elif dir == "polishook2014":
-                shortbib, bibcode = ["Polishook+ 2014", "2014Icar..233....9P"]
-
                 if file_.name in POLISHOOK_DATES:
                     date_obs = POLISHOOK_DATES[file_.name]
 
@@ -108,7 +120,7 @@ def _retrieve_spectra():
             filename = str(file_).split("classy/")[-1]
 
             data = _load_data(file_)
-            wave = data["wave"]
+
             if pd.isna(date_obs):
                 bibcode = ""
 
@@ -119,15 +131,13 @@ def _retrieve_spectra():
                     "filename": filename,
                     "shortbib": shortbib,
                     "bibcode": bibcode,
-                    "source": "MITHNEOS",
-                    "wave_min": min(wave),
-                    "wave_max": max(wave),
-                    "N": len(wave),
+                    "wave_min": min(data["wave"]),
+                    "wave_max": max(data["wave"]),
+                    "N": len(data["wave"]),
                     "date_obs": date_obs,
+                    "host": "MITHNEOS",
+                    "module": "mithneos",
                     "source": "MITHNEOS",
-                    "host": "mithneos",
-                    "collection": "mithneos",
-                    "public": True,
                 },
                 index=[0],
             )
@@ -135,33 +145,19 @@ def _retrieve_spectra():
             entries.append(entry)
 
     # -------
-    # Scrap all mithneos runs from website and check for unpublished spectra
+    # Scrape all mithneos runs from website and check for unpublished spectra
     runs = (
         [f"sp{num:>02}" for num in range(1, 131)]
         + [f"sp{num:>02}" for num in range(200, 292)]
         + [f"dm{num:>02}" for num in range(1, 20)]
     )
 
-    from rich.progress import (
-        BarColumn,
-        DownloadColumn,
-        Progress,
-        TextColumn,
-        MofNCompleteColumn,
-    )
-
-    progress = Progress(
-        TextColumn("{task.description}", justify="right"),
-        BarColumn(bar_width=None),
-        MofNCompleteColumn(),
-        disable=False,
-    )
-    with progress:
-        task = progress.add_task("MITHNEOS ObsRuns", total=len(runs))
+    with progress.mofn as mofn:
+        task = mofn.add_task("MITHNEOS ObsRuns", total=len(runs))
         for run in runs:
-            URL = f"http://smass.mit.edu/data/spex/{run}/"
+            URL = f"{BASE_URL}/spex/{run}/"
             _download(URL, PATH_OUT / run)
-            progress.update(task, advance=1)
+            mofn.update(task, advance=1)
 
             # check for duplicates
             for file_ in (PATH_OUT / run).glob("**/*txt"):
@@ -219,8 +215,7 @@ def _retrieve_spectra():
                         "date_obs": date_obs,
                         "source": "MITHNEOS",
                         "host": "mithneos",
-                        "collection": "mithneos",
-                        "public": True,
+                        "module": "mithneos",
                     },
                     index=[0],
                 )
@@ -228,7 +223,6 @@ def _retrieve_spectra():
 
     entries = pd.concat(entries)
     index.add(entries)
-    logger.info(f"Added {len(entries)} MITHNEOS spectra to the classy index.")
 
 
 def _download(URL, PATH_OUT):
@@ -252,18 +246,6 @@ def _download(URL, PATH_OUT):
 
             PATH_OUT.mkdir(exist_ok=True, parents=True)
             urlretrieve(URL + l["href"], PATH_OUT / l["href"])
-
-
-def _load_data(PATH_SPEC):
-    data = pd.read_csv(
-        PATH_SPEC,
-        names=["wave", "refl", "err", "flag"],
-        delimiter="\s+",
-        comment="#",
-    )
-
-    data = data[data.refl > 0]
-    return data
 
 
 POLISHOOK_DATES = {

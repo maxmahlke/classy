@@ -69,6 +69,31 @@ WAVE = np.array(
 )
 
 
+def _load_data(idx):
+    """Load data and metadata of a cached Gaia spectrum.
+
+    Parameters
+    ----------
+    idx : pd.Series
+        A row from the classy spectra index.
+
+    Returns
+    -------
+    pd.DataFrame, dict
+        The data and metadata. List-like attributes are in the dataframe,
+        single-value attributes in the dictionary.
+    """
+    ftcas = _load_ftcas(config.PATH_CACHE / "/".join(idx.filename.split("/")[:2]))
+    ftcas = ftcas.loc[ftcas.number == idx.number]
+
+    refl = ftcas[[f"REFL_{i}" for i in range(1, len(WAVE) + 1)]].values[0]
+    refl_err = ftcas[[f"REFL_{i}_UNC" for i in range(1, len(WAVE) + 1)]].values[0]
+
+    # Convert color indices to reflectance
+    data = pd.DataFrame(data={"wave": WAVE, "refl": refl, "refl_err": refl_err})
+    return data, {}
+
+
 def _create_index(PATH_REPO):
     """Create index of spectra collection."""
 
@@ -103,9 +128,8 @@ def _create_index(PATH_REPO):
                 "bibcode": bibcode,
                 "filename": str(file_).split("/classy/")[1],
                 "source": "52CAS",
-                "host": "pds",
-                "collection": "ftcas",
-                "public": True,
+                "host": "PDS",
+                "module": "ftcas",
             },
             index=[0],
         )
@@ -161,23 +185,4 @@ def _load_ftcas(PATH_REPO):
     # Some cleanup
     data = data.replace(-9999, np.nan)
     data = data.replace(-0.9999, np.nan)
-    return data
-
-
-def _load_data(meta):
-    """Load spectrum data.
-
-    Returns
-    -------
-    pd.DataFrame
-
-    """
-    ftcas = _load_ftcas(config.PATH_CACHE / "/".join(meta.filename.split("/")[:2]))
-    ftcas = ftcas.loc[ftcas.number == meta.number]
-
-    refl = ftcas[[f"REFL_{i}" for i in range(1, len(WAVE) + 1)]].values[0]
-    refl_err = ftcas[[f"REFL_{i}_UNC" for i in range(1, len(WAVE) + 1)]].values[0]
-
-    # Convert color indices to reflectance
-    data = pd.DataFrame(data={"wave": WAVE, "refl": refl, "refl_err": refl_err})
     return data

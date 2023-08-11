@@ -7,9 +7,26 @@ from classy import index
 from classy import config
 from classy.sources import pds
 
-REFERENCES = {
-    "GARTRELLE": ["2021Icar..36314295G", "Gartrelle+ 2021"],
-}
+SHORTBIB, BIBCODE = "Gartrelle+ 2021", "2021Icar..36314295G"
+
+
+def _load_data(idx):
+    """Load data and metadata of a cached Gaia spectrum.
+
+    Parameters
+    ----------
+    idx : pd.Series
+        A row from the classy spectra index.
+
+    Returns
+    -------
+    pd.DataFrame, dict
+        The data and metadata. List-like attributes are in the dataframe,
+        single-value attributes in the dictionary.
+    """
+    file_ = config.PATH_CACHE / idx.filename
+    data = pd.read_csv(file_, names=["wave", "refl", "refl_err"], delimiter=r",")
+    return data, {}
 
 
 def _create_index(PATH_REPO):
@@ -25,13 +42,8 @@ def _create_index(PATH_REPO):
             "collection_gbo.ast-dtype.gartrelleetal.irtf.spectra_data.xml",
         ]:
             continue
-        id_, ref, date_obs = pds.parse_xml(xml_file)
+        id_, _, date_obs = pds.parse_xml(xml_file)
         file_ = xml_file.with_suffix(".csv")
-
-        # Convert ref from XML to bibcode and shortbib
-        if ref is None:
-            ref = "GARTRELLE"
-        bibcode, shortbib = REFERENCES[ref]
 
         # Identify asteroid
         name, number = rocks.id(id_)
@@ -44,13 +56,12 @@ def _create_index(PATH_REPO):
                 "name": name,
                 "number": number,
                 "date_obs": date_obs,
-                "shortbib": shortbib,
-                "bibcode": bibcode,
+                "shortbib": SHORTBIB,
+                "bibcode": BIBCODE,
                 "filename": str(file_).split("/classy/")[1],
                 "source": "Misc",
-                "host": "pds",
-                "collection": "gartrelleetal",
-                "public": True,
+                "host": "PDS",
+                "module": "gartrelleetal",
             },
             index=[0],
         )
@@ -64,14 +75,3 @@ def _create_index(PATH_REPO):
         entries.append(entry)
     entries = pd.concat(entries)
     index.add(entries)
-
-
-def _load_data(meta):
-    """Load spectrum data.
-
-    Returns
-    -------
-    pd.DataFrame
-    """
-    file_ = config.PATH_CACHE / meta.filename
-    return pd.read_csv(file_, names=["wave", "refl", "refl_err"], delimiter=r",")

@@ -51,9 +51,7 @@ def _load_data(idx):
     )
 
     # No metadata to record
-    meta = {}
-
-    return data, meta
+    return data, {}
 
 
 def _retrieve_spectra():

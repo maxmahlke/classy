@@ -10,6 +10,44 @@ from classy import tools
 
 WAVE = [0.337, 0.359, 0.437, 0.550, 0.701, 0.853, 0.948, 1.041]
 
+SHORTBIB, BIBCODE = (
+    "Zellner+ 1985",
+    "1985Icar...61..355Z",
+)
+
+
+def _load_data(idx):
+    """Load data and metadata of a cached Gaia spectrum.
+
+    Parameters
+    ----------
+    idx : pd.Series
+        A row from the classy spectra index.
+
+    Returns
+    -------
+    pd.DataFrame, dict
+        The data and metadata. List-like attributes are in the dataframe,
+        single-value attributes in the dictionary.
+    """
+    obs = pd.read_csv(config.PATH_CACHE / idx.filename)
+    obs = obs.loc[obs["name"] == idx["name"]]
+
+    # Convert colours to reflectances
+    refl, refl_err = _compute_reflectance_from_colors(obs)
+    flags = _add_flags(obs)
+
+    data = pd.DataFrame(
+        data={
+            "refl": refl[~np.isnan(refl)],
+            "refl_err": refl_err[~np.isnan(refl)],
+            "wave": np.array(WAVE)[~np.isnan(refl)],
+            "flag": flags[~np.isnan(refl)],
+        },
+    )
+
+    return data, {}
+
 
 def _create_index(PATH_REPO):
     """Create index of ECAS collection. Further creates mean-colors with flags and
@@ -28,16 +66,15 @@ def _create_index(PATH_REPO):
                 "name": row["name"],
                 "number": row["number"],
                 "date_obs": "",
-                "shortbib": "Zellner+ 1985",
-                "bibcode": "1985Icar...61..355Z",
-                "host": "pds",
-                "collection": "ecas",
+                "shortbib": SHORTBIB,
+                "bibcode": BIBCODE,
+                "host": "PDS",
+                "module": "ecas",
                 "source": "ECAS",
                 "filename": "pds/" + PATH_REPO.name + "/colors.csv",
                 "wave_min": min(WAVE),
                 "wave_max": max(WAVE),
                 "N": len(WAVE),
-                "public": True,
             },
             index=[0],
         )
@@ -45,32 +82,6 @@ def _create_index(PATH_REPO):
 
     entries = pd.concat(entries)
     index.add(entries)
-
-
-def _load_data(meta):
-    """Load spectrum data.
-
-    Returns
-    -------
-    pd.DataFrame
-    """
-    obs = pd.read_csv(config.PATH_CACHE / meta.filename)
-    obs = obs.loc[obs["name"] == meta["name"]]
-
-    # Convert colours to reflectances
-    refl, refl_err = _compute_reflectance_from_colors(obs)
-    flags = _add_flags(obs)
-
-    data = pd.DataFrame(
-        data={
-            "refl": refl[~np.isnan(refl)],
-            "refl_err": refl_err[~np.isnan(refl)],
-            "wave": np.array(WAVE)[~np.isnan(refl)],
-            "flag": flags[~np.isnan(refl)],
-        },
-    )
-
-    return data
 
 
 def _compute_reflectance_from_colors(obs):
@@ -216,53 +227,3 @@ def _create_mean_colors_file(PATH_REPO):
 
     # Add quality flag following Tholen+ 1984
     mean.to_csv(PATH_REPO / "colors.csv", index=False)
-
-
-# def _create_pc_scores_file(PATH_REPO):
-#     # TODO Add tholen classifcation resutls parsing
-#     PATH_SCORES = PATH_REPO / "data/ecaspc.tab"
-#     scores = pd.read_fwf(
-#         PATH_SCORES,
-#         colspecs=[
-#             (0, 6),
-#             (7, 25),
-#             (26, 32),
-#             (33, 39),
-#             (40, 46),
-#             (47, 53),
-#             (54, 60),
-#             (61, 67),
-#             (68, 74),
-#             (75, 76),
-#         ],
-#         names=[
-#             "AST_NUMBER",
-#             "AST_NAME",
-#             "PC1",
-#             "PC2",
-#             "PC3",
-#             "PC4",
-#             "PC5",
-#             "PC6",
-#             "PC7",
-#             "NOTE",
-#         ],
-#     )
-#
-#     names, numbers = zip(*rocks.identify(scores.AST_NAME))
-#
-#     scores["name"] = names
-#     scores["number"] = numbers
-#
-#     for ind, row in scores.iterrows():
-#         r = rocks.Rock(row["name"], datacloud="taxonomies")
-#         class_ = r.taxonomies[r.taxonomies.shortbib == "Tholen+1989"]
-#         try:
-#             class_ = class_.class_.values[0]
-#         except IndexError:
-#             class_ = ""
-#         scores.loc[ind, "class_"] = class_
-#
-#     # Remove (152) Atala as it was misidentified in ECAS and thus has NaN scores
-#     scores = scores.replace(-9.999, np.nan).dropna(subset="PC1")
-# scores.to_csv(PATH_REPO / "ecas_scores.csv", index=False)

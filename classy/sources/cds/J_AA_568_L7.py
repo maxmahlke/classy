@@ -1,13 +1,31 @@
 from pathlib import Path
 
-import numpy as np
 import pandas as pd
 import rocks
 
+from classy import config
 from classy import index
 
-SHORTBIB = "Marsset+ 2014"
-BIBCODE = "2014AA...568L...7M"
+SHORTBIB, BIBCODE = "Marsset+ 2014", "2014AA...568L...7M"
+
+
+def _load_data(idx):
+    """Load data and metadata of a cached Gaia spectrum.
+
+    Parameters
+    ----------
+    idx : pd.Series
+        A row from the classy spectra index.
+
+    Returns
+    -------
+    pd.DataFrame, dict
+        The data and metadata. List-like attributes are in the dataframe,
+        single-value attributes in the dictionary.
+    """
+    PATH_DATA = config.PATH_CACHE / idx.filename
+    data = pd.read_csv(PATH_DATA, names=["wave", "refl"], delimiter="\s+")
+    return data, {}
 
 
 def _create_index(PATH_REPO):
@@ -44,10 +62,9 @@ def _create_index(PATH_REPO):
                 "shortbib": SHORTBIB,
                 "bibcode": BIBCODE,
                 "filename": str(PATH_REPO / filename).split("/classy/")[1],
-                "source": "CDS",
-                "host": "cds",
-                "collection": "J_AA_568_L7",
-                "public": True,
+                "source": "Misc",
+                "host": "CDS",
+                "module": "J_AA_568_L7",
             },
             index=[0],
         )
@@ -79,10 +96,9 @@ def _create_index(PATH_REPO):
                 "shortbib": SHORTBIB,
                 "bibcode": BIBCODE,
                 "filename": str(PATH_REPO / filename).split("/classy/")[1],
-                "source": "CDS",
-                "host": "cds",
-                "collection": "J_AA_568_L7",
-                "public": True,
+                "source": "Misc",
+                "host": "CDS",
+                "module": "J_AA_568_L7",
             },
             index=[0],
         )
@@ -97,8 +113,3 @@ def _create_index(PATH_REPO):
 
     entries = pd.concat(entries)
     index.add(entries)
-
-
-def _load_data(PATH):
-    data = np.loadtxt(PATH)
-    return data

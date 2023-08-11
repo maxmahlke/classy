@@ -5,7 +5,28 @@ from classy import index
 from classy import config
 from classy.sources import pds
 
-REFERENCES = {"REDDY2009": ["2009PhDT.......233R", "Reddy 2009"]}
+SHORTBIB, BIBCODE = "Reddy 2009", "2009PhDT.......233R"
+
+
+def _load_data(idx):
+    """Load data and metadata of a cached Gaia spectrum.
+
+    Parameters
+    ----------
+    idx : pd.Series
+        A row from the classy spectra index.
+
+    Returns
+    -------
+    pd.DataFrame, dict
+        The data and metadata. List-like attributes are in the dataframe,
+        single-value attributes in the dictionary.
+    """
+
+    # Load spectrum data file
+    PATH_DATA = config.PATH_CACHE / idx.filename
+    data = pd.read_csv(PATH_DATA, names=["wave", "refl", "refl_err"], delimiter=r"\s+")
+    return data, {}
 
 
 def _create_index(PATH_REPO):
@@ -23,7 +44,7 @@ def _create_index(PATH_REPO):
             if xml_file.name.startswith("collection_gbo"):
                 continue
 
-            id_, ref, date_obs = pds.parse_lbl(xml_file)
+            id_, _, date_obs = pds.parse_lbl(xml_file)
 
             if id_ == "4954 ERIC":
                 id_ = 4954
@@ -40,9 +61,6 @@ def _create_index(PATH_REPO):
 
             file_ = xml_file.with_suffix(".tab")
 
-            # Convert ref from XML to bibcode and shortbib
-            bibcode, shortbib = REFERENCES[ref]
-
             # Identify asteroid
             name, number = rocks.id(id_)
 
@@ -52,13 +70,12 @@ def _create_index(PATH_REPO):
                     "name": name,
                     "number": number,
                     "date_obs": date_obs,
-                    "shortbib": shortbib,
-                    "bibcode": bibcode,
+                    "shortbib": SHORTBIB,
+                    "bibcode": BIBCODE,
                     "filename": str(file_).split("/classy/")[1],
                     "source": "Misc",
-                    "host": "pds",
-                    "collection": "reddy_nea",
-                    "public": True,
+                    "host": "PDS",
+                    "module": "reddy_nea",
                 },
                 index=[0],
             )
@@ -72,16 +89,3 @@ def _create_index(PATH_REPO):
             entries.append(entry)
     entries = pd.concat(entries)
     index.add(entries)
-
-
-def _load_data(meta):
-    """Load spectrum data.
-
-    Returns
-    -------
-    pd.DataFrame
-
-    """
-    file_ = config.PATH_CACHE / meta.filename
-    data = pd.read_csv(file_, names=["wave", "refl", "refl_err"], delimiter=r"\s+")
-    return data
