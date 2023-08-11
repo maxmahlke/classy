@@ -671,7 +671,7 @@ class InteractiveSmoothing(QtWidgets.QMainWindow):
             smoothing.loc[id_, f"{param}"] = getattr(self, param)
 
         # Store metadata
-        for param in ["name", "number", "source", "shortbib", "bibcode", "filename"]:
+        for param in ["name", "number", "source", "shortbib", "bibcode"]:
             smoothing.loc[id_, param] = getattr(self.spec, param)
 
         # Store smoothing index
