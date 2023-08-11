@@ -67,7 +67,7 @@ def _create_index(PATH_REPO):
             data = _load_data(entry.squeeze())
             entry["wave_min"] = min(data["wave"])
             entry["wave_max"] = max(data["wave"])
-            entry["N"] = data["wave"]
+            entry["N"] = len(data["wave"])
 
             entries.append(entry)
     entries = pd.concat(entries)
