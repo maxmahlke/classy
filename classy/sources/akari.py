@@ -1,23 +1,10 @@
-import numpy as np
 import pandas as pd
-import rocks
 
 from classy import config
 from classy import core
 from classy.log import logger
 from classy import index
 from classy import tools
-
-
-def load_index():
-    """Load the AKARI reflectance spectra index."""
-
-    PATH_INDEX = config.PATH_CACHE / "akari/AcuA_1.0/index.csv"
-
-    if not PATH_INDEX.is_file():
-        retrieve_spectra()
-
-    return pd.read_csv(PATH_INDEX, dtype={"number": "Int64"})
 
 
 def load_spectrum(spec):
