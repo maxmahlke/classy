@@ -53,8 +53,10 @@ def load_spectrum(idx):
             continue
         setattr(spec, col, data[col])
 
+    # Add list-type attributes when instantiating
+    spec = core.Spectrum(name=idx["name"], **{col: data[col] for col in data.columns})
     # Add metadata from index
-    for attr in ["shortbib", "bibcode", "host", "source", "date_obs"]:
+    for attr in ["shortbib", "bibcode", "host", "source", "date_obs", "filename"]:
         setattr(spec, attr, idx[attr])
 
     # Add collection-specific metadata
