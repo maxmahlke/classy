@@ -15,8 +15,7 @@ from classy.log import logger
 import classy.preprocessing
 from classy import taxonomies
 from classy import sources
-
-# from classy import progress
+from classy import progress
 
 
 @click.group()
@@ -170,28 +169,26 @@ def status():
 
 
 @cli_classy.command()
-@click.argument("collection", type=str)
-def preprocess(collection):
+@click.argument("source", type=str)
+def preprocess(source):
     """Run interactive preprocessing for spectra in a collection."""
     idx = index.load()
-    print(idx.collection.unique())
-    idx = idx[idx.source == collection]
+    idx = idx[idx.source == source]
 
-    # with progress.mofn as mofn:
-    #     task = mofn.add_task("Preprocessing Spetra")
+    with progress.mofn as mofn:
+        task = mofn.add_task("Preprocessing Spetra", total=len(idx))
 
-    for i, (_, spec) in enumerate(idx.iterrows()):
-        print(i, len(idx))
-        spec = classy.Spectra(spec)[0]
+        for _, spec in idx.iterrows():
+            spec = classy.Spectra(spec)[0]
 
-        if not spec.has_smoothing_parameters:
-            spec.smooth_interactive()
-        else:
-            spec.smooth()
+            if not spec.has_smoothing_parameters:
+                spec.smooth_interactive()
+            else:
+                spec.smooth()
 
-        for feature in ["e", "h", "k"]:
-            feature = getattr(spec, feature)
-            if feature.is_observed and not feature.has_fit_parameters:
-                feature.fit_interactive()
-
-        # mofn.update(step=1)
+            for feature in ["e", "h", "k"]:
+                feature = getattr(spec, feature)
+                if feature.is_observed and not feature.has_fit_parameters:
+                    mofn.update(task, description=feature.name)
+                    feature.fit_interactive()
+            mofn.update(task, advance=1)
