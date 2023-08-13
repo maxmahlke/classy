@@ -1,7 +1,8 @@
+from functools import partial
 import tarfile
-from urllib.request import urlretrieve
 import urllib
-from zipfile import ZipFile
+from urllib.request import urlretrieve
+from zipfile import BadZipFile, ZipFile
 
 import numpy as np
 
@@ -12,7 +13,6 @@ from rich.progress import (
     DownloadColumn,
     Progress,
     TextColumn,
-    # MofNCompleteColumn,
 )
 
 
@@ -34,10 +34,6 @@ def find_nearest(array, value):
     array = np.asarray(array)
     idx = (np.abs(array - value)).argmin()
     return idx
-
-
-from functools import partial
-from urllib.request import urlopen
 
 
 def download_archive(URL, PATH_ARCHIVE, unpack=True, remove=True, encoding=None):
@@ -86,8 +82,15 @@ def download_archive(URL, PATH_ARCHIVE, unpack=True, remove=True, encoding=None)
             with tarfile.open(PATH_ARCHIVE, mode="r") as archive:
                 archive.extractall(PATH_ARCHIVE.parent)
         elif encoding == "zip":
-            with ZipFile(PATH_ARCHIVE, "r") as archive:
-                archive.extractall(PATH_ARCHIVE.parent)
+            try:
+                with ZipFile(PATH_ARCHIVE, "r") as archive:
+                    archive.extractall(PATH_ARCHIVE.parent)
+            except BadZipFile:
+                logger.critical(
+                    f"The returned file is not a Zip file. Try again later."
+                )
+                PATH_ARCHIVE.unlink()
+                return False
 
     if remove:
         PATH_ARCHIVE.unlink()
