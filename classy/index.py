@@ -29,7 +29,9 @@ def load():
             logger.error(
                 f"No reflectance spectra are available. Run '$ classy status' to retrieve them."
             )
-        return pd.DataFrame(data={"name": [], "source": [], "filename": []}, index=[])
+        return pd.DataFrame(
+            data={"name": [], "source": [], "filename": [], "host": []}, index=[]
+        )
 
     return pd.read_csv(PATH, dtype={"number": "Int64"}, low_memory=False)
 
