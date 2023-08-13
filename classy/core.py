@@ -92,19 +92,20 @@ class Spectrum:
         # Assign arbitrary arguments
         self.__dict__.update(**kwargs)
 
-        # Attribute to differentiate user-provided and online spectra
-        # self._source = "User"
-
-        # Add features
-        self.e = Feature("e", self)
-        self.h = Feature("h", self)
-        self.k = Feature("k", self)
-
         self.wave_original = self.wave.copy()
         self.refl_original = self.refl.copy()
         self.refl_err_original = None if self.refl_err is None else self.refl_err.copy()
 
         self.is_smoothed = False
+
+    def __getattr__(self, attr):
+        """"""
+
+        # Dynamically instantiate the feature attributes on the first call
+        if attr in ["e", "h", "k"]:
+            setattr(self, attr, Feature(attr, self))
+            return getattr(self, attr)
+        raise AttributeError
 
     def reset_data(self):
         self.wave = self.wave_original.copy()
