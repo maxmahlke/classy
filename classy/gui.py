@@ -100,8 +100,9 @@ class InteractiveFeatureFit(QtWidgets.QMainWindow):
         self.select_feat = QtWidgets.QComboBox()
 
         # TODO: If feature is not observed, it should not be selectable
-        for feat in ["h", "e", "k"]:
+        for feat in ["e", "h", "k"]:
             self.select_feat.addItem(feat)
+        self.select_feat.setCurrentIndex(self.select_feat.findText(self.feat.name))
 
         self.select_feat.currentIndexChanged.connect(self._change_feature)
         feature = QtWidgets.QHBoxLayout()
