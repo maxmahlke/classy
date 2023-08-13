@@ -93,7 +93,6 @@ def _retrieve_spectra():
     for _, row in akari.iterrows():
         name, number = row["name"], row.number
         filename = f"akari/AcuA_1.0/reflectance/{row.filename}"
-        data, _ = _load_data(config.PATH_CACHE / filename)
 
         # Append to index
         entry = pd.DataFrame(
@@ -103,9 +102,6 @@ def _retrieve_spectra():
                 "filename": filename,
                 "shortbib": SHORTBIB,
                 "bibcode": BIBCODE,
-                "wave_min": min(data["wave"]),
-                "wave_max": max(data["wave"]),
-                "N": len("wave"),
                 "date_obs": row.date,
                 "source": "AKARI",
                 "host": "AKARI",
@@ -113,6 +109,11 @@ def _retrieve_spectra():
             },
             index=[0],
         )
+
+        data, _ = _load_data(entry.squeeze())
+        entry["wave_min"] = min(data["wave"])
+        entry["wave_max"] = max(data["wave"])
+        entry["N"] = len(data)
         entries.append(entry)
 
     entries = pd.concat(entries)

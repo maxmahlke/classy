@@ -4,7 +4,6 @@ import pandas as pd
 import rocks
 
 from classy import config
-from classy import core
 from classy import index
 from classy.log import logger
 from classy import tools
@@ -27,7 +26,9 @@ def _load_data(idx):
 
     # Load spectrum data file
     PATH_DATA = config.PATH_CACHE / idx.filename
-    data = pd.read_csv(PATH_DATA, names=["wave", "refl", "refl_err"], delimiter=r"\s+")
+    data = pd.read_csv(
+        PATH_DATA, names=["wave", "refl", "refl_err", "flag"], delimiter=r"\s+"
+    )
 
     data["flag"] = [0 if f != 0 else 2 for f in data["flag"]]
 
@@ -166,9 +167,6 @@ def _retrieve_spectra():
 
             name, number = rocks.id(id_)
 
-            data = _load_data(file_, dir, name)
-            wave = data["wave"]
-
             entry = log[(log["name"] == name) & (log["shortbib"] == ref)]
 
             if entry.empty:
@@ -190,9 +188,6 @@ def _retrieve_spectra():
                     "filename": f"smass/{dir}/{file_.name}",
                     "shortbib": ref,
                     "bibcode": bib,
-                    "wave_min": min(wave),
-                    "wave_max": max(wave),
-                    "N": len(wave),
                     "date_obs": date_obs,
                     "source": "SMASS",
                     "host": "smass",
@@ -201,6 +196,12 @@ def _retrieve_spectra():
                 },
                 index=[0],
             )
+
+            data, _ = _load_data(entry.squeeze())
+            entry["wave_min"] = min(data["wave"])
+            entry["wave_max"] = max(data["wave"])
+            entry["N"] = len(data)
+
             entries.append(entry)
     entries = pd.concat(entries)
     index.add(entries)

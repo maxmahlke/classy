@@ -45,7 +45,7 @@ def _load_data(idx):
     # Load spectrum data file
     PATH_DATA = config.PATH_CACHE / idx.filename
     data = pd.read_csv(PATH_DATA, names=["wave", "refl"], delimiter=r"\s+", skiprows=9)
-    return data
+    return data, {}
 
 
 def load_catalogue():
@@ -94,9 +94,6 @@ def _retrieve_spectra():
             name, number = rocks.id(row.target_name)
             date_obs = ""
 
-            data = _load_data(PATH_M4AST / filename)
-            wave = data["wave"]
-
             # ------
             # Append to index
             entry = pd.DataFrame(
@@ -106,9 +103,6 @@ def _retrieve_spectra():
                     "filename": f"m4ast/{filename}",
                     "shortbib": row.shortbib,
                     "bibcode": row.bibcode,
-                    "wave_min": min(wave),
-                    "wave_max": max(wave),
-                    "N": len(wave),
                     "date_obs": date_obs,
                     "source": "M4AST",
                     "host": "M4AST",
@@ -116,6 +110,11 @@ def _retrieve_spectra():
                 },
                 index=[0],
             )
+            data, _ = _load_data(entry.squeeze())
+            entry["wave_min"] = min(data["wave"])
+            entry["wave_max"] = max(data["wave"])
+            entry["N"] = len(data)
+
             entries.append(entry)
             mofn.update(task, advance=1)
 

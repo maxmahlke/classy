@@ -37,21 +37,14 @@ def load_spectrum(idx):
     """
 
     # Resolve where to look for the data and spectrum kwargs based on host module
-    host = getattr(sources, idx.host) if idx.host in ["PDS", "CDS"] else sources
-    module = getattr(host, idx.module)
+    host = getattr(sources, idx.host.lower()) if idx.host in ["PDS", "CDS"] else sources
+    module = getattr(host, idx.module.lower())
 
     # Load data and metadata
     data, meta = module._load_data(idx)
 
     # ------
     # Instantiate spectrum
-    spec = core.Spectrum(wave=data["wave"], refl=data["refl"], name=idx["name"])
-
-    # Add list-type attributes - refl_err, flags
-    for col in data.columns:
-        if col in ["wave", "refl"]:
-            continue
-        setattr(spec, col, data[col])
 
     # Add list-type attributes when instantiating
     spec = core.Spectrum(name=idx["name"], **{col: data[col] for col in data.columns})
@@ -67,10 +60,10 @@ def load_spectrum(idx):
 
 def _retrieve_spectra():
     """Retrieve all public spectra that classy knows about."""
-    # pds._retrieve_spectra()
-    # cds._retrieve_spectra()
-    # m4ast._retrieve_spectra()
-    # akari._retrieve_spectra()
-    # smass._retrieve_spectra()
-    # mithneos._retrieve_spectra()
+    pds._retrieve_spectra()
+    cds._retrieve_spectra()
+    m4ast._retrieve_spectra()
+    akari._retrieve_spectra()
+    smass._retrieve_spectra()
+    mithneos._retrieve_spectra()
     gaia._retrieve_spectra()

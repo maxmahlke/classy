@@ -119,8 +119,6 @@ def _retrieve_spectra():
 
             filename = str(file_).split("classy/")[-1]
 
-            data = _load_data(file_)
-
             if pd.isna(date_obs):
                 bibcode = ""
 
@@ -131,9 +129,6 @@ def _retrieve_spectra():
                     "filename": filename,
                     "shortbib": shortbib,
                     "bibcode": bibcode,
-                    "wave_min": min(data["wave"]),
-                    "wave_max": max(data["wave"]),
-                    "N": len(data["wave"]),
                     "date_obs": date_obs,
                     "host": "MITHNEOS",
                     "module": "mithneos",
@@ -141,7 +136,11 @@ def _retrieve_spectra():
                 },
                 index=[0],
             )
-            mithneos = pd.concat([mithneos, entry], ignore_index=True)
+
+            data, _ = _load_data(entry.squeeze())
+            entry["wave_min"] = min(data["wave"])
+            entry["wave_max"] = max(data["wave"])
+            entry["N"] = len(data)
             entries.append(entry)
 
     # -------
@@ -171,9 +170,6 @@ def _retrieve_spectra():
 
                 if name is None:
                     continue
-
-                data = _load_data(file_)
-                wave = data["wave"]
 
                 filename = str(file_).split("classy/")[-1]
 
@@ -209,9 +205,6 @@ def _retrieve_spectra():
                         "filename": filename,
                         "shortbib": shortbib,
                         "bibcode": bibcode,
-                        "wave_min": min(wave),
-                        "wave_max": max(wave),
-                        "N": len(wave),
                         "date_obs": date_obs,
                         "source": "MITHNEOS",
                         "host": "mithneos",
@@ -219,6 +212,10 @@ def _retrieve_spectra():
                     },
                     index=[0],
                 )
+                data, _ = _load_data(entry.squeeze())
+                entry["wave_min"] = min(data["wave"])
+                entry["wave_max"] = max(data["wave"])
+                entry["N"] = len(data)
                 entries.append(entry)
 
     entries = pd.concat(entries)

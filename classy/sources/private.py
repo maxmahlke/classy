@@ -27,14 +27,14 @@ def _load_data(idx):
     try:
         data = np.loadtxt(PATH_DATA)
     except ValueError:
-        data = np.loadtxt(PATH_DATA, delimiter="\s+")
+        data = np.loadtxt(PATH_DATA, delimiter=",")
 
     data = pd.DataFrame(data)
 
     # Rename the columns that are present
     COLS = ["wave", "refl", "refl_err", "flag"]
-    data = data.rename(columns={col: COLS.pop() for col in data.columns})
-    return data
+    data = data.rename(columns={col: COLS.pop(0) for col in data.columns})
+    return data, {}
 
 
 def parse_index(PATH_INDEX):
