@@ -13,6 +13,7 @@ from classy.log import logger
 from classy import index
 from classy import mixnorm
 from classy import plotting
+from classy import sources
 from classy import preprocessing
 from classy import taxonomies
 
@@ -596,8 +597,12 @@ class Spectra(list):
             name, number = rocks.id(name)
             if "source" in kwargs:
                 if not isinstance(kwargs["source"], list):
-                    kwargs["source"] = [kwargs["source"]]
-                logger.warning(
+                    if kwargs["source"] is None:
+                        kwargs["source"] = sources.SOURCES
+                    else:
+                        kwargs["source"] = [kwargs["source"]]
+
+                logger.error(
                     f"Did not find a spectrum of ({number}) {name} in {', '.join(kwargs['source'])} "
                 )
             return None
