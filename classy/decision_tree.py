@@ -36,11 +36,9 @@ def assign_classes(data):
 
     # 2. Continuum cluster follow decision tree
     for cluster in classy.defs.X_COMPLEX:
-
         if cluster == 37 and (
             pd.isna(data["pV"].values[0]) or data["pV"].values[0] > -1
         ):
-
             # Split L from M in cluster 37
             MASK_37 = GMMS[37].predict(data[["z1", "z3"]])
 
@@ -75,16 +73,17 @@ def assign_classes(data):
         )
 
     for cluster in classy.defs.CONTINUUM_CLUSTER:
-
         if cluster == 29:  # taken care of below
             continue
-
-        data = data.apply(
-            lambda sample: RESOLVE_CLUSTER_FUNCTIONS[cluster](
-                sample, GMMS[cluster], CLASSES[cluster]
-            ),
-            axis=1,
-        )
+        elif cluster == 30:
+            data = data.apply(resolve_cluster_30, axis=1)
+        else:
+            data = data.apply(
+                lambda sample: RESOLVE_CLUSTER_FUNCTIONS[cluster](
+                    sample, GMMS[cluster], CLASSES[cluster]
+                ),
+                axis=1,
+            )
 
     # Get E types from K and L clusters
     data = data.apply(
@@ -138,7 +137,6 @@ def resolve_E(sample, GMM_EMP, CLASSES_EMP):
 
 
 def resolve_emp_classes(sample, cluster, GMM_EMP, CLASSES):
-
     if pd.isna(sample.pV):
         sample["class_X"] += sample[f"cluster_{cluster}"]
         return sample
@@ -147,7 +145,6 @@ def resolve_emp_classes(sample, cluster, GMM_EMP, CLASSES):
     probs = GMM_EMP.predict_proba(np.array(sample.pV).reshape(1, -1))
 
     for j, class_ in enumerate(CLASSES):
-
         # Add class probabilites scaled by cluster probability
         sample[f"class_{class_}"] += probs[0][j] * sample[f"cluster_{cluster}"]
 
@@ -165,7 +162,6 @@ def resolve_cluster_4(sample, GMM_23_40, CLASSES):
     probs = GMM_23_40.predict_proba(np.array(sample[["z2", "z3"]]).reshape(1, -1))
 
     for j, class_ in enumerate(CLASSES):
-
         # Add class probabilites scaled by cluster probability
         sample[f"class_{class_}"] += probs[0][j] * sample[f"cluster_4"]
 
@@ -173,12 +169,10 @@ def resolve_cluster_4(sample, GMM_23_40, CLASSES):
 
 
 def resolve_cluster_8(sample, GMM_0_34, CLASSES):
-
     # Class probabilities for E, M, P
     probs = GMM_0_34.predict_proba(np.array(sample[["z1", "z3"]]).reshape(1, -1))
 
     for j, class_ in enumerate(CLASSES):
-
         # Add class probabilites scaled by cluster probability
         sample[f"class_{class_}"] += probs[0][j] * sample[f"cluster_8"]
 
@@ -186,12 +180,10 @@ def resolve_cluster_8(sample, GMM_0_34, CLASSES):
 
 
 def resolve_cluster_10(sample, GMM, CLASSES):
-
     # Class probabilities for E, M, P
     probs = GMM.predict_proba(np.array(sample[["z0", "z1"]]).reshape(1, -1))
 
     for j, class_ in enumerate(CLASSES):
-
         # Add class probabilites scaled by cluster probability
         sample[f"class_{class_}"] += probs[0][j] * sample[f"cluster_10"]
 
@@ -199,12 +191,10 @@ def resolve_cluster_10(sample, GMM, CLASSES):
 
 
 def resolve_cluster_13(sample, GMM_13, CLASSES):
-
     # Class probabilities for E, M, P
     probs = GMM_13.predict_proba(np.array(sample[["z1", "z3"]]).reshape(1, -1))
 
     for j, class_ in enumerate(CLASSES):
-
         # Add class probabilites scaled by cluster probability
         sample[f"class_{class_}"] += probs[0][j] * sample[f"cluster_13"]
 
@@ -212,7 +202,6 @@ def resolve_cluster_13(sample, GMM_13, CLASSES):
 
 
 def resolve_cluster_19(sample, GMM_19, CLASSES):
-
     # No albedo -> assign to default class, C
     # if pd.isna(sample.pV):
     #     sample[f"class_C"] += sample[f"cluster_19"]
@@ -222,7 +211,6 @@ def resolve_cluster_19(sample, GMM_19, CLASSES):
     probs = GMM_19.predict_proba(np.array([sample[["z0", "z3"]]]))
 
     for j, class_ in enumerate(CLASSES):
-
         # Add class probabilites scaled by cluster probability
         sample[f"class_{class_}"] += probs[0][j] * sample[f"cluster_19"]
 
@@ -234,7 +222,6 @@ def resolve_cluster_23(sample, GMM_23, CLASSES):
     probs = GMM_23.predict_proba(np.array(sample[["z0", "z3"]]).reshape(1, -1))
 
     for j, class_ in enumerate(CLASSES):
-
         # Add class probabilites scaled by cluster probability
         sample[f"class_{class_}"] += probs[0][j] * sample[f"cluster_23"]
 
@@ -242,12 +229,10 @@ def resolve_cluster_23(sample, GMM_23, CLASSES):
 
 
 def resolve_cluster_24(sample, GMM_24, CLASSES):
-
     # Class probabilities for L, M
     probs = GMM_24.predict_proba(np.array(sample[["z2", "z3"]]).reshape(1, -1))
 
     for j, class_ in enumerate(CLASSES):
-
         # Add class probabilites scaled by cluster probability
         sample[f"class_{class_}"] += probs[0][j] * sample[f"cluster_24"]
 
@@ -255,12 +240,10 @@ def resolve_cluster_24(sample, GMM_24, CLASSES):
 
 
 def resolve_cluster_31(sample, GMM_31, CLASSES):
-
     # Class probabilities for L, M
     probs = GMM_31.predict_proba(np.array(sample[["z2", "z3"]]).reshape(1, -1))
 
     for j, class_ in enumerate(CLASSES):
-
         # Add class probabilites scaled by cluster probability
         sample[f"class_{class_}"] += probs[0][j] * sample[f"cluster_31"]
 
@@ -268,12 +251,10 @@ def resolve_cluster_31(sample, GMM_31, CLASSES):
 
 
 def resolve_cluster_41(sample, GMM_41, CLASSES):
-
     # Class probabilities for L, M
     probs = GMM_41.predict_proba(np.array(sample[["z0", "z1"]]).reshape(1, -1))
 
     for j, class_ in enumerate(CLASSES):
-
         # Add class probabilites scaled by cluster probability
         sample[f"class_{class_}"] += probs[0][j] * sample[f"cluster_41"]
 
@@ -281,12 +262,10 @@ def resolve_cluster_41(sample, GMM_41, CLASSES):
 
 
 def resolve_cluster_43(sample, GMM_43, CLASSES):
-
     # Class probabilities for L, M
     probs = GMM_43.predict_proba(np.array(sample[["z1", "z3"]]).reshape(1, -1))
 
     for j, class_ in enumerate(CLASSES):
-
         # Add class probabilites scaled by cluster probability
         sample[f"class_{class_}"] += probs[0][j] * sample[f"cluster_43"]
 
@@ -294,7 +273,6 @@ def resolve_cluster_43(sample, GMM_43, CLASSES):
 
 
 def resolve_cluster_44(sample, GMM_44, CLASSES):
-
     if pd.isna(sample.pV):
         # Default if no albedo present is S
         probs = [[1, 0]] if CLASSES[0] == "S" else [[0, 1]]
@@ -303,7 +281,6 @@ def resolve_cluster_44(sample, GMM_44, CLASSES):
         probs = GMM_44.predict_proba(np.array(sample["pV"]).reshape(1, -1))
 
     for j, class_ in enumerate(CLASSES):
-
         # Add class probabilites scaled by cluster probability
         sample[f"class_{class_}"] += probs[0][j] * sample[f"cluster_44"]
 
@@ -319,7 +296,6 @@ def resolve_cluster_29(sample, GMM, CLASSES):
     probs = GMM.predict_proba(np.array(sample[["z0", "z1"]]).reshape(1, -1))
 
     for j, class_ in enumerate(CLASSES):
-
         # Add class probabilites scaled by cluster probability
         sample[f"class_{class_}"] += probs[0][j] * sample[f"cluster_29"]
     return sample
@@ -368,6 +344,22 @@ def resolve_complex_emp():
     return gmm, CLASSES
 
 
+def resolve_cluster_30(sample):
+    """Heurisitc decision tree branch added after publication. This cluster contains D-types."""
+
+    if not pd.isna(sample.pV):
+        if sample.pV > np.log10(0.14):
+            sample.class_S += sample.cluster_30
+        else:
+            sample.class_D += sample.cluster_30
+    else:
+        if sample.z1 > 0:
+            sample.class_S += sample.cluster_30
+        else:
+            sample.class_D += sample.cluster_30
+    return sample
+
+
 RESOLVE_CLUSTER_FUNCTIONS = {
     4: resolve_cluster_4,
     8: resolve_cluster_8,
@@ -376,6 +368,7 @@ RESOLVE_CLUSTER_FUNCTIONS = {
     19: resolve_cluster_19,
     23: resolve_cluster_23,
     24: resolve_cluster_24,
+    30: resolve_cluster_30,
     31: resolve_cluster_31,
     37: resolve_cluster_37,
     41: resolve_cluster_41,
