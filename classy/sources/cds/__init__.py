@@ -1,4 +1,4 @@
-from . import J_AA_568_L7
+from . import j_aa_568_l7
 
 from classy import config
 from classy import core
