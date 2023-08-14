@@ -50,6 +50,11 @@ class Feature:
                     continue
                 setattr(self, param, value)
 
+                if params["is_present"] == "Yes":
+                    self.is_present = True
+                else:
+                    self.is_present = False
+
         # Set interpolation range for continuum, fit, and parameter estimation
         self.range_interp = np.arange(self.lower, self.upper, 0.001)
 
