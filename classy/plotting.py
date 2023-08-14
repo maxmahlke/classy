@@ -755,33 +755,50 @@ def plot_user_spectrum(ax, spec):
         The SMASS spectrum to plot.
     """
 
-    # Plot original
-    if not hasattr(spec, "_refl_preprocessed"):
-        wave = spec.wave
-        refl = spec.refl
-        err = spec.refl_err
-    else:
-        wave = spec._wave_preprocessed
-        refl = spec._refl_preprocessed
-        err = np.nan
-
-    (l1,) = ax.plot(
-        wave,
-        refl,
-        c=spec._color,
-        ls="-",
-        alpha=0.5,
-    )
-
-    if err is not None:
-        ax.fill_between(
-            wave,
-            refl + err / 2,
-            refl - err / 2,
-            color=spec._color,
-            alpha=0.3,
-            ec="none",
+    if spec.is_smoothed:
+        (l1,) = ax.plot(
+            spec.wave,
+            spec.refl,
+            c=spec._color,
+            ls="-",
+            alpha=1,
         )
+        ax.plot(
+            spec.wave_original,
+            spec.refl_original,
+            c=spec._color,
+            ls="-",
+            alpha=0.3,
+        )
+
+    else:
+        # Plot original
+        if not hasattr(spec, "_refl_preprocessed"):
+            wave = spec.wave
+            refl = spec.refl
+            err = spec.refl_err
+        else:
+            wave = spec._wave_preprocessed
+            refl = spec._refl_preprocessed
+            err = np.nan
+
+        (l1,) = ax.plot(
+            wave,
+            refl,
+            c=spec._color,
+            ls="-",
+            alpha=0.5,
+        )
+
+        if err is not None:
+            ax.fill_between(
+                wave,
+                refl + err / 2,
+                refl - err / 2,
+                color=spec._color,
+                alpha=0.3,
+                ec="none",
+            )
 
     line = [l1]
 
