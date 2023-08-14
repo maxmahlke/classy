@@ -44,7 +44,7 @@ def is_classifiable(spec):
 
 
 def preprocess(spec):
-    spec.detect_features()
+    # spec.detect_features()
     spec._wave_pre_norm = spec.wave.copy()
     spec._refl_pre_norm = spec.refl.copy()
     spec.resample(WAVE, fill_value=np.nan, bounds_error=False)
@@ -109,6 +109,7 @@ def classify(spec):
     ][0]
     results = {"class_mahlke": class_, "class_": class_}
     results["prob"] = max(probs)
+    results["scores_mahlke"] = spec.data_latent[0]
 
     for class_ in defs.CLASSES:
         results[f"class_{class_}"] = getattr(spec, f"class_{class_}")
@@ -156,7 +157,6 @@ def load_templates():
     templates = {}
 
     for class_ in CLASSES:
-
         refl = data[class_].values[:-1]
         pV = data[class_].values[-1]
         refl_err = data[f"{class_}_upper"].values[:-1]  # - refl
