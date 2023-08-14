@@ -57,25 +57,29 @@ def parse_index(PATH_INDEX):
     entries = []
 
     for _, row in ind.iterrows():
-        entry = {}
-
         # Verify asteroid identity
         name = row["name"]
         name, number = rocks.id(name)
-        entry["name"] = name
-        entry["number"] = number
-        entry["filename"] = row.filename
+
+        entry = pd.DataFrame(
+            data={
+                "name": name,
+                "number": number,
+                "filename": row.filename,
+            },
+            index=[0],
+        )
 
         # Get sampling stats
-        data = load_data(row.filename)
-        wave = data[:, 0]
+        data, _ = _load_data(entry.squeeze())
+        wave = data["wave"]
 
         entry["wave_min"] = wave.min()
         entry["wave_max"] = wave.max()
         entry["N"] = len(wave)
 
         # Record other metadata
-        for col in ["shortbib", "source", "bibcode"]:
+        for col in ["shortbib", "source", "bibcode", "date_obs"]:
             if col in ind.columns:
                 entry[col] = row[col]
 
@@ -85,6 +89,7 @@ def parse_index(PATH_INDEX):
         entries.append(entry)
 
     # Add to index
-    entries = pd.DataFrame(entries, index=range(len(entries)))
+    # entries = pd.DataFrame(entries, index=range(len(entries)))
+    entries = pd.concat(entries)
     index.add(entries)
     print(f"Added {len(entries)} spectra to the classy index.")

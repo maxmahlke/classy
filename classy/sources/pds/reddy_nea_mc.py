@@ -13,6 +13,19 @@ REFERENCES = {
 }
 
 
+def _load_data(meta):
+    """Load spectrum data.
+
+    Returns
+    -------
+    pd.DataFrame
+
+    """
+    file_ = config.PATH_CACHE / meta.filename
+    data = pd.read_csv(file_, names=["wave", "refl", "refl_err"], delimiter=r"\s+")
+    return data, {}
+
+
 def _create_index(PATH_REPO):
     """Create index of spectra collection."""
 
@@ -64,16 +77,3 @@ def _create_index(PATH_REPO):
             entries.append(entry)
     entries = pd.concat(entries)
     index.add(entries)
-
-
-def _load_data(meta):
-    """Load spectrum data.
-
-    Returns
-    -------
-    pd.DataFrame
-
-    """
-    file_ = config.PATH_CACHE / meta.filename
-    data = pd.read_csv(file_, names=["wave", "refl", "refl_err"], delimiter=r"\s+")
-    return data

@@ -37,7 +37,11 @@ def load_spectrum(idx):
     """
 
     # Resolve where to look for the data and spectrum kwargs based on host module
-    host = getattr(sources, idx.host.lower()) if idx.host in ["PDS", "CDS"] else sources
+    host = (
+        getattr(sources, idx.host.lower())
+        if idx.host.lower() in ["pds", "cds"]
+        else sources
+    )
     module = getattr(host, idx.module.lower())
 
     # Load data and metadata
