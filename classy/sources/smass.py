@@ -191,7 +191,7 @@ def _retrieve_spectra():
                     "date_obs": date_obs,
                     "source": "SMASS",
                     "host": "smass",
-                    "collection": "smass",
+                    "module": "smass",
                     "public": True,
                 },
                 index=[0],
