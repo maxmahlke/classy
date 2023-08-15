@@ -96,7 +96,15 @@ def load_smoothing():
     """Load the feature index."""
     if not PATH_SMOOTHING.is_file():
         return pd.DataFrame()
-    return pd.read_csv(PATH_SMOOTHING, index_col="filename")
+    return pd.read_csv(
+        PATH_SMOOTHING,
+        index_col="filename",
+        dtype={
+            "deg_savgol": int,
+            "deg_spline": int,
+            "window_savgol": int,
+        },
+    )
 
 
 def store_smoothing(smoothing):
