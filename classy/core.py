@@ -154,7 +154,7 @@ class Spectrum:
             )
         return Spectra([self, *rhs])
 
-    def smooth(self, method="savgol", **kwargs):
+    def smooth(self, **kwargs):
         """Smooth spectrum using a Savitzky-Golay filter or univariate spline.
 
         Parameters
@@ -169,16 +169,19 @@ class Spectrum:
                 )
             smoothing = self.load_smoothing_parameters()
 
-            for key in ["method", "deg_savgol", "window_savgol", "deg_spline"]:
-                kwargs[key] = smoothing[key]
+            for key_gui, key_func in zip(
+                ["method", "deg_savgol", "window_savgol", "deg_spline"],
+                ["method", "polyorder", "window_length", "k"],
+            ):
+                kwargs[key_func] = smoothing[key_gui]
 
-        if method == "savgol":
+        if kwargs["method"] == "savgol":
             self.refl = preprocessing.savitzky_golay(self.refl, **kwargs)
-        elif method == "spline":
+        elif kwargs["method"] == "spline":
             self.refl = preprocessing.univariate_spline(self.wave, self.refl, **kwargs)
         else:
             raise ValueError(
-                f"Unknown smoothing method '{method}'. Choose from ['savgol', 'spline']."
+                f"Unknown smoothing method '{kwargs['method']}'. Choose from ['savgol', 'spline']."
             )
         self.is_smoothed = True
 
@@ -240,9 +243,13 @@ class Spectrum:
         """
         if at is not None:
             self.refl = preprocessing._normalize_at(self.wave, self.refl, at)
+            self.refl_original = preprocessing._normalize_at(
+                self.wave_original, self.refl_original, at
+            )
 
         if method == "l2":
             self.refl = preprocessing._normalize_l2(self.refl)
+            self.refl_original = preprocessing._normalize_l2(self.refl_original)
 
         elif method == "mixnorm":
             alpha = mixnorm.normalize(self)
@@ -260,8 +267,11 @@ class Spectrum:
             raise AttributeError(
                 "The spectrum requires a 'name' attribute to compute the phase angle."
             )
-        if not self.date_obs:
+
+        if not isinstance(self.date_obs, str) or not self.date_obs:
             logger.debug("'date_obs' is empty, cannot compute phase angle")
+            self.phase = np.nan
+            return
 
         ephem = cache.miriade_ephems(self.name, self.date_obs.split(","))
 
@@ -461,13 +471,23 @@ class Spectrum:
             logger.info("No 'path_out' provided, storing results to ./classy_spec.csv")
             result.to_csv("./classy_spec.csv", index=False)
 
-    # def preprocess(self, **kwargs):
-    #     """Apply preprocessing."""
-    #     # TODO: The GUI should be a method of the spectrum, not of the feature
-    #     #
-    #     # this is just smoothing and truncating
-    #     self.truncate(**kwargs)
-    #     self.smooth(**kwargs)
+    def preprocess(self, **kwargs):
+        """Apply preprocessing."""
+
+        # this is just smoothing and truncating
+        # self.truncate(**kwargs)
+        # self.smooth(**kwargs)
+
+        if not self.has_smoothing_parameters:
+            self.smooth_interactive()
+        else:
+            self.truncate()
+            self.smooth()
+
+        for feature in ["e", "h", "k"]:
+            feature = getattr(self, feature)
+            if feature.is_observed and not feature.has_fit_parameters:
+                feature.fit_interactive()
 
 
 # ------
