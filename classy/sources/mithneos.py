@@ -106,10 +106,13 @@ def _retrieve_spectra():
             shortbib, bibcode = REFERENCES[dir]
 
             if dir == "demeo2019":
-                date_obs = log.loc[
-                    (log.run == file_.name.split(".")[1]) & (log["name"] == name),
-                    "date_obs",
-                ].values[0]
+                try:
+                    date_obs = log.loc[
+                        (log.run == file_.name.split(".")[1]) & (log["name"] == name),
+                        "date_obs",
+                    ].values[0]
+                except IndexError:
+                    date_obs = ""
             elif dir == "polishook2014":
                 if file_.name in POLISHOOK_DATES:
                     date_obs = POLISHOOK_DATES[file_.name]
