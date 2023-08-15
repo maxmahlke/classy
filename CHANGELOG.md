@@ -1,3 +1,6 @@
+# 0.6.3 - 2023-08-15
+- Bugfix in MITHNEOS source module
+
 # 0.6.2 - 2023-08-15
 - Add M4AST to sources
 - Add Gartrelle+ 2021 to sources
