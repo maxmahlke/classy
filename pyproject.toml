@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "space-classy"
-version = "0.6.1"
+version = "0.6.2"
 description = "classification tool for minor bodies using reflectance spectra and visual albedos"
 authors = ["Max Mahlke <max.mahlke@oca.eu>"]
 license = "MIT"

@@ -1,4 +1,4 @@
-# 0.6.2 -
+# 0.6.2 - 2023-08-15
 - Add M4AST to sources
 - Add Gartrelle+ 2021 to sources
 - Add Marsset+ 2021 to sources

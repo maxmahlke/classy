@@ -8,4 +8,4 @@ from .core import Spectrum
 from .core import Spectra
 
 # Welcome to classy
-__version__ = "0.6.1"
+__version__ = "0.6.2"
