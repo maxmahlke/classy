@@ -46,7 +46,7 @@ class InteractiveFeatureFit(QtWidgets.QMainWindow):
         # Initialise widgets and fill layout
         self._main = QtWidgets.QWidget()
         self.setCentralWidget(self._main)
-        layout = QtWidgets.QGridLayout(self._main)
+        self.layout = QtWidgets.QGridLayout(self._main)
 
         # ------
         # Main plotting widget
@@ -78,8 +78,8 @@ class InteractiveFeatureFit(QtWidgets.QMainWindow):
         # Add widgets and layouts to GUI
 
         # row, col, row_span, col_span
-        addW = layout.addWidget
-        addL = layout.addLayout
+        addW = self.layout.addWidget
+        addL = self.layout.addLayout
         right = QtCore.Qt.AlignRight
 
         label_id = QtWidgets.QLabel(
@@ -153,13 +153,13 @@ class InteractiveFeatureFit(QtWidgets.QMainWindow):
         addL(degree_poly, 7, 6)
 
         for i in range(1, 5):
-            layout.setColumnStretch(i, 1)
-            layout.setRowStretch(i, 1)
+            self.layout.setColumnStretch(i, 1)
+            self.layout.setRowStretch(i, 1)
         for i in range(5, 9):
-            layout.setRowStretch(i, 0)
+            self.layout.setRowStretch(i, 0)
         for i in range(5, 8):
-            layout.setColumnStretch(i, 1)
-        layout.setRowStretch(0, 0)
+            self.layout.setColumnStretch(i, 1)
+        self.layout.setRowStretch(0, 0)
 
     def _init_plot(self):
         """Initialise the fitting functions and plot results."""
@@ -444,7 +444,7 @@ class InteractiveSmoothing(QtWidgets.QMainWindow):
             "smooth": True,
             "method": "savgol",
             "deg_savgol": 3,
-            "window_savgol": int(len(self.spec) / 4),
+            "window_savgol": max([int(len(self.spec) / 3), 4]),
             "deg_spline": 4,
             "wave_min": self.spec.wave.min(),
             "wave_max": self.spec.wave.max(),
@@ -478,7 +478,7 @@ class InteractiveSmoothing(QtWidgets.QMainWindow):
         # Initialise widgets and fill layout
         self._main = QtWidgets.QWidget()
         self.setCentralWidget(self._main)
-        layout = QtWidgets.QGridLayout(self._main)
+        self.layout = QtWidgets.QGridLayout(self._main)
 
         # ------
         # Main plotting widget
@@ -556,8 +556,8 @@ class InteractiveSmoothing(QtWidgets.QMainWindow):
         # Add widgets and layouts to GUI
 
         # row, col, row_span, col_span
-        addW = layout.addWidget
-        addL = layout.addLayout
+        addW = self.layout.addWidget
+        addL = self.layout.addLayout
         right = QtCore.Qt.AlignRight
 
         addW(label_id, 0, 0, 1, 4)
@@ -574,11 +574,11 @@ class InteractiveSmoothing(QtWidgets.QMainWindow):
         addL(degree_spline, 7, 6)
 
         for i in range(1, 4):
-            layout.setColumnStretch(i, 1)
-            layout.setRowStretch(i, 1)
+            self.layout.setColumnStretch(i, 1)
+            self.layout.setRowStretch(i, 1)
         for i in range(4, 8):
-            layout.setRowStretch(i, 0)
-        layout.setRowStretch(0, 0)
+            self.layout.setRowStretch(i, 0)
+        self.layout.setRowStretch(0, 0)
 
     def _init_plot(self):
         """Initialise the fitting functions and plot results."""
@@ -623,7 +623,7 @@ class InteractiveSmoothing(QtWidgets.QMainWindow):
         # Plot the smoothed data or empty data
         params = self._get_smoothing_parameters()
         self.smooth = params["smooth"]
-        self.smooth_method = params["method"]
+        self.method = params["method"]
         self.deg_savgol = params["polyorder"]
         self.window_savgol = params["window_length"]
         self.deg_spline = params["k"]
