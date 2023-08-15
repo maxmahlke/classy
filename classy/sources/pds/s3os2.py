@@ -42,10 +42,6 @@ def _create_index(PATH_REPO):
         for lbl_file in dir.glob("**/*lbl"):
             id_, _, date_obs = pds.parse_lbl(lbl_file)
             file_ = lbl_file.with_suffix(".tab")
-            ref = "L04"
-
-            # Convert ref from lbl to bibcode and shortbib
-            bibcode, shortbib = REFERENCES[ref]
 
             # Identify asteroid
             id_ = id_.split()[0]
@@ -68,7 +64,7 @@ def _create_index(PATH_REPO):
             )
 
             # Add spectrum metadata
-            data = _load_data(entry.squeeze())
+            data, _ = _load_data(entry.squeeze())
             entry["wave_min"] = min(data["wave"])
             entry["wave_max"] = max(data["wave"])
             entry["N"] = len(data["wave"])

@@ -91,7 +91,7 @@ def _create_index(PATH_REPO):
             )
 
             # Add spectrum metadata
-            data = _load_data(entry.squeeze())
+            data, _ = _load_data(entry.squeeze())
             entry["wave_min"] = min(data["wave"])
             entry["wave_max"] = max(data["wave"])
             entry["N"] = len(data["wave"])
