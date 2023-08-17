@@ -65,7 +65,7 @@ def download_archive(
         TextColumn("{task.fields[desc]}"),
         BarColumn(bar_width=None),
         DownloadColumn(),
-        disable=~progress,
+        disable=not progress,
     )
 
     # Launch download
