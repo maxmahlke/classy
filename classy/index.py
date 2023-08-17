@@ -60,9 +60,7 @@ def add(entries):
 
     # Find overlap between new entries and exisiting index
     # Store the DF index of the classy index to later drop duplicates via that index
-    overlap = pd.merge(
-        index.reset_index(), entries, how="inner", on=["name", "source", "filename"]
-    )
+    overlap = pd.merge(index.reset_index(), entries, how="inner", on=["filename"])
 
     if not overlap.empty:
         # Drop duplicated rows
