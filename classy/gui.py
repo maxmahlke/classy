@@ -5,8 +5,6 @@ import sys
 import classy
 from classy.log import logger
 
-from matplotlib.backends.qt_compat import QtGui
-
 import pyqtgraph as pg
 from pyqtgraph.Qt import QtCore, QtWidgets
 
