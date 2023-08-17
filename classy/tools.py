@@ -36,7 +36,9 @@ def find_nearest(array, value):
     return idx
 
 
-def download_archive(URL, PATH_ARCHIVE, unpack=True, remove=True, encoding=None):
+def download_archive(
+    URL, PATH_ARCHIVE, unpack=True, remove=True, encoding=None, progress=True
+):
     """Download remote archive file to directory. Optionally unpack and remove the file.
 
     Parameters
@@ -51,6 +53,8 @@ def download_archive(URL, PATH_ARCHIVE, unpack=True, remove=True, encoding=None)
         Whether to remove the archive file after the download. Default is True.
     encoding : str
         The compression encoding. Default is None. Must be specified if unpack is True.
+    progress : bool
+        Whether to show a download progressbar. Default is True.
     """
 
     if unpack and encoding is None:
@@ -58,7 +62,10 @@ def download_archive(URL, PATH_ARCHIVE, unpack=True, remove=True, encoding=None)
 
     # Create progress bar
     download = Progress(
-        TextColumn("{task.fields[desc]}"), BarColumn(bar_width=None), DownloadColumn()
+        TextColumn("{task.fields[desc]}"),
+        BarColumn(bar_width=None),
+        DownloadColumn(),
+        disable=~progress,
     )
 
     # Launch download
