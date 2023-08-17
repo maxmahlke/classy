@@ -1,3 +1,6 @@
+# 0.6.4 - 2023-08-17
+- Add missing pyqtgraph dependency
+
 # 0.6.3 - 2023-08-15
 - Bugfix in MITHNEOS and SMASS source modules
 
