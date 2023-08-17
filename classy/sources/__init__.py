@@ -1,4 +1,5 @@
 from classy import core
+from classy import index
 from classy import sources
 
 from . import akari, cds, gaia, m4ast, mithneos, pds, private, smass
@@ -71,3 +72,16 @@ def _retrieve_spectra():
     smass._retrieve_spectra()
     mithneos._retrieve_spectra()
     gaia._retrieve_spectra()
+
+    _build_index()
+
+
+def _build_index():
+    """Retrieve all public spectra that classy knows about."""
+    pds._build_index()
+    cds._build_index()
+    m4ast._build_index()
+    akari._build_index()
+    smass._build_index()
+    mithneos._build_index()
+    gaia._build_index()

@@ -73,6 +73,12 @@ def _retrieve_spectra():
         if not success:
             continue
 
+
+def _build_index():
+    PATH_PDS = config.PATH_CACHE / "pds/"
+    for repo, URL in REPOSITORIES.items():
+        PATH_ARCHIVE = PATH_PDS / URL.split("/")[-1]
+
         # Add spectra to index
         PATH_REPO = PATH_ARCHIVE.with_suffix("")
         getattr(sources.pds, repo)._create_index(PATH_REPO)

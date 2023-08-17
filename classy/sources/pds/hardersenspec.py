@@ -69,7 +69,7 @@ def _create_index(PATH_REPO):
                     "shortbib": shortbib,
                     "bibcode": bibcode,
                     "filename": str(file_).split("/classy/")[1],
-                    "source": "Hardersen",
+                    "source": "PDS",
                     "host": "PDS",
                     "module": "hardersenspec",
                 },

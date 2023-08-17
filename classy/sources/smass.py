@@ -8,6 +8,18 @@ from classy import index
 from classy.log import logger
 from classy import tools
 
+ARCH_DIR_REF_BIB = [
+    ("smass1data_new", "smass1", "Xu+ 1995", "1995Icar..115....1X"),
+    ("smass2data", "smass2", "Bus and Binzel 2002", "2002Icar..158..106B"),
+    ("smassirdata", "smassir", "Burbine and Binzel 2002", "2002Icar..159..468B"),
+    ("smassneodata", "smassneo", "Binzel+ 2001", "2001Icar..151..139B"),
+    ("smassref5", "sf36ref5", "Binzel+ 2001", "2001M&PS...36.1167B"),
+    ("smassref6", "meudonnereusref6", "Binzel+ 2004", "2004P&SS...52..291B"),
+    ("smassref7", "neotargetsref7", "Binzel+ 2004", "2004M&PS...39..351B"),
+    ("smassref8", "smassneoref8", "Binzel+ 2004", "2004Icar..170..259B"),
+    ("smassref9", "hermesref9", "Rivkin+ 2004", "2004Icar..172..408R"),
+]
+
 
 def _load_data(idx):
     """Load data and metadata of a cached Gaia spectrum.
@@ -114,27 +126,18 @@ def _retrieve_spectra():
 
     logger.info("Retrieving all SMASS reflectance spectra to cache...")
 
-    ARCH_DIR_REF_BIB = [
-        ("smass1data_new", "smass1", "Xu+ 1995", "1995Icar..115....1X"),
-        ("smass2data", "smass2", "Bus and Binzel 2002", "2002Icar..158..106B"),
-        ("smassirdata", "smassir", "Burbine and Binzel 2002", "2002Icar..159..468B"),
-        ("smassneodata", "smassneo", "Binzel+ 2001", "2001Icar..151..139B"),
-        ("smassref5", "sf36ref5", "Binzel+ 2001", "2001M&PS...36.1167B"),
-        ("smassref6", "meudonnereusref6", "Binzel+ 2004", "2004P&SS...52..291B"),
-        ("smassref7", "neotargetsref7", "Binzel+ 2004", "2004M&PS...39..351B"),
-        ("smassref8", "smassneoref8", "Binzel+ 2004", "2004Icar..170..259B"),
-        ("smassref9", "hermesref9", "Rivkin+ 2004", "2004Icar..172..408R"),
-    ]
-
     for file_, _, _, _ in ARCH_DIR_REF_BIB:
         url_archive = f"{URL}/{file_}.tar.gz"
         tools.download_archive(
             url_archive, PATH_SMASS / f"{file_}.tar.gz", encoding="tar.gz"
         )
 
+
+def _build_index():
     # Add to global spectra index.
     entries = []
     logger.info("Indexing SMASS spectra...")
+    PATH_SMASS = config.PATH_CACHE / "smass/"
 
     log = load_obslog()
     for _, dir, ref, bib in ARCH_DIR_REF_BIB:

@@ -4,6 +4,7 @@ import rocks
 from classy import config
 from classy import index
 from classy import progress
+from classy import tools
 
 SHORTBIB, BIBCODE = "Galluccio+ 2022", "2022arXiv220612174G"
 
@@ -59,47 +60,63 @@ def _retrieve_spectra():
     # ------
     # Retrieve observations
     URL = "http://cdn.gea.esac.esa.int/Gaia/gdr3/Solar_system/sso_reflectance_spectrum/SsoReflectanceSpectrum_"
-    archives = {}
 
     # Observations are split into 20 parts
     with progress.mofn as mofn:
         task = mofn.add_task("Gaia DR3", total=20)
 
         for idx in range(20):
-            # Retrieve the spectra
-            part = pd.read_csv(f"{URL}{idx:02}.csv.gz", compression="gzip", comment="#")
-
-            # Create list of identifiers from number and name columns
-            ids = part.number_mp.fillna(part.denomination).values
-            names, numbers = zip(*rocks.id(ids))
-
-            part["name"] = names
-            part["number"] = numbers
-
-            # Add to index for quick look-up
-            for name, entries in part.groupby("name"):
-                # Use the number for identification if available, else the name
-                number = entries.number.values[0]
-                asteroid = number if number else name
-
-                archives[asteroid] = f"SsoReflectanceSpectrum_{idx:02}"
-
-            # Adapt to classy naming scheme
-            part = part.rename(
-                columns={
-                    "wavelength": "wave",
-                    "reflectance_spectrum": "refl",
-                    "reflectance_spectrum_err": "refl_err",
-                    "reflectance_spectrum_flag": "flag",
-                }
+            tools.download_archive(
+                f"{URL}{idx:02}.csv.gz",
+                PATH_GAIA / f"{idx:02}.csv.gz",
+                unpack=False,
+                progress=False,
+                remove=False,
             )
-
-            # Use wavelenght in micron
-            part.wave /= 1000
-
-            # Store to cache
-            part.to_csv(PATH_GAIA / f"SsoReflectanceSpectrum_{idx:02}.csv", index=False)
             mofn.update(task, advance=1)
+
+
+def _build_index():
+    # Retrieve the spectra
+    #
+    PATH_GAIA = config.PATH_CACHE / "gaia"
+
+    archives = {}
+    for idx in range(20):
+        part = pd.read_csv(
+            PATH_GAIA / f"{idx:02}.csv.gz", compression="gzip", comment="#"
+        )
+
+        # Create list of identifiers from number and name columns
+        ids = part.number_mp.fillna(part.denomination).values
+        names, numbers = zip(*rocks.id(ids))
+
+        part["name"] = names
+        part["number"] = numbers
+
+        # Add to index for quick look-up
+        for name, entries in part.groupby("name"):
+            # Use the number for identification if available, else the name
+            number = entries.number.values[0]
+            asteroid = number if number else name
+
+            archives[asteroid] = f"SsoReflectanceSpectrum_{idx:02}"
+
+        # Adapt to classy naming scheme
+        part = part.rename(
+            columns={
+                "wavelength": "wave",
+                "reflectance_spectrum": "refl",
+                "reflectance_spectrum_err": "refl_err",
+                "reflectance_spectrum_flag": "flag",
+            }
+        )
+
+        # Use wavelenght in micron
+        part.wave /= 1000
+
+        # Store to cache
+        part.to_csv(PATH_GAIA / f"SsoReflectanceSpectrum_{idx:02}.csv", index=False)
 
     # ------
     # Convert index of asteroids in archives to dataframe, append to classy index
@@ -109,11 +126,8 @@ def _retrieve_spectra():
         data={
             "name": names,
             "number": numbers,
-            "filename": [
-                "gaia/" + filename + ".csv" for filename in list(archives.values())
-            ],
         },
-        index=[0] * len(names),
+        index=["gaia/" + filename + ".csv" for filename in list(archives.values())],
     )
 
     # Add metadata
@@ -126,5 +140,9 @@ def _retrieve_spectra():
     entries["source"] = "Gaia"
     entries["host"] = "Gaia"
     entries["module"] = "gaia"
-
     index.add(entries)
+
+    # import numpy as np
+    #
+    # for i, part in enumerate(np.array_split(entries, 100)):
+    #     index.add(part)

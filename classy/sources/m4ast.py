@@ -48,12 +48,25 @@ def _load_data(idx):
     return data, {}
 
 
-def load_catalogue():
-    """Load the M4AST metadata catalogue from cache or from remote."""
+def load_catalog():
+    """Load the M4AST metadata catalog from cache or from remote."""
     PATH_CAT = config.PATH_CACHE / "m4ast/m4ast.csv"
     if not PATH_CAT.is_file():
         tools._retrieve_from_github(host="m4ast", which="m4ast", path=PATH_CAT)
-    return pd.read_csv(PATH_CAT)
+
+    cat = pd.read_csv(PATH_CAT)
+
+    for ind, row in cat.iterrows():
+        if not pd.isna(row.bib_reference):
+            bib = row.bib_reference.split("/")[-1]
+            bib = REFERENCES[bib][0]
+            ref = REFERENCES[bib][1]
+        else:
+            bib = "Unpublished"
+            ref = "Unpublished"
+        cat.loc[ind, "bibcode"] = bib
+        cat.loc[ind, "shortbib"] = ref
+    return cat
 
 
 def _retrieve_spectra():
@@ -63,60 +76,62 @@ def _retrieve_spectra():
     PATH_M4AST = config.PATH_CACHE / "m4ast/"
     PATH_M4AST.mkdir(parents=True, exist_ok=True)
 
-    catalogue = load_catalogue()
-
-    for ind, row in catalogue.iterrows():
-        if not pd.isna(row.bib_reference):
-            bib = row.bib_reference.split("/")[-1]
-            bib = REFERENCES[bib][0]
-            ref = REFERENCES[bib][1]
-        else:
-            bib = "Unpublished"
-            ref = "Unpublished"
-        catalogue.loc[ind, "bibcode"] = bib
-        catalogue.loc[ind, "shortbib"] = ref
+    catalog = load_catalog()
 
     # Do not index these spectra - already in SMASS/PRIMASS
-    catalogue = catalogue[~catalogue.shortbib.isin(["Binzel+ 2001", "Morate+ 2016"])]
-
-    # Add to global spectra index.
-    entries = []
+    catalog = catalog[~catalog.shortbib.isin(["Binzel+ 2001", "Morate+ 2016"])]
 
     with progress.mofn as mofn:
-        task = mofn.add_task("M4AST", total=len(catalogue))
+        task = mofn.add_task("M4AST", total=len(catalog))
 
-        for _, row in catalogue.iterrows():
+        for _, row in catalog.iterrows():
             # Download spectrum
             filename = row.access_url.split("/")[-1]
 
             urlretrieve(row.access_url, PATH_M4AST / filename)
-
-            name, number = rocks.id(row.target_name)
-            date_obs = ""
-
-            # ------
-            # Append to index
-            entry = pd.DataFrame(
-                data={
-                    "name": name,
-                    "number": number,
-                    "filename": f"m4ast/{filename}",
-                    "shortbib": row.shortbib,
-                    "bibcode": row.bibcode,
-                    "date_obs": date_obs,
-                    "source": "M4AST",
-                    "host": "M4AST",
-                    "module": "m4ast",
-                },
-                index=[0],
-            )
-            data, _ = _load_data(entry.squeeze())
-            entry["wave_min"] = min(data["wave"])
-            entry["wave_max"] = max(data["wave"])
-            entry["N"] = len(data)
-
-            entries.append(entry)
             mofn.update(task, advance=1)
+
+
+def _build_index():
+    entries = []
+    PATH_M4AST = config.PATH_CACHE / "m4ast/"
+    PATH_M4AST.mkdir(parents=True, exist_ok=True)
+
+    catalog = load_catalog()
+
+    # Do not index these spectra - already in SMASS/PRIMASS
+    catalog = catalog[~catalog.shortbib.isin(["Binzel+ 2001", "Morate+ 2016"])]
+
+    # Add to global spectra index.
+    for _, row in catalog.iterrows():
+        # Download spectrum
+        filename = row.access_url.split("/")[-1]
+
+        name, number = rocks.id(row.target_name)
+        date_obs = ""
+
+        # ------
+        # Append to index
+        entry = pd.DataFrame(
+            data={
+                "name": name,
+                "number": number,
+                "filename": f"m4ast/{filename}",
+                "shortbib": row.shortbib,
+                "bibcode": row.bibcode,
+                "date_obs": date_obs,
+                "source": "M4AST",
+                "host": "M4AST",
+                "module": "m4ast",
+            },
+            index=[0],
+        )
+        data, _ = _load_data(entry.squeeze())
+        entry["wave_min"] = min(data["wave"])
+        entry["wave_max"] = max(data["wave"])
+        entry["N"] = len(data)
+
+        entries.append(entry)
 
     entries = pd.concat(entries)
     index.add(entries)

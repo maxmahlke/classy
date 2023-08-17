@@ -17,6 +17,17 @@ REFERENCES = {
     "polishook2014": ["Polishook+ 2014", "2014Icar..233....9P"],
 }
 
+DIR_URLS = [
+    ("demeo2019", f"{BASE_URL}/minus/DeMeo2019_spectra.tar"),
+    ("polishook2014", f"{BASE_URL}/minus/Spectra31AsteroidPairs_Polishook.zip"),
+]
+
+RUNS = (
+    [f"sp{num:>02}" for num in range(1, 131)]
+    + [f"sp{num:>02}" for num in range(200, 292)]
+    + [f"dm{num:>02}" for num in range(1, 20)]
+)
+
 
 def _load_data(idx):
     """Load data and metadata of a cached Gaia spectrum.
@@ -64,23 +75,31 @@ def _retrieve_spectra():
 
     # ------
     # Start with separate archives
-    DIR_URLS = [
-        ("demeo2019", f"{BASE_URL}/minus/DeMeo2019_spectra.tar"),
-        ("polishook2014", f"{BASE_URL}/minus/Spectra31AsteroidPairs_Polishook.zip"),
-    ]
-
     for dir, URL in DIR_URLS:
         (PATH_OUT / dir).mkdir(exist_ok=True, parents=True)
         tools.download_archive(
             URL, PATH_OUT / dir / URL.split("/")[-1], encoding=URL.split(".")[-1]
         )
 
-    log = load_obslog()
+    # -------
+    # Scrape all mithneos runs from website and check for unpublished spectra
 
+    with progress.mofn as mofn:
+        task = mofn.add_task("MITHNEOS ObsRuns", total=len(RUNS))
+        for run in RUNS:
+            URL = f"{BASE_URL}/spex/{run}/"
+            _download(URL, PATH_OUT / run)
+            mofn.update(task, advance=1)
+
+
+def _build_index():
     # Create index for these archives
-    mithneos = pd.DataFrame()
+
+    log = load_obslog()
     entries = []
 
+    # TODO: Here and in all source modules: make module path a module variable
+    PATH_OUT = config.PATH_CACHE / "mithneos/"
     for dir, _ in DIR_URLS:
         for file_ in (PATH_OUT / dir).glob("**/*txt"):
             if "__MACOS" in str(file_):
@@ -146,80 +165,66 @@ def _retrieve_spectra():
             entry["N"] = len(data)
             entries.append(entry)
 
-    # -------
-    # Scrape all mithneos runs from website and check for unpublished spectra
-    runs = (
-        [f"sp{num:>02}" for num in range(1, 131)]
-        + [f"sp{num:>02}" for num in range(200, 292)]
-        + [f"dm{num:>02}" for num in range(1, 20)]
-    )
+    for run in RUNS:
+        # check for duplicates
+        for file_ in (PATH_OUT / run).glob("**/*txt"):
+            if "162117-note" in file_.name or "p2010h2" in file_.name:
+                continue
 
-    with progress.mofn as mofn:
-        task = mofn.add_task("MITHNEOS ObsRuns", total=len(runs))
-        for run in runs:
-            URL = f"{BASE_URL}/spex/{run}/"
-            _download(URL, PATH_OUT / run)
-            mofn.update(task, advance=1)
+            id_ = sources.smass.get_id_from_filename(file_)
+            if id_ is None:
+                continue
+            name, number = rocks.id(id_)
 
-            # check for duplicates
-            for file_ in (PATH_OUT / run).glob("**/*txt"):
-                if "162117-note" in file_.name or "p2010h2" in file_.name:
-                    continue
+            if name is None:
+                continue
 
-                id_ = sources.smass.get_id_from_filename(file_)
-                if id_ is None:
-                    continue
-                name, number = rocks.id(id_)
+            filename = str(file_).split("classy/")[-1]
 
-                if name is None:
-                    continue
+            match = log.loc[(log.run == run) & (log["name"] == name)]
 
-                filename = str(file_).split("classy/")[-1]
+            if not match.empty:
+                date_obs = match["date_obs"].values[0]
 
-                match = log.loc[(log.run == run) & (log["name"] == name)]
+                if not pd.isna(date_obs) and not "T" in date_obs:
+                    date_obs = index.convert_to_isot(date_obs, format="%Y-%m-%d")
+                shortbib = match["shortbib"].values[0]
+                bibcode = match["bibcode"].values[0]
+            else:
+                date_obs = ""
+                shortbib = "Unpublished"
+                bibcode = "Unpublished"
 
-                if not match.empty:
-                    date_obs = match["date_obs"].values[0]
+            if not shortbib:
+                shortbib = "Unpublished"
+            if not bibcode:
+                bibcode = "Unpublished"
+            if pd.isna(shortbib):
+                shortbib = "Unpublished"
+            if pd.isna(bibcode):
+                bibcode = "Unpublished"
+            if pd.isna(date_obs):
+                bibcode = ""
 
-                    if not pd.isna(date_obs) and not "T" in date_obs:
-                        date_obs = index.convert_to_isot(date_obs, format="%Y-%m-%d")
-                    shortbib = match["shortbib"].values[0]
-                    bibcode = match["bibcode"].values[0]
-                else:
-                    date_obs = ""
-                    shortbib = "Unpublished"
-                    bibcode = "Unpublished"
-
-                if not shortbib:
-                    shortbib = "Unpublished"
-                if not bibcode:
-                    bibcode = "Unpublished"
-                if pd.isna(shortbib):
-                    shortbib = "Unpublished"
-                if pd.isna(bibcode):
-                    bibcode = "Unpublished"
-                if pd.isna(date_obs):
-                    bibcode = ""
-
-                entry = pd.DataFrame(
-                    data={
-                        "name": name,
-                        "number": number,
-                        "filename": filename,
-                        "shortbib": shortbib,
-                        "bibcode": bibcode,
-                        "date_obs": date_obs,
-                        "source": "MITHNEOS",
-                        "host": "mithneos",
-                        "module": "mithneos",
-                    },
-                    index=[0],
-                )
-                data, _ = _load_data(entry.squeeze())
-                entry["wave_min"] = min(data["wave"])
-                entry["wave_max"] = max(data["wave"])
-                entry["N"] = len(data)
-                entries.append(entry)
+            entry = pd.DataFrame(
+                data={
+                    "name": name,
+                    "number": number,
+                    "filename": filename,
+                    "shortbib": shortbib,
+                    "bibcode": bibcode,
+                    "date_obs": date_obs,
+                    "source": "MITHNEOS",
+                    "host": "mithneos",
+                    "module": "mithneos",
+                },
+                index=[0],
+            )
+            data, _ = _load_data(entry.squeeze())
+            entry["wave_min"] = min(data["wave"])
+            entry["wave_max"] = max(data["wave"])
+            entry["N"] = len(data)
+            entries.append(entry)
 
     entries = pd.concat(entries)
     index.add(entries)

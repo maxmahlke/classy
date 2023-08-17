@@ -64,6 +64,10 @@ def _retrieve_spectra():
     # Retrieve spectra
     tools.download_archive(URL, PATH_AKARI / "AcuA_1.0.tar.gz", encoding="tar.gz")
 
+
+def _build_index():
+    PATH_AKARI = config.PATH_CACHE / "akari"
+
     # Catch if download failed
     if not (PATH_AKARI / "AcuA_1.0/target.txt").is_file():
         return
