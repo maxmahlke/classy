@@ -1,13 +1,15 @@
 """Module to manage the global spectra index in classy."""
 import sys
 from datetime import datetime
-from functools import cache
+import functools
 
 import numpy as np
 import pandas as pd
 
 from classy import config
+from classy import cache
 from classy.log import logger
+from classy import sources
 
 # Path to the global spectra index
 PATH = config.PATH_CACHE / "index.csv"
@@ -15,7 +17,7 @@ PATH_FEATURES = config.PATH_CACHE / "features.csv"
 PATH_SMOOTHING = config.PATH_CACHE / "smoothing.csv"
 
 
-@cache
+@functools.cache
 def load():
     """Load the global spectra index.
 
@@ -33,14 +35,16 @@ def load():
             data={"name": [], "source": [], "filename": [], "host": []}, index=[]
         )
 
-    return pd.read_csv(PATH, dtype={"number": "Int64"}, low_memory=False)
+    return pd.read_csv(
+        PATH, dtype={"number": "Int64"}, low_memory=False, index_col="filename"
+    )
 
 
 def save(index):
     """Save the global spectra index."""
     with np.errstate(invalid="ignore"):
         index["number"] = index["number"].astype("Int64")
-    index.to_csv(PATH, index=False)
+    index.to_csv(PATH, index=True, index_label="filename")
 
 
 def add(entries):
@@ -54,21 +58,63 @@ def add(entries):
 
     # Cannot use the load() function here due to caching
     if not PATH.is_file():
-        index = pd.DataFrame(data={"name": [], "source": [], "filename": []}, index=[])
+        index = pd.DataFrame(
+            data={"name": [], "source": [], "host": []},
+            index=[],
+        )
+
     else:
-        index = pd.read_csv(PATH, dtype={"number": "Int64"}, low_memory=False)
+        index = pd.read_csv(
+            PATH, dtype={"number": "Int64"}, low_memory=False, index_col="filename"
+        )
 
     # Find overlap between new entries and exisiting index
     # Store the DF index of the classy index to later drop duplicates via that index
-    overlap = pd.merge(index.reset_index(), entries, how="inner", on=["filename"])
+    # overlap = pd.merge(index.reset_index(), entries, how="inner", on=["filename"])
 
-    if not overlap.empty:
-        # Drop duplicated rows
-        overlap = overlap.set_index("index")
-        index = index.drop(overlap.index)
-
-    index = pd.concat([index, entries], ignore_index=True)
+    # if not overlap.empty:
+    # Drop duplicated rows
+    entries = entries.set_index("filename")
+    # index = index.drop(overlap.index)
+    index = pd.concat([index, entries])
+    # index = index.drop_duplicates(keep="last")
     save(index)
+
+
+def build():
+    # readd the smass and mithneos obs dates
+    # update index
+    sources._build_index()
+
+
+def add_phase_angles():
+    """Add phase angles to all spectra in index."""
+
+    # Get the relevant rows from index: has observation date but no phase anlge yet
+    idx = load()
+    print(len(idx), "complete")
+    idx["phase"] = np.nan
+    idx = idx.loc[(~pd.isna(idx.date_obs)) & (pd.isna(idx.phase))]
+    print(len(idx), "with obds date but no phase")
+
+    # ------
+    # First round: those who have a single observation date
+    idx_single = idx[~idx.date_obs.str.contains(",")]
+    print(len(idx), "with single obs date")
+
+    # Send one query per asteroid
+    for name, spectra in idx_single.groupby("name"):
+        epochs = spectra["date_obs"].values
+
+        if len(epochs) == 1:
+            continue
+
+        ephem = cache.miriade_ephems(name, epochs)
+        phase = ephem.phase.values
+        breakpoint()
+
+    # ------
+    # Secound round: those who have more than one observation date
 
 
 def convert_to_isot(dates, format):
