@@ -18,6 +18,7 @@ sphinx-redactor-theme = {version = "^0.0.1", optional = true}
 sphinx-hoverxref = {version = "*", optional = true}
 jinja2 = {version = "<3.1", optional = true}
 mcfa = "^0.1"
+pyqtgraph='>=0.13'
 pandas = "^1.4.2"
 numpy = ">=1.22.3"
 click = ">=8.1.2"
@@ -26,7 +27,7 @@ sphinx_design = "^0.3.0"
 sphinx-copybutton = "^0.5.0"
 furo = "^2022.9.15"
 scikit-learn = "^1.2.1"
-space-rocks = "^1.7.2"
+space-rocks = ">=1.7.2"
 tox = "^4.4.5"
 importlib-resources = "^5.10.2"
 lmfit = "^1.2.0"
