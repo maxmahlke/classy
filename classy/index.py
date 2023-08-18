@@ -56,28 +56,14 @@ def add(entries):
         The entries to add to the index.
     """
 
-    # Cannot use the load() function here due to caching
-    if not PATH.is_file():
-        index = pd.DataFrame(
-            data={"name": [], "source": [], "host": []},
-            index=[],
-        )
+    # Skip the cache of the load function as we change the index
+    index = load.__wrapped__()
 
-    else:
-        index = pd.read_csv(
-            PATH, dtype={"number": "Int64"}, low_memory=False, index_col="filename"
-        )
-
-    # Find overlap between new entries and exisiting index
-    # Store the DF index of the classy index to later drop duplicates via that index
-    # overlap = pd.merge(index.reset_index(), entries, how="inner", on=["filename"])
-
-    # if not overlap.empty:
-    # Drop duplicated rows
+    # Append new entries and drop duplicate filenames
     entries = entries.set_index("filename")
-    # index = index.drop(overlap.index)
     index = pd.concat([index, entries])
-    # index = index.drop_duplicates(keep="last")
+    index = index.drop_duplicates(keep="last")
+
     save(index)
 
 
