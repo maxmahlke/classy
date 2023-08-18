@@ -22,6 +22,23 @@ SOURCES = [
 ]
 
 
+def load_data(idx):
+    """Load data and metadata of a cached Gaia spectrum.
+
+    Parameters
+    ----------
+    idx : pd.Series
+        A row from the classy spectra index.
+
+    Returns
+    -------
+    pd.DataFrame, dict
+        The data and metadata. List-like attributes are in the dataframe,
+        single-value attributes in the dictionary.
+    """
+    pass
+
+
 def load_spectrum(idx):
     """Load a cached spectrum. This general function applies host- and
     collection specific parameters defined in the colecction modules.

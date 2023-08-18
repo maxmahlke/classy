@@ -8,19 +8,7 @@ SHORTBIB, BIBCODE = "Usui+ 2019", "2019PASJ...71....1U"
 
 
 def _load_data(idx):
-    """Load data and metadata of a cached Gaia spectrum.
-
-    Parameters
-    ----------
-    idx : pd.Series
-        A row from the classy spectra index.
-
-    Returns
-    -------
-    pd.DataFrame, dict
-        The data and metadata. List-like attributes are in the dataframe,
-        single-value attributes in the dictionary.
-    """
+    # data = sources._load_data(idx, DATA_KWARGS)
 
     # Load spectrum data file
     PATH_DATA = config.PATH_CACHE / idx.filename
