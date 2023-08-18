@@ -79,7 +79,7 @@ def _create_index(PATH_REPO):
                 data={
                     "name": name,
                     "number": number,
-                    "date_obs": date_obs,
+                    "date_obs": "",
                     "shortbib": shortbib,
                     "bibcode": bibcode,
                     "filename": str(file_).split("/classy/")[1],

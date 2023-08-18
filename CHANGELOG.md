@@ -1,3 +1,6 @@
+# 0.6.5 - 2023-08-18
+- Add missing pyqt5 dependency
+
 # 0.6.4 - 2023-08-17
 - Add missing pyqtgraph dependency
 
