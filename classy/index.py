@@ -92,37 +92,37 @@ def convert_to_isot(dates, format):
     return date_obs
 
 
-def load_smoothing():
-    """Load the feature index."""
-    if not PATH_SMOOTHING.is_file():
-        return pd.DataFrame()
-    return pd.read_csv(
-        PATH_SMOOTHING,
-        index_col="filename",
-        dtype={
-            "deg_savgol": int,
-            "deg_spline": int,
-            "window_savgol": int,
-        },
-    )
-
-
-def store_smoothing(smoothing):
-    """Store the feature index after copying metadata from the spectra index."""
-    with np.errstate(invalid="ignore"):
-        smoothing["number"] = smoothing["number"].astype("Int64")
-    smoothing.to_csv(PATH_SMOOTHING, index=True)
-
-
-def store_features(features):
-    """Store the feature index after copying metadata from the spectra index."""
-    with np.errstate(invalid="ignore"):
-        features["number"] = features["number"].astype("Int64")
-    features.to_csv(PATH_FEATURES, index=True)
-
-
-def load_features():
-    """Load the feature index."""
-    if not PATH_FEATURES.is_file():
-        return pd.DataFrame()
-    return pd.read_csv(PATH_FEATURES, index_col=["filename", "feature"])
+# def load_smoothing():
+#     """Load the feature index."""
+#     if not PATH_SMOOTHING.is_file():
+#         return pd.DataFrame()
+#     return pd.read_csv(
+#         PATH_SMOOTHING,
+#         index_col="filename",
+#         dtype={
+#             "deg_savgol": int,
+#             "deg_spline": int,
+#             "window_savgol": int,
+#         },
+#     )
+#
+#
+# def store_smoothing(smoothing):
+#     """Store the feature index after copying metadata from the spectra index."""
+#     with np.errstate(invalid="ignore"):
+#         smoothing["number"] = smoothing["number"].astype("Int64")
+#     smoothing.to_csv(PATH_SMOOTHING, index=True)
+#
+#
+# def store_features(features):
+#     """Store the feature index after copying metadata from the spectra index."""
+#     with np.errstate(invalid="ignore"):
+#         features["number"] = features["number"].astype("Int64")
+#     features.to_csv(PATH_FEATURES, index=True)
+#
+#
+# def load_features():
+#     """Load the feature index."""
+#     if not PATH_FEATURES.is_file():
+#         return pd.DataFrame()
+#     return pd.read_csv(PATH_FEATURES, index_col=["filename", "feature"])

@@ -167,34 +167,34 @@ def status():
         sources._retrieve_spectra()
 
 
-@cli_classy.command()
-@click.argument("source", type=str)
-@click.option(
-    "-f",
-    "--force",
-    is_flag=True,
-    help="Preprocess even if parameters are already on file.",
-)
-def preprocess(source, force):
-    """Run interactive preprocessing for spectra in a collection."""
-    idx = index.load()
-    idx = idx[idx.source == source]
-
-    with progress.mofn as mofn:
-        task = mofn.add_task("Preprocessing Spetra", total=len(idx))
-
-        for _, spec in idx.iterrows():
-            spec = classy.Spectra(spec)[0]
-
-            if not spec.has_smoothing_parameters or force:
-                spec.smooth_interactive()
-            else:
-                spec.smooth()
-                spec.truncate()
-
-            for feature in ["e", "h", "k"]:
-                feature = getattr(spec, feature)
-                if feature.is_observed and (not feature.has_fit_parameters or force):
-                    mofn.update(task, description=feature.name)
-                    feature.fit_interactive()
-            mofn.update(task, advance=1)
+# @cli_classy.command()
+# @click.argument("source", type=str)
+# @click.option(
+#     "-f",
+#     "--force",
+#     is_flag=True,
+#     help="Preprocess even if parameters are already on file.",
+# )
+# def preprocess(source, force):
+#     """Run interactive preprocessing for spectra in a collection."""
+#     idx = index.load()
+#     idx = idx[idx.source == source]
+#
+#     with progress.mofn as mofn:
+#         task = mofn.add_task("Preprocessing Spetra", total=len(idx))
+#
+#         for _, spec in idx.iterrows():
+#             spec = classy.Spectra(spec)[0]
+#
+#             if not spec.has_smoothing_parameters or force:
+#                 spec.smooth_interactive()
+#             else:
+#                 spec.smooth()
+#                 spec.truncate()
+#
+#             for feature in ["e", "h", "k"]:
+#                 feature = getattr(spec, feature)
+#                 if feature.is_observed and (not feature.has_fit_parameters or force):
+#                     mofn.update(task, description=feature.name)
+#                     feature.fit_interactive()
+#             mofn.update(task, advance=1)

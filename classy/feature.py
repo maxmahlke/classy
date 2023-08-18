@@ -6,7 +6,8 @@ from scipy import interpolate, signal
 
 from classy import defs
 from classy.log import logger
-from classy import index
+
+# from classy import index
 
 
 class Feature:
@@ -36,53 +37,53 @@ class Feature:
         self.is_present = False
 
         # Update parameters if present in feature index
-        if self.has_fit_parameters:
-            params = self.load_fit_parameters()
-
-            for param, value in params.items():
-                if param in [
-                    "name",
-                    "number",
-                    "source",
-                    "shortbib",
-                    "bibcode",
-                ]:
-                    continue
-                setattr(self, param, value)
-
-                if params["is_present"] == "Yes":
-                    self.is_present = True
-                else:
-                    self.is_present = False
+        # if self.has_fit_parameters:
+        #     params = self.load_fit_parameters()
+        #
+        #     for param, value in params.items():
+        #         if param in [
+        #             "name",
+        #             "number",
+        #             "source",
+        #             "shortbib",
+        #             "bibcode",
+        #         ]:
+        #             continue
+        #         setattr(self, param, value)
+        #
+        #         if params["is_present"] == "Yes":
+        #             self.is_present = True
+        #         else:
+        #             self.is_present = False
 
         # Set interpolation range for continuum, fit, and parameter estimation
         self.range_interp = np.arange(self.lower, self.upper, 0.001)
 
-    @property
-    def has_fit_parameters(self):
-        """Check whether the given feature of this spectrum has been parameterized already."""
-
-        # We need at least a filename to store the parameters
-        if not hasattr(self.spec, "filename"):
-            return False
-
-        features = self.load_fit_parameters()
-
-        # Override default parameter values with saved ones
-        if features is None:
-            return False
-        return True
-
-    def load_fit_parameters(self):
-        # Load feature index
-        features = index.load_features()
-
-        ind = (self.spec.filename, self.name)
-
-        if ind not in features.index:
-            return None
-
-        return features.loc[ind].to_dict()
+    # @property
+    # def has_fit_parameters(self):
+    #     """Check whether the given feature of this spectrum has been parameterized already."""
+    #
+    #     # We need at least a filename to store the parameters
+    #     if not hasattr(self.spec, "filename"):
+    #         return False
+    #
+    #     features = self.load_fit_parameters()
+    #
+    #     # Override default parameter values with saved ones
+    #     if features is None:
+    #         return False
+    #     return True
+    #
+    # def load_fit_parameters(self):
+    #     # Load feature index
+    #     features = index.load_features()
+    #
+    #     ind = (self.spec.filename, self.name)
+    #
+    #     if ind not in features.index:
+    #         return None
+    #
+    #     return features.loc[ind].to_dict()
 
     @property
     def wave(self):
@@ -567,15 +568,15 @@ class Feature:
         continuum = interpolate.interp1d(*continuum_points.T, fill_value="extrapolate")
         return continuum
 
-    def fit_interactive(self):
-        """Run GUI to fit feature interactively."""
-
-        if not self.is_observed:
-            logger.warning("The feature is not covered by the observed wavelength.")
-
-        from . import gui
-
-        gui.main(self)
+    # def fit_interactive(self):
+    #     """Run GUI to fit feature interactively."""
+    #
+    #     if not self.is_observed:
+    #         logger.warning("The feature is not covered by the observed wavelength.")
+    #
+    #     from . import gui
+    #
+    #     gui.main(self)
 
     def _compute_noise(self):
         # Compute mean std of fit against spectrum

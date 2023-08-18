@@ -118,25 +118,25 @@ class Spectrum:
         self.reset_data()
         self.is_smoothed = False
 
-    @property
-    def has_smoothing_parameters(self):
-        # We need at least a filename to store the parameters
-        if not hasattr(self, "filename"):
-            return False
-
-        smoothing = index.load_smoothing()
-
-        if self.filename in smoothing.index.values:
-            return True
-        return False
-
-    def load_smoothing_parameters(self):
-        smoothing = index.load_smoothing()
-        return smoothing.loc[self.filename].to_dict()
-
-    def smooth_interactive(self):
-        preprocessing.smooth_interactive(self)
-        self.is_smoothed = True
+    # @property
+    # def has_smoothing_parameters(self):
+    #     # We need at least a filename to store the parameters
+    #     if not hasattr(self, "filename"):
+    #         return False
+    #
+    #     smoothing = index.load_smoothing()
+    #
+    #     if self.filename in smoothing.index.values:
+    #         return True
+    #     return False
+    #
+    # def load_smoothing_parameters(self):
+    #     smoothing = index.load_smoothing()
+    #     return smoothing.loc[self.filename].to_dict()
+    #
+    # def smooth_interactive(self):
+    #     preprocessing.smooth_interactive(self)
+    #     self.is_smoothed = True
 
     def __len__(self):
         return len(self.wave)
@@ -162,18 +162,22 @@ class Spectrum:
         method : str
             The smoothing method. Choose from ['savgol', 'spline']. Default is 'savgol'.
         """
-        if not kwargs:
-            if not self.has_smoothing_parameters:
-                raise ValueError(
-                    "No smoothing parameters on file. smooth() needs to be called with the smoothing parameters specified."
-                )
-            smoothing = self.load_smoothing_parameters()
-
-            for key_gui, key_func in zip(
-                ["method", "deg_savgol", "window_savgol", "deg_spline"],
-                ["method", "polyorder", "window_length", "k"],
-            ):
-                kwargs[key_func] = smoothing[key_gui]
+        # if not kwargs:
+        #     if not self.has_smoothing_parameters:
+        #         raise ValueError(
+        #             "No smoothing parameters on file. smooth() needs to be called with the smoothing parameters specified."
+        #         )
+        #     smoothing = self.load_smoothing_parameters()
+        #
+        #     for key_gui, key_func in zip(
+        #         ["method", "deg_savgol", "window_savgol", "deg_spline"],
+        #         ["method", "polyorder", "window_length", "k"],
+        #     ):
+        #         kwargs[key_func] = smoothing[key_gui]
+        if "method" not in kwargs:
+            raise KeyError(
+                "You need to provide the 'method' and relevant smoothing parameters."
+            )
 
         if kwargs["method"] == "savgol":
             self.refl = preprocessing.savitzky_golay(self.refl, **kwargs)
@@ -211,14 +215,18 @@ class Spectrum:
         wave_max : float
             The upper wavelength to truncate at.
         """
-        if wave_min is None or wave_max is None:
-            if not self.has_smoothing_parameters:
-                raise ValueError(
-                    "No truncation parameters on file. truncate() needs to be called with the minimum and maximum wavelength specified."
-                )
-            smoothing = self.load_smoothing_parameters()
-            wave_min = smoothing["wave_min"]
-            wave_max = smoothing["wave_max"]
+        # if wave_min is None or wave_max is None:
+        #     if not self.has_smoothing_parameters:
+        #         raise ValueError(
+        #             "No truncation parameters on file. truncate() needs to be called with the minimum and maximum wavelength specified."
+        #         )
+        #     smoothing = self.load_smoothing_parameters()
+        #     wave_min = smoothing["wave_min"]
+        #     wave_max = smoothing["wave_max"]
+        if wave_min is None:
+            wave_min = min(self.wave)
+        if wave_max is None:
+            wave_max = max(self.wave)
 
         self.refl = self.refl[(self.wave >= wave_min) & (self.wave <= wave_max)]
         if self.refl_err is not None:
@@ -471,23 +479,23 @@ class Spectrum:
             logger.info("No 'path_out' provided, storing results to ./classy_spec.csv")
             result.to_csv("./classy_spec.csv", index=False)
 
-    def preprocess(self, **kwargs):
-        """Apply preprocessing."""
-
-        # this is just smoothing and truncating
-        # self.truncate(**kwargs)
-        # self.smooth(**kwargs)
-
-        if not self.has_smoothing_parameters:
-            self.smooth_interactive()
-        else:
-            self.truncate()
-            self.smooth()
-
-        for feature in ["e", "h", "k"]:
-            feature = getattr(self, feature)
-            if feature.is_observed and not feature.has_fit_parameters:
-                feature.fit_interactive()
+    # def preprocess(self, **kwargs):
+    #     """Apply preprocessing."""
+    #
+    #     # this is just smoothing and truncating
+    #     # self.truncate(**kwargs)
+    #     # self.smooth(**kwargs)
+    #
+    #     if not self.has_smoothing_parameters:
+    #         self.smooth_interactive()
+    #     else:
+    #         self.truncate()
+    #         self.smooth()
+    #
+    #     for feature in ["e", "h", "k"]:
+    #         feature = getattr(self, feature)
+    #         if feature.is_observed and not feature.has_fit_parameters:
+    #             feature.fit_interactive()
 
 
 # ------

@@ -3,7 +3,8 @@ from scipy import interpolate, signal
 import sklearn
 
 from classy import config
-from classy import gui
+
+# from classy import gui
 from classy.log import logger
 from classy import tools
 
@@ -234,6 +235,6 @@ def _normalize_l2(refl):
     return sklearn.preprocessing.normalize(refl.reshape(1, -1))[0]
 
 
-def smooth_interactive(spec):
-    """"""
-    gui.smooth(spec)
+# def smooth_interactive(spec):
+#     """"""
+#     gui.smooth(spec)
