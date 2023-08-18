@@ -86,9 +86,7 @@ def download_archive(URL, PATH_ARCHIVE, unpack=True, remove=True, encoding=None)
                 with ZipFile(PATH_ARCHIVE, "r") as archive:
                     archive.extractall(PATH_ARCHIVE.parent)
             except BadZipFile:
-                logger.critical(
-                    f"The returned file is not a Zip file. Try again later."
-                )
+                logger.critical("The returned file is not a Zip file. Try again later.")
                 PATH_ARCHIVE.unlink()
                 return False
 
