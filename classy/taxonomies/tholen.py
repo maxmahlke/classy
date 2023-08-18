@@ -31,7 +31,6 @@ def is_classifiable(spec):
     """
 
     if spec.wave.min() > WAVE.min() or spec.wave.max() < WAVE.max():
-
         # Check if the extrapolation would be sufficient
         if preprocessing._within_extrapolation_limit(
             spec.wave.min(), spec.wave.max(), WAVE.min(), WAVE.max()
@@ -92,7 +91,6 @@ def load_templates():
     templates_ = {}
 
     for class_, props in TEMPLATES.items():
-
         wave = [0.337, 0.359, 0.437, 0.550, 0.701, 0.853, 0.948, 1.041]
         refl = []
         refl_err = []
@@ -120,9 +118,7 @@ def load_templates():
             class_=class_,
             pV=props["alb_mean"],
             pV_err=props["alb_std"],
-            source=f"Tholen 1984 - Class {class_}",
-            _source="Tholen 1984",
-            id_=f"Template Class {class_}",
+            source="Tholen 1984",
         )
         templates_[class_] = template
     return templates_

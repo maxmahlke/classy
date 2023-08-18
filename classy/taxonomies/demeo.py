@@ -368,9 +368,7 @@ def load_templates():
             refl=data[f"{class_}_Mean"],
             refl_err=data[f"{class_}_Sigma"],
             class_=class_,
-            source=f"DeMeo+ 2009 - Class {class_}",
-            _source="DeMeo+ 2009",
-            id_=f"Template Class {class_}",
+            source="DeMeo+ 2009",
         )
         templates[class_] = template
     return templates

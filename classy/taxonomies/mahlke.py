@@ -168,9 +168,7 @@ def load_templates():
             pV=pV,
             pV_err=pV_err,
             class_=class_,
-            source=f"Mahlke+ 2022 - Class {class_}",
-            _source="Mahlke+ 2022",
-            id_=f"Template Class {class_}",
+            source="Mahlke+ 2022",
         )
         templates[class_] = template
     return templates

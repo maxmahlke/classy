@@ -43,7 +43,6 @@ def load_templates():
     templates_ = {}
 
     for class_, props in TEMPLATES.items():
-
         refl = props["refl_mean"]
         refl_err = props["refl_std"]
 
@@ -52,9 +51,7 @@ def load_templates():
             refl=refl + [1],
             refl_err=refl_err + [0],
             class_=class_,
-            source=f"Bus and Binzel 2002 - Class {class_}",
-            _source="Bus and Binzel 2002",
-            id_=f"Template Class {class_}",
+            source="Bus and Binzel 2002",
         )
         templates_[class_] = template
     return templates_
