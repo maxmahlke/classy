@@ -81,7 +81,7 @@ def _build_index():
 
         # Add spectra to index
         PATH_REPO = PATH_ARCHIVE.with_suffix("")
-        getattr(sources.pds, repo)._create_index(PATH_REPO)
+        getattr(sources.pds, repo)._build_index(PATH_REPO)
 
 
 def parse_xml(PATH_XML):

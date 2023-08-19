@@ -33,7 +33,7 @@ def _load_data(idx):
     return data, {}
 
 
-def _create_index(PATH_REPO):
+def _build_index(PATH_REPO):
     """Create index of spectra collection."""
 
     index = pd.DataFrame()
