@@ -4,8 +4,9 @@ import rocks
 
 from classy import config
 from classy import index
-from classy.sources import pds
 
+# ------
+# Module definitions
 REFERENCES = {
     "CHAPMAN1972": ["1972PhDT.........5C", "Chapman 1972"],
     "CHAPMAN&GAFFEY1979A": ["1979aste.book..655C", "Chapman and Gaffey 1979"],
@@ -45,76 +46,49 @@ WAVE = np.array(
     ]
 )
 
-
-def _load_data(idx):
-    """Load data and metadata of a cached Gaia spectrum.
-
-    Parameters
-    ----------
-    idx : pd.Series
-        A row from the classy spectra index.
-
-    Returns
-    -------
-    pd.DataFrame, dict
-        The data and metadata. List-like attributes are in the dataframe,
-        single-value attributes in the dictionary.
-    """
-    tfcas = _load_tfcas(config.PATH_CACHE / idx.filename)
-    tfcas = tfcas.loc[tfcas.number == idx.number]
-
-    # Convert colours to reflectances
-    refl = tfcas[[f"REFL_{i}" for i in range(1, 27)]].values[0]
-    refl_err = tfcas[[f"REFL_{i}_UNC" for i in range(1, 27)]].values[0]
-
-    # Convert color indices to reflectance
-    data = pd.DataFrame(data={"wave": WAVE, "refl": refl, "refl_err": refl_err})
-    return data, {}
+DATA_KWARGS = {}
 
 
-def _create_index(PATH_REPO):
+# ------
+# Module functions
+def _build_index(PATH_REPO):
     """Create index of spectra collection."""
 
-    entries = []
-
     # Iterate over index file
-    tfcas = _load_tfcas(PATH_REPO / "data/data0/24color.tab")
-    for _, row in tfcas.iterrows():
-        if pd.isna(row.number):
-            continue  # not including phobos and deimos here
+    entries = _load_tfcas(PATH_REPO / "data/data0/24color.tab")
+    entries["name"], entries["number"] = zip(*rocks.identify(entries.number))
 
-        # Identify asteroid
-        id_ = row.number
-        name, number = rocks.id(id_)
+    entries["source"] = "24CAS"
+    entries["host"] = "PDS"
+    entries["module"] = "tfcas"
 
-        ref = row.ref
-        bibcode, shortbib = REFERENCES[ref]
+    for ind, row in entries.iterrows():
+        entries.loc[ind, "bibcode"] = REFERENCES[row.ref][0]
+        entries.loc[ind, "shortbib"] = REFERENCES[row.ref][1]
 
-        # Extract spectrum metadata
-        file_ = PATH_REPO / "data/data0/24color.tab"
+    # Split the observations into one file per spectrum
+    entries["filename"] = entries["number"].apply(
+        lambda number: PATH_REPO / f"data/{number}.csv"
+    )
 
-        # Create index entry
-        entry = pd.DataFrame(
-            data={
-                "name": name,
-                "number": number,
-                "date_obs": row.date_obs,
-                "wave_min": WAVE.min(),
-                "wave_max": WAVE.max(),
-                "N": len(WAVE),
-                "shortbib": shortbib,
-                "bibcode": bibcode,
-                "filename": str(file_).split("/classy/")[1],
-                "source": "24CAS",
-                "host": "PDS",
-                "module": "tfcas",
-            },
-            index=[0],
-        )
-
-        entries.append(entry)
-    entries = pd.concat(entries)
+    _create_spectra_files(entries)
+    entries["filename"] = entries["filename"].apply(
+        lambda f: str(f).split("/classy/")[-1]
+    )
     index.add(entries)
+
+
+def _create_spectra_files(entries):
+    """Create one file per 24CAS spectrum."""
+
+    for _, row in entries.iterrows():
+        # Convert colours to reflectances
+        refl = row[[f"REFL_{i}" for i in range(1, 27)]].values
+        refl_err = row[[f"REFL_{i}_UNC" for i in range(1, 27)]].values
+
+        # Convert color indices to reflectance
+        data = pd.DataFrame(data={"wave": WAVE, "refl": refl, "refl_err": refl_err})
+        data.to_csv(row.filename, index=False)
 
 
 def _load_tfcas(PATH):
