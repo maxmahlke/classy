@@ -1,9 +1,12 @@
+import pandas as pd
+
+from classy import config
 from classy import core
-from classy import index
 from classy import sources
 
 from . import akari, cds, gaia, m4ast, mithneos, pds, private, smass
-from .pds import ecas, primass, s3os2
+
+# from .pds import ecas, primass, s3os2
 
 SOURCES = [
     "24CAS",
@@ -22,8 +25,24 @@ SOURCES = [
 ]
 
 
+def _retrieve_spectra():
+    """Retrieve all public spectra that classy knows about."""
+    # for module in [pds, cds, m4ast, akari, smass, mithneos, gaia]:
+    for module in [pds, smass, m4ast, akari]:
+        module._retrieve_spectra()
+
+    _build_index()
+
+
+def _build_index():
+    """Retrieve all public spectra that classy knows about."""
+    # for module in [pds, cds, m4ast, akari, smass, mithneos, gaia]:
+    for module in [pds, smass, m4ast, akari]:
+        module._build_index()
+
+
 def load_data(idx):
-    """Load data and metadata of a cached Gaia spectrum.
+    """Load data and metadata of a cached spectrum.
 
     Parameters
     ----------
@@ -36,7 +55,25 @@ def load_data(idx):
         The data and metadata. List-like attributes are in the dataframe,
         single-value attributes in the dictionary.
     """
-    pass
+
+    host = (
+        getattr(sources, idx.host.lower())
+        if idx.host.lower() in ["pds", "cds"]
+        else sources
+    )
+    module = getattr(host, idx.module.lower())
+
+    # Load spectrum data file
+    PATH_DATA = config.PATH_CACHE / idx.name
+    data = pd.read_csv(PATH_DATA, **module.DATA_KWARGS)
+
+    # Apply module specific data transforms and get metadata if necessary
+    if hasattr(module, "_transform_data"):
+        data, meta = module._transform_data(idx, data)
+    else:
+        meta = {}
+
+    return data, meta
 
 
 def load_spectrum(idx):
@@ -54,25 +91,17 @@ def load_spectrum(idx):
         The requested spectrum.
     """
 
-    # Resolve where to look for the data and spectrum kwargs based on host module
-    host = (
-        getattr(sources, idx.host.lower())
-        if idx.host.lower() in ["pds", "cds"]
-        else sources
-    )
-    module = getattr(host, idx.module.lower())
-
     # Load data and metadata
-    data, meta = module._load_data(idx)
-
-    # ------
-    # Instantiate spectrum
+    data, meta = load_data(idx)
 
     # Add list-type attributes when instantiating
     spec = core.Spectrum(name=idx["name"], **{col: data[col] for col in data.columns})
+
     # Add metadata from index
-    for attr in ["shortbib", "bibcode", "host", "source", "date_obs", "filename"]:
+    for attr in ["shortbib", "bibcode", "host", "source", "date_obs"]:
         setattr(spec, attr, idx[attr])
+
+    spec.filename = idx.name
 
     # Add collection-specific metadata
     for attr, value in meta.items():
@@ -80,25 +109,13 @@ def load_spectrum(idx):
     return spec
 
 
-def _retrieve_spectra():
-    """Retrieve all public spectra that classy knows about."""
-    pds._retrieve_spectra()
-    cds._retrieve_spectra()
-    m4ast._retrieve_spectra()
-    akari._retrieve_spectra()
-    smass._retrieve_spectra()
-    mithneos._retrieve_spectra()
-    gaia._retrieve_spectra()
+def _add_spectra_properties(entries):
+    """Add the spectral range properties to a dataframe of index entries."""
 
-    _build_index()
+    for ind, entry in entries.iterrows():
+        data, _ = load_data(entry)
+        entries.loc[ind, "wave_min"] = min(data["wave"])
+        entries.loc[ind, "wave_max"] = max(data["wave"])
+        entries.loc[ind, "N"] = len(data)
 
-
-def _build_index():
-    """Retrieve all public spectra that classy knows about."""
-    pds._build_index()
-    cds._build_index()
-    m4ast._build_index()
-    akari._build_index()
-    smass._build_index()
-    mithneos._build_index()
-    gaia._build_index()
+    return entries
