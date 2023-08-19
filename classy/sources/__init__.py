@@ -28,7 +28,7 @@ SOURCES = [
 def _retrieve_spectra():
     """Retrieve all public spectra that classy knows about."""
     # for module in [pds, cds, m4ast, akari, smass, mithneos, gaia]:
-    for module in [pds, smass, m4ast, akari]:
+    for module in [mithneos, gaia]:
         module._retrieve_spectra()
 
     _build_index()
@@ -37,7 +37,7 @@ def _retrieve_spectra():
 def _build_index():
     """Retrieve all public spectra that classy knows about."""
     # for module in [pds, cds, m4ast, akari, smass, mithneos, gaia]:
-    for module in [pds, smass, m4ast, akari]:
+    for module in [gaia]:
         module._build_index()
 
 
@@ -66,6 +66,7 @@ def load_data(idx):
     # Load spectrum data file
     PATH_DATA = config.PATH_CACHE / idx.name
     data = pd.read_csv(PATH_DATA, **module.DATA_KWARGS)
+    data = data[data.wave > 0]
 
     # Apply module specific data transforms and get metadata if necessary
     if hasattr(module, "_transform_data"):

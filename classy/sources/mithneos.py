@@ -4,6 +4,7 @@ import pandas as pd
 import rocks
 
 
+from classy import cache
 from classy import config
 from classy import index
 from classy import progress
@@ -28,27 +29,57 @@ RUNS = (
     + [f"dm{num:>02}" for num in range(1, 20)]
 )
 
+PATH = config.PATH_CACHE / "mithneos/"
 
-def _load_data(idx):
-    """Load data and metadata of a cached Gaia spectrum.
+POLISHOOK_DATES = {
+    "101703_IR.txt": "2013-10-03",
+    "10484_Vis.txt": "2013-05-07",
+    "10484_comb_IR.txt": "2011-11-27",
+    "13732_IR.txt": "2014-01-07",
+    "15107_IR.txt": "2013-01-17",
+    "16815_IR.txt": "2013-09-28",
+    "17198_comb_IR.txt": "2012-10-18",
+    "17288_IR.txt": "2013-04-12",
+    "1741_IR.txt": "2013-03-07",
+    "19289_IR.txt": "2012-09-11",
+    "1979_IR.txt": "2013-03-06",
+    "1979_Vis.txt": "2013-05-07",
+    "2110_comb_IR.txt": "2011-10-15",
+    "25884_comb_IR.txt": "2011-10-25",
+    "2897_IR.txt": "2013-03-07",
+    "3749_Vis.txt": "2012-02-17",
+    "3749_comb_IR.txt": "2012-01-22",
+    "38707_IR.txt": "2013-05-12",
+    "42946_IR.txt ": "2013-01-17",
+    "44612_IR.txt": "2012-09-11",
+    "4765_comb_IR.txt": "2013-01-10",
+    "4905_IR.txt": "2013-08-08",
+    "5026_IR.txt": "2012-04-21",
+    "5026_Vis.txt": "2012-06-03",
+    "52852_IR.txt": "2012-12-17",
+    "54041_comb_IR.txt": "2012-12-14",
+    "54827_IR.txt": "2012-08-08",
+    "60546_IR.txt": "2013-02-10",
+    "6070_IR.txt": "",
+    "6070_Vis.txt": "2012-06-01",
+    "63440_comb_IR.txt": "2021-11-09",
+    "74096_IR.txt": "2013-10-13",
+    "8306_IR.txt": "2013-09-07",
+    "88604_IR.txt": "2013-06-12",
+    "9068_IR.txt": "2013-07-11",
+    "92652_IR.txt": "2013-03-06",
+    "42946_IR.txt": "2013-01-17",
+}
 
-    Parameters
-    ----------
-    idx : pd.Series
-        A row from the classy spectra index.
+DATA_KWARGS = {
+    "names": ["wave", "refl", "err", "flag"],
+    "delimiter": "\s+",
+    "comment": "#",
+}
 
-    Returns
-    -------
-    pd.DataFrame, dict
-        The data and metadata. List-like attributes are in the dataframe,
-        single-value attributes in the dictionary.
-    """
 
-    # Load spectrum data file
-    PATH_DATA = config.PATH_CACHE / idx.filename
-    data = pd.read_csv(
-        PATH_DATA, names=["wave", "refl", "err", "flag"], delimiter="\s+", comment="#"
-    )
+def _transform_data(idx, data):
+    """Apply module-specific data transforms."""
 
     # Logic cuts
     data = data[data.wave > 0]
@@ -57,28 +88,18 @@ def _load_data(idx):
     # 2 - reject. This is flag 0 in MITHNEOS
     data["flag"] = [0 if f != 0 else 2 for f in data["flag"].values]
 
-    return data, {}
-
-
-def load_obslog():
-    """Load MITHNEOS observation log from cache or from remote."""
-    PATH_LOG = config.PATH_CACHE / "mithneos/obslog.csv"
-    if not PATH_LOG.is_file():
-        tools._retrieve_from_github(host="mithneos", which="obslog", path=PATH_LOG)
-    return pd.read_csv(PATH_LOG)
+    meta = {}
+    return data, meta
 
 
 def _retrieve_spectra():
     """Retrieve the MITHNEOS spectra from remote."""
 
-    PATH_OUT = config.PATH_CACHE / "mithneos/"
-
-    # ------
     # Start with separate archives
     for dir, URL in DIR_URLS:
-        (PATH_OUT / dir).mkdir(exist_ok=True, parents=True)
+        (PATH / dir).mkdir(exist_ok=True, parents=True)
         tools.download_archive(
-            URL, PATH_OUT / dir / URL.split("/")[-1], encoding=URL.split(".")[-1]
+            URL, PATH / dir / URL.split("/")[-1], encoding=URL.split(".")[-1]
         )
 
     # -------
@@ -88,20 +109,18 @@ def _retrieve_spectra():
         task = mofn.add_task("MITHNEOS ObsRuns", total=len(RUNS))
         for run in RUNS:
             URL = f"{BASE_URL}/spex/{run}/"
-            _download(URL, PATH_OUT / run)
+            _download(URL, PATH / run)
             mofn.update(task, advance=1)
 
 
 def _build_index():
     # Create index for these archives
 
-    log = load_obslog()
+    log = cache.load_cat("mithneos", "obslog")
     entries = []
 
-    # TODO: Here and in all source modules: make module path a module variable
-    PATH_OUT = config.PATH_CACHE / "mithneos/"
     for dir, _ in DIR_URLS:
-        for file_ in (PATH_OUT / dir).glob("**/*txt"):
+        for file_ in (PATH / dir).glob("**/*txt"):
             if "__MACOS" in str(file_):
                 # garbage in archive file
                 continue
@@ -159,15 +178,11 @@ def _build_index():
                 index=[0],
             )
 
-            data, _ = _load_data(entry.squeeze())
-            entry["wave_min"] = min(data["wave"])
-            entry["wave_max"] = max(data["wave"])
-            entry["N"] = len(data)
             entries.append(entry)
 
     for run in RUNS:
         # check for duplicates
-        for file_ in (PATH_OUT / run).glob("**/*txt"):
+        for file_ in (PATH / run).glob("**/*txt"):
             if "162117-note" in file_.name or "p2010h2" in file_.name:
                 continue
 
@@ -220,10 +235,6 @@ def _build_index():
                 },
                 index=[0],
             )
-            data, _ = _load_data(entry.squeeze())
-            entry["wave_min"] = min(data["wave"])
-            entry["wave_max"] = max(data["wave"])
-            entry["N"] = len(data)
             entries.append(entry)
 
     entries = pd.concat(entries)
@@ -251,44 +262,3 @@ def _download(URL, PATH_OUT):
 
             PATH_OUT.mkdir(exist_ok=True, parents=True)
             urlretrieve(URL + l["href"], PATH_OUT / l["href"])
-
-
-POLISHOOK_DATES = {
-    "101703_IR.txt": "2013-10-03",
-    "10484_Vis.txt": "2013-05-07",
-    "10484_comb_IR.txt": "2011-11-27",
-    "13732_IR.txt": "2014-01-07",
-    "15107_IR.txt": "2013-01-17",
-    "16815_IR.txt": "2013-09-28",
-    "17198_comb_IR.txt": "2012-10-18",
-    "17288_IR.txt": "2013-04-12",
-    "1741_IR.txt": "2013-03-07",
-    "19289_IR.txt": "2012-09-11",
-    "1979_IR.txt": "2013-03-06",
-    "1979_Vis.txt": "2013-05-07",
-    "2110_comb_IR.txt": "2011-10-15",
-    "25884_comb_IR.txt": "2011-10-25",
-    "2897_IR.txt": "2013-03-07",
-    "3749_Vis.txt": "2012-02-17",
-    "3749_comb_IR.txt": "2012-01-22",
-    "38707_IR.txt": "2013-05-12",
-    "42946_IR.txt ": "2013-01-17",
-    "44612_IR.txt": "2012-09-11",
-    "4765_comb_IR.txt": "2013-01-10",
-    "4905_IR.txt": "2013-08-08",
-    "5026_IR.txt": "2012-04-21",
-    "5026_Vis.txt": "2012-06-03",
-    "52852_IR.txt": "2012-12-17",
-    "54041_comb_IR.txt": "2012-12-14",
-    "54827_IR.txt": "2012-08-08",
-    "60546_IR.txt": "2013-02-10",
-    "6070_IR.txt": "",
-    "6070_Vis.txt": "2012-06-01",
-    "63440_comb_IR.txt": "2021-11-09",
-    "74096_IR.txt": "2013-10-13",
-    "8306_IR.txt": "2013-09-07",
-    "88604_IR.txt": "2013-06-12",
-    "9068_IR.txt": "2013-07-11",
-    "92652_IR.txt": "2013-03-06",
-    "42946_IR.txt": "2013-01-17",
-}

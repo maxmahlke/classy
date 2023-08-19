@@ -37,4 +37,4 @@ def _build_index():
         PATH_ARCHIVE = PATH_CDS / repo
         # Add spectra to index
         PATH_REPO = PATH_ARCHIVE.with_suffix("")
-        getattr(sources.cds, repo.lower())._create_index(PATH_REPO)
+        getattr(sources.cds, repo.lower())._build_index(PATH_REPO)

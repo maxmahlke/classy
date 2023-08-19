@@ -8,32 +8,71 @@ from classy import tools
 
 SHORTBIB, BIBCODE = "Galluccio+ 2022", "2022arXiv220612174G"
 
+DATA_KWARGS = {}
 
-def _load_data(idx):
-    """Load data and metadata of a cached Gaia spectrum.
+PATH = config.PATH_CACHE / "gaia"
 
-    Parameters
-    ----------
-    idx : pd.Series
-        A row from the classy spectra index.
 
-    Returns
-    -------
-    pd.DataFrame, dict
-        The data and metadata. List-like attributes are in the dataframe,
-        single-value attributes in the dictionary.
-    """
+def _build_index():
+    # Retrieve the spectra
 
-    # Load spectrum data file
-    PATH_DATA = config.PATH_CACHE / idx.filename
-    data = pd.read_csv(PATH_DATA, dtype={"flag": int})
+    entries = []
 
-    # Select asteroid of index and rename columns to fit classy scheme
-    data = data.loc[data["name"] == idx["name"]]
+    for idx in range(20):
+        part = pd.read_csv(PATH / f"{idx:02}.csv.gz", compression="gzip", comment="#")
+
+        PATH_PART = PATH / f"part{idx:02}"
+        PATH_PART.mkdir(exist_ok=True)
+
+        # Create list of identifiers from number and name columns
+        ids = part.number_mp.fillna(part.denomination).values
+        names, numbers = zip(*rocks.id(ids))
+
+        part["name"] = names
+        part["number"] = numbers
+
+        # Adapt to classy naming scheme
+        part = part.rename(
+            columns={
+                "wavelength": "wave",
+                "reflectance_spectrum": "refl",
+                "reflectance_spectrum_err": "refl_err",
+                "reflectance_spectrum_flag": "flag",
+            }
+        )
+
+        # Use wavelenght in micron
+        part.wave /= 1000
+
+        _create_spectra_files(part, PATH_PART)
+
+        part = part.drop_duplicates(subset="name")
+        part["filename"] = part["denomination"].apply(
+            lambda d: f"gaia/part{idx:02}/{d}.csv"
+        )
+
+        # Add metadata
+        part["shortbib"] = SHORTBIB
+        part["bibcode"] = BIBCODE
+        part["date_obs"] = ""
+        part["source"] = "Gaia"
+        part["host"] = "Gaia"
+        part["module"] = "gaia"
+
+        entries.append(part)
+
+    entries = pd.concat(entries)
+    index.add(entries)
+
+
+def _transform_data(_, data):
+    """Apply module-specific data transforms."""
 
     # Apply correction by Tinaut-Ruano+ 2023
     CORR = [1.07, 1.05, 1.02, 1.01, 1.00]
-    data.refl[: len(CORR)] *= CORR
+    refl = data.refl.values
+    refl[: len(CORR)] *= CORR
+    data.refl = refl
 
     # Record metadata
     meta = {
@@ -76,73 +115,6 @@ def _retrieve_spectra():
             mofn.update(task, advance=1)
 
 
-def _build_index():
-    # Retrieve the spectra
-    #
-    PATH_GAIA = config.PATH_CACHE / "gaia"
-
-    archives = {}
-    for idx in range(20):
-        part = pd.read_csv(
-            PATH_GAIA / f"{idx:02}.csv.gz", compression="gzip", comment="#"
-        )
-
-        # Create list of identifiers from number and name columns
-        ids = part.number_mp.fillna(part.denomination).values
-        names, numbers = zip(*rocks.id(ids))
-
-        part["name"] = names
-        part["number"] = numbers
-
-        # Add to index for quick look-up
-        for name, entries in part.groupby("name"):
-            # Use the number for identification if available, else the name
-            number = entries.number.values[0]
-            asteroid = number if number else name
-
-            archives[asteroid] = f"SsoReflectanceSpectrum_{idx:02}"
-
-        # Adapt to classy naming scheme
-        part = part.rename(
-            columns={
-                "wavelength": "wave",
-                "reflectance_spectrum": "refl",
-                "reflectance_spectrum_err": "refl_err",
-                "reflectance_spectrum_flag": "flag",
-            }
-        )
-
-        # Use wavelenght in micron
-        part.wave /= 1000
-
-        # Store to cache
-        part.to_csv(PATH_GAIA / f"SsoReflectanceSpectrum_{idx:02}.csv", index=False)
-
-    # ------
-    # Convert index of asteroids in archives to dataframe, append to classy index
-    names, numbers = zip(*rocks.identify(list(archives.keys())))
-
-    entries = pd.DataFrame(
-        data={
-            "name": names,
-            "number": numbers,
-        },
-        index=["gaia/" + filename + ".csv" for filename in list(archives.values())],
-    )
-
-    # Add metadata
-    entries["shortbib"] = SHORTBIB
-    entries["bibcode"] = BIBCODE
-    entries["wave_min"] = 0.374
-    entries["wave_max"] = 1.034
-    entries["N"] = 16
-    entries["date_obs"] = ""
-    entries["source"] = "Gaia"
-    entries["host"] = "Gaia"
-    entries["module"] = "gaia"
-    index.add(entries)
-
-    # import numpy as np
-    #
-    # for i, part in enumerate(np.array_split(entries, 100)):
-    #     index.add(part)
+def _create_spectra_files(part, PATH_PART):
+    for denomination, obs in part.groupby("denomination"):
+        obs.to_csv(PATH_PART / f"{denomination}.csv", index=False)

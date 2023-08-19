@@ -3,32 +3,14 @@ from pathlib import Path
 import pandas as pd
 import rocks
 
-from classy import config
 from classy import index
 
 SHORTBIB, BIBCODE = "Marsset+ 2014", "2014AA...568L...7M"
 
-
-def _load_data(idx):
-    """Load data and metadata of a cached Gaia spectrum.
-
-    Parameters
-    ----------
-    idx : pd.Series
-        A row from the classy spectra index.
-
-    Returns
-    -------
-    pd.DataFrame, dict
-        The data and metadata. List-like attributes are in the dataframe,
-        single-value attributes in the dictionary.
-    """
-    PATH_DATA = config.PATH_CACHE / idx.filename
-    data = pd.read_csv(PATH_DATA, names=["wave", "refl"], delimiter="\s+")
-    return data, {}
+DATA_KWARGS = {"names": ["wave", "refl"], "delimiter": "\s+"}
 
 
-def _create_index(PATH_REPO):
+def _build_index(PATH_REPO):
     # Change file permissions, they arrive restricted from CDS
     PATH_REPO.chmod(0o755)
 
@@ -69,12 +51,6 @@ def _create_index(PATH_REPO):
             index=[0],
         )
 
-        # Add spectrum metadata
-        data, _ = _load_data(entry.squeeze())
-        entry["wave_min"] = min(data["wave"])
-        entry["wave_max"] = max(data["wave"])
-        entry["N"] = len(data)
-
         entries.append(entry)
 
     # File 2 and Date 2
@@ -102,12 +78,6 @@ def _create_index(PATH_REPO):
             },
             index=[0],
         )
-
-        # Add spectrum metadata
-        data, _ = _load_data(entry.squeeze())
-        entry["wave_min"] = min(data["wave"])
-        entry["wave_max"] = max(data["wave"])
-        entry["N"] = len(data)
 
         entries.append(entry)
 
