@@ -23,8 +23,6 @@ def _build_index(PATH_REPO):
 
     # Iterate over index file
     entries = _load_scas(PATH_REPO / "data/scas.tab")
-    entries = entries[~pd.isna(entries.number)]  # not including phobos and deimos here
-
     entries["name"], entries["number"] = zip(*rocks.identify(entries.number))
 
     entries["date_obs"] = ""
@@ -37,7 +35,7 @@ def _build_index(PATH_REPO):
 
     # Split the observations into one file per spectrum
     entries["filename"] = entries["number"].apply(
-        lambda number: PATH_REPO / f"data/{number}.tab"
+        lambda number: PATH_REPO / f"data/{number}.csv"
     )
 
     _create_spectra_files(entries)
