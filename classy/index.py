@@ -73,14 +73,15 @@ def add(entries):
     entries : list of pd.DataFrame
         The entries to add to the index.
     """
-    entries = entries.set_index("filename")
 
     # Format for adding to index
     entries = entries.loc[
         :, [c for c in COLUMNS if c not in ["N", "wave_min", "wave_max"]]
     ]
 
-    # Add missing columns
+    entries = entries.set_index("filename")
+
+    # Add data columns
     entries = sources._add_spectra_properties(entries)
 
     # Skip the cache of the load function as we change the index
