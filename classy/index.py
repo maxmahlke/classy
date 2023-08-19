@@ -16,6 +16,21 @@ PATH = config.PATH_CACHE / "index.csv"
 PATH_FEATURES = config.PATH_CACHE / "features.csv"
 PATH_SMOOTHING = config.PATH_CACHE / "smoothing.csv"
 
+COLUMNS = [
+    "name",
+    "number",
+    "filename",
+    "shortbib",
+    "date_obs",
+    "bibcode",
+    "host",
+    "module",
+    "source",
+    "N",
+    "wave_min",
+    "wave_max",
+]
+
 
 @functools.cache
 def load():
@@ -29,21 +44,24 @@ def load():
     if not PATH.is_file():
         if "status" not in sys.argv:
             logger.error(
-                f"No reflectance spectra are available. Run '$ classy status' to retrieve them."
+                "No spectra available. Run '$ classy status' to retrieve them."
             )
         return pd.DataFrame(
-            data={"name": [], "source": [], "filename": [], "host": []}, index=[]
+            data={key: [] for key in ["name", "source", "filename", "host"]}, index=[]
         )
 
-    return pd.read_csv(
+    index = pd.read_csv(
         PATH, dtype={"number": "Int64"}, low_memory=False, index_col="filename"
     )
+    return index
 
 
 def save(index):
     """Save the global spectra index."""
+
     with np.errstate(invalid="ignore"):
         index["number"] = index["number"].astype("Int64")
+        index["N"] = index["N"].astype(int)
     index.to_csv(PATH, index=True, index_label="filename")
 
 
@@ -55,12 +73,20 @@ def add(entries):
     entries : list of pd.DataFrame
         The entries to add to the index.
     """
+    entries = entries.set_index("filename")
+
+    # Format for adding to index
+    entries = entries.loc[
+        :, [c for c in COLUMNS if c not in ["N", "wave_min", "wave_max"]]
+    ]
+
+    # Add missing columns
+    entries = sources._add_spectra_properties(entries)
 
     # Skip the cache of the load function as we change the index
     index = load.__wrapped__()
 
     # Append new entries and drop duplicate filenames
-    entries = entries.set_index("filename")
     index = pd.concat([index, entries])
     index = index.drop_duplicates(keep="last")
 
