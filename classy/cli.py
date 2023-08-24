@@ -163,7 +163,7 @@ def status():
         )
 
         if decision == "1":
-            index.build()
+            sources._build_index()
 
         if decision == "2":
             index.add_phase_angles()

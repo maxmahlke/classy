@@ -98,11 +98,6 @@ def add(entries):
     save(index)
 
 
-def build():
-    # readd the smass and mithneos obs dates
-    # update index
-    sources._build_index()
-
 
 def add_phase_angles():
     """Add phase angles to all spectra in index."""
