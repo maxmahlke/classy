@@ -162,4 +162,5 @@ def _load_ftcas(PATH_REPO):
     # Some cleanup
     data = data.replace(-9999, np.nan)
     data = data.replace(-0.9999, np.nan)
+    data = data.replace("9999-99-99", np.nan)
     return data

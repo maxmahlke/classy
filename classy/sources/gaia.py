@@ -117,4 +117,6 @@ def _retrieve_spectra():
 
 def _create_spectra_files(part, PATH_PART):
     for denomination, obs in part.groupby("denomination"):
-        obs.to_csv(PATH_PART / f"{denomination}.csv", index=False)
+        PATH_FILE = PATH_PART / f"{denomination}.csv"
+        if not PATH_FILE.is_file():
+            obs.to_csv(PATH_FILE, index=False)
