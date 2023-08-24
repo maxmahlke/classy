@@ -26,6 +26,7 @@ COLUMNS = [
     "host",
     "module",
     "source",
+    "phase",
     "N",
     "wave_min",
     "wave_max",
@@ -79,17 +80,20 @@ def add(entries):
         :, [c for c in COLUMNS if c not in ["N", "wave_min", "wave_max"]]
     ]
 
-    entries = entries.set_index("filename")
-
     # Add data columns
+    entries = entries.set_index("filename")
     entries = sources._add_spectra_properties(entries)
 
     # Skip the cache of the load function as we change the index
     index = load.__wrapped__()
 
     # Append new entries and drop duplicate filenames
+    index = index.reset_index()  # drop-duplicates does not work on index column...
+    entries = entries.reset_index()
+
     index = pd.concat([index, entries])
-    index = index.drop_duplicates(keep="last")
+    index = index.drop_duplicates(subset="filename", keep="last")
+    index = index.set_index("filename")
 
     save(index)
 
