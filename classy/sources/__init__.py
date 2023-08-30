@@ -1,3 +1,4 @@
+import numpy as np
 import pandas as pd
 
 from classy import config
@@ -63,7 +64,11 @@ def load_data(idx):
 
     # Load spectrum data file
     PATH_DATA = config.PATH_CACHE / idx.name
-    data = pd.read_csv(PATH_DATA, **module.DATA_KWARGS)
+
+    if module is not private:
+        data = pd.read_csv(PATH_DATA, **module.DATA_KWARGS)
+    else:
+        data = _load_private_data(PATH_DATA)
     data = data[data.wave > 0]
 
     # Apply module specific data transforms and get metadata if necessary
@@ -73,6 +78,21 @@ def load_data(idx):
         meta = {}
 
     return data, meta
+
+
+def _load_private_data(PATH):
+    # Try two different delimiters
+    try:
+        data = np.loadtxt(PATH)
+    except ValueError:
+        data = np.loadtxt(PATH, delimiter=",")
+
+    data = pd.DataFrame(data)
+
+    # Rename the columns that are present
+    COLS = ["wave", "refl", "refl_err", "flag"]
+    data = data.rename(columns={col: COLS.pop(0) for col in data.columns})
+    return data
 
 
 def load_spectrum(idx):
