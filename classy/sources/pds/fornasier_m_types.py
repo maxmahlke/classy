@@ -48,4 +48,5 @@ def _build_index(PATH_REPO):
 
             entries.append(entry)
     entries = pd.concat(entries)
+
     index.add(entries)

@@ -155,9 +155,6 @@ def _build_index():
                 if file_.name in POLISHOOK_DATES:
                     date_obs = POLISHOOK_DATES[file_.name]
 
-                    if date_obs:
-                        date_obs = index.convert_to_isot(date_obs, format="%Y-%m-%d")
-
             filename = str(file_).split("classy/")[-1]
 
             if pd.isna(date_obs):
@@ -200,9 +197,6 @@ def _build_index():
 
             if not match.empty:
                 date_obs = match["date_obs"].values[0]
-
-                if not pd.isna(date_obs) and not "T" in date_obs:
-                    date_obs = index.convert_to_isot(date_obs, format="%Y-%m-%d")
                 shortbib = match["shortbib"].values[0]
                 bibcode = match["bibcode"].values[0]
             else:

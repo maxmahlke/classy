@@ -107,12 +107,7 @@ def _build_index():
             if entry.empty:
                 date_obs = ""
             else:
-                format = (
-                    "%Y-%m-%d"
-                    if ref not in ["Burbine and Binzel 2002", "Binzel+ 2004"]
-                    else "%Y-%m-%d %H:%M"
-                )
-                date_obs = index.convert_to_isot(entry.date_obs.values, format=format)
+                date_obs = ",".join(entry.date_obs.values)
 
             # ------
             # Append to index
