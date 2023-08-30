@@ -31,11 +31,11 @@ def _retrieve_spectra():
     for module in [pds, cds, m4ast, akari, smass, mithneos, gaia]:
         module._retrieve_spectra()
 
-    _build_index()
-
 
 def _build_index():
     """Retrieve all public spectra that classy knows about."""
+
+    # TODO: Add a progress indicator to this step
     for module in [pds, cds, m4ast, akari, smass, mithneos, gaia]:
         module._build_index()
 
