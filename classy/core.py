@@ -595,6 +595,9 @@ class Spectra(list):
 
         # Look up asteroid in index
         idx = index.load()
+        # idx = idx.reset_index().rename(columns={"index": "filename"})
+        idx["filename"] = idx.index.values
+        # print(idx.filename)
 
         if idx.empty:
             return None
@@ -634,17 +637,30 @@ class Spectra(list):
             self.append(spec)
 
     @__init__.register
-    def _list(self, spectra: list):
-        """Instantiate Spectra by passing a list of Spectrum instances."""
-        # Need this check for __add__
-        if not isinstance(spectra, list):
-            spectra = [spectra]
+    def _list(self, entries: list):
+        """Instantiate Spectra by passing a list of Spectrum instances or asteroid identifiers."""
 
-        for spec in spectra:
-            if isinstance(spec, Spectrum):
+        # Need this check for __add__
+        if not isinstance(entries, list):
+            entries = [entries]
+
+        for entry in entries:
+            # If it's a spectrum, we're done
+            if isinstance(entry, Spectrum):
+                self.append(entry)
+                continue
+
+            # Otherwise, try to identify it
+            name, _ = rocks.id(entry)
+
+            if name is None:
+                raise ValueError(
+                    f"Expected classy.Spectrum or asteroid identifier, got '{entry}'."
+                )
+
+            # Add all spectra of this asteroid
+            for spec in Spectra(name):
                 self.append(spec)
-            else:
-                raise TypeError(f"Expected classy.Spectrum, got '{type(spec)}'.")
 
     @__init__.register(pd.DataFrame)
     @__init__.register(pd.Series)
@@ -658,7 +674,7 @@ class Spectra(list):
                 entry["name"],
                 source=entry["source"],
                 shortbib=entry["shortbib"],
-                filename=entry["filename"],
+                filename=entry.name,
             )[0]
             self.append(spec)
 
@@ -694,6 +710,8 @@ class Spectra(list):
             "number",
             "class_",
             *[f"class_{letter}" for letter in defs.CLASSES],
+            "class_tholen",
+            "class_demeo",
         ]:
             column = []
 
