@@ -7,30 +7,12 @@ from classy.sources import pds
 
 SHORTBIB, BIBCODE = "Fornasier+ 2010", "2010Icar..210..655F"
 
-
-def _load_data(idx):
-    """Load data and metadata of a cached Gaia spectrum.
-
-    Parameters
-    ----------
-    idx : pd.Series
-        A row from the classy spectra index.
-
-    Returns
-    -------
-    pd.DataFrame, dict
-        The data and metadata. List-like attributes are in the dataframe,
-        single-value attributes in the dictionary.
-    """
-
-    # Load spectrum data file
-    PATH_DATA = config.PATH_CACHE / idx.filename
-    data = pd.read_csv(PATH_DATA, names=["wave", "refl", "refl_err"], delimiter=r"\s+")
-
-    return data, {}
+DATA_KWARGS = {"names": ["wave", "refl", "refl_err"], "delimiter": r"\s+"}
 
 
-def _create_index(PATH_REPO):
+# ------
+# Module functions
+def _build_index(PATH_REPO):
     """Create index of spectra collection."""
 
     entries = []
@@ -59,17 +41,12 @@ def _create_index(PATH_REPO):
                     "source": "Misc",
                     "host": "PDS",
                     "module": "fornasier_m_types",
-                    "filename": str(file_).split("/classy/")[1],
+                    "filename": file_.relative_to(config.PATH_CACHE),
                 },
                 index=[0],
             )
 
-            # Add spectrum metadata
-            data, _ = _load_data(entry.squeeze())
-            entry["wave_min"] = min(data["wave"])
-            entry["wave_max"] = max(data["wave"])
-            entry["N"] = len(data["wave"])
-
             entries.append(entry)
     entries = pd.concat(entries)
+
     index.add(entries)

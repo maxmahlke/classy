@@ -3,12 +3,15 @@ from urllib.request import urlretrieve
 import pandas as pd
 import rocks
 
+from classy import cache
 from classy import config
 from classy import index
 from classy import progress
-from classy import tools
+from classy import sources
 
 
+# ------
+# Module definitions
 REFERENCES = {
     "2016A%26A...586A.129M": ["2016A&A...586A.129M", "Morate+ 2016"],
     "2016A&A...586A.129M": ["2016A&A...586A.129M", "Morate+ 2016"],
@@ -26,97 +29,73 @@ REFERENCES = {
     "2007A&A...473L..33N": ["2007A&A...473L..33N", "Nedelcu+ 2007"],
 }
 
+PATH = config.PATH_CACHE / "m4ast/"
 
-def _load_data(idx):
-    """Load data and metadata of a cached Gaia spectrum.
-
-    Parameters
-    ----------
-    idx : pd.Series
-        A row from the classy spectra index.
-
-    Returns
-    -------
-    pd.DataFrame, dict
-        The data and metadata. List-like attributes are in the dataframe,
-        single-value attributes in the dictionary.
-    """
-
-    # Load spectrum data file
-    PATH_DATA = config.PATH_CACHE / idx.filename
-    data = pd.read_csv(PATH_DATA, names=["wave", "refl"], delimiter=r"\s+", skiprows=9)
-    return data, {}
+DATA_KWARGS = {"names": ["wave", "refl"], "delimiter": r"\s+", "skiprows": 9}
 
 
-def load_catalogue():
-    """Load the M4AST metadata catalogue from cache or from remote."""
-    PATH_CAT = config.PATH_CACHE / "m4ast/m4ast.csv"
-    if not PATH_CAT.is_file():
-        tools._retrieve_from_github(host="m4ast", which="m4ast", path=PATH_CAT)
-    return pd.read_csv(PATH_CAT)
-
-
+# ------
+# Module functions
 def _retrieve_spectra():
     """Retrieve all M4AST spectra to m4ast/ the cache directory."""
 
     # Create directory structure
-    PATH_M4AST = config.PATH_CACHE / "m4ast/"
-    PATH_M4AST.mkdir(parents=True, exist_ok=True)
+    PATH.mkdir(parents=True, exist_ok=True)
 
-    catalogue = load_catalogue()
-
-    for ind, row in catalogue.iterrows():
-        if not pd.isna(row.bib_reference):
-            bib = row.bib_reference.split("/")[-1]
-            bib = REFERENCES[bib][0]
-            ref = REFERENCES[bib][1]
-        else:
-            bib = "Unpublished"
-            ref = "Unpublished"
-        catalogue.loc[ind, "bibcode"] = bib
-        catalogue.loc[ind, "shortbib"] = ref
-
-    # Do not index these spectra - already in SMASS/PRIMASS
-    catalogue = catalogue[~catalogue.shortbib.isin(["Binzel+ 2001", "Morate+ 2016"])]
-
-    # Add to global spectra index.
-    entries = []
+    cat = load_catalog()
 
     with progress.mofn as mofn:
-        task = mofn.add_task("M4AST", total=len(catalogue))
+        task = mofn.add_task("M4AST", total=len(cat))
 
-        for _, row in catalogue.iterrows():
-            # Download spectrum
+        for _, row in cat.iterrows():
             filename = row.access_url.split("/")[-1]
-
-            urlretrieve(row.access_url, PATH_M4AST / filename)
-
-            name, number = rocks.id(row.target_name)
-            date_obs = ""
-
-            # ------
-            # Append to index
-            entry = pd.DataFrame(
-                data={
-                    "name": name,
-                    "number": number,
-                    "filename": f"m4ast/{filename}",
-                    "shortbib": row.shortbib,
-                    "bibcode": row.bibcode,
-                    "date_obs": date_obs,
-                    "source": "M4AST",
-                    "host": "M4AST",
-                    "module": "m4ast",
-                },
-                index=[0],
-            )
-            data, _ = _load_data(entry.squeeze())
-            entry["wave_min"] = min(data["wave"])
-            entry["wave_max"] = max(data["wave"])
-            entry["N"] = len(data)
-
-            entries.append(entry)
+            urlretrieve(row.access_url, PATH / filename)
             mofn.update(task, advance=1)
 
-    entries = pd.concat(entries)
+
+def load_catalog():
+    """Load the M4AST metadata catalog from cache or from remote.
+
+    Returns
+    -------
+    pd.DataFrame
+        The M4AST spectra catalog.
+    """
+    cat = cache.load_cat(host="m4ast", which="m4ast")
+
+    # Set bibliographic record
+    cat.loc[pd.isna(cat.bib_reference), "shortbib"] = "Unpublished"
+    cat.loc[pd.isna(cat.bib_reference), "bibcode"] = "Unpublished"
+
+    for ind, row in cat[~pd.isna(cat.bib_reference)].iterrows():
+        bib = row.bib_reference.split("/")[-1]
+        bib, ref = REFERENCES[bib]
+
+        cat.loc[ind, "bibcode"] = bib
+        cat.loc[ind, "shortbib"] = ref
+
+    # Do not index these spectra - already in SMASS/PRIMASS
+    cat = cat[~cat.shortbib.isin(["Binzel+ 2001", "Morate+ 2016"])]
+    return cat
+
+
+def _build_index():
+    """Build index of M4AST spectra and add to the classy spectra index."""
+    entries = load_catalog()
+
+    # Add spectra metadata
+    entries["name"], entries["number"] = zip(*rocks.identify(entries.target_name))
+
+    entries["filename"] = entries["access_url"].apply(
+        lambda url: f"m4ast/{url.split('/')[-1]}"
+    )
+
+    # TODO: Check if there are observation dates available online
+    entries["date_obs"] = ""
+
+    entries["source"] = "M4AST"
+    entries["host"] = "M4AST"
+    entries["module"] = "m4ast"
+
+    # Et voila
     index.add(entries)

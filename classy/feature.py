@@ -56,6 +56,10 @@ class Feature:
         #         else:
         #             self.is_present = False
 
+                self._present_decision = params[
+                    "is_present"
+                ]  # store the yes,no,maybe text
+
         # Set interpolation range for continuum, fit, and parameter estimation
         self.range_interp = np.arange(self.lower, self.upper, 0.001)
 

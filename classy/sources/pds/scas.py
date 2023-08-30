@@ -4,8 +4,9 @@ import rocks
 
 from classy import config
 from classy import index
-from classy.sources import pds
 
+# ------
+# Module definitions
 SHORTBIB, BIBCODE = "Clark+ 1995", "1995Icar..113..387C"
 
 # SCAS effective wavelengths from Clark+ 1993 LPI abstract
@@ -13,85 +14,52 @@ SHORTBIB, BIBCODE = "Clark+ 1995", "1995Icar..113..387C"
 WAVE = np.array([0.913, 1.05, 1.3, 1.55, 1.63, 2.16, 2.3])
 COLORS = ["BA", "CA", "DA", "EA", "FA", "GA"]
 
-
-def _load_data(idx):
-    """Load data and metadata of a cached Gaia spectrum.
-
-    Parameters
-    ----------
-    idx : pd.Series
-        A row from the classy spectra index.
-
-    Returns
-    -------
-    pd.DataFrame, dict
-        The data and metadata. List-like attributes are in the dataframe,
-        single-value attributes in the dictionary.
-    """
-    scas = _load_scas(config.PATH_CACHE / idx.filename)
-    scas = scas.loc[scas.number == idx.number]
-
-    # Convert colours to reflectances
-    refl = [1] + [np.power(10, -0.4 * (1 - c)) for c in scas[COLORS].values[0]]
-    refl_err = [0] + [
-        np.abs(scas[color].values[0])
-        * np.abs(0.4 * np.log(10) * scas[f"{color}_ERROR"].values[0])
-        for color in COLORS
-    ]
-
-    # Convert color indices to reflectance
-    data = pd.DataFrame(data={"wave": WAVE, "refl": refl, "refl_err": refl_err})
-    return data, {}
+DATA_KWARGS = {}
 
 
-def _create_index(PATH_REPO):
+# ------
+# Module functions
+def _build_index(PATH_REPO):
     """Create index of spectra collection."""
 
     # Iterate over index file
-    scas = _load_scas(PATH_REPO / "data/scas.tab")
+    entries = _load_scas(PATH_REPO / "data/scas.tab")
+    entries["name"], entries["number"] = zip(*rocks.identify(entries.number))
 
-    entries = []
-    for _, row in scas.iterrows():
-        if pd.isna(row.number):
-            continue  # not including phobos and deimos here
+    entries["date_obs"] = ""
+    entries["source"] = "SCAS"
+    entries["host"] = "PDS"
+    entries["module"] = "scas"
 
-        # Identify asteroid
-        id_ = row.number
-        name, number = rocks.id(id_)
+    entries["shortbib"] = SHORTBIB
+    entries["bibcode"] = BIBCODE
 
-        # Extract spectrum metadata
-        file_ = PATH_REPO / "data" / f"scas.tab"
+    # Split the observations into one file per spectrum
+    entries["filename"] = entries["number"].apply(
+        lambda number: PATH_REPO.relative_to(config.PATH_CACHE) / f"data/{number}.csv"
+    )
 
-        # Create index entry
-        entry = pd.DataFrame(
-            data={
-                "name": name,
-                "number": number,
-                "date_obs": np.nan,
-                "wave_min": WAVE.min(),
-                "wave_max": WAVE.max(),
-                "N": len(WAVE),
-                "shortbib": SHORTBIB,
-                "bibcode": BIBCODE,
-                "filename": str(file_).split("/classy/")[1],
-                "source": "SCAS",
-                "host": "PDS",
-                "module": "scas",
-            },
-            index=[0],
-        )
-        entries.append(entry)
-    entries = pd.concat(entries)
+    _create_spectra_files(entries)
     index.add(entries)
 
 
-def _load_scas(PATH_REPO):
-    """Load the SCAS data file.
+def _create_spectra_files(entries):
+    """Create one file per SCAS spectrum."""
 
-    Returns
-    -------
-    pd.DataFrame
-    """
+    for _, row in entries.iterrows():
+        # Convert colours to reflectances
+        refl = [1] + [np.power(10, -0.4 * (1 - c)) for c in row[COLORS]]
+        refl_err = [0] + [
+            np.abs(row[color]) * np.abs(0.4 * np.log(10) * row[f"{color}_ERROR"])
+            for color in COLORS
+        ]
+
+        # Convert color indices to reflectance
+        data = pd.DataFrame(data={"wave": WAVE, "refl": refl, "refl_err": refl_err})
+        data.to_csv(config.PATH_CACHE / row.filename, index=False)
+
+
+def _load_scas(PATH_REPO):
     data = pd.read_fwf(
         PATH_REPO,
         columns=[
@@ -129,4 +97,5 @@ def _load_scas(PATH_REPO):
             "B_D_ERROR",
         ],
     )
+
     return data

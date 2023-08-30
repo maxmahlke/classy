@@ -4,6 +4,7 @@ import pandas as pd
 import rocks
 
 
+from classy import cache
 from classy import config
 from classy import index
 from classy import progress
@@ -17,236 +18,18 @@ REFERENCES = {
     "polishook2014": ["Polishook+ 2014", "2014Icar..233....9P"],
 }
 
+DIR_URLS = [
+    ("demeo2019", f"{BASE_URL}/minus/DeMeo2019_spectra.tar"),
+    ("polishook2014", f"{BASE_URL}/minus/Spectra31AsteroidPairs_Polishook.zip"),
+]
 
-def _load_data(idx):
-    """Load data and metadata of a cached Gaia spectrum.
+RUNS = (
+    [f"sp{num:>02}" for num in range(1, 131)]
+    + [f"sp{num:>02}" for num in range(200, 292)]
+    + [f"dm{num:>02}" for num in range(1, 20)]
+)
 
-    Parameters
-    ----------
-    idx : pd.Series
-        A row from the classy spectra index.
-
-    Returns
-    -------
-    pd.DataFrame, dict
-        The data and metadata. List-like attributes are in the dataframe,
-        single-value attributes in the dictionary.
-    """
-
-    # Load spectrum data file
-    PATH_DATA = config.PATH_CACHE / idx.filename
-    data = pd.read_csv(
-        PATH_DATA, names=["wave", "refl", "err", "flag"], delimiter="\s+", comment="#"
-    )
-
-    # Logic cuts
-    data = data[data.wave > 0]
-    data = data[data.refl > 0]
-
-    # 2 - reject. This is flag 0 in MITHNEOS
-    data["flag"] = [0 if f != 0 else 2 for f in data["flag"].values]
-
-    return data, {}
-
-
-def load_obslog():
-    """Load MITHNEOS observation log from cache or from remote."""
-    PATH_LOG = config.PATH_CACHE / "mithneos/obslog.csv"
-    if not PATH_LOG.is_file():
-        tools._retrieve_from_github(host="mithneos", which="obslog", path=PATH_LOG)
-    return pd.read_csv(PATH_LOG)
-
-
-def _retrieve_spectra():
-    """Retrieve the MITHNEOS spectra from remote."""
-
-    PATH_OUT = config.PATH_CACHE / "mithneos/"
-
-    # ------
-    # Start with separate archives
-    DIR_URLS = [
-        ("demeo2019", f"{BASE_URL}/minus/DeMeo2019_spectra.tar"),
-        ("polishook2014", f"{BASE_URL}/minus/Spectra31AsteroidPairs_Polishook.zip"),
-    ]
-
-    for dir, URL in DIR_URLS:
-        (PATH_OUT / dir).mkdir(exist_ok=True, parents=True)
-        tools.download_archive(
-            URL, PATH_OUT / dir / URL.split("/")[-1], encoding=URL.split(".")[-1]
-        )
-
-    log = load_obslog()
-
-    # Create index for these archives
-    mithneos = pd.DataFrame()
-    entries = []
-
-    for dir, _ in DIR_URLS:
-        for file_ in (PATH_OUT / dir).glob("**/*txt"):
-            if "__MACOS" in str(file_):
-                # garbage in archive file
-                continue
-
-            if file_.name.startswith("._"):
-                # more garbage in archive file
-                continue
-
-            if dir == "demeo2019" and "fi" not in file_.name:
-                # only add the fi06-fi11 runs here
-                continue
-
-            if dir == "polishook2014" and file_.name not in POLISHOOK_DATES:
-                # do not index three-point visible spectra
-                continue
-
-            id_ = sources.smass.get_id_from_filename(file_)
-            name, number = rocks.id(id_)
-
-            date_obs = ""  # get's filled in below
-            shortbib, bibcode = REFERENCES[dir]
-
-            if dir == "demeo2019":
-                try:
-                    date_obs = log.loc[
-                        (log.run == file_.name.split(".")[1]) & (log["name"] == name),
-                        "date_obs",
-                    ].values[0]
-                except IndexError:
-                    date_obs = ""
-            elif dir == "polishook2014":
-                if file_.name in POLISHOOK_DATES:
-                    date_obs = POLISHOOK_DATES[file_.name]
-
-                    if date_obs:
-                        date_obs = index.convert_to_isot(date_obs, format="%Y-%m-%d")
-
-            filename = str(file_).split("classy/")[-1]
-
-            if pd.isna(date_obs):
-                bibcode = ""
-
-            entry = pd.DataFrame(
-                data={
-                    "name": name,
-                    "number": number,
-                    "filename": filename,
-                    "shortbib": shortbib,
-                    "bibcode": bibcode,
-                    "date_obs": date_obs,
-                    "host": "MITHNEOS",
-                    "module": "mithneos",
-                    "source": "MITHNEOS",
-                },
-                index=[0],
-            )
-
-            data, _ = _load_data(entry.squeeze())
-            entry["wave_min"] = min(data["wave"])
-            entry["wave_max"] = max(data["wave"])
-            entry["N"] = len(data)
-            entries.append(entry)
-
-    # -------
-    # Scrape all mithneos runs from website and check for unpublished spectra
-    runs = (
-        [f"sp{num:>02}" for num in range(1, 131)]
-        + [f"sp{num:>02}" for num in range(200, 292)]
-        + [f"dm{num:>02}" for num in range(1, 20)]
-    )
-
-    with progress.mofn as mofn:
-        task = mofn.add_task("MITHNEOS ObsRuns", total=len(runs))
-        for run in runs:
-            URL = f"{BASE_URL}/spex/{run}/"
-            _download(URL, PATH_OUT / run)
-            mofn.update(task, advance=1)
-
-            # check for duplicates
-            for file_ in (PATH_OUT / run).glob("**/*txt"):
-                if "162117-note" in file_.name or "p2010h2" in file_.name:
-                    continue
-
-                id_ = sources.smass.get_id_from_filename(file_)
-                if id_ is None:
-                    continue
-                name, number = rocks.id(id_)
-
-                if name is None:
-                    continue
-
-                filename = str(file_).split("classy/")[-1]
-
-                match = log.loc[(log.run == run) & (log["name"] == name)]
-
-                if not match.empty:
-                    date_obs = match["date_obs"].values[0]
-
-                    if not pd.isna(date_obs) and not "T" in date_obs:
-                        date_obs = index.convert_to_isot(date_obs, format="%Y-%m-%d")
-                    shortbib = match["shortbib"].values[0]
-                    bibcode = match["bibcode"].values[0]
-                else:
-                    date_obs = ""
-                    shortbib = "Unpublished"
-                    bibcode = "Unpublished"
-
-                if not shortbib:
-                    shortbib = "Unpublished"
-                if not bibcode:
-                    bibcode = "Unpublished"
-                if pd.isna(shortbib):
-                    shortbib = "Unpublished"
-                if pd.isna(bibcode):
-                    bibcode = "Unpublished"
-                if pd.isna(date_obs):
-                    bibcode = ""
-
-                entry = pd.DataFrame(
-                    data={
-                        "name": name,
-                        "number": number,
-                        "filename": filename,
-                        "shortbib": shortbib,
-                        "bibcode": bibcode,
-                        "date_obs": date_obs,
-                        "source": "MITHNEOS",
-                        "host": "mithneos",
-                        "module": "mithneos",
-                    },
-                    index=[0],
-                )
-                data, _ = _load_data(entry.squeeze())
-                entry["wave_min"] = min(data["wave"])
-                entry["wave_max"] = max(data["wave"])
-                entry["N"] = len(data)
-                entries.append(entry)
-
-    entries = pd.concat(entries)
-    index.add(entries)
-
-
-def _download(URL, PATH_OUT):
-    import bs4
-    import requests
-
-    r = requests.get(URL)
-
-    if not r.ok:
-        return
-
-    data = bs4.BeautifulSoup(r.text, "html.parser")
-    for l in data.find_all("a"):
-        if l["href"].endswith("txt"):
-            if "README" in l["href"]:
-                continue
-            if "READ_ME" in l["href"]:
-                continue
-            if "speclib-edit-backup" in l["href"]:
-                continue
-
-            PATH_OUT.mkdir(exist_ok=True, parents=True)
-            urlretrieve(URL + l["href"], PATH_OUT / l["href"])
-
+PATH = config.PATH_CACHE / "mithneos/"
 
 POLISHOOK_DATES = {
     "101703_IR.txt": "2013-10-03",
@@ -287,3 +70,189 @@ POLISHOOK_DATES = {
     "92652_IR.txt": "2013-03-06",
     "42946_IR.txt": "2013-01-17",
 }
+
+DATA_KWARGS = {
+    "names": ["wave", "refl", "err", "flag"],
+    "delimiter": "\s+",
+    "comment": "#",
+}
+
+
+def _transform_data(idx, data):
+    """Apply module-specific data transforms."""
+
+    # Logic cuts
+    data = data[data.wave > 0]
+    data = data[data.refl > 0]
+
+    # 2 - reject. This is flag 0 in MITHNEOS
+    data["flag"] = [0 if f != 0 else 2 for f in data["flag"].values]
+
+    meta = {}
+    return data, meta
+
+
+def _retrieve_spectra():
+    """Retrieve the MITHNEOS spectra from remote."""
+
+    # Start with separate archives
+    for dir, URL in DIR_URLS:
+        (PATH / dir).mkdir(exist_ok=True, parents=True)
+        tools.download_archive(
+            URL, PATH / dir / URL.split("/")[-1], encoding=URL.split(".")[-1]
+        )
+
+    # -------
+    # Scrape all mithneos runs from website and check for unpublished spectra
+
+    with progress.mofn as mofn:
+        task = mofn.add_task("MITHNEOS ObsRuns", total=len(RUNS))
+        for run in RUNS:
+            URL = f"{BASE_URL}/spex/{run}/"
+            _download(URL, PATH / run)
+            mofn.update(task, advance=1)
+
+
+def _build_index():
+    # Create index for these archives
+
+    log = cache.load_cat("mithneos", "obslog")
+    entries = []
+
+    for dir, _ in DIR_URLS:
+        for file_ in (PATH / dir).glob("**/*txt"):
+            if "__MACOS" in str(file_):
+                # garbage in archive file
+                continue
+
+            if file_.name.startswith("._"):
+                # more garbage in archive file
+                continue
+
+            if dir == "demeo2019" and "fi" not in file_.name:
+                # only add the fi06-fi11 runs here
+                continue
+
+            if dir == "polishook2014" and file_.name not in POLISHOOK_DATES:
+                # do not index three-point visible spectra
+                continue
+
+            id_ = sources.smass.get_id_from_filename(file_)
+            name, number = rocks.id(id_)
+
+            date_obs = ""  # get's filled in below
+            shortbib, bibcode = REFERENCES[dir]
+
+            if dir == "demeo2019":
+                try:
+                    date_obs = log.loc[
+                        (log.run == file_.name.split(".")[1]) & (log["name"] == name),
+                        "date_obs",
+                    ].values[0]
+                except IndexError:
+                    date_obs = ""
+            elif dir == "polishook2014":
+                if file_.name in POLISHOOK_DATES:
+                    date_obs = POLISHOOK_DATES[file_.name]
+
+            filename = str(file_).split("classy/")[-1]
+
+            if pd.isna(date_obs):
+                bibcode = ""
+
+            entry = pd.DataFrame(
+                data={
+                    "name": name,
+                    "number": number,
+                    "filename": filename,
+                    "shortbib": shortbib,
+                    "bibcode": bibcode,
+                    "date_obs": date_obs,
+                    "host": "MITHNEOS",
+                    "module": "mithneos",
+                    "source": "MITHNEOS",
+                },
+                index=[0],
+            )
+
+            entries.append(entry)
+
+    for run in RUNS:
+        # check for duplicates
+        for file_ in (PATH / run).glob("**/*txt"):
+            if "162117-note" in file_.name or "p2010h2" in file_.name:
+                continue
+
+            id_ = sources.smass.get_id_from_filename(file_)
+            if id_ is None:
+                continue
+            name, number = rocks.id(id_)
+
+            if name is None:
+                continue
+
+            filename = str(file_).split("classy/")[-1]
+
+            match = log.loc[(log.run == run) & (log["name"] == name)]
+
+            if not match.empty:
+                date_obs = match["date_obs"].values[0]
+                shortbib = match["shortbib"].values[0]
+                bibcode = match["bibcode"].values[0]
+            else:
+                date_obs = ""
+                shortbib = "Unpublished"
+                bibcode = "Unpublished"
+
+            if not shortbib:
+                shortbib = "Unpublished"
+            if not bibcode:
+                bibcode = "Unpublished"
+            if pd.isna(shortbib):
+                shortbib = "Unpublished"
+            if pd.isna(bibcode):
+                bibcode = "Unpublished"
+            if pd.isna(date_obs):
+                bibcode = ""
+
+            entry = pd.DataFrame(
+                data={
+                    "name": name,
+                    "number": number,
+                    "filename": filename,
+                    "shortbib": shortbib,
+                    "bibcode": bibcode,
+                    "date_obs": date_obs,
+                    "source": "MITHNEOS",
+                    "host": "mithneos",
+                    "module": "mithneos",
+                },
+                index=[0],
+            )
+            entries.append(entry)
+
+    entries = pd.concat(entries)
+    index.add(entries)
+
+
+def _download(URL, PATH_OUT):
+    import bs4
+    import requests
+
+    r = requests.get(URL)
+
+    if not r.ok:
+        return
+
+    data = bs4.BeautifulSoup(r.text, "html.parser")
+    for l in data.find_all("a"):
+        if l["href"].endswith("txt"):
+            if "README" in l["href"]:
+                continue
+            if "READ_ME" in l["href"]:
+                continue
+            if "speclib-edit-backup" in l["href"]:
+                continue
+
+            PATH_OUT.mkdir(exist_ok=True, parents=True)
+            urlretrieve(URL + l["href"], PATH_OUT / l["href"])

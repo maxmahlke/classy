@@ -6,6 +6,9 @@ from classy import config
 from classy import index
 from classy.sources import pds
 
+
+# ------
+# Module definitions
 REFERENCES = {
     "52CAS": ["1988LPI....19...57B", "Bell+ 1988"],
     "CRUIK": ["1984Sci...223..281C", "Cruikshank and Hartmann 1984"],
@@ -68,75 +71,49 @@ WAVE = np.array(
     ]
 )
 
-
-def _load_data(idx):
-    """Load data and metadata of a cached Gaia spectrum.
-
-    Parameters
-    ----------
-    idx : pd.Series
-        A row from the classy spectra index.
-
-    Returns
-    -------
-    pd.DataFrame, dict
-        The data and metadata. List-like attributes are in the dataframe,
-        single-value attributes in the dictionary.
-    """
-    ftcas = _load_ftcas(config.PATH_CACHE / "/".join(idx.filename.split("/")[:2]))
-    ftcas = ftcas.loc[ftcas.number == idx.number]
-
-    refl = ftcas[[f"REFL_{i}" for i in range(1, len(WAVE) + 1)]].values[0]
-    refl_err = ftcas[[f"REFL_{i}_UNC" for i in range(1, len(WAVE) + 1)]].values[0]
-
-    # Convert color indices to reflectance
-    data = pd.DataFrame(data={"wave": WAVE, "refl": refl, "refl_err": refl_err})
-    return data, {}
+DATA_KWARGS = {}
 
 
-def _create_index(PATH_REPO):
+# ------
+# Module functions
+def _build_index(PATH_REPO):
     """Create index of spectra collection."""
 
-    entries = []
-
     # Iterate over index file
-    ftcas = _load_ftcas(PATH_REPO)
-    for _, row in ftcas.iterrows():
-        if pd.isna(row.number):
-            continue  # not including phobos and deimos here
+    entries = _load_ftcas(PATH_REPO)
+    entries["name"], entries["number"] = zip(*rocks.identify(entries.number))
 
-        # Identify asteroid
-        id_ = row.number
-        name, number = rocks.id(id_)
+    entries["source"] = "52CAS"
+    entries["host"] = "PDS"
+    entries["module"] = "ftcas"
 
-        ref = "52CAS" if number not in [246, 289] else "CRUIK"
-        bibcode, shortbib = REFERENCES[ref]
+    for ind, row in entries.iterrows():
+        ref = "52CAS" if row.number not in [246, 289] else "CRUIK"
 
-        # Extract spectrum metadata
-        file_ = PATH_REPO / "data0" / f"52color.tab"
+        entries.loc[ind, "bibcode"] = REFERENCES[ref][0]
+        entries.loc[ind, "shortbib"] = REFERENCES[ref][1]
 
-        # Create index entry
-        entry = pd.DataFrame(
-            data={
-                "name": name,
-                "number": number,
-                "date_obs": row.date_obs,
-                "wave_min": WAVE.min(),
-                "wave_max": WAVE.max(),
-                "N": len(WAVE),
-                "shortbib": shortbib,
-                "bibcode": bibcode,
-                "filename": str(file_).split("/classy/")[1],
-                "source": "52CAS",
-                "host": "PDS",
-                "module": "ftcas",
-            },
-            index=[0],
-        )
+    # Split the observations into one file per spectrum
+    entries["filename"] = entries["number"].apply(
+        lambda number: PATH_REPO.relative_to(config.PATH_CACHE) / f"data/{number}.csv"
+    )
 
-        entries.append(entry)
-    entries = pd.concat(entries)
+    _create_spectra_files(entries)
+    entries["filename"] = entries["filename"].apply(
+        lambda f: str(f).split("/classy/")[-1]
+    )
     index.add(entries)
+
+
+def _create_spectra_files(entries):
+    """Create one file per 52CAS spectrum."""
+    for _, row in entries.iterrows():
+        refl = row[[f"REFL_{i}" for i in range(1, len(WAVE) + 1)]].values
+        refl_err = row[[f"REFL_{i}_UNC" for i in range(1, len(WAVE) + 1)]].values
+
+        # Convert color indices to reflectance
+        data = pd.DataFrame(data={"wave": WAVE, "refl": refl, "refl_err": refl_err})
+        data.to_csv(config.PATH_CACHE / row.filename, index=False)
 
 
 def _load_ftcas(PATH_REPO):
@@ -185,4 +162,5 @@ def _load_ftcas(PATH_REPO):
     # Some cleanup
     data = data.replace(-9999, np.nan)
     data = data.replace(-0.9999, np.nan)
+    data = data.replace("9999-99-99", np.nan)
     return data

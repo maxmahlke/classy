@@ -33,7 +33,7 @@ def _load_data(idx):
     return data, {}
 
 
-def _create_index(PATH_REPO):
+def _build_index(PATH_REPO):
     """Create index of spectra collection."""
 
     index = pd.DataFrame()
@@ -75,7 +75,9 @@ def _create_index(PATH_REPO):
                 "shortbib": shortbib,
                 "bibcode": bibcode,
                 "module": "rivkin_three_micron",
-                "filename": str(file_).split("/classy/")[1].replace("75euri", "75eury"),
+                "filename": str(file_.relative_to(config.PATH_CACHE)).replace(
+                    "75euri", "75eury"
+                ),
                 "source": "Misc",
                 "host": "PDS",
             },

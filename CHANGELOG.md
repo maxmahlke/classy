@@ -1,3 +1,6 @@
+# 0.7 -
+- Make paths in classy index Windows-compatible
+
 # 0.6.5 - 2023-08-18
 - Add missing pyqt5 dependency
 

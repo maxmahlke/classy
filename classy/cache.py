@@ -11,6 +11,7 @@ import rich
 from classy import config
 from classy import index
 from classy import sources
+from classy import tools
 
 # cache = percache.Cache(str(config.PATH_CACHE / "cache"))
 
@@ -120,3 +121,10 @@ def miriade_ephems(name, epochs):
         return False
 
     return ephem
+
+
+def load_cat(host, which):
+    PATH_CAT = config.PATH_CACHE / f"{host}/{which}.csv"
+    if not PATH_CAT.is_file():
+        tools._retrieve_from_github(host, which, path=PATH_CAT)
+    return pd.read_csv(PATH_CAT)

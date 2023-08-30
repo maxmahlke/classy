@@ -1,8 +1,8 @@
 import pandas as pd
 import rocks
 
-from classy import index
 from classy import config
+from classy import index
 from classy.sources import pds
 
 REFERENCES = {
@@ -15,27 +15,10 @@ REFERENCES = {
     "Morate et al (2019)": ["2019A&A...630A.141M", "Morate+ 2019"],
 }
 
-
-def _load_data(idx):
-    """Load data and metadata of a cached Gaia spectrum.
-
-    Parameters
-    ----------
-    idx : pd.Series
-        A row from the classy spectra index.
-
-    Returns
-    -------
-    pd.DataFrame, dict
-        The data and metadata. List-like attributes are in the dataframe,
-        single-value attributes in the dictionary.
-    """
-    file_ = config.PATH_CACHE / idx.filename
-    data = pd.read_csv(file_, names=["wave", "refl", "refl_err"], delimiter=r"\s+")
-    return data, {}
+DATA_KWARGS = {"names": ["wave", "refl", "refl_err"], "delimiter": r"\s+"}
 
 
-def _create_index(PATH_REPO):
+def _build_index(PATH_REPO):
     """Create index of spectra collection."""
 
     entries = []
@@ -82,19 +65,13 @@ def _create_index(PATH_REPO):
                     "date_obs": "",
                     "shortbib": shortbib,
                     "bibcode": bibcode,
-                    "filename": str(file_).split("/classy/")[1],
+                    "filename": file_.relative_to(config.PATH_CACHE),
                     "source": "PRIMASS",
                     "host": "PDS",
                     "module": "primass",
                 },
                 index=[0],
             )
-
-            # Add spectrum metadata
-            data, _ = _load_data(entry.squeeze())
-            entry["wave_min"] = min(data["wave"])
-            entry["wave_max"] = max(data["wave"])
-            entry["N"] = len(data["wave"])
 
             entries.append(entry)
     entries = pd.concat(entries)

@@ -14,28 +14,10 @@ REFERENCES = {
     "HARDERSENETAL2018": ["2018AJ....156...11H", "Hardersen+ 2018"],
 }
 
-
-def _load_data(idx):
-    """Load data and metadata of a cached Gaia spectrum.
-
-    Parameters
-    ----------
-    idx : pd.Series
-        A row from the classy spectra index.
-
-    Returns
-    -------
-    pd.DataFrame, dict
-        The data and metadata. List-like attributes are in the dataframe,
-        single-value attributes in the dictionary.
-    """
-    file_ = config.PATH_CACHE / idx.filename
-    data = pd.read_csv(file_, names=["wave", "refl", "refl_err"], delimiter=r"\s+")
-    data = data[data.wave != 0]
-    return data, {}
+DATA_KWARGS = {"names": ["wave", "refl", "refl_err"], "delimiter": r"\s+"}
 
 
-def _create_index(PATH_REPO):
+def _build_index(PATH_REPO):
     """Create index of spectra collection."""
 
     entries = []
@@ -68,19 +50,13 @@ def _create_index(PATH_REPO):
                     "date_obs": date_obs,
                     "shortbib": shortbib,
                     "bibcode": bibcode,
-                    "filename": str(file_).split("/classy/")[1],
-                    "source": "Hardersen",
+                    "filename": file_.relative_to(config.PATH_CACHE),
+                    "source": "PDS",
                     "host": "PDS",
                     "module": "hardersenspec",
                 },
                 index=[0],
             )
-
-            # Add spectrum metadata
-            data, _ = _load_data(entry.squeeze())
-            entry["wave_min"] = min(data["wave"])
-            entry["wave_max"] = max(data["wave"])
-            entry["N"] = len(data["wave"])
 
             entries.append(entry)
     entries = pd.concat(entries)

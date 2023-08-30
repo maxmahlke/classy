@@ -3,85 +3,66 @@ import pandas as pd
 import rocks
 
 from classy import config
-from classy import config
 from classy import index
 from classy.sources import pds
 from classy import tools
 
+# ------
+# Module definitions
 WAVE = [0.337, 0.359, 0.437, 0.550, 0.701, 0.853, 0.948, 1.041]
 
-SHORTBIB, BIBCODE = (
-    "Zellner+ 1985",
-    "1985Icar...61..355Z",
-)
+SHORTBIB, BIBCODE = "Zellner+ 1985", "1985Icar...61..355Z"
+
+DATA_KWARGS = {}
 
 
-def _load_data(idx):
-    """Load data and metadata of a cached Gaia spectrum.
-
-    Parameters
-    ----------
-    idx : pd.Series
-        A row from the classy spectra index.
-
-    Returns
-    -------
-    pd.DataFrame, dict
-        The data and metadata. List-like attributes are in the dataframe,
-        single-value attributes in the dictionary.
-    """
-    obs = pd.read_csv(config.PATH_CACHE / idx.filename)
-    obs = obs.loc[obs["name"] == idx["name"]]
-
-    # Convert colours to reflectances
-    refl, refl_err = _compute_reflectance_from_colors(obs)
-    flags = _add_flags(obs)
-
-    data = pd.DataFrame(
-        data={
-            "refl": refl[~np.isnan(refl)],
-            "refl_err": refl_err[~np.isnan(refl)],
-            "wave": np.array(WAVE)[~np.isnan(refl)],
-            "flag": flags[~np.isnan(refl)],
-        },
-    )
-
-    return data, {}
-
-
-def _create_index(PATH_REPO):
+# ------
+# Module functions
+def _build_index(PATH_REPO):
     """Create index of ECAS collection. Further creates mean-colors with flags and
     PC-scores CSV files for easier look-ups in Tholen classification."""
 
     _create_mean_colors_file(PATH_REPO)
 
     # Build index from mean-colors file
-    mean = pd.read_csv(PATH_REPO / "colors.csv")
-    mean = mean[["name", "number"]]
+    entries = pd.read_csv(PATH_REPO / "colors.csv")
 
-    entries = []
-    for _, row in mean.iterrows():
-        entry = pd.DataFrame(
-            data={
-                "name": row["name"],
-                "number": row["number"],
-                "date_obs": "",
-                "shortbib": SHORTBIB,
-                "bibcode": BIBCODE,
-                "host": "PDS",
-                "module": "ecas",
-                "source": "ECAS",
-                "filename": "pds/" + PATH_REPO.name + "/colors.csv",
-                "wave_min": min(WAVE),
-                "wave_max": max(WAVE),
-                "N": len(WAVE),
-            },
-            index=[0],
-        )
-        entries.append(entry)
+    entries["date_obs"] = ""
 
-    entries = pd.concat(entries)
+    entries["source"] = "ECAS"
+    entries["host"] = "PDS"
+    entries["module"] = "ecas"
+
+    entries["bibcode"] = BIBCODE
+    entries["shortbib"] = SHORTBIB
+
+    # Split the observations into one file per spectrum
+    entries["filename"] = entries["number"].apply(
+        lambda number: PATH_REPO.relative_to(config.PATH_CACHE) / f"data/{number}.csv"
+    )
+
+    _create_spectra_files(entries)
     index.add(entries)
+
+
+def _create_spectra_files(entries):
+    """Create one file per ECAS spectrum."""
+
+    for _, row in entries.iterrows():
+        # Convert colours to reflectances
+        refl, refl_err = _compute_reflectance_from_colors(row)
+        flags = _add_flags(row)
+
+        data = pd.DataFrame(
+            data={
+                "refl": refl[~np.isnan(refl)],
+                "refl_err": refl_err[~np.isnan(refl)],
+                "wave": np.array(WAVE)[~np.isnan(refl)],
+                "flag": flags[~np.isnan(refl)],
+            },
+        )
+
+        data.to_csv(config.PATH_CACHE / row.filename, index=False)
 
 
 def _compute_reflectance_from_colors(obs):
@@ -89,11 +70,9 @@ def _compute_reflectance_from_colors(obs):
     refl_err = []
 
     for color in ["S_V", "U_V", "B_V"]:
-        refl_c = obs[f"{color}_MEAN"].values[0]
+        refl_c = obs[f"{color}_MEAN"]
         refl.append(np.power(10, -0.4 * (refl_c)))
-        re = np.abs(refl_c) * np.abs(
-            0.4 * np.log(10) * obs[f"{color}_STD_DEV"].values[0]
-        )
+        re = np.abs(refl_c) * np.abs(0.4 * np.log(10) * obs[f"{color}_STD_DEV"])
         refl_err.append(re)
 
     refl.append(1)  # v-filter
@@ -105,11 +84,9 @@ def _compute_reflectance_from_colors(obs):
         "V_P",
         "V_Z",
     ]:
-        refl_c = obs[f"{color}_MEAN"].values[0]
+        refl_c = obs[f"{color}_MEAN"]
         refl.append(np.power(10, -0.4 * (-refl_c)))
-        re = np.abs(refl_c) * np.abs(
-            0.4 * np.log(10) * obs[f"{color}_STD_DEV"].values[0]
-        )
+        re = np.abs(refl_c) * np.abs(0.4 * np.log(10) * obs[f"{color}_STD_DEV"])
         refl_err.append(re)
 
     refl = np.array(refl)
@@ -125,7 +102,7 @@ def _add_flags(obs):
         if color == "V_V":
             flag_value = 0
         else:
-            flag_value = int(obs[f"flag_{color}"].values[0])
+            flag_value = int(obs[f"flag_{color}"])
         flags.append(flag_value)
 
     flags = np.array(flags)

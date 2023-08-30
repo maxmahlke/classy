@@ -31,7 +31,7 @@ def _load_data(idx):
     return data, {}
 
 
-def _create_index(PATH_REPO):
+def _build_index(PATH_REPO):
     """Create index of spectra collection."""
 
     index = pd.DataFrame()
@@ -61,7 +61,7 @@ def _create_index(PATH_REPO):
                     "date_obs": date_obs,
                     "shortbib": shortbib,
                     "bibcode": bibcode,
-                    "filename": str(file_).split("/classy/")[1],
+                    "filename": file_.relative_to(config.PATH_CACHE),
                     "source": "Misc",
                     "host": "PDS",
                     "module": "lebofsky_three_micron",

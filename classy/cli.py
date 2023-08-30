@@ -142,20 +142,42 @@ def status():
     decision = prompt.Prompt.ask(
         "Choose one of these actions:\n"
         "[blue][0][/blue] Do nothing "
-        "[blue][1][/blue] Clear the cache "
-        "[blue][2][/blue] Retrieve all spectra",
+        "[blue][1][/blue] Manage the cache "
+        "[blue][2][/blue] Retrieve all public spectra",
         choices=["0", "1", "2"],
         show_choices=False,
         default="0",
     )
 
     if decision == "1":
+        # Dache management diaglog
         decision = prompt.Prompt.ask(
-            "\nThis will delete the cache directory and all its contents,\n"
-            "[bold]including the preprocessing- and feature parameters[/bold]. Are you sure?",
-            choices=["y", "n"],
-            show_choices=True,
+            "\nChoose one of these actions:\n"
+            "[blue][0][/blue] Do nothing "
+            "[blue][1][/blue] Rebuild the index "
+            # "[blue][2][/blue] Add phase angles "
+            "[blue][2][/blue] Clear the cache",
+            choices=["0", "1", "2", "3"],
+            show_choices=False,
+            default="0",
         )
+
+        if decision == "1":
+            rich.print()
+            rocks.set_log_level("CRITICAL")
+            classy.set_log_level("CRITICAL")
+            sources._build_index()
+
+        # if decision == "2":
+        #     index.add_phase_angles()
+
+        if decision == "2":
+            decision = prompt.Prompt.ask(
+                "\nThis will delete the cache directory and all its contents,\n"
+                "[bold]including the preprocessing- and feature parameters[/bold]. Are you sure?",
+                choices=["y", "n"],
+                show_choices=True,
+            )
 
         if decision in ["y"]:
             cache.remove()
@@ -165,6 +187,7 @@ def status():
         rocks.set_log_level("CRITICAL")
         classy.set_log_level("CRITICAL")
         sources._retrieve_spectra()
+        sources._build_index()
 
 
 # @cli_classy.command()
