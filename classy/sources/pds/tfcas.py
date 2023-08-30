@@ -173,5 +173,6 @@ def _load_tfcas(PATH):
     )
     data = data.replace(-9.99, np.nan)
     data = data.replace(9.99, np.nan)
+    data = data.replace("9999-99-99", np.nan)
 
     return data
