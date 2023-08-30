@@ -111,6 +111,10 @@ class InteractiveFeatureFit(QtWidgets.QMainWindow):
         self.select_present = QtWidgets.QComboBox()
         for feat in ["", "Yes", "No"]:
             self.select_present.addItem(feat)
+        if hasattr(self.feat, "_present_decision"):
+            self.select_present.setCurrentIndex(
+                self.select_present.findText(self.feat._present_decision)
+            )
 
         if self.feat.is_present == "Yes":
             self.select_present.setCurrentIndex(1)
@@ -452,13 +456,12 @@ class InteractiveSmoothing(QtWidgets.QMainWindow):
             setattr(self, key, value)
 
         # Load smoothing index
-        smoothing = classy.index.load_smoothing()
-        id_ = self.spec.filename
+        if self.spec.has_smoothing_parameters:
+            smoothing = self.spec.load_smoothing_parameters()
 
-        # Override default parameter values with saved ones
-        if id_ in smoothing.index.values:
+            # Override default parameter values with saved ones
             for param in PARAMS_SMOOTH.keys():
-                setattr(self, param, smoothing.loc[id_, param])
+                setattr(self, param, smoothing[param])
 
             logger.debug("Read smoothing parameters from index file.")
 
@@ -506,8 +509,6 @@ class InteractiveSmoothing(QtWidgets.QMainWindow):
         )
 
         radio_savgol = QtWidgets.QRadioButton("Savitzky-Golay")
-        radio_savgol.setChecked(True)
-        radio_savgol.toggled.connect(self._update_smoothing)
 
         self.input_savgol_deg = pg.SpinBox(
             value=self.deg_savgol, step=1, bounds=[0, None]
@@ -530,7 +531,13 @@ class InteractiveSmoothing(QtWidgets.QMainWindow):
 
         # Smoothing - Spline
         self.radio_spline = QtWidgets.QRadioButton("UnivariateSpline")
-        self.radio_spline.setChecked(False)
+
+        if self.method == "spline":
+            self.radio_spline.setChecked(True)
+        else:
+            radio_savgol.setChecked(True)
+
+        radio_savgol.toggled.connect(self._update_smoothing)
         self.radio_spline.toggled.connect(self._update_smoothing)
 
         self.input_spline_deg = pg.SpinBox(value=self.deg_spline, step=1, bounds=[1, 5])
