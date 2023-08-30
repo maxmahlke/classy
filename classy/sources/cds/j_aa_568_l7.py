@@ -3,6 +3,7 @@ from pathlib import Path
 import pandas as pd
 import rocks
 
+from classy import config
 from classy import index
 
 SHORTBIB, BIBCODE = "Marsset+ 2014", "2014AA...568L...7M"
@@ -43,7 +44,7 @@ def _build_index(PATH_REPO):
                 "date_obs": date_obs,
                 "shortbib": SHORTBIB,
                 "bibcode": BIBCODE,
-                "filename": str(PATH_REPO / filename).split("/classy/")[1],
+                "filename": (PATH_REPO / filename).relative_to(config.PATH_CACHE),
                 "source": "Misc",
                 "host": "CDS",
                 "module": "J_AA_568_L7",
@@ -71,7 +72,7 @@ def _build_index(PATH_REPO):
                 "date_obs": date_obs,
                 "shortbib": SHORTBIB,
                 "bibcode": BIBCODE,
-                "filename": str(PATH_REPO / filename).split("/classy/")[1],
+                "filename": (PATH_REPO / filename).relative_to(config.PATH_CACHE),
                 "source": "Misc",
                 "host": "CDS",
                 "module": "J_AA_568_L7",

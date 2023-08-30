@@ -1,3 +1,6 @@
+# 0.7 -
+- Make paths in classy index Windows-compatible
+
 # 0.6.4 - 2023-08-17
 - Add missing pyqtgraph dependency
 

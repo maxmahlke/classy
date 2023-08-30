@@ -2,6 +2,7 @@ import pandas as pd
 import rocks
 
 from classy import index
+from classy import config
 from classy.sources import pds
 
 REFERENCES = {
@@ -53,7 +54,7 @@ def _build_index(PATH_REPO):
                     "date_obs": date_obs,
                     "shortbib": shortbib,
                     "bibcode": bibcode,
-                    "filename": str(file_).split("/classy/")[1],
+                    "filename": file_.relative_to(config.PATH_CACHE),
                     "source": "Misc",
                     "host": "PDS",
                     "module": "irtf",

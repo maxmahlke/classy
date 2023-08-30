@@ -95,7 +95,7 @@ def _build_index(PATH_REPO):
 
     # Split the observations into one file per spectrum
     entries["filename"] = entries["number"].apply(
-        lambda number: PATH_REPO / f"data/{number}.csv"
+        lambda number: PATH_REPO.relative_to(config.PATH_CACHE) / f"data/{number}.csv"
     )
 
     _create_spectra_files(entries)
@@ -113,7 +113,7 @@ def _create_spectra_files(entries):
 
         # Convert color indices to reflectance
         data = pd.DataFrame(data={"wave": WAVE, "refl": refl, "refl_err": refl_err})
-        data.to_csv(row.filename, index=False)
+        data.to_csv(config.PATH_CACHE / row.filename, index=False)
 
 
 def _load_ftcas(PATH_REPO):

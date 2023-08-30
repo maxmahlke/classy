@@ -1,6 +1,7 @@
 import pandas as pd
 import rocks
 
+from classy import config
 from classy import index
 from classy.sources import pds
 

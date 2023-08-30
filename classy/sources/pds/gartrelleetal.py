@@ -3,6 +3,7 @@ from pathlib import Path
 import pandas as pd
 import rocks
 
+from classy import config
 from classy import index
 from classy.sources import pds
 
@@ -39,7 +40,7 @@ def _build_index(PATH_REPO):
                 "date_obs": date_obs,
                 "shortbib": SHORTBIB,
                 "bibcode": BIBCODE,
-                "filename": str(file_).split("/classy/")[1],
+                "filename": file_.relative_to(config.PATH_CACHE),
                 "source": "Misc",
                 "host": "PDS",
                 "module": "gartrelleetal",
