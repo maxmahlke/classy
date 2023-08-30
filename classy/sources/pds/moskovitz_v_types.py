@@ -64,4 +64,13 @@ def _build_index(PATH_REPO):
 
             entries.append(entry)
     entries = pd.concat(entries)
+
     index.add(entries)
+
+
+def _transform_data(_, data):
+    data["wave"] /= 10000
+
+    # No metadata to record
+    meta = {}
+    return data, meta
