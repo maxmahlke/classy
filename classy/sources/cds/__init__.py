@@ -1,12 +1,12 @@
-from . import j_aa_568_l7
+from . import j_aa_568_l7, j_aa_627_a124
 
 from classy import config
-from classy import core
 from classy import sources
 from classy import tools
 
 REPOSITORIES = {
-    "J_AA_568_L7": "http://cdsarc.u-strasbg.fr/viz-bin/nph-Cat/tar.gz?J/A+A/568/L7"
+    "J_AA_568_L7": "http://cdsarc.u-strasbg.fr/viz-bin/nph-Cat/tar.gz?J/A+A/568/L7",
+    "J_AA_627_A124": "http://cdsarc.u-strasbg.fr/viz-bin/nph-Cat/tar.gz?J/A+A/627/A124",
 }
 
 
