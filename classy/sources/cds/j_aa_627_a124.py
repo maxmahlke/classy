@@ -37,7 +37,7 @@ def _build_index(PATH_REPO):
                 "filename": (PATH_REPO / f"spec/{row.file}").relative_to(
                     config.PATH_CACHE
                 ),
-                "source": "Misc",
+                "source": "CDS",
                 "host": "CDS",
                 "module": "J_AA_627_A124",
             },

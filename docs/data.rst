@@ -20,15 +20,15 @@ command.
 
   Contents of /home/max/.cache/classy:
 
-      68280 asteroid reflectance spectra from 14 sources
+      68356 asteroid reflectance spectra from 14 sources
 
-      24CAS      286    52CAS      146    AKARI       64    CDS         17
+      24CAS      286    52CAS      146    AKARI       64    CDS         93
       ECAS       589    Gaia     60518    M4AST      123    MITHNEOS  1905
       Misc       902    PDS         91    PRIMASS    437    S3OS2      820
       SCAS       126    SMASS     2256
 
   Choose one of these actions:
-  [0] Do nothing [1] Clear the cache [2] Retrieve all spectra (0): 2
+  [0] Do nothing [1] Manage the cache [2] Retrieve all spectra (0): 2
 
 .. admonition:: Available Public Data
    :class: important
