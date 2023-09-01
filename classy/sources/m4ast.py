@@ -31,7 +31,11 @@ REFERENCES = {
 
 PATH = config.PATH_CACHE / "m4ast/"
 
-DATA_KWARGS = {"names": ["wave", "refl"], "delimiter": r"\s+", "skiprows": 9}
+DATA_KWARGS = {
+    "names": ["wave", "refl", "refl_err"],
+    "delimiter": r"\s+",
+    "skiprows": 9,
+}
 
 
 # ------
