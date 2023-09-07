@@ -56,6 +56,7 @@ def _create_index(PATH_REPO):
                     "shortbib": SHORTBIB,
                     "bibcode": BIBCODE,
                     "filename": str(file_).split("/classy/")[1],
+                    "module": "s3os2",
                     "source": "S3OS2",
                     "host": "PDS",
                     "collection": "s3os2",
