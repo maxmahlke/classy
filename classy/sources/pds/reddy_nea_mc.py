@@ -60,6 +60,7 @@ def _create_index(PATH_REPO):
                     "shortbib": shortbib,
                     "bibcode": bibcode,
                     "filename": str(file_).split("/classy/")[1],
+                    "module": "reddy_nea_mc",
                     "source": "Misc",
                     "host": "pds",
                     "collection": "reddy_nea_mc",

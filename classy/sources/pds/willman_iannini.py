@@ -59,6 +59,7 @@ def _create_index(PATH_REPO):
                     "SHORTBIB": SHORTBIB,
                     "bibcode": BIBCODE,
                     "filename": str(file_).split("/classy/")[1],
+                    "module": "willman_iannini",
                     "source": "Misc",
                     "host": "PDS",
                     "collection": "willman_iannini",

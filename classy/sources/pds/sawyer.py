@@ -53,6 +53,7 @@ def _create_index(PATH_REPO):
                     "shortbib": shortbib,
                     "bibcode": bibcode,
                     "filename": str(file_).split("/classy/")[1],
+                    "module": "sawyer",
                     "source": "Misc",
                     "host": "pds",
                     "collection": "sawyer",
