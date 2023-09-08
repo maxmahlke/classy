@@ -6,7 +6,9 @@ import classy
 from classy.log import logger
 
 import pyqtgraph as pg
-from pyqtgraph.Qt import QtCore, QtWidgets
+
+# from pyqtgraph.Qt import QtCore, QtWidgets
+from pyqtgraph.Qt import QtWidgets, QtGui
 
 
 class InteractiveFeatureFit(QtWidgets.QMainWindow):
@@ -78,7 +80,7 @@ class InteractiveFeatureFit(QtWidgets.QMainWindow):
         # row, col, row_span, col_span
         addW = self.layout.addWidget
         addL = self.layout.addLayout
-        right = QtCore.Qt.AlignRight
+        # right = QtCore.Qt.AlignRight
 
         label_id = QtWidgets.QLabel(
             f"({self.feat.spec.number}) {self.feat.spec.name} - {self.feat.spec.filename}"
@@ -124,8 +126,10 @@ class InteractiveFeatureFit(QtWidgets.QMainWindow):
         present.addWidget(label_present)
         present.addWidget(self.select_present)
 
-        addL(feature, 6, 0, right)
-        addL(present, 6, 1, right)
+        # addL(feature, 6, 0, right)
+        # addL(present, 6, 1, right)
+        addL(feature, 6, 0)
+        addL(present, 6, 1)
 
         # Polynomial degree and continuum selection
         label_poly = QtWidgets.QLabel("Polynomial")
@@ -148,10 +152,14 @@ class InteractiveFeatureFit(QtWidgets.QMainWindow):
         radio_hull = QtWidgets.QRadioButton("Convex Hull")
         radio_hull.toggled.connect(self._change_continuum_type)
 
-        addW(label_cont, 6, 5, right)
-        addW(radio_linear, 6, 6, right)
-        addW(radio_hull, 6, 7, right)
-        addW(label_poly, 7, 5, right)
+        # addW(label_cont, 6, 5, right)
+        # addW(radio_linear, 6, 6, right)
+        # addW(radio_hull, 6, 7, right)
+        # addW(label_poly, 7, 5, right)
+        addW(label_cont, 6, 5)
+        addW(radio_linear, 6, 6)
+        addW(radio_hull, 6, 7)
+        addW(label_poly, 7, 5)
         addL(degree_poly, 7, 6)
 
         for i in range(1, 5):
@@ -303,6 +311,10 @@ class InteractiveFeatureFit(QtWidgets.QMainWindow):
             self.plot_noise_lower = self.plot_feat.plot(data_lower[0], data_lower[1])
 
     def keyPressEvent(self, event):
+        if event.key() == 67:  # c
+            self.close()
+        if event.key() == 83:  # s
+            self._store_feature()
         if event.key() == 77:  # m
             self.select_present.setCurrentIndex(0)
         if event.key() == 78:  # n
@@ -563,7 +575,7 @@ class InteractiveSmoothing(QtWidgets.QMainWindow):
         # row, col, row_span, col_span
         addW = self.layout.addWidget
         addL = self.layout.addLayout
-        right = QtCore.Qt.AlignRight
+        # right = QtCore.Qt.AlignRight
 
         addW(label_id, 0, 0, 1, 4)
         addW(self.notify, 0, 2)
@@ -571,7 +583,8 @@ class InteractiveSmoothing(QtWidgets.QMainWindow):
         addW(button_close, 7, 1)
         addW(button_exit, 7, 2)
         addW(self.plot_spec, 1, 0, 4, 8)
-        addW(self.check_smooth, 6, 0, right)
+        # addW(self.check_smooth, 6, 0, right)
+        addW(self.check_smooth, 6, 0)
         addW(radio_savgol, 6, 5)
         addL(degree_savgol, 6, 6)
         addL(window_savgol, 6, 7)
@@ -699,6 +712,13 @@ class InteractiveSmoothing(QtWidgets.QMainWindow):
         if ret == qm.Yes:
             sys.exit()
 
+    def keyPressEvent(self, event):
+        print(event.key())
+        if event.key() == 67:  # c
+            self.close()
+        if event.key() == 83:  # s
+            self._store_smoothing()
+
 
 def main(feature):
     qapp = QtWidgets.QApplication(sys.argv)
@@ -709,8 +729,22 @@ def main(feature):
 
 
 def smooth(spec):
+    # global app
+    # app = QtGui.QGuiApplication.instance()
+    # if app is None:
+    #     app = QtGui.QGuiApplication(sys.argv)
+    # # foo = Foo(sys.argv)
+    # fioo = InteractiveSmoothing(spec)
+    # fioo.show()
+    # app.exit(app.exec_())
+    #
     qapp = QtWidgets.QApplication(sys.argv)
     app = InteractiveSmoothing(spec)
     app.show()
+    # print(1)
+    #
+    # # print(2)
     qapp.exec_()
     qapp.quit()
+    qapp.exit()
+    # app.close()

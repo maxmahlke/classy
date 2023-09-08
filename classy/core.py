@@ -118,25 +118,25 @@ class Spectrum:
         self.reset_data()
         self.is_smoothed = False
 
-    # @property
-    # def has_smoothing_parameters(self):
-    #     # We need at least a filename to store the parameters
-    #     if not hasattr(self, "filename"):
-    #         return False
-    #
-    #     smoothing = index.load_smoothing()
-    #
-    #     if self.filename in smoothing.index.values:
-    #         return True
-    #     return False
-    #
-    # def load_smoothing_parameters(self):
-    #     smoothing = index.load_smoothing()
-    #     return smoothing.loc[self.filename].to_dict()
-    #
-    # def smooth_interactive(self):
-    #     preprocessing.smooth_interactive(self)
-    #     self.is_smoothed = True
+    @property
+    def has_smoothing_parameters(self):
+        # We need at least a filename to store the parameters
+        if not hasattr(self, "filename"):
+            return False
+
+        smoothing = index.load_smoothing()
+
+        if self.filename in smoothing.index.values:
+            return True
+        return False
+
+    def load_smoothing_parameters(self):
+        smoothing = index.load_smoothing()
+        return smoothing.loc[self.filename].to_dict()
+
+    def smooth_interactive(self):
+        preprocessing.smooth_interactive(self)
+        self.is_smoothed = True
 
     def __len__(self):
         return len(self.wave)
@@ -162,18 +162,18 @@ class Spectrum:
         method : str
             The smoothing method. Choose from ['savgol', 'spline']. Default is 'savgol'.
         """
-        # if not kwargs:
-        #     if not self.has_smoothing_parameters:
-        #         raise ValueError(
-        #             "No smoothing parameters on file. smooth() needs to be called with the smoothing parameters specified."
-        #         )
-        #     smoothing = self.load_smoothing_parameters()
-        #
-        #     for key_gui, key_func in zip(
-        #         ["method", "deg_savgol", "window_savgol", "deg_spline"],
-        #         ["method", "polyorder", "window_length", "k"],
-        #     ):
-        #         kwargs[key_func] = smoothing[key_gui]
+        if not kwargs:
+            if not self.has_smoothing_parameters:
+                raise ValueError(
+                    "No smoothing parameters on file. smooth() needs to be called with the smoothing parameters specified."
+                )
+            smoothing = self.load_smoothing_parameters()
+
+            for key_gui, key_func in zip(
+                ["method", "deg_savgol", "window_savgol", "deg_spline"],
+                ["method", "polyorder", "window_length", "k"],
+            ):
+                kwargs[key_func] = smoothing[key_gui]
         if "method" not in kwargs:
             raise KeyError(
                 "You need to provide the 'method' and relevant smoothing parameters."
