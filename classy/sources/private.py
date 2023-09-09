@@ -1,4 +1,7 @@
 """Module to add private spectra sources to classy."""
+from pathlib import Path
+import shutil
+
 import pandas as pd
 import rocks
 
@@ -30,11 +33,19 @@ def parse_index(PATH_INDEX):
         name = row["name"]
         name, number = rocks.id(name)
 
+        # Copy spectrum to cache
+        filename = Path(row.filename)
+
+        PATH_DEST = config.PATH_CACHE / filename.parent.name / filename.name
+        PATH_DEST.parent.mkdir(exist_ok=True)
+
+        shutil.copy(filename, PATH_DEST)
+
         entry = pd.DataFrame(
             data={
                 "name": name,
                 "number": number,
-                "filename": row.filename,
+                "filename": PATH_DEST.relative_to(config.PATH_CACHE),
             },
             index=[0],
         )
