@@ -1,8 +1,10 @@
 # 0.7 -
-- Spectra added with 'classy add' are copied to the cache
-- Use spectrum filename as unique identifier. Create one file per spectrum for all repositories.
+- Changes to make classy spectral database shareable between computers / users:
+  - classy cache directory path can be set with CLASSY_CACHE_DIR environment variable
+  - Spectra added with 'classy add' are copied to the cache
+  - Use spectrum filename as unique identifier. Create one file per spectrum for all repositories.
+  - Make paths in classy index Windows-compatible
 - Add Popescu+ 2019
-- Make paths in classy index Windows-compatible
 
 # 0.6.5 - 2023-08-18
 - Add missing pyqt5 dependency
