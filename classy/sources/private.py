@@ -7,6 +7,7 @@ import rocks
 
 from classy import config
 from classy import index
+from classy.log import logger
 
 
 def parse_index(PATH_INDEX):
@@ -63,4 +64,4 @@ def parse_index(PATH_INDEX):
     # Add to index
     entries = pd.concat(entries)
     index.add(entries)
-    print(f"Added {len(entries)} spectra to the classy index.")
+    logger.info(f"Added {len(entries)} spectra to the classy index.")

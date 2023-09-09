@@ -1,4 +1,6 @@
 # 0.7 -
+- Spectra added with 'classy add' are copied to the cache
+- Use spectrum filename as unique identifier. Create one file per spectrum for all repositories.
 - Add Popescu+ 2019
 - Make paths in classy index Windows-compatible
 
