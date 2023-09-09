@@ -2,7 +2,6 @@
 import asyncio
 import aiohttp
 from datetime import datetime
-import io
 import functools
 import sys
 
@@ -10,7 +9,6 @@ import numpy as np
 import pandas as pd
 
 from classy import config
-from classy import cache
 from classy.log import logger
 from classy import sources
 
@@ -105,6 +103,15 @@ def add(entries):
     index = index.set_index("filename")
 
     save(index)
+
+
+def build():
+    """Retrieve all public spectra that classy knows about."""
+    from rich import console
+
+    with console.Console().status("Indexing spectra...", spinner="dots8Bit"):
+        for module in ["pds", "cds", "m4ast", "akari", "smass", "mithneos", "gaia"]:
+            getattr(sources, module)._build_index()
 
 
 # ------

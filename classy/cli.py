@@ -14,7 +14,6 @@ from classy.log import logger
 import classy.preprocessing
 from classy import taxonomies
 from classy import sources
-from classy import progress
 
 
 @click.group()
@@ -166,7 +165,7 @@ def status():
             rich.print()
             rocks.set_log_level("CRITICAL")
             classy.set_log_level("CRITICAL")
-            sources._build_index()
+            index.build()
 
         # if decision == "2":
         #     index.add_phase_angles()
@@ -187,7 +186,7 @@ def status():
         rocks.set_log_level("CRITICAL")
         classy.set_log_level("CRITICAL")
         sources._retrieve_spectra()
-        sources._build_index()
+        index.build()
 
 
 # @cli_classy.command()

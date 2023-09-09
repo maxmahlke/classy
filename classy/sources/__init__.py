@@ -30,15 +30,6 @@ def _retrieve_spectra():
         module._retrieve_spectra()
 
 
-def _build_index():
-    """Retrieve all public spectra that classy knows about."""
-    from rich import console
-
-    with console.Console().status("Indexing spectra...", spinner="dots8Bit"):
-        for module in [pds, cds, m4ast, akari, smass, mithneos, gaia]:
-            module._build_index()
-
-
 def load_data(idx):
     """Load data and metadata of a cached spectrum.
 
