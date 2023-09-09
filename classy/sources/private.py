@@ -22,6 +22,9 @@ def parse_index(PATH_INDEX):
     # Read index
     ind = pd.read_csv(PATH_INDEX)
 
+    if ind.empty:
+        raise ValueError("The passed index file is empty.")
+
     # Check for necessary and optional columns
     for col in ["name", "filename"]:
         if col not in ind.columns:
@@ -46,7 +49,7 @@ def parse_index(PATH_INDEX):
             data={
                 "name": name,
                 "number": number,
-                "filename": PATH_DEST.relative_to(config.PATH_CACHE),
+                "filename": str(PATH_DEST.relative_to(config.PATH_CACHE)),
             },
             index=[0],
         )
@@ -64,4 +67,4 @@ def parse_index(PATH_INDEX):
     # Add to index
     entries = pd.concat(entries)
     index.add(entries)
-    logger.info(f"Added {len(entries)} spectra to the classy index.")
+    logger.info(f"Added {len(entries)} spectra to the classy cache: {PATH_DEST.parent}")
