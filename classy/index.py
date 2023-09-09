@@ -12,11 +12,6 @@ from classy import config
 from classy.log import logger
 from classy import sources
 
-# Path to the global spectra index
-PATH = config.PATH_CACHE / "index.csv"
-PATH_FEATURES = config.PATH_CACHE / "features.csv"
-PATH_SMOOTHING = config.PATH_CACHE / "smoothing.csv"
-
 COLUMNS = [
     "name",
     "number",
@@ -43,8 +38,8 @@ def load():
     pd.DataFrame
         The global spectra index. Empty if index does not exist yet.
     """
-    if not PATH.is_file():
-        if "status" not in sys.argv:
+    if not (config.PATH_CACHE / "index.csv").is_file():
+        if "status" not in sys.argv and "add" not in sys.argv:
             logger.error(
                 "No spectra available. Run '$ classy status' to retrieve them."
             )
@@ -53,7 +48,10 @@ def load():
         )
 
     index = pd.read_csv(
-        PATH, dtype={"number": "Int64"}, low_memory=False, index_col="filename"
+        config.PATH_CACHE / "index.csv",
+        dtype={"number": "Int64"},
+        low_memory=False,
+        index_col="filename",
     )
     return index
 
@@ -64,7 +62,7 @@ def save(index):
     with np.errstate(invalid="ignore"):
         index["number"] = index["number"].astype("Int64")
         index["N"] = index["N"].astype(int)
-    index.to_csv(PATH, index=True, index_label="filename")
+    index.to_csv(config.PATH_CACHE / "index.csv", index=True, index_label="filename")
 
 
 def add(entries):
@@ -355,10 +353,10 @@ def convert_to_isot(dates):
 
 def load_smoothing():
     """Load the feature index."""
-    if not PATH_SMOOTHING.is_file():
+    if not (config.PATH_CACHE / "smoothing.csv").is_file():
         return pd.DataFrame()
     return pd.read_csv(
-        PATH_SMOOTHING,
+        config.PATH_CACHE / "smoothing.csv",
         index_col="filename",
         dtype={
             "deg_savgol": int,
@@ -372,22 +370,26 @@ def store_smoothing(smoothing):
     """Store the feature index after copying metadata from the spectra index."""
     with np.errstate(invalid="ignore"):
         smoothing["number"] = smoothing["number"].astype("Int64")
-    smoothing.to_csv(PATH_SMOOTHING, index=True, index_label="filename")
+    smoothing.to_csv(
+        config.PATH_CACHE / "smoothing.csv", index=True, index_label="filename"
+    )
 
 
 def store_features(features):
     """Store the feature index after copying metadata from the spectra index."""
     with np.errstate(invalid="ignore"):
         features["number"] = features["number"].astype("Int64")
-    features.to_csv(PATH_FEATURES, index=True)
+    features.to_csv(config.PATH_CACHE / "features.csv", index=True)
 
 
 def load_features():
     """Load the feature index."""
-    if not PATH_FEATURES.is_file():
+    if not (config.PATH_CACHE / "features.csv").is_file():
         # Creating indices
         ind = pd.MultiIndex(
             levels=[[], []], codes=[[], []], names=["filename", "feature"]
         )
         return pd.DataFrame(index=ind)
-    return pd.read_csv(PATH_FEATURES, index_col=["filename", "feature"])
+    return pd.read_csv(
+        config.PATH_CACHE / "features.csv", index_col=["filename", "feature"]
+    )
