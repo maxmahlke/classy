@@ -6,8 +6,6 @@ import rocks
 from classy import config
 from classy import cache
 from classy import index
-from classy.log import logger
-from classy import config
 from classy import tools
 
 # ------
@@ -58,8 +56,6 @@ def _retrieve_spectra():
     # Create directory structure and check if the spectrum is already cached
     PATH.mkdir(parents=True, exist_ok=True)
 
-    logger.info("Retrieving all SMASS reflectance spectra to cache...")
-
     for file_, _, _, _ in ARCH_DIR_REF_BIB:
         url_archive = f"{URL}/{file_}.tar.gz"
         tools.download_archive(url_archive, PATH / f"{file_}.tar.gz", encoding="tar.gz")
@@ -67,8 +63,8 @@ def _retrieve_spectra():
 
 def _build_index():
     # Add to global spectra index.
+    rocks.set_log_level("CRITICAL")
     entries = []
-    logger.info("Indexing SMASS spectra...")
 
     log = cache.load_cat(host="smass", which="obslog")
 
@@ -130,7 +126,6 @@ def _build_index():
 
     entries = pd.concat(entries)
     index.add(entries)
-    logger.info(f"Added {len(entries)} SMASS spectra to the classy index.")
 
 
 def _transform_data(idx, data):

@@ -11,7 +11,7 @@ SHORTBIB, BIBCODE = "Usui+ 2019", "2019PASJ...71....1U"
 PATH = config.PATH_CACHE / "akari"
 
 DATA_KWARGS = {
-    "delimiter": "\s+",
+    "delimiter": r"\s+",
     "names": [
         "wave",
         "refl",
@@ -44,7 +44,7 @@ def _build_index():
     # Create index based on target file
     entries = pd.read_csv(
         PATH / "AcuA_1.0/target.txt",
-        delimiter="\s+",
+        delimiter=r"\s+",
         names=["number", "name", "obs_id", "date", "ra", "dec"],
         dtype={"number": int},
     )

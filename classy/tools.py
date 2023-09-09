@@ -74,6 +74,8 @@ def download_archive(
         # TODO: Specify the task name at the source-module level
         if desc == "J_AA_568_L7.tar.gz":
             desc = "J/A&A/568/L7"
+        elif desc == "J_AA_627_A124.tar.gz":
+            desc = "J/A&A/627/A124"
         task = prog.add_task("download", desc=desc, start=False)
         success = copy_url(task, URL, PATH_ARCHIVE, prog)
 
@@ -121,7 +123,11 @@ def copy_url(task, url, path, prog):
     if "Content-length" in response.info():
         content_length = int(response.info()["Content-length"])
     else:
-        content_length = 851695
+        # CDS does not send content lengthj
+        if "568" in url:
+            content_length = 851695
+        elif "627" in url:
+            content_length = 117451
 
     prog.update(task, total=content_length)
 

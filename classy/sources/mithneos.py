@@ -73,7 +73,7 @@ POLISHOOK_DATES = {
 
 DATA_KWARGS = {
     "names": ["wave", "refl", "err", "flag"],
-    "delimiter": "\s+",
+    "delimiter": r"\s+",
     "comment": "#",
 }
 

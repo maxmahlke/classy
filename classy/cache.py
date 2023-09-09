@@ -48,7 +48,7 @@ def echo_inventory():
     sources_ = list(idx.source.unique())
 
     all_public = idx[idx.host == "Private"].empty
-    legend = "([bold]public[/bold]|[dim]private[/dim])" if not all_public else ""
+    legend = "[[bold]public[/bold]|[dim]private[/dim]]" if not all_public else ""
 
     rich.print(
         f"""\nContents of {config.PATH_CACHE}:
