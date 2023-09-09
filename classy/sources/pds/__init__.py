@@ -22,11 +22,8 @@ from . import (
 
 import xml.etree.ElementTree as ET
 
-import numpy as np
-import pandas as pd
 
 from classy import config
-from classy import core
 from classy import sources
 from classy import tools
 
@@ -68,10 +65,7 @@ def _retrieve_spectra():
         PATH_ARCHIVE = PATH_PDS / URL.split("/")[-1]
 
         # Download repository
-        success = tools.download_archive(URL, PATH_ARCHIVE, encoding="zip")
-
-        if not success:
-            continue
+        tools.download_archive(URL, PATH_ARCHIVE, encoding="zip")
 
 
 def _build_index():
