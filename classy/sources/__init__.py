@@ -7,8 +7,6 @@ from classy import sources
 
 from . import akari, cds, gaia, m4ast, mithneos, pds, private, smass
 
-# from .pds import ecas, primass, s3os2
-
 SOURCES = [
     "24CAS",
     "52CAS",
@@ -34,10 +32,11 @@ def _retrieve_spectra():
 
 def _build_index():
     """Retrieve all public spectra that classy knows about."""
+    from rich import console
 
-    # TODO: Add a progress indicator to this step
-    for module in [pds, cds, m4ast, akari, smass, mithneos, gaia]:
-        module._build_index()
+    with console.Console().status("Indexing spectra...", spinner="dots8Bit"):
+        for module in [pds, cds, m4ast, akari, smass, mithneos, gaia]:
+            module._build_index()
 
 
 def load_data(idx):
