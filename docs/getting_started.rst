@@ -68,9 +68,8 @@ systems:
    :class: important
 
    The ``classy`` data directory can be shared between different devices
-   and users, as long as all involved systems are either UNIX based (Linux, MacOS)
-   or Windows systems. If you would like to share data between Windows and UNIX
-   computers, let me know.
+   and users. The filepaths of the spectra are stored relative to the data directory
+   location.
 
 
 You can change the location by setting the
@@ -97,7 +96,7 @@ Adding Data
 -----------
 
 ``classy`` revolves around reflectance spectra. All spectra that you add to
-``classy`` are cataloged in an index file. This index is the used to select,
+``classy`` are cataloged in an index file. This index is used to select,
 filter, and find reflectance spectra in the data directory.
 
 To get started, you can retrieve all `public asteroid spectra <public_data>`_
