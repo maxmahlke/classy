@@ -1,4 +1,4 @@
-# 0.7 -
+# 0.7 - 2023-09-11
 - Changes to make classy spectral database shareable between computers / users:
   - classy cache directory path can be set with CLASSY_CACHE_DIR environment variable
   - Spectra added with 'classy add' are copied to the cache
