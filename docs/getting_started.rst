@@ -68,7 +68,9 @@ systems:
    :class: important
 
    The ``classy`` data directory can be shared between different devices
-   and users. All information is stored in a system-agnostic way.
+   and users, as long as all involved systems are either UNIX based (Linux, MacOS)
+   or Windows systems. If you would like to share data between Windows and UNIX
+   computers, let me know.
 
 
 You can change the location by setting the
