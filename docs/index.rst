@@ -12,6 +12,7 @@
 
 .. role:: gray
 
+.. TODO: Update the general description once feature complete
 
 A ``python`` tool to classify asteroid reflectance spectra in the framework of the
 asteroid taxonomy presented in `Mahlke, Carry, and Mattei 2022
