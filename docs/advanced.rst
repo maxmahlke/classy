@@ -40,5 +40,3 @@ Interactive Smoothing and Feature-Fitting
 .. TODO: Write this description
 
 [TBD]
-
-.. [#f1] Even better: you can make the data publicly available and `let me know about it <https://www.ias.universite-paris-saclay.fr/annuaire?nom=mahlke>`_ - I will add it to ``classy``.

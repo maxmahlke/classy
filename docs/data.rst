@@ -1,4 +1,4 @@
-.. _available_data:
+.. _public_data:
 
 Public Data
 ===========

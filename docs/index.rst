@@ -46,7 +46,7 @@ public repositories.\ [#f1]_
 
 
     .. grid-item-card::
-      :link: available_data
+      :link: public_data
       :link-type: ref
 
       Automatic ingestion of relevant metadata such as flags and bibliographic
@@ -83,7 +83,7 @@ public repositories.\ [#f1]_
       Automatic retrieval of albedo and phase angle.
 
     .. grid-item-card::
-      :link: available_data
+      :link: public_data
       :link-type: ref
 
       Preprocess a spectrum once and then never again.
@@ -106,10 +106,12 @@ public repositories.\ [#f1]_
    :hidden:
 
    Home<self>
-   Install<getting_started>
+   Getting Started<getting_started>
    Basic Usage<core>
-   Advanced Usage<advanced>
    Public Data<data>
+   Private Data<private>
    Taxonomies<taxonomies>
    Tutorials<tutorial>
 .. glossary
+
+.. Advanced Usage<advanced>

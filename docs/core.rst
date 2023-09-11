@@ -24,7 +24,7 @@ Loading Data
 
 The ``Spectrum`` class stores the data and metadata of the spectra. You can build a spectrum in
 two ways: from your own data or by retrieving data from :ref:`public
-repositories<available_data>`. Each ``Spectrum`` can contain any metadata you
+repositories<public_data>`. Each ``Spectrum`` can contain any metadata you
 require.
 
 .. tab-set::
@@ -121,7 +121,7 @@ require.
       SMASS Burbine and Binzel 2002 0.902 1.644
       ECAS Zellner+ 1985 0.337 1.041
 
-    The defined attributes for each public repository are described in the :ref:`Public Data <available_data>` section.
+    The defined attributes for each public repository are described in the :ref:`Public Data <public_data>` section.
     You can select one or more specific repositories using the ``source`` argument.
 
     .. code-block:: python
