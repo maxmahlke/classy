@@ -3,8 +3,6 @@
 import shutil
 
 import pandas as pd
-
-# import percache
 import requests
 import rich
 
@@ -13,12 +11,10 @@ from classy import index
 from classy import sources
 from classy import tools
 
-# cache = percache.Cache(str(config.PATH_CACHE / "cache"))
-
 
 def load_mahlke_index():
     """Load the index of spectra from Mahlke+ 2022."""
-    PATH_INDEX = config.PATH_CACHE / "mahlke/index.csv"
+    PATH_INDEX = config.PATH_DATA / "mahlke/index.csv"
     return pd.read_csv(PATH_INDEX, dtype={"number": "Int64"})
 
 
@@ -39,7 +35,7 @@ def load_spectra(idx_spectra):
 
 def remove():
     """Remove the cache directory."""
-    shutil.rmtree(config.PATH_CACHE)
+    shutil.rmtree(config.PATH_DATA)
 
 
 def echo_inventory():
@@ -51,7 +47,7 @@ def echo_inventory():
     legend = "[[bold]public[/bold]|[dim]private[/dim]]" if not all_public else ""
 
     rich.print(
-        f"""\nContents of {config.PATH_CACHE}:
+        f"""\nContents of {config.PATH_DATA}:
 
     {len(idx)} asteroid reflectance spectra from {len(sources_)} sources {legend}
       """
@@ -124,7 +120,7 @@ def miriade_ephems(name, epochs):
 
 
 def load_cat(host, which):
-    PATH_CAT = config.PATH_CACHE / f"{host}/{which}.csv"
+    PATH_CAT = config.PATH_DATA / f"{host}/{which}.csv"
     if not PATH_CAT.is_file():
         tools._retrieve_from_github(host, which, path=PATH_CAT)
     return pd.read_csv(PATH_CAT)

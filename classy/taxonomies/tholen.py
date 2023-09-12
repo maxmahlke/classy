@@ -71,7 +71,7 @@ def load_classification():
     """
 
     # Launch same ECAS method if data not present
-    PATH_DATA = config.PATH_CACHE / "tholen1984/scores.csv"
+    PATH_DATA = config.PATH_DATA / "tholen1984/scores.csv"
 
     if not PATH_DATA.is_file():
         tools._retrieve_from_github(host="tholen1984", which="scores", path=PATH_DATA)

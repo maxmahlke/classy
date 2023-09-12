@@ -10,7 +10,7 @@ SHORTBIB, BIBCODE = "Galluccio+ 2022", "2022arXiv220612174G"
 
 DATA_KWARGS = {}
 
-PATH = config.PATH_CACHE / "gaia"
+PATH = config.PATH_DATA / "gaia"
 
 
 def _build_index():
@@ -93,7 +93,7 @@ def _retrieve_spectra():
     """Retrieve Gaia DR3 reflectance spectra to cache."""
 
     # Create directory structure
-    PATH_GAIA = config.PATH_CACHE / "gaia"
+    PATH_GAIA = config.PATH_DATA / "gaia"
     PATH_GAIA.mkdir(parents=True, exist_ok=True)
 
     # ------

@@ -29,7 +29,7 @@ REFERENCES = {
     "2007A&A...473L..33N": ["2007A&A...473L..33N", "Nedelcu+ 2007"],
 }
 
-PATH = config.PATH_CACHE / "m4ast/"
+PATH = config.PATH_DATA / "m4ast/"
 
 DATA_KWARGS = {
     "names": ["wave", "refl", "refl_err"],

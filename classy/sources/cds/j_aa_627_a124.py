@@ -33,7 +33,7 @@ def _build_index(PATH_REPO):
                 "shortbib": SHORTBIB,
                 "bibcode": BIBCODE,
                 "filename": (PATH_REPO / f"spec/{row.file}").relative_to(
-                    config.PATH_CACHE
+                    config.PATH_DATA
                 ),
                 "source": "CDS",
                 "host": "CDS",

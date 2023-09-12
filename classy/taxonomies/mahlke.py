@@ -145,7 +145,7 @@ def load_templates():
         Dictionary with classes (str) as key and templates as values (classy.Spectrum).
     """
 
-    PATH_DATA = config.PATH_CACHE / "mahlke2022/templates.csv"
+    PATH_DATA = config.PATH_DATA / "mahlke2022/templates.csv"
 
     if not PATH_DATA.is_file():
         tools._retrieve_from_github(

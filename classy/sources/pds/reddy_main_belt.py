@@ -39,7 +39,7 @@ def _build_index(PATH_REPO):
                     "date_obs": date_obs,
                     "shortbib": SHORTBIB,
                     "bibcode": BIBCODE,
-                    "filename": file_.relative_to(config.PATH_CACHE),
+                    "filename": file_.relative_to(config.PATH_DATA),
                     "source": "Misc",
                     "host": "PDS",
                     "module": "reddy_main_belt",

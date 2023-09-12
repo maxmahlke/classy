@@ -41,7 +41,7 @@ AMBIGUOUS = {
     "a175706-obsB": 175706,
 }
 
-PATH = config.PATH_CACHE / "smass/"
+PATH = config.PATH_DATA / "smass/"
 
 DATA_KWARGS = {"names": ["wave", "refl", "refl_err", "flag"], "delimiter": r"\s+"}
 

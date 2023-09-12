@@ -8,7 +8,7 @@ from classy import tools
 # Module definitions
 SHORTBIB, BIBCODE = "Usui+ 2019", "2019PASJ...71....1U"
 
-PATH = config.PATH_CACHE / "akari"
+PATH = config.PATH_DATA / "akari"
 
 DATA_KWARGS = {
     "delimiter": r"\s+",

@@ -40,7 +40,7 @@ def parse_index(PATH_INDEX):
         # Copy spectrum to cache
         filename = Path(row.filename)
 
-        PATH_DEST = config.PATH_CACHE / filename.parent.name / filename.name
+        PATH_DEST = config.PATH_DATA / filename.parent.name / filename.name
         PATH_DEST.parent.mkdir(exist_ok=True)
 
         shutil.copy(filename, PATH_DEST)
@@ -49,7 +49,7 @@ def parse_index(PATH_INDEX):
             data={
                 "name": name,
                 "number": number,
-                "filename": str(PATH_DEST.relative_to(config.PATH_CACHE)),
+                "filename": str(PATH_DEST.relative_to(config.PATH_DATA)),
             },
             index=[0],
         )

@@ -53,7 +53,7 @@ def load_data(idx):
     module = getattr(host, idx.module.lower())
 
     # Load spectrum data file
-    PATH_DATA = config.PATH_CACHE / idx.name
+    PATH_DATA = config.PATH_DATA / idx.name
 
     if module is not private:
         data = pd.read_csv(PATH_DATA, **module.DATA_KWARGS)

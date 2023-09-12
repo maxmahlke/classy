@@ -41,7 +41,7 @@ def _build_index(PATH_REPO):
                     "source": "Misc",
                     "host": "PDS",
                     "module": "fornasier_m_types",
-                    "filename": file_.relative_to(config.PATH_CACHE),
+                    "filename": file_.relative_to(config.PATH_DATA),
                 },
                 index=[0],
             )

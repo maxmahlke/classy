@@ -26,7 +26,7 @@ def _load_data(idx):
         The data and metadata. List-like attributes are in the dataframe,
         single-value attributes in the dictionary.
     """
-    file_ = config.PATH_CACHE / idx.filename
+    file_ = config.PATH_DATA / idx.filename
     data = pd.read_csv(file_, names=["wave", "refl", "refl_err"], delimiter=r"\s+")
     return data, {}
 
@@ -61,7 +61,7 @@ def _build_index(PATH_REPO):
                     "date_obs": date_obs,
                     "shortbib": shortbib,
                     "bibcode": bibcode,
-                    "filename": file_.relative_to(config.PATH_CACHE),
+                    "filename": file_.relative_to(config.PATH_DATA),
                     "source": "Misc",
                     "host": "PDS",
                     "module": "lebofsky_three_micron",

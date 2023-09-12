@@ -14,7 +14,7 @@ def _retrieve_spectra():
     """Retrieve all PDS spectra to pds/ in the cache directory."""
 
     # Create directory structure and check if the spectrum is already cached
-    PATH_CDS = config.PATH_CACHE / "cds/"
+    PATH_CDS = config.PATH_DATA / "cds/"
 
     for repo, URL in REPOSITORIES.items():
         PATH_ARCHIVE = PATH_CDS / repo
@@ -31,7 +31,7 @@ def _retrieve_spectra():
 
 def _build_index():
     # Create directory structure and check if the spectrum is already cached
-    PATH_CDS = config.PATH_CACHE / "cds/"
+    PATH_CDS = config.PATH_DATA / "cds/"
 
     for repo, _ in REPOSITORIES.items():
         PATH_ARCHIVE = PATH_CDS / repo

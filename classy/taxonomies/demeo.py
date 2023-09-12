@@ -334,7 +334,7 @@ def load_classification():
         The classification results of the 371 SMASS spectra.
     """
 
-    PATH_DATA = config.PATH_CACHE / "demeo2009/scores.csv"
+    PATH_DATA = config.PATH_DATA / "demeo2009/scores.csv"
 
     if not PATH_DATA.is_file():
         tools._retrieve_from_github(host="demeo2009", which="scores", path=PATH_DATA)
@@ -352,7 +352,7 @@ def load_templates():
         Dictionary with classes (str) as key and templates as values (classy.Spectrum).
     """
 
-    PATH_DATA = config.PATH_CACHE / "demeo2009/templates.csv"
+    PATH_DATA = config.PATH_DATA / "demeo2009/templates.csv"
 
     if not PATH_DATA.is_file():
         tools._retrieve_from_github(host="demeo2009", which="templates", path=PATH_DATA)

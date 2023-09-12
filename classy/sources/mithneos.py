@@ -29,7 +29,7 @@ RUNS = (
     + [f"dm{num:>02}" for num in range(1, 20)]
 )
 
-PATH = config.PATH_CACHE / "mithneos/"
+PATH = config.PATH_DATA / "mithneos/"
 
 POLISHOOK_DATES = {
     "101703_IR.txt": "2013-10-03",
