@@ -713,7 +713,6 @@ class InteractiveSmoothing(QtWidgets.QMainWindow):
             sys.exit()
 
     def keyPressEvent(self, event):
-        print(event.key())
         if event.key() == 67:  # c
             self.close()
         if event.key() == 83:  # s
@@ -721,7 +720,7 @@ class InteractiveSmoothing(QtWidgets.QMainWindow):
 
 
 def main(feature):
-    qapp = QtWidgets.QApplication(sys.argv)
+    qapp = pg.mkQApp(name="classy")
     app = InteractiveFeatureFit(feature)
     app.show()
     qapp.exec_()
@@ -738,7 +737,8 @@ def smooth(spec):
     # fioo.show()
     # app.exit(app.exec_())
     #
-    qapp = QtWidgets.QApplication(sys.argv)
+    qapp = pg.mkQApp(name="classy")
+    # qapp = QtWidgets.QApplication(sys.argv)
     app = InteractiveSmoothing(spec)
     app.show()
     # print(1)
@@ -746,5 +746,4 @@ def smooth(spec):
     # # print(2)
     qapp.exec_()
     qapp.quit()
-    qapp.exit()
     # app.close()
