@@ -1,4 +1,5 @@
 Makefile
+pub/
 develop/
 tests/htmlcov
 classy.md
@@ -6,6 +7,11 @@ docs/gfx/make_dark.sh
 docs/_static/logo_classy.png
 tests/htmlcov
 pyrightconfig.json
+
+docs/gfx/classy_core.dot
+docs/gfx/classy_index.dot
+docs/gfx/classy_core.pdf
+docs/gfx/classy_index.pdf
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
