@@ -393,3 +393,64 @@ def load_features():
     return pd.read_csv(
         config.PATH_DATA / "features.csv", index_col=["filename", "feature"]
     )
+
+
+def query(**kwargs):
+    """Query the index for spectra fitting selection criteria.
+
+    Returns
+    -------
+    pd.DataFrame
+        Subset of the classy index fitting the selection criteria.
+    """
+
+    idx = load()
+
+    # Filter based on passed selection criteria
+    for column, value in kwargs.items():
+        if column not in idx.columns.tolist() + ["query"]:
+            raise KeyError(
+                f"Unknown index column '{column}'. Choose from {idx.columns.tolist()}."
+            )
+
+        # Apply wave_min and wave_max as bounds rather than equals
+        if column == "wave_min":
+            idx = idx[idx[column] <= value]
+        elif column == "wave_max":
+            idx = idx[idx[column] >= value]
+        # Pass query string directly
+        elif column == "query":
+            idx = idx.query(value)
+        # Apply other columns as equals
+        else:
+            idx = idx[idx[column] == value]
+
+    return idx
+    # idx["filename"] = idx.index.values
+    #
+    # # Further subselection based on user arguments
+    # for criterion, value in kwargs.items():
+    #     if criterion not in spectra:
+    #         raise AttributeError("Unknown selection parameter")
+    #
+    #     if value is None:
+    #         continue
+    #
+    #     if not isinstance(value, (list, tuple)):
+    #         value = [value]
+    #
+    #     spectra = spectra[spectra[criterion].isin(value)]
+
+    # if spectra.empty:
+    #     name, number = rocks.id(name)
+    #     if "source" in kwargs:
+    #         if not isinstance(kwargs["source"], list):
+    #             if kwargs["source"] is None:
+    #                 kwargs["source"] = sources.SOURCES
+    #             else:
+    #                 kwargs["source"] = [kwargs["source"]]
+    #
+    #         logger.error(
+    #             f"Did not find a spectrum of ({number}) {name} in {', '.join(kwargs['source'])} "
+    #         )
+    #     return None
