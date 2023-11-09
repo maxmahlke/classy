@@ -20,7 +20,6 @@ jinja2 = {version = "<3.1", optional = true}
 aiohttp = ">=3.8"
 mcfa = "^0.1"
 pyqtgraph='>=0.13'
-pyqt5='>=5.15.9'
 pandas = "^1.4.2"
 numpy = ">=1.22.3"
 click = ">=8.1.2"
