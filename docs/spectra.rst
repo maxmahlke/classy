@@ -4,7 +4,7 @@ Selecting Spectra
 ``classy`` makes it easy to select a set of spectra based on properties
 of either the spectra (e.g. wavelength range, feature presence) or the targets
 (e.g. taxonomic class, family membership). After :ref:`adding spectra to the
-classy database<adding_spectra>`, you can select the spectra of interest by specifying
+classy database<adding_spectra>`, you can select spectra by specifying
 any combination of desired properties and values. You can do this on the command line using the ``spectra`` command
 and in a ``python`` script using the ``Spectra`` class.
 
@@ -12,15 +12,16 @@ and in a ``python`` script using the ``Spectra`` class.
 
     .. tab-item:: Command Line
 
-        Get all spectra of asteroid (4) Vesta.
-
         .. code-block:: shell
 
            $ classy spectra vesta
 
     .. tab-item:: python
 
-        Get all spectra of asteroid (4) Vesta.
+        .. code-block:: shell
+
+           >>> import classy
+           >>> classy.Spectra(4)
 
 .. _selection_criteria:
 
@@ -29,6 +30,9 @@ Selection Criteria
 
 Selection criteria for spectra can be divided into spectra-specific (e.g. wavelength range, phase angle)
 and target-specific (e.g. taxonomy, albedo).
+
+Spectra-Specific
+++++++++++++++++
 
 ``classy`` keeps an index of all spectra and the
 relevant metadata in its database. Spectra-specific queries can make use of this metadata (the syntax used in the example queries is explained :ref:`below <selection_syntax>`):
@@ -50,6 +54,9 @@ relevant metadata in its database. Spectra-specific queries can make use of this
 +--------------+-----------------------------------------------+----------------------------------------------------------+
 | ``N``        | Number of wavelength samples in spectrum      | ``$ classy spectra vesta --N 500,``                      |
 +--------------+-----------------------------------------------+----------------------------------------------------------+
+
+Target-Specific
++++++++++++++++
 
 When selecting spectra based on properties of the targets (e.g. taxonomy,
 albedo), ``classy`` uses `rocks <https://github.com/maxmahlke/rocks>`_ to
