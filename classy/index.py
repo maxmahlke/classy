@@ -413,6 +413,8 @@ def query(**kwargs):
                 f"Unknown index column '{column}'. Choose from {idx.columns.tolist()}."
             )
 
+        # Special cases: wave_min, wave_max, query
+        #
         # Apply wave_min and wave_max as bounds rather than equals
         if column == "wave_min":
             idx = idx[idx[column] <= value]
@@ -421,36 +423,26 @@ def query(**kwargs):
         # Pass query string directly
         elif column == "query":
             idx = idx.query(value)
-        # Apply other columns as equals
         else:
-            idx = idx[idx[column] == value]
+            # All other cases: first check for comma-split
+            if isinstance(value, str):
+                value = value.split(",")
 
+                # Numeric or categorical comparison? Numeric
+                # forcibly only has two values
+                if len(value) == 2:
+                    lower, upper = value
+
+                    if any(limit.isnumeric() for limit in [lower, upper]):
+                        if lower:
+                            idx = idx[idx[column] >= float(lower)]
+                        if upper:
+                            idx = idx[idx[column] <= float(upper)]
+                        continue
+
+            # Categorical value: Apply as "is-in"
+            if not isinstance(value, (list, tuple)):
+                value = [value]
+
+            idx = idx[idx[column].isin(value)]
     return idx
-    # idx["filename"] = idx.index.values
-    #
-    # # Further subselection based on user arguments
-    # for criterion, value in kwargs.items():
-    #     if criterion not in spectra:
-    #         raise AttributeError("Unknown selection parameter")
-    #
-    #     if value is None:
-    #         continue
-    #
-    #     if not isinstance(value, (list, tuple)):
-    #         value = [value]
-    #
-    #     spectra = spectra[spectra[criterion].isin(value)]
-
-    # if spectra.empty:
-    #     name, number = rocks.id(name)
-    #     if "source" in kwargs:
-    #         if not isinstance(kwargs["source"], list):
-    #             if kwargs["source"] is None:
-    #                 kwargs["source"] = sources.SOURCES
-    #             else:
-    #                 kwargs["source"] = [kwargs["source"]]
-    #
-    #         logger.error(
-    #             f"Did not find a spectrum of ({number}) {name} in {', '.join(kwargs['source'])} "
-    #         )
-    #     return None
