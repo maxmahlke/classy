@@ -73,44 +73,86 @@ def spectra(id_, classify, taxonomy, templates, source, exclude, save, v):
     else:
         rocks.set_log_level("ERROR")
 
-    name, number = rocks.id(id_)
+@cli_classy.command(
+    context_settings=dict(
+        ignore_unknown_options=True,
+    )
+)
+@click.argument("args", type=click.UNPROCESSED, nargs=-1)
+@click.option("-p", "--plot", is_flag=True, help="Plot the spectra.")
+@click.option("-s", "--save", help="Save plot to file.")
+def spectra(args, plot, save):
+    """Retrieve, plot, classify spectra of given asteroid."""
 
-    if name is None:
-        logger.error("Cannot retrieve spectra for unidentified asteroid.")
+    if not args:
+        raise ValueError("No query parameters were specified.")
+
+    # Separate query parameters and identifiers
+    idx_options = [i for i, arg in enumerate(args) if arg.startswith("--")]
+    kwargs = (
+        {args[i].strip("--"): args[i + 1] for i in idx_options} if idx_options else {}
+    )
+
+    id = args[: min(idx_options)] if idx_options else args
+    id = None if not id else id
+
+    # Convert id to query criterion if provided
+    if id is not None:
+        if not isinstance(id, (list, tuple)):
+            id = [id]
+
+        id = [rocks.id(i)[0] for i in id if i is not None]
+
+        if "name" in kwargs:
+            logger.warning(
+                "Specifying asteroid identifiers overrides the passed 'name' selection."
+            )
+
+        kwargs["name"] = id
+
+    spectra = index.query(**kwargs)
+
+    if spectra.empty:
+        click.echo("No spectra matching these criteria found.")
         sys.exit()
-    else:
-        logger.debug(f"Looking for reflectance spectra of ({number}) {name}")
 
-    if not source:
-        source = None
+    # Echo result
+    table = Table(
+        header_style="bold blue",
+        box=rich.box.SQUARE,
+        caption=f"{len(spectra)} {'Spectra' if len(spectra) > 1 else 'Spectrum'}",
+    )
 
-    if exclude:
-        # If exclude but no sources defined (default case), load sources
-        if source is None:
-            source = index.load().source.unique()
+    columns = [
+        "name",
+        "number",
+        "wave_min",
+        "wave_max",
+        "date_obs",
+        "phase",
+        "source",
+        "shortbib",
+    ]
 
-        source = [s for s in source if s not in exclude]
+    # Add non-index columns to the output
+    for col in kwargs.keys():
+        if col not in classy.index.COLUMNS and col != "query":
+            columns += [col]
 
-    # Load spectra
-    spectra = core.Spectra(id_, source=source)
+    for c in columns:
+        if spectra[c].dtype == "float64":
+            spectra[c] = spectra[c].round(3)
+        table.add_column(c)
 
-    if not spectra:
-        sys.exit()
+    spectra = spectra.fillna("-")
+    for _, spec in spectra.iterrows():
+        table.add_row(*spec[columns].astype(str))
 
-    # Classify
-    if classify:
-        spectra.classify(taxonomy=taxonomy)
-    else:
-        taxonomy = None  # required for the plotting function
+    rich.print(table)
 
     # Plot
-    if save:
-        save = f"{number}_{name}_classy.png"
-
-    spectra.plot(taxonomy=taxonomy, save=save if save else None, templates=templates)
-
-    if save:
-        logger.info(f"Figure stored under {Path().cwd() / save}")
+    if plot:
+        spectra.plot(save=save)
 
 
 @cli_classy.command()
