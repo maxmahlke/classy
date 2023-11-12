@@ -1,3 +1,14 @@
+# 0.8
+
+ToDo:
+
+- NaN values in reflectance are no longer removed when reading in a spectrum
+- Negative reflectance values are no longer removed when reading in a spectrum
+- Warnings are emitted when spectrum is instantiated with negative or NaN reflectance values
+- NaN or negative wavelengths are removed
+
+- If date_obs -> automatically query phase angle
+
 # 0.7.1 - 2023-11-18
 - Separate gui-dependencies into optional package install
 
