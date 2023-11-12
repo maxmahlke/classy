@@ -103,16 +103,40 @@ public repositories.\ [#f1]_
 
 .. toctree::
    :maxdepth: 2
-   :caption: Contents
    :hidden:
 
    Home<self>
    Getting Started<getting_started>
-   Basic Usage<core>
+
+.. toctree::
+   :maxdepth: 2
+   :caption: Usage
+   :hidden:
+
+   Selecting Spectra<spectra>
+   Preprocessing<core>
+   Feature Detection<core>
+   Classifying<getting_started>
+   Plotting and Exporting<core>
+
+.. toctree::
+   :maxdepth: 2
+   :caption: Data and Taxonomies
+   :hidden:
+
    Public Data<data>
    Private Data<private>
    Taxonomies<taxonomies>
+
+.. toctree::
+   :maxdepth: 2
+   :caption: Reference
+   :hidden:
+
+   Appendix<appendix>
+   Configuration<configuration>
    Tutorials<tutorial>
+
 .. glossary
 
 .. Advanced Usage<advanced>
