@@ -10,6 +10,7 @@ import matplotlib.pyplot as plt
 import numpy as np
 
 from classy import taxonomies
+from classy.log import logger
 
 
 def get_colors(N, cmap="turbo"):
@@ -482,6 +483,7 @@ def plot_spectra(spectra, taxonomy=None, save=None, templates=None):
         plt.show()
     else:
         fig.savefig(save)
+        logger.info(f"Figure stored under {save}")
 
 
 def plot_smass_spectrum(ax, spec):
