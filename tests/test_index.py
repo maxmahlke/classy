@@ -78,6 +78,26 @@ def test_query():
         spectra["name"] == "Zelinda"
     )
 
+    # Use comma-separated parameter limits
+    spectra = classy.index.query(shortbib="Fornasier+ 2014,Marsset+ 2014")
+    assert len(spectra) > 0
+    assert all(s in ["Fornasier+ 2014", "Marsset+ 2014"] for s in spectra["shortbib"])
+
+    spectra = classy.index.query(shortbib="Fornasier+ 2014", N="800,")
+    assert len(spectra) > 0
+    assert all(s in ["Fornasier+ 2014"] for s in spectra["shortbib"])
+    assert all(N >= 800 for N in spectra["N"])
+
+    spectra = classy.index.query(shortbib="Fornasier+ 2014", N="800,900")
+    assert len(spectra) > 0
+    assert all(s in ["Fornasier+ 2014"] for s in spectra["shortbib"])
+    assert all(800 <= N <= 900 for N in spectra["N"])
+
+    spectra = classy.index.query(shortbib="Fornasier+ 2014", N=",800")
+    assert len(spectra) > 0
+    assert all(s in ["Fornasier+ 2014"] for s in spectra["shortbib"])
+    assert all(N <= 800 for N in spectra["N"])
+
     # Fail if unknown column is provided
     with pytest.raises(KeyError):
         spectra = classy.index.query(unknown_column=23)
