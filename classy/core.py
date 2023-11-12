@@ -97,6 +97,7 @@ class Spectrum:
         self.refl_err_original = None if self.refl_err is None else self.refl_err.copy()
 
         self.is_smoothed = False
+        self.phase = np.nan
 
     def __getattr__(self, attr):
         """"""
@@ -105,7 +106,7 @@ class Spectrum:
         if attr in ["e", "h", "k"]:
             setattr(self, attr, Feature(attr, self))
             return getattr(self, attr)
-        raise AttributeError
+        raise AttributeError(f"{type(self)} has no attribute '{attr}'")
 
     def reset_data(self):
         self.wave = self.wave_original.copy()
@@ -583,68 +584,36 @@ def _basic_checks(wave, refl, unc, flag):
 class Spectra(list):
     """List of several spectra of individual asteroid."""
 
-    @singledispatchmethod
-    def __init__(self, arg, **kwargs):
-        raise TypeError(
-            f"Unsupported argument type '{type(arg)}'. Expected int, float, str, list, pd.Series, or pd.DataFrame."
-        )
+    def __init__(self, id=None, **kwargs):
+        """Select spectra from classy index using matching criteria.
 
-    @__init__.register(int)
-    @__init__.register(str)
-    @__init__.register(float)
-    def id_(self, id_, **kwargs):
-        """Instantiate Spectra from asteroid identifier. Select subsample of spectra using index keys."""
-        name, number = rocks.id(id_)
+        Parameters
+        ----------
+        id : int, str, or list
+            One or many asteroid identifiers. Optional, default is None,
+            in which case no selection based on identity is done.
+        """
 
-        if name is None:
-            raise ValueError(
-                f"Could not resolve '{id_}'. A recognisable name, number, or designation is required."
-            )
+        # Convert id to query criterion if provided
+        if id is not None:
+            if not isinstance(id, (list, tuple)):
+                id = [id]
 
-        # Look up asteroid in index
-        idx = index.load()
-        # idx = idx.reset_index().rename(columns={"index": "filename"})
-        idx["filename"] = idx.index.values
-        # print(idx.filename)
+            id = [rocks.id(i)[0] for i in id if i is not None]
 
-        if idx.empty:
-            return None
-
-        spectra = idx[idx["name"] == name]
-
-        # Further subselection based on user arguments
-        for criterion, value in kwargs.items():
-            if criterion not in spectra:
-                raise AttributeError("Unknown selection parameter")
-
-            if value is None:
-                continue
-
-            if not isinstance(value, (list, tuple)):
-                value = [value]
-
-            spectra = spectra[spectra[criterion].isin(value)]
-
-        if spectra.empty:
-            name, number = rocks.id(name)
-            if "source" in kwargs:
-                if not isinstance(kwargs["source"], list):
-                    if kwargs["source"] is None:
-                        kwargs["source"] = sources.SOURCES
-                    else:
-                        kwargs["source"] = [kwargs["source"]]
-
-                logger.error(
-                    f"Did not find a spectrum of ({number}) {name} in {', '.join(kwargs['source'])} "
+            if "name" in kwargs:
+                logger.warning(
+                    "Specifying asteroid identifiers overrides the passed 'name' selection."
                 )
-            return None
 
+            kwargs["name"] = id
+
+        spectra = index.query(**kwargs)
         spectra = cache.load_spectra(spectra)
 
         for spec in spectra:
             self.append(spec)
 
-    @__init__.register
     def _list(self, entries: list):
         """Instantiate Spectra by passing a list of Spectrum instances or asteroid identifiers."""
 
@@ -670,8 +639,6 @@ class Spectra(list):
             for spec in Spectra(name):
                 self.append(spec)
 
-    @__init__.register(pd.DataFrame)
-    @__init__.register(pd.Series)
     def _df(self, idx):
         """Instantiate Spectra using entries from the classy spectra index."""
         if isinstance(idx, pd.Series):
@@ -705,6 +672,89 @@ class Spectra(list):
     def classify(self, taxonomy="mahlke"):
         for spec in self:
             spec.classify(taxonomy=taxonomy)
+
+    # def echo(self):
+    #     """Print list of Spectra using a nice table format."""
+    #     import rich
+    #     from rich.table import Table
+    #
+    #     if not len(self):
+    #         rich.print(f"No {parameter} on record for {rock.name}.")
+    #         return
+
+    # # Sort catalogue by year of reference
+    # if "year" in catalogue.columns:
+    #     catalogue = catalogue.sort_values("year").reset_index()
+    #
+    # # ------
+    # # Create table to echo
+    # if parameter in ["diameters", "albedos"]:
+    #     if parameter == "diameters":
+    #         catalogue = catalogue.dropna(subset=["diameter"])
+    #         preferred = catalogue.preferred_diameter
+    #     elif parameter == "albedos":
+    #         catalogue = catalogue.dropna(subset=["albedo"])
+    #         preferred = catalogue.preferred_albedo
+    # elif hasattr(catalogue, "preferred"):
+    #     preferred = catalogue.preferred
+    # else:
+    #     preferred = [False for _ in range(len(catalogue))]
+    #
+    # # Only show the caption if there is a preferred entry
+    # if any(preferred):
+    #     caption = "Green: preferred entry"
+    # else:
+    #     caption = None
+    #
+    # table = Table(
+    #     header_style="bold blue",
+    #     box=rich.box.SQUARE,
+    #     footer_style="dim",
+    #     title=f"({rock.number}) {rock.name}",
+    #     caption=caption,
+    # )
+    #
+    # # The columns depend on the catalogue
+    # columns = [""] + config.DATACLOUD[parameter]["print_columns"]
+    #
+    # for c in columns:
+    #     table.add_column(c)
+    #
+    # # Some catalogues do not have a "preferred" attribute
+    # # if not hasattr(catalogue, "preferred"):
+    # #     preferred = [False for _ in range(len(catalogue))]
+    # # else:
+    #
+    # # Add rows to table, styling by preferred-state of entry
+    # for i, pref in enumerate(preferred):
+    #     if parameter in ["diamalbedos"]:
+    #         if pref:
+    #             if (
+    #                 catalogue.preferred_albedo[i]
+    #                 and not catalogue.preferred_diameter[i]
+    #             ):
+    #                 style = "bold yellow"
+    #             elif (
+    #                 not catalogue.preferred_albedo[i]
+    #                 and catalogue.preferred_diameter[i]
+    #             ):
+    #                 style = "bold blue"
+    #             else:
+    #                 style = "bold green"
+    #         else:
+    #             style = "white"
+    #
+    #     else:
+    #         style = "bold green" if pref else "white"
+    #
+    #     table.add_row(
+    #         *[str(catalogue[c].values[i]) if c else str(i + 1) for c in columns],
+    #         style=style,
+    #     )
+    #
+    # rich.print(table)
+    #     for spec in self:
+    #         print(spec)
 
     def detect_features(self):
         for spec in self:
