@@ -4,6 +4,7 @@ import webbrowser
 
 import click
 import rich
+from rich.table import Table
 import rocks
 
 import classy.classify
@@ -29,55 +30,12 @@ def docs():
 
 
 @cli_classy.command()
-@click.argument("id_", type=str)
-@click.option("-c", "--classify", is_flag=True, help="Classify the spectra.")
-@click.option(
-    "-t",
-    "--taxonomy",
-    default="mahlke",
-    help="Specify the taxonomic system.",
-    type=click.Choice(taxonomies.SYSTEMS),
-)
-@click.option(
-    "--templates",
-    default=None,
-    help="Add class templates of the specified complex.",
-    type=click.Choice(taxonomies.COMPLEXES.keys()),
-)
-@click.option(
-    "-s",
-    "--source",
-    type=click.Choice(sources.SOURCES),
-    multiple=True,
-    help="Select one or more online repositories.",
-)
-@click.option(
-    "-e",
-    "--exclude",
-    type=click.Choice(sources.SOURCES),
-    multiple=True,
-    help="Exclude one or more online repositories.",
-)
-@click.option(
-    "--save",
-    is_flag=True,
-    help="Save plot to file in current working directory.",
-)
-@click.option("-v", is_flag=True, help="Set verbose output.")
-def spectra(id_, classify, taxonomy, templates, source, exclude, save, v):
-    """Retrieve, plot, classify spectra of an individual asteroid."""
+@click.argument("id", type=str)
+def classify(id):
+    """Classify spectra of given asteroid."""
 
-    if v:
-        classy.set_log_level("DEBUG")
-        rocks.set_log_level("DEBUG")
-    else:
-        rocks.set_log_level("ERROR")
 
-@cli_classy.command(
-    context_settings=dict(
-        ignore_unknown_options=True,
-    )
-)
+@cli_classy.command(context_settings=dict(ignore_unknown_options=True))
 @click.argument("args", type=click.UNPROCESSED, nargs=-1)
 @click.option("-p", "--plot", is_flag=True, help="Plot the spectra.")
 @click.option("-s", "--save", help="Save plot to file.")
@@ -135,16 +93,17 @@ def spectra(args, plot, save):
     ]
 
     # Add non-index columns to the output
-    for col in kwargs.keys():
-        if col not in classy.index.COLUMNS and col != "query":
+    for col in spectra.columns:
+        if col not in classy.index.COLUMNS:
             columns += [col]
 
     for c in columns:
         if spectra[c].dtype == "float64":
             spectra[c] = spectra[c].round(3)
+        if spectra[c].dtype in ["float64", "object"]:
+            spectra[c] = spectra[c].fillna("-")
         table.add_column(c)
 
-    spectra = spectra.fillna("-")
     for _, spec in spectra.iterrows():
         table.add_row(*spec[columns].astype(str))
 
@@ -152,7 +111,7 @@ def spectra(args, plot, save):
 
     # Plot
     if plot:
-        spectra.plot(save=save)
+        classy.Spectra(**kwargs).plot(save=save)
 
 
 @cli_classy.command()
