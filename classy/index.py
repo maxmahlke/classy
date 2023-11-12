@@ -1,4 +1,5 @@
 """Module to manage the global spectra index in classy."""
+import re
 import asyncio
 import aiohttp
 from datetime import datetime
@@ -7,6 +8,7 @@ import sys
 
 import numpy as np
 import pandas as pd
+import rocks
 
 from classy import config
 from classy.log import logger
@@ -23,6 +25,7 @@ COLUMNS = [
     "module",
     "source",
     "phase",
+    "err_phase",
     "N",
     "wave_min",
     "wave_max",
@@ -406,20 +409,53 @@ def query(**kwargs):
 
     idx = load()
 
+    # Separate requested columns into domains
+    cols_bft = []
+    cols_query = []
+
+    # Get column names from query argument
+    if "query" in kwargs:
+        cols_query = re.findall(r"[A-Za-z0-9._-]*", kwargs["query"])
+        bft_valid_cols = rocks.load_bft(
+            full=True, filters=[("sso_name", "==", "")]
+        ).columns
+
+        # Ensure valid column names and translate shortforms
+        cols_query = [BFT_SHORT[c] for c in cols_query if c in BFT_SHORT]
+        cols_query = [c for c in cols_query if c in bft_valid_cols or c in idx.columns]
+
+    for col in list(kwargs) + cols_query:
+        if col in ["feature", "query"] or col in idx.columns:
+            continue
+        else:
+            if col in BFT_SHORT:
+                col = BFT_SHORT[col]
+            cols_bft.append(col)
+
+    if cols_bft:
+        bft = rocks.load_bft(columns=cols_bft + ["sso_name"])
+        bft = bft.rename(columns={v: k for k, v in BFT_SHORT.items()})
+        idx = idx.reset_index(names="filename")
+        idx = idx.merge(bft, left_on="name", right_on="sso_name")
+        idx = idx.set_index("filename")
+        idx = idx.drop(columns=["sso_name"])
+
     # Filter based on passed selection criteria
     for column, value in kwargs.items():
-        if column not in idx.columns.tolist() + ["query"]:
+        if column not in idx.columns.tolist() + ["query", "feature"]:
             raise KeyError(
                 f"Unknown index column '{column}'. Choose from {idx.columns.tolist()}."
             )
+        if column == "feature":
+            continue
 
         # Special cases: wave_min, wave_max, query
         #
         # Apply wave_min and wave_max as bounds rather than equals
         if column == "wave_min":
-            idx = idx[idx[column] <= value]
+            idx = idx[idx[column] <= float(value)]
         elif column == "wave_max":
-            idx = idx[idx[column] >= value]
+            idx = idx[idx[column] >= float(value)]
         # Pass query string directly
         elif column == "query":
             idx = idx.query(value)
@@ -433,7 +469,14 @@ def query(**kwargs):
                 if len(value) == 2:
                     lower, upper = value
 
-                    if any(limit.isnumeric() for limit in [lower, upper]):
+                    if column == "date_obs":
+                        if lower:
+                            idx = idx[idx[column] >= str(lower)]
+                        if upper:
+                            idx = idx[idx[column] <= str(upper)]
+                        continue
+
+                    if any(_is_int_or_float(limit) for limit in [lower, upper]):
                         if lower:
                             idx = idx[idx[column] >= float(lower)]
                         if upper:
@@ -445,4 +488,37 @@ def query(**kwargs):
                 value = [value]
 
             idx = idx[idx[column].isin(value)]
+
+    if "feature" in kwargs:
+        ftrs = kwargs["feature"].split(",")
+
+        # Only feature entries of spectra we care about
+        features = load_features()
+        features = features.reset_index(level=1)
+        features = features.loc[features.index.isin(idx.index)]
+
+        # Only feature entries of feature we care about
+        features = features.loc[features.feature.isin(ftrs)]
+        features = features[features.is_present == "Yes"]
+
+        idx = idx.loc[idx.index.isin(features.index)]
+
     return idx
+
+
+def _is_int_or_float(number):
+    """Like isnumeric() for str but supports float."""
+    try:
+        float(number)
+        return True
+    except ValueError:
+        return False
+
+
+BFT_SHORT = {
+    "albedo": "albedo.value",
+    "diameter": "diameter.value",
+    "family": "family.family_name",
+    "H": "absolute_magnitude.value",
+    "taxonomy": "taxonomy.class",
+}
