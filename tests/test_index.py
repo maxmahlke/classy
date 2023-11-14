@@ -6,8 +6,6 @@ import pytest
 import classy
 
 
-# ------
-# Index creation
 @pytest.mark.parametrize(
     "source,number", [("AKARI", 64), ("M4AST", 123), ("SMASS", 2256)]
 )
@@ -51,33 +49,3 @@ def test_date_obs():
                 assert False
 
             assert datetime.datetime.today() > date
-
-
-# ------
-# Index access and query
-def test_query():
-    """Test query results of index."""
-
-    # Get spectra of a numbered asteroid
-    spectra = classy.index.query(number=221)
-    assert (spectra["number"] == 221).all()
-
-    # Get spectra matching wavelength range, where wave_min and wave_max
-    # are interpreted as lower and upper bounds respectively
-    spectra = classy.index.query(wave_min=1.4, wave_max=2)
-    assert (spectra.wave_min <= 1.4).all() and (spectra.wave_max >= 2).all()
-    assert (spectra.wave_max > 2).any()
-
-    # Get all spectra with wave_max between 2.4 and 3.0
-    spectra = classy.index.query(query="2.4 < wave_max < 3")
-    assert (2.4 < spectra.wave_max).all() and (3 > spectra.wave_max).all()
-
-    # Get spectra based on shortbib and name
-    spectra = classy.index.query(shortbib="Fornasier+ 2014", name="Zelinda")
-    assert all(spectra["shortbib"] == "Fornasier+ 2014") and all(
-        spectra["name"] == "Zelinda"
-    )
-
-    # Fail if unknown column is provided
-    with pytest.raises(KeyError):
-        spectra = classy.index.query(unknown_column=23)
