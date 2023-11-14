@@ -1,0 +1,4 @@
+sphinx-redactor-theme
+sphinx-hoverxref
+jinja2
+sphinx_design
