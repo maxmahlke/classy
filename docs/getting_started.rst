@@ -99,6 +99,6 @@ Adding Data
 ``classy`` are cataloged in an index file. This index is used to select,
 filter, and find reflectance spectra in the data directory.
 
-To get started, you can retrieve all `public asteroid spectra <public_data>`_
+To get started, you can retrieve all :ref:`public asteroid spectra <public_data>`
 by using the ``$ classy status`` command and selecting option ``2``.
-Alternatively, you can `add you own observations <private_data>`_.
+Alternatively, you can :ref:`add you own observations <private_data>`.
