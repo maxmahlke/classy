@@ -453,9 +453,9 @@ def query(**kwargs):
         #
         # Apply wave_min and wave_max as bounds rather than equals
         if column == "wave_min":
-            idx = idx[idx[column] <= float(value)]
+            idx = idx.loc[idx[column] <= float(value)]
         elif column == "wave_max":
-            idx = idx[idx[column] >= float(value)]
+            idx = idx.loc[idx[column] >= float(value)]
         # Pass query string directly
         elif column == "query":
             idx = idx.query(value)
@@ -471,23 +471,23 @@ def query(**kwargs):
 
                     if column == "date_obs":
                         if lower:
-                            idx = idx[idx[column] >= str(lower)]
+                            idx = idx.loc[idx[column] >= str(lower)]
                         if upper:
-                            idx = idx[idx[column] <= str(upper)]
+                            idx = idx.loc[idx[column] <= str(upper)]
                         continue
 
                     if any(_is_int_or_float(limit) for limit in [lower, upper]):
                         if lower:
-                            idx = idx[idx[column] >= float(lower)]
+                            idx = idx.loc[idx[column] >= float(lower)]
                         if upper:
-                            idx = idx[idx[column] <= float(upper)]
+                            idx = idx.loc[idx[column] <= float(upper)]
                         continue
 
             # Categorical value: Apply as "is-in"
             if not isinstance(value, (list, tuple)):
                 value = [value]
 
-            idx = idx[idx[column].isin(value)]
+            idx = idx.loc[idx[column].isin(value)]
 
     if "feature" in kwargs:
         ftrs = kwargs["feature"].split(",")
@@ -503,7 +503,7 @@ def query(**kwargs):
 
         idx = idx.loc[idx.index.isin(features.index)]
 
-    return idx
+    return idx.copy()  # return copy to fix SettingWithCopyWarning
 
 
 def _is_int_or_float(number):
