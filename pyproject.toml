@@ -27,7 +27,7 @@ space-rocks = ">=1.7.2"
 
 [tool.poetry.extras]
 docs = ["sphinx", "sphinx-redactor-theme", "sphinx_design", "sphinx-hoverxref", "jinja2", 'furo', "sphinx-copybutton"]
-gui = ['pyqt5']
+gui = ['pyside6']
 
 [tool.pytest.ini_options]
 addopts = "-v --cov=classy --cov-report html"
