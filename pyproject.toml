@@ -20,14 +20,13 @@ lmfit = ">=1.2.0"
 mcfa = "^0.1"
 numpy = ">=1.22.3"
 pandas = ">=1.4.2"
-pyqtgraph='>=0.13'
 rich = ">=12.2.0"
 scikit-learn = ">=1.2.1"
 space-rocks = ">=1.7.2"
 
 [tool.poetry.extras]
 docs = ["sphinx", "sphinx-redactor-theme", "sphinx_design", "sphinx-hoverxref", "jinja2", 'furo', "sphinx-copybutton"]
-gui = ['pyside6']
+gui = ['pyside6', 'pyqtgraph']
 
 [tool.pytest.ini_options]
 addopts = "-v --cov=classy --cov-report html"
