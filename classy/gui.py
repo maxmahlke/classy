@@ -10,7 +10,7 @@ try:
     from pyqtgraph.Qt import QtWidgets
 except ModuleNotFoundError as e:
     raise ModuleNotFoundError(
-        "The Graphical User Interface of classy requires the pyqt5 package. "
+        "The Graphical User Interface of classy requires the pyqtgraph and pyside6 packages. "
         "Run 'pip install \"space-classy[gui]\" to install it.'"
     ) from e
 
