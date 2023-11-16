@@ -5,10 +5,14 @@ import sys
 import classy
 from classy.log import logger
 
-import pyqtgraph as pg
-
-# from pyqtgraph.Qt import QtCore, QtWidgets
-from pyqtgraph.Qt import QtWidgets, QtGui
+try:
+    import pyqtgraph as pg
+    from pyqtgraph.Qt import QtWidgets
+except Exception as e:
+    raise ModuleNotFoundError(
+        "The Graphical User Interface of classy requires the pyqtgraph and pyside6 packages. "
+        "Run 'pip install \"space-classy[gui]\" to install it.'"
+    ) from e
 
 
 class InteractiveFeatureFit(QtWidgets.QMainWindow):

@@ -68,6 +68,8 @@ or
 $ pip install space-classy
 ```
 
+To use interactive GUI features, you'll also need to install one of these packages to work with pyqtgraph: PyQt5, PyQt6, PySide2, or PySide6. Running `pip install space-classy[gui]` will automatically install space-classy alone with one of the necessary GUI libraries.
+
 # Documentation
 
 Check out the documentation at [classy.readthedocs.io](https://classy.readthedocs.io/en/latest/).

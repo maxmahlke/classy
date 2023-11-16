@@ -4,7 +4,6 @@ import sklearn
 
 from classy import config
 
-from classy import gui
 from classy.log import logger
 from classy import tools
 
@@ -237,4 +236,5 @@ def _normalize_l2(refl):
 
 def smooth_interactive(spec):
     """"""
+    from classy import gui
     gui.smooth(spec)
