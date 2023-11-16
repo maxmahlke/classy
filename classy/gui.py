@@ -8,7 +8,7 @@ from classy.log import logger
 try:
     import pyqtgraph as pg
     from pyqtgraph.Qt import QtWidgets
-except (Exception, ModuleNotFoundError) as e:
+except Exception as e:
     raise ModuleNotFoundError(
         "The Graphical User Interface of classy requires the pyqtgraph and pyside6 packages. "
         "Run 'pip install \"space-classy[gui]\" to install it.'"
