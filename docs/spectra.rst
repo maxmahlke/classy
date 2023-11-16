@@ -1,24 +1,34 @@
+.. _selecting_spectra:
+
 Selecting Spectra
 =================
 
-``classy`` makes it easy to select a set of spectra based on properties
-of either the spectra (e.g. wavelength range, feature presence) or the targets
+``classy`` makes it easy to select a set of spectra based on properties of
+either the spectra (e.g. wavelength range, feature presence) or the targets
 (e.g. taxonomic class, family membership). After :ref:`adding spectra to the
-classy database<adding_spectra>`, you can select spectra by specifying
-any combination of desired properties and values. You can do this on the command line using the ``spectra`` command
-and in a ``python`` script using the ``Spectra`` class.
+classy database<adding_spectra>`, you can select spectra by specifying any
+combination of desired properties and values. You can do this on the command
+line using the ``spectra`` command to explore and visualize, and in a
+``python`` script using the ``Spectra`` class for a more detailed analysis,
+covered in later chapters of this documentation.
 
 .. tab-set::
 
     .. tab-item:: Command Line
 
+        List all available spectra of (4) *Vesta*.
+
         .. code-block:: shell
 
            $ classy spectra vesta
 
+        By default, this prints a table of available spectra and relevant metadata.
+
     .. tab-item:: python
 
-        .. code-block:: shell
+        Retrieve all available spectra of (4) *Vesta*.
+
+        .. code-block:: python
 
            >>> import classy
            >>> classy.Spectra(4)
@@ -83,7 +93,7 @@ specify a one-sided limit, leave one side of the ``,`` blank.
 
         Spectra of targets with albedos between 0.03 and 0.04.
 
-        .. code-block:: shell
+        .. code-block:: python
 
             >>> classy.Spectra(albedo="0.03,0.04")
 
