@@ -1,0 +1,6 @@
+.. _plotting:
+
+Plotting
+--------
+
+Templates

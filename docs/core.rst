@@ -334,24 +334,6 @@ classification. ``classy`` offers basic preprocessing functionality.
          >>> spec.remove_slope()
          >>> spec.slope # list containing [slope, intercept] of fitted polynomial
 
-Classifying
------------
-
-A ``classy.Spectrum`` can be classified following different taxonomies using the ``.classify()``
-function. The ``taxonomy`` argument can be used to choose between different taxonomies.
-
-.. code-block:: python
-
-   >>> import classy
-   >>> ceres = classy.Spectra(1, source='Gaia')[0]
-   >>> ceres.classify() # taxonomy='mahlke' is default
-   >>> ceres.classify(taxonomy='tholen') # Tholen 1984 (requires extrapolation)
-   >>> ceres.classify(taxonomy='demeo') # DeMeo+ 2009 (fails due to wavelength range)
-
-The resulting class is added as ``class_`` attribute to the spectrum. For
-``tholen`` and ``demeo``, the attributes are ``class_tholen`` and
-``class_demeo`` respectively. Further added attributes depending on the chosen
-taxonomy are described in the :ref:`taxonomies <available_taxonomies>` section.
 
 Storing to file
 ---------------

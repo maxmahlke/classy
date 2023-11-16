@@ -47,10 +47,30 @@ After installing, the ``classy`` executable is available system-wide and the
 Adding Spectra
 --------------
 
-``classy`` revolves around reflectance spectra. All spectra that you add to
-``classy`` are cataloged in an index file. This index is used to select,
-filter, and find reflectance spectra in the data directory.
+``classy`` revolves around reflectance spectra. To get started, you can
+retrieve all `public asteroid spectra <public_data>`_ using the ``$ classy
+status`` command.\ [#f1]_
 
-To get started, you can retrieve all `public asteroid spectra <public_data>`_
-using the ``$ classy status`` command.
+.. code-block:: shell
+
+  $ classy status
+
+  Contents of /home/max/.cache/classy:
+
+      68356 asteroid reflectance spectra from 14 sources
+
+      24CAS      286    52CAS      146    AKARI       64    CDS         93
+      ECAS       589    Gaia     60518    M4AST      123    MITHNEOS  1905
+      Misc       902    PDS         91    PRIMASS    437    S3OS2      820
+      SCAS       126    SMASS     2256
+
+  Choose one of these actions:
+  [0] Do nothing [1] Manage the cache [2] Retrieve all spectra (0): 2
+
 Alternatively, you can `add you own observations <private_data>`_.
+Once you have populated the ``classy`` database, you can start :ref:`exploring it <selecting_spectra>`.
+
+.. rubric:: Footnotes
+   :caption:
+
+.. [#f1] If you care about the directory where the data is stored, have a look :ref:`here <cache_directory>`.

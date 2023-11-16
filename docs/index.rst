@@ -81,7 +81,7 @@ public repositories.\ [#f1]_
       :link: getting_data
       :link-type: ref
 
-      Automatic retrieval of albedo and phase angle.
+      Automatic retrieval of albedo and computation of phase angle.
 
     .. grid-item-card::
       :link: public_data
@@ -110,14 +110,14 @@ public repositories.\ [#f1]_
 
 .. toctree::
    :maxdepth: 2
-   :caption: Usage
+   :caption: Spectra Analysis
    :hidden:
 
    Selecting Spectra<spectra>
-   Preprocessing<core>
-   Feature Detection<core>
-   Classifying<getting_started>
-   Plotting and Exporting<core>
+   Preprocessing<preprocessing>
+   Feature Detection<features>
+   Classifying<classifying>
+   Plotting and Exporting<export>
 
 .. toctree::
    :maxdepth: 2
@@ -133,9 +133,9 @@ public repositories.\ [#f1]_
    :caption: Reference
    :hidden:
 
-   Appendix<appendix>
-   Configuration<configuration>
    Tutorials<tutorial>
+   Configuration<configuration>
+   Appendix<appendix>
 
 .. glossary
 
