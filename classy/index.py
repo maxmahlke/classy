@@ -398,14 +398,33 @@ def load_features():
     )
 
 
-def query(**kwargs):
+def query(id=None, **kwargs):
     """Query the index for spectra fitting selection criteria.
+
+    Parameters
+    ----------
+    id : list of str or int
+        List of asteroid identifiers. Optional, default is None.
 
     Returns
     -------
     pd.DataFrame
         Subset of the classy index fitting the selection criteria.
     """
+
+    # Convert id to query criterion if provided
+    if id is not None:
+        if not isinstance(id, (list, tuple)):
+            id = [id]
+
+        id = [rocks.id(i)[0] for i in id if i is not None]
+
+        if "name" in kwargs:
+            logger.warning(
+                "Specifying asteroid identifiers overrides the passed 'name' selection."
+            )
+
+        kwargs["name"] = id
 
     idx = load()
 

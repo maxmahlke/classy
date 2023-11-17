@@ -9,10 +9,7 @@ import rocks
 
 import classy.classify
 from classy import cache
-from classy import core
 from classy import index
-from classy.log import logger
-from classy import taxonomies
 from classy import sources
 
 
@@ -21,97 +18,6 @@ from classy import sources
 def cli_classy():
     """CLI for minor body classification."""
     pass
-
-
-@cli_classy.command()
-def docs():
-    """Open the classy documentation in browser."""
-    webbrowser.open("https://classy.readthedocs.io/en/latest/", new=2)
-
-
-@cli_classy.command()
-@click.argument("id", type=str)
-def classify(id):
-    """Classify spectra of given asteroid."""
-
-
-@cli_classy.command(context_settings=dict(ignore_unknown_options=True))
-@click.argument("args", type=click.UNPROCESSED, nargs=-1)
-@click.option("-p", "--plot", is_flag=True, help="Plot the spectra.")
-@click.option("-s", "--save", help="Save plot to file.")
-def spectra(args, plot, save):
-    """Retrieve, plot, classify spectra of given asteroid."""
-
-    if not args:
-        raise ValueError("No query parameters were specified.")
-
-    # Separate query parameters and identifiers
-    idx_options = [i for i, arg in enumerate(args) if arg.startswith("--")]
-    kwargs = (
-        {args[i].strip("--"): args[i + 1] for i in idx_options} if idx_options else {}
-    )
-
-    id = args[: min(idx_options)] if idx_options else args
-    id = None if not id else id
-
-    # Convert id to query criterion if provided
-    if id is not None:
-        if not isinstance(id, (list, tuple)):
-            id = [id]
-
-        id = [rocks.id(i)[0] for i in id if i is not None]
-
-        if "name" in kwargs:
-            logger.warning(
-                "Specifying asteroid identifiers overrides the passed 'name' selection."
-            )
-
-        kwargs["name"] = id
-
-    spectra = index.query(**kwargs)
-
-    if spectra.empty:
-        click.echo("No spectra matching these criteria found.")
-        sys.exit()
-
-    # Echo result
-    table = Table(
-        header_style="bold blue",
-        box=rich.box.SQUARE,
-        caption=f"{len(spectra)} {'Spectra' if len(spectra) > 1 else 'Spectrum'}",
-    )
-
-    columns = [
-        "name",
-        "number",
-        "wave_min",
-        "wave_max",
-        "date_obs",
-        "phase",
-        "source",
-        "shortbib",
-    ]
-
-    # Add non-index columns to the output
-    for col in spectra.columns:
-        if col not in classy.index.COLUMNS:
-            columns += [col]
-
-    for c in columns:
-        if spectra[c].dtype == "float64":
-            spectra[c] = spectra[c].round(3)
-        if spectra[c].dtype in ["float64", "object"]:
-            spectra[c] = spectra[c].fillna("-")
-        table.add_column(c)
-
-    for _, spec in spectra.iterrows():
-        table.add_row(*spec[columns].astype(str))
-
-    rich.print(table)
-
-    # Plot
-    if plot:
-        classy.Spectra(**kwargs).plot(save=save)
 
 
 @cli_classy.command()
@@ -125,6 +31,92 @@ def add(path):
         sys.exit()
 
     sources.private.parse_index(path)
+
+
+@cli_classy.command()
+def docs():
+    """Open documentation in browser."""
+    webbrowser.open("https://classy.readthedocs.io/en/latest/", new=2)
+
+
+@cli_classy.command(context_settings=dict(ignore_unknown_options=True))
+@click.argument("args", type=click.UNPROCESSED, nargs=-1)
+@click.option(
+    "-t",
+    "--taxonomy",
+    type=click.Choice(classy.taxonomies.SYSTEMS, case_sensitive=False),
+    help="Taxonomic system shown in output plot.",
+)
+@click.option("-p", "--plot", is_flag=True, help="Plot the classification result.")
+@click.option("-s", "--save", help="Save plot under specified filename.")
+def classify(args, taxonomy, plot, save):
+    """Classify spectra in classy index"""
+
+    if not args:
+        raise ValueError("No query parameters were specified.")
+
+    id, kwargs = _parse_args(args)
+    spectra = classy.Spectra(id, **kwargs)
+
+    if not spectra:
+        click.echo("No spectra matching these criteria found.")
+        sys.exit()
+
+    classy.set_log_level("CRITICAL")
+    for taxonomy in ["mahlke", "demeo", "tholen"]:
+        spectra.classify(taxonomy=taxonomy)
+    classy.set_log_level("WARNING")
+
+    # Echo result
+    table, columns = _create_table(spectra, classify=True)
+
+    for spec in spectra:
+        row = []
+
+        for c in columns:
+            if c not in ["wave_min", "wave_max"]:
+                row.append(str(getattr(spec, c)))
+            elif c == "wave_min":
+                row.append(f"{spec.wave.min():.3f}")
+            elif c == "wave_max":
+                row.append(f"{spec.wave.max():.3f}")
+        table.add_row(*row)
+
+    rich.print(table)
+
+    # Plot
+    if plot:
+        spectra.plot(save=save, taxonomy=taxonomy)
+
+
+@cli_classy.command(context_settings=dict(ignore_unknown_options=True))
+@click.argument("args", type=click.UNPROCESSED, nargs=-1)
+@click.option("-p", "--plot", is_flag=True, help="Plot the spectra.")
+@click.option("-s", "--save", help="Save plot under specified filename.")
+def spectra(args, plot, save):
+    """Search for spectra in classy index"""
+
+    if not args:
+        raise ValueError("No query parameters were specified.")
+
+    id, kwargs = _parse_args(args)
+    spectra = index.query(id, **kwargs)
+
+    if spectra.empty:
+        click.echo("No spectra matching these criteria found.")
+        sys.exit()
+
+    # Echo result
+    table, columns = _create_table(spectra)
+
+    for _, spec in spectra.iterrows():
+        table.add_row(*spec[columns].astype(str))
+
+    rich.print(table)
+
+    # Plot
+    if plot:
+        classy.Spectra(**kwargs).plot(save=save)
 
 
 @cli_classy.command()
@@ -187,3 +179,53 @@ def status():
         classy.set_log_level("CRITICAL")
         sources._retrieve_spectra()
         index.build()
+
+
+# ------
+# Utility functions
+def _parse_args(args):
+    """Separate identifiers and option key-value pairs from arguments."""
+
+    # Separate query parameters and identifiers
+    idx_options = [i for i, arg in enumerate(args) if arg.startswith("--")]
+    kwargs = (
+        {args[i].strip("--"): args[i + 1] for i in idx_options} if idx_options else {}
+    )
+
+    id = args[: min(idx_options)] if idx_options else args
+    id = None if not id else id
+    return id, kwargs
+
+
+def _create_table(spectra, classify=False):
+    """Create Table instance to echo query results."""
+    table = Table(
+        box=rich.box.ASCII2,
+        caption=f"{len(spectra)} Spectr{'a' if len(spectra) > 1 else 'um'}",
+    )
+
+    # Construct column setup
+    columns = ["name", "number", "wave_min", "wave_max"]
+
+    if not classify:
+        for c in ["date_obs", "phase", "source"]:
+            columns.insert(4, c)
+
+        for col in spectra.columns:
+            if col not in classy.index.COLUMNS:
+                columns += [col]
+
+        for c in columns:
+            if spectra[c].dtype == "float64":
+                spectra[c] = spectra[c].round(3)
+            if spectra[c].dtype in ["float64", "object"]:
+                spectra[c] = spectra[c].fillna("-")
+    else:
+        columns += ["albedo", "class_mahlke", "class_demeo", "class_tholen"]
+
+    columns += ["shortbib"]
+
+    for c in columns:
+        table.add_column(c)
+
+    return table, columns
