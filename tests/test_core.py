@@ -12,11 +12,10 @@ def test_spectra_with_single_id():
     assert spectra[0].name == "Ceres"
 
 
-
 def test_spectra_with_many_id():
     """Test creating a Spectra instance by passing an asteroid identifier."""
     spectra = classy.Spectra([1, "vesta", 22], source="Gaia")
-    assert len(spectra) == 1
+    assert len(spectra) == 3
     assert spectra[0].name == "Ceres"
 
 
@@ -41,19 +40,24 @@ def test_spectra_from_invalid():
     classy.Spectra(None)
     classy.Spectra(np.nan)
 
-           >>> classy.Spectra(4)
-            >>> classy.Spectra("vesta")                  # (4) Vesta
-            >>> classy.Spectra([12, 21])                 # (12) Victoria, (21) Lutetia
-            >>> classy.Spectra(["julia", "sylvia", 283]) # (87) Sylvia, (89) Julia, (283) Emma
-            >>> classy.Spectra(albedo="0.03,0.04")
-            >>> classy.Spectra(phase=',10')
-           >>> classy.Spectra(22, wave_min=0.45, wave_max=2.45)
-            >>> classy.Spectra(albedo="0.1,", taxonomy="B,C")
-           >>> classy.Spectra(wave_min=0.3, taxonomy="B,C")
-           >>> classy.Spectra(query="wave_min < 0.3 & (taxonomy == 'B' | taxonomy == 'C')") # equivalent
-            >>> classy.Spectra(family="Tirela,Watsonia", query="taxonomy != 'L'")
-           >>> classy.Spectra(family="Polana", feature="h")
-            >>> classy.Spectra(query='moid.EMB.value <= 0.05', H=',22')
+
+def test_doc_scenarios():
+    """Examples given in selecting-spectra chapter."""
+    # TODO: Merge with other unit tests
+    # >>> classy.Spectra(4)
+    # >>> classy.Spectra("vesta")                  # (4) Vesta
+    # >>> classy.Spectra([12, 21])                 # (12) Victoria, (21) Lutetia
+    # >>> classy.Spectra(["julia", "sylvia", 283]) # (87) Sylvia, (89) Julia, (283) Emma
+    # >>> classy.Spectra(albedo="0.03,0.04")
+    # >>> classy.Spectra(phase=',10')
+    # >>> classy.Spectra(22, wave_min=0.45, wave_max=2.45)
+    # >>> classy.Spectra(albedo="0.1,", taxonomy="B,C")
+    # >>> classy.Spectra(wave_min=0.3, taxonomy="B,C")
+    # >>> classy.Spectra(query="wave_min < 0.3 & (taxonomy == 'B' | taxonomy == 'C')") # equivalent
+    # >>> classy.Spectra(family="Tirela,Watsonia", query="taxonomy != 'L'")
+    # >>> classy.Spectra(family="Polana", feature="h")
+    # >>> classy.Spectra(query='moid.EMB.value <= 0.05', H=',22')
+
 
 # ------
 # User creates spectrum
