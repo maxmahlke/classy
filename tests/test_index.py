@@ -99,5 +99,5 @@ def test_query():
     assert all(N <= 800 for N in spectra["N"])
 
     # Fail if unknown column is provided
-    with pytest.raises(KeyError):
+    with pytest.raises(ValueError):
         spectra = classy.index.query(unknown_column=23)
