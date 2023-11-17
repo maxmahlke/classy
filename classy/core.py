@@ -593,22 +593,7 @@ class Spectra(list):
             One or many asteroid identifiers. Optional, default is None,
             in which case no selection based on identity is done.
         """
-
-        # Convert id to query criterion if provided
-        if id is not None:
-            if not isinstance(id, (list, tuple)):
-                id = [id]
-
-            id = [rocks.id(i)[0] for i in id if i is not None]
-
-            if "name" in kwargs:
-                logger.warning(
-                    "Specifying asteroid identifiers overrides the passed 'name' selection."
-                )
-
-            kwargs["name"] = id
-
-        spectra = index.query(**kwargs)
+        spectra = index.query(id, **kwargs)
         spectra = cache.load_spectra(spectra)
 
         for spec in spectra:
