@@ -102,6 +102,29 @@ def test_spectra():
     assert result.exit_code == 0
     assert "moid" in result.output
 
+    os.environ["COLUMNS"] = "80"
+
+
+def test_classify():
+    """Test classification interface."""
+    os.environ["COLUMNS"] = "1000"  # ensure that rich prints full table
+
+    runner = CliRunner()
+
+    result = runner.invoke(cli.classify, args="vesta --source MITHNEOS")
+    assert "class_mahlke" in result.output
+    assert "class_demeo" in result.output
+    assert "class_tholen" in result.output
+    assert result.exit_code == 0
+
+    result = runner.invoke(cli.spectra, args="ceres --source ECAS --taxonomy tholen")
+    assert result.exit_code == 0
+
+    result = runner.invoke(cli.spectra, args="ceres --source ECAS -t THOLEN")
+    assert result.exit_code == 0
+
+    os.environ["COLUMNS"] = "80"
+
 
 def test_invalid_argument_combinations():
     """Make sure that sensible warnings and errors are printed when invalid argument combinations
