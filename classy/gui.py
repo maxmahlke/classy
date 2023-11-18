@@ -417,7 +417,7 @@ class InteractiveFeatureFit(QtWidgets.QMainWindow):
 
         # Store feature index
         classy.index.store_features(features)
-        logger.info("Feature parameters saved to file.")
+        logger.debug("Feature parameters saved to file.")
         self.notify.setText("Feature parameters stored.")
 
     def _close(self):
@@ -699,7 +699,7 @@ class InteractiveSmoothing(QtWidgets.QMainWindow):
 
         # Store smoothing index
         classy.index.store_smoothing(smoothing)
-        logger.info("Smoothing Parameters saved to file.")
+        logger.debug("Smoothing Parameters saved to file.")
         self.notify.setText("Smoothing parameters stored.")
 
     def _close(self):
