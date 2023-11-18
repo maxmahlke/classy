@@ -1,3 +1,6 @@
+# 0.7.1 - 2023-11-18
+- Separate gui-dependencies into optional package install
+
 # 0.7 - 2023-09-11
 - Changes to make classy spectral database shareable between computers / users:
   - classy cache directory path can be set with CLASSY_CACHE_DIR environment variable
