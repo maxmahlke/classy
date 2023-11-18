@@ -13,6 +13,7 @@ from classy.log import logger
 from classy import index
 from classy import mixnorm
 from classy import plotting
+from classy import progress as prog
 from classy import sources
 from classy import preprocessing
 from classy import taxonomies
@@ -119,6 +120,11 @@ class Spectrum:
         self.reset_data()
         self.is_smoothed = False
 
+    def copy(self):
+        from copy import deepcopy
+
+        return deepcopy(self)
+
     @property
     def has_smoothing_parameters(self):
         # We need at least a filename to store the parameters
@@ -155,39 +161,41 @@ class Spectrum:
             )
         return Spectra([self, *rhs])
 
-    def smooth(self, **kwargs):
+    def smooth(self, method="interactive", force=False, **kwargs):
         """Smooth spectrum using a Savitzky-Golay filter or univariate spline.
 
         Parameters
         ----------
         method : str
             The smoothing method. Choose from ['savgol', 'spline']. Default is 'savgol'.
+        force : bool
+            Include spectra that already have smoothing parameters in interactive
+            smoothing. Default is False. Smoothing parameters are applied in both cases.
         """
-        if not kwargs:
-            if not self.has_smoothing_parameters:
+
+        if method in ["savgol", "spline"]:
+            if not kwargs:
                 raise ValueError(
-                    "No smoothing parameters on file. smooth() needs to be called with the smoothing parameters specified."
+                    "smooth needs to be called with the smoothing parameters specified if method != 'interactive'."
                 )
-            smoothing = self.load_smoothing_parameters()
 
-            for key_gui, key_func in zip(
-                ["method", "deg_savgol", "window_savgol", "deg_spline"],
-                ["method", "polyorder", "window_length", "k"],
-            ):
-                kwargs[key_func] = smoothing[key_gui]
-        if "method" not in kwargs:
-            raise KeyError(
-                "You need to provide the 'method' and relevant smoothing parameters."
-            )
-
-        if kwargs["method"] == "savgol":
+        if method == "savgol":
             self.refl = preprocessing.savitzky_golay(self.refl, **kwargs)
-        elif kwargs["method"] == "spline":
+            self.is_smoothed = True
+            return
+
+        if method == "spline":
             self.refl = preprocessing.univariate_spline(self.wave, self.refl, **kwargs)
-        else:
-            raise ValueError(
-                f"Unknown smoothing method '{kwargs['method']}'. Choose from ['savgol', 'spline']."
-            )
+            self.is_smoothed = True
+            return
+
+        if self.has_smoothing_parameters and not force:
+            smoothing = self.load_smoothing_parameters()
+            self.smooth(**smoothing)
+            self.is_smoothed = True
+            return
+
+        self.smooth_interactive()
         self.is_smoothed = True
 
     @property
@@ -216,14 +224,6 @@ class Spectrum:
         wave_max : float
             The upper wavelength to truncate at.
         """
-        # if wave_min is None or wave_max is None:
-        #     if not self.has_smoothing_parameters:
-        #         raise ValueError(
-        #             "No truncation parameters on file. truncate() needs to be called with the minimum and maximum wavelength specified."
-        #         )
-        #     smoothing = self.load_smoothing_parameters()
-        #     wave_min = smoothing["wave_min"]
-        #     wave_max = smoothing["wave_max"]
         if wave_min is None:
             wave_min = min(self.wave)
         if wave_max is None:
@@ -362,7 +362,7 @@ class Spectrum:
 
         Note
         ----
-        The fit [slope, intercept] is recorded as ``slope`` attribute.
+        The fit (slope, intercept) is recorded as ``slope`` attribute.
         """
         self.refl, self.slope = preprocessing.remove_slope(
             self.wave, self.refl, translate_to
@@ -441,12 +441,12 @@ class Spectrum:
     def plot(self, **kwargs):
         plotting.plot_spectra([self], **kwargs)
 
-    def resample(self, grid, **kwargs):
+    def resample(self, wave_new, **kwargs):
         """Resample the spectrum to another wavelength grid.
 
         Parameters
         ----------
-        grid : list
+        wave_new : list
             The target wavelength values.
 
         Notes
@@ -454,8 +454,11 @@ class Spectrum:
         Any additional parameters are passed to the ``scipy.interpoalte.interp1d`` function.
         """
 
-        self.refl = preprocessing.resample(self.wave, self.refl, grid, **kwargs)
-        self.wave = grid
+        self.refl = preprocessing.resample(self.wave, self.refl, wave_new, **kwargs)
+        self.wave = wave_new
+
+        if self.refl_err is not None:
+            self.refl_err = None
 
     def to_csv(self, path_out=None):
         """Store the classification results to file."""
@@ -584,6 +587,7 @@ def _basic_checks(wave, refl, unc, flag):
 class Spectra(list):
     """List of several spectra of individual asteroid."""
 
+    @singledispatchmethod
     def __init__(self, id=None, **kwargs):
         """Select spectra from classy index using matching criteria.
 
@@ -599,6 +603,7 @@ class Spectra(list):
         for spec in spectra:
             self.append(spec)
 
+    @__init__.register(list)
     def _list(self, entries: list):
         """Instantiate Spectra by passing a list of Spectrum instances or asteroid identifiers."""
 
@@ -741,7 +746,53 @@ class Spectra(list):
     #     for spec in self:
     #         print(spec)
 
-    def detect_features(self):
+    def smooth(self, method="interactive", force=False, progress=True, **kwargs):
+        """Smooth spectrum using a Savitzky-Golay filter or univariate spline.
+
+        Parameters
+        ----------
+        method : str
+            The smoothing method. Choose from ['savgol', 'spline']. Default is 'savgol'.
+        force : bool
+            Include spectra that already have smoothing parameters in interactive
+            smoothing. Default is False. Smoothing parameters are applied in both cases.
+        progress : bool
+            Show progress bar. Default is True.
+        """
+
+        if progress:
+            with prog.mofn as mofn:
+                task = mofn.add_task("Smoothing..", total=len(self))
+                for spec in self:
+                    spec.smooth(method, force, **kwargs)
+                    mofn.update(task, advance=1)
+        else:
+            for spec in self:
+                spec.smooth(method, force, **kwargs)
+
+    def detect_features(self, force=False, progress=True):
+        """Smooth spectrum using a Savitzky-Golay filter or univariate spline.
+
+        Parameters
+        ----------
+        method : str
+            The smoothing method. Choose from ['savgol', 'spline']. Default is 'savgol'.
+        force : bool
+            Include spectra that already have smoothing parameters in interactive
+            smoothing. Default is False. Smoothing parameters are applied in both cases.
+        progress : bool
+            Show progress bar. Default is True.
+        """
+
+        if progress:
+            with prog.mofn as mofn:
+                task = mofn.add_task("Smoothing..", total=len(self))
+                for spec in self:
+                    spec.smooth(method, force, **kwargs)
+                    mofn.update(task, advance=1)
+        else:
+            for spec in self:
+                spec.smooth(method, force, **kwargs)
         for spec in self:
             spec.detect_features()
 
