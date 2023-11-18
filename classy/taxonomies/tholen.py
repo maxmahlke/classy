@@ -320,6 +320,7 @@ def plot_pc_space(ax, spectra):
 
 # Central wavelengths of the ECAS colours
 WAVE = np.array([0.337, 0.359, 0.437, 0.550, 0.701, 0.853, 0.948, 1.041])
+WAVE = list(WAVE)
 
 # Mean and standard deviation of ECAS colours, Tholen 1984 Table II
 DATA_MEAN = np.array([0.325, 0.234, 0.089, 0.091, 0.105, 0.103, 0.111])
