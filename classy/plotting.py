@@ -378,7 +378,7 @@ def plot_spectra(spectra, taxonomy=None, save=None, templates=None):
             scheme = "DeMeo+ 2009"
         (l3,) = ax_spec.plot([], [], ls=(1, (1, 7)), alpha=0.3, c="gray")
         lines += [dummy, dummy, l3]
-        labels += ["", f"Class Templates", f"Complex {templates} - {scheme}"]
+        labels += ["", "Class Templates", f"Complex {templates} - {scheme}"]
 
     leg = ax_spec.legend(
         lines,

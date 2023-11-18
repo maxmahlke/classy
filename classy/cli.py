@@ -63,8 +63,8 @@ def classify(args, taxonomy, plot, save):
         sys.exit()
 
     classy.set_log_level("CRITICAL")
-    for taxonomy in ["mahlke", "demeo", "tholen"]:
-        spectra.classify(taxonomy=taxonomy)
+    for t in ["mahlke", "demeo", "tholen"]:
+        spectra.classify(taxonomy=t)
     classy.set_log_level("WARNING")
 
     # Echo result
