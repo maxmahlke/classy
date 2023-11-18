@@ -53,10 +53,10 @@ def is_classifiable(spec):
     bool
         True if the spectrum can be classified, else False.
     """
-    if spec.wave.min() > WAVE.min() or spec.wave.max() < WAVE.max():
+    if spec.wave.min() > min(WAVE) or spec.wave.max() < max(WAVE):
         # Check if the extrapolation would be sufficient
         if preprocessing._within_extrapolation_limit(
-            spec.wave.min(), spec.wave.max(), WAVE.min(), WAVE.max()
+            spec.wave.min(), spec.wave.max(), min(WAVE), max(WAVE)
         ):
             return True
 
@@ -478,6 +478,7 @@ def plot_pc_space(ax, spectra):
 
 # Central wavelengths of the VisNIR spectra
 WAVE = np.arange(0.45, 2.5, 0.05)
+WAVE = list(WAVE)
 
 # fmt: off
 CLASSES = ["A", "B", "Cg", "Cgh", "C", "Cb", "D", "K", "L",
