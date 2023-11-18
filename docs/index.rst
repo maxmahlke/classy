@@ -113,7 +113,8 @@ public repositories.\ [#f1]_
    :caption: Spectra Analysis
    :hidden:
 
-   Selecting Spectra<spectra>
+   Managing Spectra<manage>
+   Selecting Spectra<select>
    Preprocessing<preprocessing>
    Feature Detection<features>
    Classifying<classifying>
