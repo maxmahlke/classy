@@ -9,6 +9,16 @@ features <features>` relevant for the class assignment.
 classification results as well as visualize them. All tasks can be done via the
 command line interface and the ``python`` interface.
 
+.. important::
+
+    When classifying, ``classy`` automatically applies the required preprocessing
+    (e.g. normalisation, resampling) for the respective taxonomic scheme. This
+    happens "under the hood" and does not change your data.
+
+.. important::
+
+   EXTRAPOLATION LIMIT
+
 .. tab-set::
 
     .. tab-item:: Command Line
