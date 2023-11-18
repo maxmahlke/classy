@@ -23,7 +23,7 @@ def cli_classy():
 @cli_classy.command()
 @click.argument("path", type=str)
 def add(path):
-    """Add a private spectra collection."""
+    """Add a local spectra collection."""
     path = Path(path)
 
     if not path.is_file():
@@ -31,12 +31,6 @@ def add(path):
         sys.exit()
 
     sources.private.parse_index(path)
-
-
-@cli_classy.command()
-def docs():
-    """Open documentation in browser."""
-    webbrowser.open("https://classy.readthedocs.io/en/latest/", new=2)
 
 
 @cli_classy.command(context_settings=dict(ignore_unknown_options=True))
@@ -50,7 +44,7 @@ def docs():
 @click.option("-p", "--plot", is_flag=True, help="Plot the classification result.")
 @click.option("-s", "--save", help="Save plot under specified filename.")
 def classify(args, taxonomy, plot, save):
-    """Classify spectra in classy index"""
+    """Classify spectra in classy index."""
 
     if not args:
         raise ValueError("No query parameters were specified.")
@@ -89,12 +83,58 @@ def classify(args, taxonomy, plot, save):
         spectra.plot(save=save, taxonomy=taxonomy)
 
 
+@cli_classy.command()
+def docs():
+    """Open documentation in browser."""
+    webbrowser.open("https://classy.readthedocs.io/en/latest/", new=2)
+
+
+@cli_classy.command(context_settings=dict(ignore_unknown_options=True))
+@click.argument("args", type=click.UNPROCESSED, nargs=-1)
+@click.option(
+    "-f", "--force", is_flag=True, help="Include spectra with feature parameters."
+)
+def features(args, force):
+    """Run interactive feature detection for selected spectra."""
+    if not args:
+        raise ValueError("No query parameters were specified.")
+
+    id, kwargs = _parse_args(args)
+    spectra = classy.Spectra(id, **kwargs)
+
+    if not spectra:
+        click.echo("No spectra matching these criteria found.")
+        sys.exit()
+
+    spectra.detect_features(force=force, progress=True)
+
+
+@cli_classy.command(context_settings=dict(ignore_unknown_options=True))
+@click.argument("args", type=click.UNPROCESSED, nargs=-1)
+@click.option(
+    "-f", "--force", is_flag=True, help="Include spectra with smoothing parameters."
+)
+def smooth(args, force):
+    """Run interactive smoothing for selected spectra."""
+    if not args:
+        raise ValueError("No query parameters were specified.")
+
+    id, kwargs = _parse_args(args)
+    spectra = classy.Spectra(id, **kwargs)
+
+    if not spectra:
+        click.echo("No spectra matching these criteria found.")
+        sys.exit()
+
+    spectra.smooth(force=force, progress=True)
+
+
 @cli_classy.command(context_settings=dict(ignore_unknown_options=True))
 @click.argument("args", type=click.UNPROCESSED, nargs=-1)
 @click.option("-p", "--plot", is_flag=True, help="Plot the spectra.")
 @click.option("-s", "--save", help="Save plot under specified filename.")
 def spectra(args, plot, save):
-    """Search for spectra in classy index"""
+    """Search for spectra in classy index."""
 
     if not args:
         raise ValueError("No query parameters were specified.")
@@ -116,7 +156,7 @@ def spectra(args, plot, save):
 
     # Plot
     if plot:
-        classy.Spectra(**kwargs).plot(save=save)
+        classy.Spectra(id, **kwargs).plot(save=save)
 
 
 @cli_classy.command()
