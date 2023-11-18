@@ -136,14 +136,14 @@ def resample(wave, refl, grid, **kwargs):
     if wave[-1] == grid[-1]:
         wave[-1] += 0.0001
 
-    if "fill_value" in kwargs:
-        if kwargs["fill_value"] == "bounds":
-            kwargs["bounds_error"] = False
-            kwargs["fill_value"] = (refl[0], refl[-1])
-    else:
-        if _within_extrapolation_limit(wave.min(), wave.max(), min(grid), max(grid)):
-            kwargs["bounds_error"] = False
-            kwargs["fill_value"] = (refl[0], refl[-1])
+    # if "fill_value" in kwargs:
+    #     if kwargs["fill_value"] == "bounds":
+    #         kwargs["bounds_error"] = False
+    #         kwargs["fill_value"] = (refl[0], refl[-1])
+    # else:
+    #     if _within_extrapolation_limit(wave.min(), wave.max(), min(grid), max(grid)):
+    #         kwargs["bounds_error"] = False
+    #         kwargs["fill_value"] = (refl[0], refl[-1])
 
     refl_interp = interpolate.interp1d(wave, refl, **kwargs)
     return refl_interp(grid)
@@ -200,8 +200,8 @@ def remove_slope(wave, refl, translate_to=None):
     -------
     np.ndarray
         The slope-removed reflectance values.
-    list of float
-        The parameters of the fitted 1d polynomial [slope, intercept].
+    tuple of float
+        The parameters of the fitted 1d polynomial (slope, intercept).
     """
 
     slope_params = np.polyfit(wave, refl, 1)
@@ -214,7 +214,7 @@ def remove_slope(wave, refl, translate_to=None):
 
     # Remove splope
     refl /= slope(wave)
-    return refl, slope_params
+    return refl, tuple(slope_params)
 
 
 def _normalize_at(wave, refl, at):
