@@ -385,21 +385,23 @@ class Spectrum:
 
         self.refl = self.refl[~np.isnan(self.refl)]
 
-    def detect_features(self, feature="all"):
-        """Run automatic recognition of e-, h-, and/or k-feature.
+    def inspect_features(self, feature="all", force=False):
+        """Run interactive inspection of e-, h-, and/or k-feature.
 
         Parameters
         ----------
-        feature : str
-            The feature to detect. Choose from ['all', 'e', 'h', 'k']. Default is 'all'.
+        feature: str of list of str
+            Features to inspect. Choose from ['all', 'e', 'h', 'k']. Default is 'all'.
+        force : bool
+            Include spectra that already have fit parameters in interactive fitting. Default is False.
 
         Notes
         -----
         The fitted features are added as attributes to the Spectrum instance.
 
-        >>> spectrum.detect_features(feature='e')
+        >>> spectrum.inspect_features(feature='e')
         >>> type(spectrum.e)
-        classy.spectra.Feature
+        classy.Feature
         """
 
         if feature not in ["all", "e", "h", "k"]:
@@ -414,11 +416,15 @@ class Spectrum:
 
         for name in features:
             feature = Feature(name, self)
-
-            if feature.is_observed:
-                feature.compute_fit()
-
             setattr(self, name, feature)
+
+            if not feature.is_covered:
+                continue
+
+            if feature.has_parameters and not force:
+                continue
+
+            feature.inspect()
 
     def add_feature_flags(self, data_classified):
         """Detect features in spectra and amend the classification."""
@@ -771,16 +777,17 @@ class Spectra(list):
             for spec in self:
                 spec.smooth(method, force, **kwargs)
 
-    def detect_features(self, force=False, progress=True):
+    def inspect_features(self, feature="all", force=False, progress=True):
         """Smooth spectrum using a Savitzky-Golay filter or univariate spline.
 
         Parameters
         ----------
         method : str
             The smoothing method. Choose from ['savgol', 'spline']. Default is 'savgol'.
+        feature: str of list of str
+            Features to inspect. Choose from ['all', 'e', 'h', 'k']. Default is 'all'.
         force : bool
-            Include spectra that already have smoothing parameters in interactive
-            smoothing. Default is False. Smoothing parameters are applied in both cases.
+            Include spectra that already have fit parameters in interactive fitting. Default is False.
         progress : bool
             Show progress bar. Default is True.
         """
@@ -789,13 +796,15 @@ class Spectra(list):
             with prog.mofn as mofn:
                 task = mofn.add_task("Smoothing..", total=len(self))
                 for spec in self:
-                    spec.smooth(method, force, **kwargs)
+                    if spec.has_smoothing_parameters:
+                        spec.smooth()
+                    spec.inspect_features(feature, force)
                     mofn.update(task, advance=1)
         else:
             for spec in self:
-                spec.smooth(method, force, **kwargs)
-        for spec in self:
-            spec.detect_features()
+                if spec.has_smoothing_parameters:
+                    spec.smooth()
+                spec.inspect_features(feature, force)
 
     def to_csv(self, path_out=None):
         results = {}

@@ -34,19 +34,19 @@ FEATURE = {
         "candidates": ["P", "M", "E", "X"],
         "center": [0.49725, 0.0055],
         "lower": 0.45,
-        "upper": 0.539,
+        "upper": 0.54,
     },
     "h": {
         "candidates": ["B", "C", "P", "X"],
         "center": [0.69335, 0.011],
-        "lower": 0.609,
-        "upper": 0.804,
+        "lower": 0.61,
+        "upper": 0.80,
         # "upper": 0.934,
     },
     "k": {
         "candidates": ["P", "M", "E", "X"],
         "center": [0.90596, 0.017],
-        "lower": 0.758,
+        "lower": 0.76,
         "upper": 1.06,
     },
 }
