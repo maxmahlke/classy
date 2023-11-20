@@ -403,28 +403,25 @@ class Spectrum:
         >>> type(spectrum.e)
         classy.Feature
         """
+        if feature == "all":
+            features = ["e", "h", "k"]
 
-        if feature not in ["all", "e", "h", "k"]:
+        features = list(feature) if not isinstance(feature, list) else feature
+
+        if not all(f in ["e", "h", "k"] for f in feature):
             raise ValueError(
                 f"Passed feature is {feature}, expected one of: ['all', 'e', 'h', 'k']"
             )
 
-        if feature == "all":
-            features = ["e", "h", "k"]
-        else:
-            features = list(feature)
-
-        for name in features:
-            feature = Feature(name, self)
-            setattr(self, name, feature)
+        for f in features:
+            feature = Feature(f, self)
+            setattr(self, f, feature)
 
             if not feature.is_covered:
                 continue
 
-            if feature.has_parameters and not force:
-                continue
-
-            feature.inspect()
+            if feature.is_candidate or force:
+                feature.inspect()
 
     def add_feature_flags(self, data_classified):
         """Detect features in spectra and amend the classification."""
@@ -490,27 +487,9 @@ class Spectrum:
             logger.info("No 'path_out' provided, storing results to ./classy_spec.csv")
             result.to_csv("./classy_spec.csv", index=False)
 
-    # def preprocess(self, **kwargs):
-    #     """Apply preprocessing."""
-    #
-    #     # this is just smoothing and truncating
-    #     # self.truncate(**kwargs)
-    #     # self.smooth(**kwargs)
-    #
-    #     if not self.has_smoothing_parameters:
-    #         self.smooth_interactive()
-    #     else:
-    #         self.truncate()
-    #         self.smooth()
-    #
-    #     for feature in ["e", "h", "k"]:
-    #         feature = getattr(self, feature)
-    #         if feature.is_observed and not feature.has_fit_parameters:
-    #             feature.fit_interactive()
-
 
 # ------
-# Utility functions, not to be called directly
+# Utility functions
 def _basic_checks(wave, refl, unc, flag):
     """Basic quality checks for spectra."""
 
