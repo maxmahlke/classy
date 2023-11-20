@@ -64,7 +64,6 @@ without any arguments launches the smoothing interface.
 
 .. image:: gfx/preprocessing/smooth_interface.png
  :align: center
- :class: only-dark
  :width: 800
 
 After storing the smoothing parameters, ``classy`` will automatically apply them
