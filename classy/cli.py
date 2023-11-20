@@ -106,7 +106,7 @@ def features(args, force):
         click.echo("No spectra matching these criteria found.")
         sys.exit()
 
-    spectra.detect_features(force=force, progress=True)
+    spectra.inspect_features(force=force, progress=True)
 
 
 @cli_classy.command(context_settings=dict(ignore_unknown_options=True))

@@ -255,9 +255,7 @@ class InteractiveFeatureFit(QtWidgets.QMainWindow):
 
     def _plot_fit(self):
         """Plot the fitted feature function."""
-        self.feat.compute_fit(
-            method="polynomial", degree=int(self.input_poly_deg.value())
-        )
+        self.feat.compute_fit(degree=int(self.input_poly_deg.value()))
 
         data = (
             self.feat.wave,
