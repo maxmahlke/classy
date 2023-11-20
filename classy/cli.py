@@ -91,10 +91,11 @@ def docs():
 
 @cli_classy.command(context_settings=dict(ignore_unknown_options=True))
 @click.argument("args", type=click.UNPROCESSED, nargs=-1)
+@click.option("--feature", help="The feature to fit.")
 @click.option(
     "-f", "--force", is_flag=True, help="Include spectra with feature parameters."
 )
-def features(args, force):
+def features(args, feature, force):
     """Run interactive feature detection for selected spectra."""
     if not args:
         raise ValueError("No query parameters were specified.")
@@ -106,7 +107,8 @@ def features(args, force):
         click.echo("No spectra matching these criteria found.")
         sys.exit()
 
-    spectra.inspect_features(force=force, progress=True)
+    feature = feature.split(",") if feature is not None else "all"
+    spectra.inspect_features(feature, force=force, progress=True)
 
 
 @cli_classy.command(context_settings=dict(ignore_unknown_options=True))
