@@ -218,8 +218,8 @@ attribute of the spectrum:
 .. code-block:: python
 
   >>> spec.remove_slope()
-  >>> spec.slope # tuple containing [slope, intercept] of fitted polynomial
-  (0.06839286 1.02706994)
+  >>> spec.slope # tuple containing (slope, intercept) of fitted polynomial
+  (0.06839286, 1.02706994)
 
 .. image:: gfx/preprocessing/chloe_slope_removed.png
  :align: center
