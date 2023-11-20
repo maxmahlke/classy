@@ -219,9 +219,9 @@ database. Spectra-specific queries can make use of this metadata:
 | ``feature``  | Presence of given feature in spectrum         | ``$ classy spectra egeria --feature h``                  |
 +--------------+-----------------------------------------------+----------------------------------------------------------+
 
-Selecting based on feature presence can be done after :ref:`building the
-feature index <fitting_features>` via the :ref:`feature detection
-<feature_detection>` interface. The ``feature`` property one or several of the
+Selecting based on feature presence can be done after populating the
+feature index via the :ref:`feature detection
+<features>` interface. The ``feature`` property one or several of the
 ``e``, ``h``, and ``k`` features.
 
 .. tab-set::
