@@ -190,8 +190,9 @@ class Spectrum:
             return
 
         if self.has_smoothing_parameters and not force:
-            smoothing = self.load_smoothing_parameters()
-            self.smooth(**smoothing)
+            params = self.load_smoothing_parameters()
+            self.truncate(params["wave_min"], params["wave_max"])
+            self.smooth(**params)
             self.is_smoothed = True
             return
 
