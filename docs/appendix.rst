@@ -1,6 +1,11 @@
 Appendix
 ========
 
+.. _share_features:
+
+Sharing feature index entires
+-----------------------------
+
 Shortforms for target properties
 
 Columns of the Spectra Index
