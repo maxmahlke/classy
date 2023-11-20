@@ -394,7 +394,9 @@ def load_features():
         )
         return pd.DataFrame(index=ind)
     return pd.read_csv(
-        config.PATH_DATA / "features.csv", index_col=["filename", "feature"]
+        config.PATH_DATA / "features.csv",
+        index_col=["filename", "feature"],
+        dtype={"is_present": bool},
     )
 
 
