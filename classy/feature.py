@@ -44,6 +44,9 @@ class Feature:
         # Set interpolation range for continuum, fit, and parameter estimation
         self.range_interp = np.arange(self.lower, self.upper, 0.001)
 
+    def __repr__(self):
+        return f"<Feature {self.name}>"
+
     @property
     def wave(self):
         return self.spec.wave[
@@ -206,6 +209,7 @@ class Feature:
         from . import gui
 
         gui.main(self)
+        self.is_candidate = False
 
     def _compute_noise(self):
         """Compute mean standard deviation of fit against original data."""
