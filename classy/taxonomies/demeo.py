@@ -1,11 +1,9 @@
 """Classification of asteroids following DeMeo+ 2009."""
 from functools import lru_cache
-from urllib.request import urlretrieve
 
 import numpy as np
 import pandas as pd
 
-from classy import cache
 from classy import config
 from classy import core
 from classy.log import logger
@@ -93,7 +91,7 @@ def preprocess(spec):
 
     # Resample to DeMeo+ 2009 wavelength grid
     spec.resample(WAVE)
-    spec.detect_features()
+    # spec.detect_features()
 
 
 # ------
