@@ -430,7 +430,7 @@ class Spectrum:
             for feature, props in defs.FEATURE.items():
                 if sample.class_ in props["candidates"]:
                     if (
-                        getattr(self, feature).is_observed
+                        getattr(self, feature).is_covered
                         and getattr(self, feature).is_present
                     ):
                         if feature == "h":
