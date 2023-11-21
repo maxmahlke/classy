@@ -113,7 +113,7 @@ public repositories.\ [#f1]_
    :caption: Spectra Analysis
    :hidden:
 
-   Managing Spectra<manage>
+   Basic Usage<basic_usage>
    Selecting Spectra<select>
    Preprocessing<preprocessing>
    Feature Detection<features>

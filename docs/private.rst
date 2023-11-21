@@ -44,4 +44,4 @@ spectra is retained:
      /home/max/data/sunshine2008/asteroids/watsonia.txt -> $CLASSY_DATA_DIR/asteroids/watsonia.txt
      /home/max/data/devogele2018/asteroids/watsonia.txt -> $CLASSY_DATA_DIR/asteroids/watsonia.txt
 
-.. [#f1] Even better: you can make the data publicly available and `let me know about it <https://www.ias.universite-paris-saclay.fr/annuaire?nom=mahlke>`_ - I will add it to ``classy``.
+.. [#f1] Even better: you can make the data publicly available and `let me know about it <https://www.ias.universite-paris-saclay.fr/annuaire?nom=mahlke>`_.

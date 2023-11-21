@@ -4,8 +4,8 @@ Getting Started
 Installation
 ------------
 
-``classy`` is available on the `python package index <https://pypi.org>`_ as ``space-classy``.
-To get the complete package and all dependencies, run
+``classy`` is available on the `python package index <https://pypi.org>`_ as
+``space-classy``. To get the complete package and all dependencies, run
 
 .. code-block:: bash
 
@@ -13,9 +13,9 @@ To get the complete package and all dependencies, run
 
 The feature detection and preprocessing modules of ``classy`` require the
 ``pyqtgraph`` and ``pyside6`` packages, which depend on the large (in terms of
-filesize) ``Qt`` library. You might want to opt out of these installs if you do not intend
-to make use of these parts of ``classy`` (though usage will be quite limited!). In this case, you
-can run
+filesize) ``Qt`` library. You might want to opt out of these installs if you do
+not intend to make use of these parts of ``classy`` (though usage will be quite
+limited!). In this case, you can run
 
 .. code-block:: bash
 
