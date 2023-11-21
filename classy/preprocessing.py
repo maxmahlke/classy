@@ -136,15 +136,6 @@ def resample(wave, refl, grid, **kwargs):
     if wave[-1] == grid[-1]:
         wave[-1] += 0.0001
 
-    # if "fill_value" in kwargs:
-    #     if kwargs["fill_value"] == "bounds":
-    #         kwargs["bounds_error"] = False
-    #         kwargs["fill_value"] = (refl[0], refl[-1])
-    # else:
-    #     if _within_extrapolation_limit(wave.min(), wave.max(), min(grid), max(grid)):
-    #         kwargs["bounds_error"] = False
-    #         kwargs["fill_value"] = (refl[0], refl[-1])
-
     refl_interp = interpolate.interp1d(wave, refl, **kwargs)
     return refl_interp(grid)
 
