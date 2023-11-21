@@ -17,7 +17,7 @@ SPECTRA = [
 ]
 
 
-def test_is_oberved():
+def test_is_covered():
     """Test the wavelength range check of the feature detection. Uses fake wavelength ranges."""
 
     # To pass, the wavelength needs to cover the entire feature range
@@ -29,7 +29,7 @@ def test_is_oberved():
     below_upper_limit = np.linspace(0.4, defs.FEATURE["e"]["upper"] - 0.05, 10)
     above_lower_limit = np.linspace(defs.FEATURE["e"]["lower"] + 0.05, 0.6, 10)
 
-    for wave, is_observed in [
+    for wave, is_covered in [
         (dense, True),
         (sparse, False),
         (below_upper_limit, False),
