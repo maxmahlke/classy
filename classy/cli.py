@@ -7,7 +7,7 @@ import rich
 from rich.table import Table
 import rocks
 
-import classy.classify
+import classy
 from classy import cache
 from classy import index
 from classy import sources
