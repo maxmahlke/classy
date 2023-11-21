@@ -7,13 +7,12 @@ else:
     import importlib.resources as resources
 import pickle
 
-import numpy as np
 import pandas as pd
 import rocks
 from sklearn.mixture import GaussianMixture
 
 from classy import cache
-from classy import gmm
+from classy.taxonomies.mahlke import gmm
 from classy.log import logger
 from classy import index
 

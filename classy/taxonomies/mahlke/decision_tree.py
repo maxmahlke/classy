@@ -3,7 +3,9 @@ import pickle
 import numpy as np
 import pandas as pd
 
-import classy.gmm
+from classy import defs
+from classy.taxonomies.mahlke import gmm
+import classy
 
 
 def assign_classes(data):
@@ -21,21 +23,21 @@ def assign_classes(data):
     """
 
     # Instantiate the class probability columns
-    for class_ in classy.defs.CLASSES:
+    for class_ in defs.CLASSES:
         data[f"class_{class_}"] = 0
 
     # Load trained mixture models
-    GMMS, CLASSES = classy.gmm.load_mixture_models()
+    GMMS, CLASSES = gmm.load_mixture_models()
 
     # ------
     # Compute class probabilites
 
     # 1. Core cluster probability is translated one-to-one to class probability
-    for cluster, class_ in classy.defs.CORE_CLUSTER.items():
+    for cluster, class_ in defs.CORE_CLUSTER.items():
         data[f"class_{class_}"] += data[f"cluster_{cluster}"]
 
     # 2. Continuum cluster follow decision tree
-    for cluster in classy.defs.X_COMPLEX:
+    for cluster in defs.X_COMPLEX:
         if cluster == 37 and (
             pd.isna(data["pV"].values[0]) or data["pV"].values[0] > -1
         ):
@@ -72,7 +74,7 @@ def assign_classes(data):
             axis=1,
         )
 
-    for cluster in classy.defs.CONTINUUM_CLUSTER:
+    for cluster in defs.CONTINUUM_CLUSTER:
         if cluster == 29:  # taken care of below
             continue
         elif cluster == 30:
@@ -91,8 +93,8 @@ def assign_classes(data):
     )
 
     data["class_"] = data.apply(
-        lambda sample: classy.defs.CLASSES[
-            np.argmax([sample[f"class_{class_}"] for class_ in classy.defs.CLASSES])
+        lambda sample: defs.CLASSES[
+            np.argmax([sample[f"class_{class_}"] for class_ in defs.CLASSES])
         ],
         axis=1,
     )

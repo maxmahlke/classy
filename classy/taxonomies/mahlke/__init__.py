@@ -7,7 +7,7 @@ from classy import config
 from classy import core
 from classy import data
 from classy import defs
-from classy import decision_tree
+from classy.taxonomies.mahlke import decision_tree
 from classy.log import logger
 from classy import tools
 

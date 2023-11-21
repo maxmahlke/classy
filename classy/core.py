@@ -11,10 +11,9 @@ from classy import defs
 from classy.feature import Feature
 from classy.log import logger
 from classy import index
-from classy import mixnorm
+from classy.taxonomies.mahlke import mixnorm
 from classy import plotting
 from classy import progress as prog
-from classy import sources
 from classy import preprocessing
 from classy import taxonomies
 
