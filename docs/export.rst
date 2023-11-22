@@ -1,7 +1,9 @@
+:tocdepth: 2
+
 .. _plotting:
 
-Plotting
---------
+Plotting And Exporting
+======================
 
 Templates
 
