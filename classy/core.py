@@ -19,18 +19,7 @@ from classy import taxonomies
 
 
 class Spectrum:
-    def __init__(
-        self,
-        wave,
-        refl,
-        refl_err=None,
-        flag=None,
-        pV=None,
-        pV_err=None,
-        name=None,
-        number=None,
-        **kwargs,
-    ):
+    def __init__(self, wave, refl, refl_err=None, target=None, **kwargs):
         """Create a Spectrum.
 
         Parameters
@@ -41,53 +30,16 @@ class Spectrum:
             The reflectance values.
         refl_err : list of float
             The reflectance uncertainty values. Default is None.
-        flag : list of int
-            List with one flag value per data point. 0 - good, 1 - mediocre, 2 - bad.
-            Default is None, which assigns flag 0 to all data points.
-        pV : float
-            The visual albedo of the asteroid. Default is None, in which case the albedo is looked up using rocks.
-        pV_err : float
-            The albedo uncertainty value. Default is None.
-        name : str
-            The name of the asteroid the spectrum is referring to.
-        number : int
-            The number of the asteroid the spectrum is referring to.
+        target : int or str
+            Identifier to resolve target of observation. Passed to rocks.identify.
 
         Notes
         -----
         Arbitrary keyword arguments are assigned to attributes carrying the same names.
         """
 
-        if flag is None:
-            flag = [0] * len(wave)
-
         # Verify validity of observations
-        self.wave, self.refl, self.refl_err, self.flag = _basic_checks(
-            wave, refl, refl_err, flag
-        )
-
-        # Assign data
-        self.pV = pV
-        self.pV_err = pV_err
-
-        # Assign metadata
-        self.name = name
-        self.number = number
-
-        # Look up name, number, albedo, if not provided
-        if name is None and number is not None:
-            self.name, self.number = rocks.id(number)
-        elif name is not None and number is None:
-            self.name, self.number = rocks.id(name)
-
-        # Look up pV if it is not provided and we know the asteroid
-        if self.pV is None and self.name is not None:
-            rock = rocks.Rock(self.name)
-            self.pV = rock.albedo.value
-            self.pV_err = rock.albedo.error_
-        elif self.pV is None:
-            self.pV = np.nan
-            self.pV_err = np.nan
+        self.wave, self.refl, self.refl_err = _basic_checks(wave, refl, refl_err)
 
         # Assign arbitrary arguments
         self.__dict__.update(**kwargs)
@@ -98,6 +50,9 @@ class Spectrum:
 
         self.is_smoothed = False
         self.phase = np.nan
+
+        if target is not None:
+            self.target = target
 
     def __getattr__(self, attr):
         """"""
