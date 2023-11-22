@@ -41,23 +41,27 @@ class Spectrum:
         # Verify validity of observations
         self.wave, self.refl, self.refl_err = _basic_checks(wave, refl, refl_err)
 
-        # Assign arbitrary arguments
-        self.__dict__.update(**kwargs)
-
-        self.wave_original = self.wave.copy()
-        self.refl_original = self.refl.copy()
-        self.refl_err_original = None if self.refl_err is None else self.refl_err.copy()
-
-        self.is_smoothed = False
-        self.phase = np.nan
-
         if target is not None:
             self.target = target
 
-    def __getattr__(self, attr):
-        """"""
+        # Store original attributes for restoration reasons
+        self._wave_original = self.wave.copy()
+        self._refl_original = self.refl.copy()
+        self._refl_err_original = (
+            None if self.refl_err is None else self.refl_err.copy()
+        )
 
-        # Dynamically instantiate the feature attributes on the first call
+        # TODO: Is this useful?
+        self.is_smoothed = False
+
+        # TODO: Is this required?
+        self.phase = np.nan
+
+        # Assign arbitrary arguments
+        self.__dict__.update(**kwargs)
+
+    def __getattr__(self, attr):
+        """Custom getattr to support dynamic instantiation of feature attributes."""
         if attr in ["e", "h", "k"]:
             setattr(self, attr, Feature(attr, self))
             return getattr(self, attr)
@@ -154,20 +158,17 @@ class Spectrum:
         self.is_smoothed = True
 
     @property
-    def albedo(self):
-        return self.pV
+    def target(self):
+        return self._target
 
-    @albedo.setter
-    def albedo(self, value):
-        self.pV = value
-
-    @property
-    def albedo_err(self):
-        return self.pV_err
-
-    @albedo_err.setter
-    def albedo_err(self, value):
-        self.pV_err = value
+    @target.setter
+    def target(self, target):
+        rock = rocks.Rock(target)
+        self.name = rock.name
+        self.number = rock.number
+        self.albedo = rock.albedo.value
+        self.albedo_err = rock.albedo.error
+        self._target = target
 
     def truncate(self, wave_min=None, wave_max=None):
         """Truncate wavelength range to minimum and maximum value.
