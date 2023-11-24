@@ -528,7 +528,6 @@ def _basic_checks(wave, refl, unc, flag):
 class Spectra(list):
     """List of several spectra of individual asteroid."""
 
-    @singledispatchmethod
     def __init__(self, id=None, **kwargs):
         """Select spectra from classy index using matching criteria.
 
@@ -536,53 +535,56 @@ class Spectra(list):
         ----------
         id : int, str, or list
             One or many asteroid identifiers. Optional, default is None,
-            in which case no selection based on identity is done.
+            in which case no selection based on target identity is done.
         """
+
+        # Check if argument is list of Spectrum instances
+        if isinstance(id, list) and all(isinstance(entry, Spectrum) for entry in id):
+            for spec in id:
+                self.append(spec)
+                return
+
         spectra = index.query(id, **kwargs)
         spectra = cache.load_spectra(spectra)
 
         for spec in spectra:
             self.append(spec)
 
-    @__init__.register(list)
-    def _list(self, entries: list):
-        """Instantiate Spectra by passing a list of Spectrum instances or asteroid identifiers."""
+    # @__init__.register(list)
+    # def _list(self, entries: list):
+    #     """Instantiate Spectra by passing a list of Spectrum instances or asteroid identifiers."""
+    #
+    #     # Need this check for __add__
+    #     if not isinstance(entries, list):
+    #         entries = [entries]
+    #
+    #     for entry in entries:
+    #         # If it's a spectrum, we're done
+    #         if isinstance(entry, Spectrum):
+    #             self.append(entry)
+    #             continue
+    #
+    #         # Otherwise, try to identify it
+    #         name, _ = rocks.id(entry)
+    #
+    #         if name is None:
+    #             raise ValueError(
+    #                 f"Expected classy.Spectrum or asteroid identifier, got '{entry}'."
+    #             )
 
-        # Need this check for __add__
-        if not isinstance(entries, list):
-            entries = [entries]
-
-        for entry in entries:
-            # If it's a spectrum, we're done
-            if isinstance(entry, Spectrum):
-                self.append(entry)
-                continue
-
-            # Otherwise, try to identify it
-            name, _ = rocks.id(entry)
-
-            if name is None:
-                raise ValueError(
-                    f"Expected classy.Spectrum or asteroid identifier, got '{entry}'."
-                )
-
-            # Add all spectra of this asteroid
-            for spec in Spectra(name):
-                self.append(spec)
-
-    def _df(self, idx):
-        """Instantiate Spectra using entries from the classy spectra index."""
-        if isinstance(idx, pd.Series):
-            idx = pd.DataFrame(idx).transpose()
-
-        for _, entry in idx.iterrows():
-            spec = Spectra(
-                entry["name"],
-                source=entry["source"],
-                shortbib=entry["shortbib"],
-                filename=entry.name,
-            )[0]
-            self.append(spec)
+    # def _df(self, idx):
+    #     """Instantiate Spectra using entries from the classy spectra index."""
+    #     if isinstance(idx, pd.Series):
+    #         idx = pd.DataFrame(idx).transpose()
+    #
+    #     for _, entry in idx.iterrows():
+    #         spec = Spectra(
+    #             entry["name"],
+    #             source=entry["source"],
+    #             shortbib=entry["shortbib"],
+    #             filename=entry.name,
+    #         )[0]
+    #         self.append(spec)
 
     def __add__(self, rhs):
         if isinstance(rhs, Spectrum):
