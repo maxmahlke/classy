@@ -60,7 +60,7 @@ The examples below show how the ``wave`` and ``refl`` arrays are adapted.
 These validity verifications can thus affect the shape of the ``wave`` and
 ``refl`` values. Attributes which are applied on a per-point bases (like
 quality flags) are not handled by ``classy``, their adaptation is up to you. To
-facilitate this, ``classy`` adds the ``mask_values`` attribute, which has the
+facilitate this, ``classy`` adds the ``mask_valid`` attribute, which has the
 same shape as the original data and is ``True`` if a value is kept and
 ``False`` otherwise.`
 
@@ -74,7 +74,7 @@ same shape as the original data and is ``True`` if a value is kept and
     >>> print(spec.wave)
     >>> print(spec.refl)
     >>> print(spec.flag)
-    >>> spec.flag = flag[spec.mask_values]
+    >>> spec.flag = flag[spec.mask_valid]
     >>> print(spec.flag)
 
 .. TODO: This does not work yet, both flag and mask_values have to be np.array

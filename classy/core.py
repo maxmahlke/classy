@@ -39,7 +39,7 @@ class Spectrum:
         """
 
         # Verify validity of observations
-        self.wave, self.refl, self.refl_err = _basic_checks(wave, refl, refl_err)
+        self.wave, self.refl, self.refl_err = self._basic_checks(wave, refl, refl_err)
 
         if target is not None:
             self.set_target(target)
@@ -66,6 +66,58 @@ class Spectrum:
             setattr(self, attr, Feature(attr, self))
             return getattr(self, attr)
         raise AttributeError(f"{type(self)} has no attribute '{attr}'")
+
+    def _basic_checks(self, wave, refl, refl_err):
+        """Check the validity of passed values for spectra."""
+
+        # Ensure floats and np.ndarrays
+        wave = np.array([float(w) for w in wave])
+        refl = np.array([float(r) for r in refl])
+
+        if refl_err is not None:
+            refl_err = np.array([float(r) for r in refl_err])
+
+        # Equal lengths?
+        assert (
+            wave.shape == refl.shape
+        ), f"'wave' {wave.shape} and 'refl' {refl.shape} have different shapes"
+
+        if refl_err is not None:
+            assert (
+                refl.shape == refl_err.shape
+            ), f"'refl' {refl.shape} and 'refl_err' {refl_err.shape} have different shapes"
+
+        # Any negative or NaN values in wavelength?
+        wave_invalid = (wave < 0) | (np.isnan(wave))
+        # Any NaN values in reflectance?
+        refl_invalid = np.isnan(refl)
+
+        self.mask_valid = ~(wave_invalid | refl_invalid)
+
+        if any(wave_invalid):
+            logger.debug("Found negative or NaN values in 'wave'. Removing them.")
+        if any(refl_invalid):
+            logger.debug("Found NaN values in reflectance. Removing them.")
+        if any(refl < 0):
+            logger.debug("Found negative values in reflectance. Ignoring them.")
+
+        wave = wave[self.mask_valid]
+        refl = refl[self.mask_valid]
+
+        if refl_err is not None:
+            refl_err = refl_err[self.mask_invalid]
+
+        # Wavelength order ascending?
+        if list(wave) != list(sorted(wave)):
+            logger.warning("'wave' values are not in ascending order. Ordering them.")
+
+            refl = np.array([r for _, r in sorted(zip(wave, refl))])
+            if refl_err is not None:
+                refl_err = np.array([u for _, u in sorted(zip(wave, refl_err))])
+
+            wave = np.array([w for _, w in sorted(zip(wave, wave))])
+
+        return wave, refl, refl_err
 
     def reset_data(self):
         self.wave = self._wave_original.copy()
@@ -436,81 +488,6 @@ class Spectrum:
 
 # ------
 # Utility functions
-def _basic_checks(wave, refl, refl_err):
-    """Basic quality checks for spectra."""
-
-    # Ensure floats
-    wave = np.array([float(w) for w in wave])
-    refl = np.array([float(r) for r in refl])
-
-    if refl_err is not None:
-        refl_err = np.array([float(u) for u in refl_err])
-
-    # Equal lengths?
-    assert (
-        wave.shape == refl.shape
-    ), "The passed wavelength and reflectance arrays are of different shapes."
-
-    if refl_err is not None:
-        assert (
-            refl.shape == refl_err.shape
-        ), "The passed reflectance and uncertainty arrays are of different shapes."
-
-    # Any NaN values in reflectance?
-    if any([np.isnan(r) for r in refl]):
-        logger.debug("Found NaN values in reflectance. Removing them.")
-        wave = wave[[np.isfinite(r) for r in refl]]
-
-        if refl_err is not None:
-            refl_err = refl_err[[np.isfinite(r) for r in refl]]
-
-        refl = refl[[np.isfinite(r) for r in refl]]
-
-    # Any negative values in reflectance?
-    if any([r < 0 for r in refl]):
-        logger.debug("Found negative values in reflectance. Removing them.")
-        wave = wave[[r > 0 for r in refl]]
-
-        if refl_err is not None:
-            refl_err = refl_err[[r > 0 for r in refl]]
-
-        refl = refl[[r > 0 for r in refl]]
-
-    # Any negative values in wavelength?
-    if any([w < 0 for w in wave]):
-        logger.debug("Found negative values in wavelength. Removing them.")
-        refl = refl[[w > 0 for w in wave]]
-
-        if refl_err is not None:
-            refl_err = refl_err[[w > 0 for w in wave]]
-
-        wave = wave[[w > 0 for w in wave]]
-
-    # Any NaN values in reflectance?
-    if any([np.isnan(w) for w in wave]):
-        logger.debug("Found NaN values in wavelength. Removing them.")
-        refl = refl[[np.isfinite(w) for w in wave]]
-
-        if refl_err is not None:
-            refl_err = refl_err[[np.isfinite(w) for w in wave]]
-
-        wave = wave[[np.isfinite(w) for w in wave]]
-
-    # Wavelength ordered ascending?
-    if list(wave) != list(sorted(wave)):
-        logger.warning("Wavelength values are not in ascending order. Ordering them.")
-
-        refl = np.array([r for _, r in sorted(zip(wave, refl))])
-
-        if refl_err is not None:
-            refl_err = np.array([u for _, u in sorted(zip(wave, refl_err))])
-
-        # sort wave last
-        wave = np.array([w for _, w in sorted(zip(wave, wave))])
-    return wave, refl, refl_err
-
-
-# TODO: mask_values
 
 
 class Spectra(list):

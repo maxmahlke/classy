@@ -29,6 +29,7 @@ def test_create_spectrum_invalid_data():
     spec = classy.Spectrum(wave, refl)
     assert spec.wave.size == 3
     assert spec.refl.size == 3
+    assert (spec.mask_valid == np.array([False, True, True, True])).all()
 
     # NaN wavelength -> remove
     wave = [np.nan, 2, 3, 4]
@@ -36,6 +37,7 @@ def test_create_spectrum_invalid_data():
     spec = classy.Spectrum(wave, refl)
     assert spec.wave.size == 3
     assert spec.refl.size == 3
+    assert (spec.mask_valid == np.array([False, True, True, True])).all()
 
     # Negative reflectance -> works
     wave = [1, 2, 3, 4]
@@ -43,25 +45,15 @@ def test_create_spectrum_invalid_data():
     spec = classy.Spectrum(wave, refl)
     assert spec.wave.size == 4
     assert spec.refl.size == 4
+    assert (spec.mask_valid == np.array([True, True, True, True])).all()
 
     # NaN reflectance -> remove
     wave = [1, 2, 3, 4]
-    refl = [np.nan, 2, 3, 4]
+    refl = [np.nan, 2, np.nan, 4]
     spec = classy.Spectrum(wave, refl)
-    assert spec.wave.size == 3
-    assert spec.refl.size == 3
-
-
-def test_create_with_nans():
-    """Create spectrum with NaN wavelengths and reflectances."""
-    wave = [np.nan, 2, 3, 4]
-    refl = [1, np.nan, 3, 4]
-    spec = classy.Spectrum(wave, refl)
-
-    # Negative values should be removed -> two points in spectrum gone
-    # TODO: Think about what should happen here
     assert spec.wave.size == 2
     assert spec.refl.size == 2
+    assert (spec.mask_valid == np.array([False, True, False, True])).all()
 
 
 def test_create_spectrum_with_target():
