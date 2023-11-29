@@ -6,6 +6,10 @@ import pytest
 import classy
 
 
+def test_compute_phase_anlge():
+    """Test phase angle query from Miriade"""
+
+
 # ------
 # Index creation
 @pytest.mark.parametrize(

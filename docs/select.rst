@@ -157,8 +157,8 @@ This enables quite complex selection patterns.
 
         .. code-block:: shell
 
-           $ classy spectra --wave_min 0.3 --taxonomy B,C
-           $ classy spectra --query "wave_min < 0.3 & (taxonomy == 'B' | taxonomy == 'C')" # equivalent
+           $ classy spectra --wave_min 0.35 --taxonomy B,C
+           $ classy spectra --query "wave_min < 0.35 & (taxonomy == 'B' | taxonomy == 'C')" # equivalent
 
         Spectra of Tirela and Watsonia family members that are not L-types
 
@@ -228,19 +228,19 @@ feature index via the :ref:`feature detection
 
     .. tab-item:: Command Line
 
-        Spectra of Polana family members which have a 0.7μm band.
+        Spectra of Themis family members which have a 0.7μm band.
 
         .. code-block:: shell
 
-           $ classy spectra --feature h --family Polana
+           $ classy spectra --feature h --family Themis
 
     .. tab-item:: python
 
-        Spectra of Polana family members which have a 0.7μm band.
+        Spectra of Themis family members which have a 0.7μm band.
 
         .. code-block:: python
 
-           >>> classy.Spectra(family="Polana", feature="h")
+           >>> classy.Spectra(family="Themis", feature="h")
 
 Target-Specific
 +++++++++++++++

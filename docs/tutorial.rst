@@ -7,17 +7,15 @@ Tutorials
 
 .. dropdown:: Loop over all spectra in SMASS
 
-  To loop over all spectra in a given source, use the ``classy`` spectra index.
-  ``classy.Spectra`` accepts one or multiple rows of this index as argument and loads
-  the respective spectra.
+  To loop over all spectra in a given source, use the ``Spectra`` class.
 
   .. code-block:: python
 
-    index = classy.index.load()            # load index
-    smass = index[index.source == "SMASS"] # select all asteroids based on source
+    smass = classy.Spectra(source = "SMASS") # select all asteroids based on source
 
-    for name, entries in smass.groupby("name"):  # group spectra by target asteroid
-        spectra = classy.Spectra(entries)        # retrieve these spectra
+    for spec in smass:
+        print(spec.target.name, spec.target.number)
+
 
 .. _excluding_refl:
 

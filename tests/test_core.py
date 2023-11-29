@@ -76,64 +76,58 @@ def test_create_spectrum_with_arbitrary_arg():
     assert spec.arbitrary == 1
 
 
-def test_compute_phase_anlge():
-    """Test phase angle query from Miriade"""
-
-
 # ------
 # Spectra from index query
 def test_spectra_with_single_id():
     """Test creating a Spectra instance by passing an asteroid identifier."""
     spectra = classy.Spectra(1, source="Gaia")
     assert len(spectra) == 1
-    assert spectra[0].name == "Ceres"
+    assert spectra[0].target.name == "Ceres"
+
+    vesta1 = classy.Spectra(4)
+    assert all(s.target.name == "Vesta" for s in vesta1)
+
+    vesta2 = classy.Spectra("vesta")
+    assert all(s.target.name == "Vesta" for s in vesta2)
+
+    spectra = classy.Spectra(22, wave_min=0.45, wave_max=2.45)
+    assert all(s.target.name == "Kalliope" and s.wave.min() < 0.45 for s in spectra)
 
 
 def test_spectra_with_many_id():
     """Test creating a Spectra instance by passing an asteroid identifier."""
     spectra = classy.Spectra([1, "vesta", 22], source="Gaia")
     assert len(spectra) == 3
-    assert spectra[0].name == "Ceres"
+    assert spectra[0].target.name == "Ceres"
+
+    spectra = classy.Spectra([12, 21])
+    assert all(s.target.name in ["Victoria", "Lutetia"] for s in spectra)
+
+    spectra = classy.Spectra(["julia", "sylvia", 283])
+    assert all(s.target.name in ["Sylvia", "Julia", "Emma"] for s in spectra)
 
 
-def test_spectra_with_no_id():
+@pytest.mark.parametrize(
+    "kwargs",
+    [
+        {"source": "AKARI"},
+        {"albedo": "0.03,0.04", "skip_target": True},
+        {"phase": ",10", "skip_target": True},
+        {"albedo": "0.1,", "taxonomy": "B,C", "skip_target": True},
+        {"wave_min": 0.35, "taxonomy": "B,C", "skip_target": True},
+        {
+            "query": "wave_min < 0.35 & (taxonomy == 'B' | taxonomy == 'C')",
+            "skip_target": True,
+        },
+        {"family": "Tirela,Watsonia", "query": "taxonomy != 'L'", "skip_target": True},
+        {"family": "Themis", "feature": "h", "skip_target": True},
+        {"query": "moid.EMB.value <= 0.05", "H": ",22", "skip_target": True},
+    ],
+)
+def test_spectra_with_no_id(kwargs):
     """Test creating a Spectra instance by passing an asteroid identifier."""
-    spectra = classy.Spectra(source="AKARI")
+    spectra = classy.Spectra(**kwargs)
     assert len(spectra) > 0
-
-
-def test_spectra_from_index():
-    """Test creating a Spectra instance from the classy index."""
-    idx = classy.index.load()
-    idx = idx.loc[(idx.source == "SMASS") & (idx.name == 5534)]
-    classy.Spectra(idx)
-
-
-def test_spectra_from_invalid():
-    """Test creating a Spectra instance from an empty list."""
-
-    # TODO: Assert the correct errors here
-    classy.Spectra([])
-    classy.Spectra(None)
-    classy.Spectra(np.nan)
-
-
-def test_doc_scenarios():
-    """Examples given in selecting-spectra chapter."""
-    # TODO: Merge with other unit tests
-    # >>> classy.Spectra(4)
-    # >>> classy.Spectra("vesta")                  # (4) Vesta
-    # >>> classy.Spectra([12, 21])                 # (12) Victoria, (21) Lutetia
-    # >>> classy.Spectra(["julia", "sylvia", 283]) # (87) Sylvia, (89) Julia, (283) Emma
-    # >>> classy.Spectra(albedo="0.03,0.04")
-    # >>> classy.Spectra(phase=',10')
-    # >>> classy.Spectra(22, wave_min=0.45, wave_max=2.45)
-    # >>> classy.Spectra(albedo="0.1,", taxonomy="B,C")
-    # >>> classy.Spectra(wave_min=0.3, taxonomy="B,C")
-    # >>> classy.Spectra(query="wave_min < 0.3 & (taxonomy == 'B' | taxonomy == 'C')") # equivalent
-    # >>> classy.Spectra(family="Tirela,Watsonia", query="taxonomy != 'L'")
-    # >>> classy.Spectra(family="Polana", feature="h")
-    # >>> classy.Spectra(query='moid.EMB.value <= 0.05', H=',22')
 
 
 # ------
@@ -164,6 +158,7 @@ def test_adding_spectra():
 
     spectra = spec_a + spec_b
     assert isinstance(spectra, classy.Spectra)
+    assert len(spectra) == 2
 
     spectra = spectra + spec_a
     assert isinstance(spectra, classy.Spectra)

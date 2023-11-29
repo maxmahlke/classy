@@ -26,9 +26,11 @@ for spectroscopic analysis.\ [#f1]_
  :class: only-dark
  :width: 1000
 
+|br|
+
 .. card:: Classify Your Observation →
   :text-align: center
-  :link: https://google.com
+  .. :link: https://google.com
 
   Coming soon.
 
