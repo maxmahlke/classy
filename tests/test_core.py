@@ -4,6 +4,91 @@ import classy
 
 
 # ------
+# User creates spectrum
+def test_create_spectrum():
+    """Create a single spectrum instance and test basic functionality."""
+    wave = [0.45, 0.5, 0.55, 0.6, 0.65, 0.7, 0.75, 0.8, 0.85]
+    refl = [0.85, 0.94, 1, 1.05, 1.02, 1.02, 1.04, 1.07, 1.1]
+
+    spec = classy.Spectrum(wave, refl)
+    assert len(spec) == 9
+
+    refl_err = [0.85, 0.94, 1, 1.05, 1.02, 1.02, 1.04, 1.07, 1.1]
+    spec.refl_err = refl_err
+
+    spec.date_obs = "2020-02-01T00:00:00"  # adding metadata to existing spectrum
+    assert spec.date_obs == "2020-02-01T00:00:00"
+
+
+def test_create_spectrum_invalid_data():
+    """Create a single spectrum instance passing invalid refl and wave values."""
+
+    # Negative wavelength -> remove
+    wave = [-1, 2, 3, 4]
+    refl = [1, 2, 3, 4]
+    spec = classy.Spectrum(wave, refl)
+    assert spec.wave.size == 3
+    assert spec.refl.size == 3
+
+    # NaN wavelength -> remove
+    wave = [np.nan, 2, 3, 4]
+    refl = [1, 2, 3, 4]
+    spec = classy.Spectrum(wave, refl)
+    assert spec.wave.size == 3
+    assert spec.refl.size == 3
+
+    # Negative reflectance -> works
+    wave = [1, 2, 3, 4]
+    refl = [-1, 2, 3, 4]
+    spec = classy.Spectrum(wave, refl)
+    assert spec.wave.size == 4
+    assert spec.refl.size == 4
+
+    # NaN reflectance -> remove
+    wave = [1, 2, 3, 4]
+    refl = [np.nan, 2, 3, 4]
+    spec = classy.Spectrum(wave, refl)
+    assert spec.wave.size == 3
+    assert spec.refl.size == 3
+
+
+def test_create_with_nans():
+    """Create spectrum with NaN wavelengths and reflectances."""
+    wave = [np.nan, 2, 3, 4]
+    refl = [1, np.nan, 3, 4]
+    spec = classy.Spectrum(wave, refl)
+
+    # Negative values should be removed -> two points in spectrum gone
+    # TODO: Think about what should happen here
+    assert spec.wave.size == 2
+    assert spec.refl.size == 2
+
+
+def test_create_spectrum_with_target():
+    """Create a single spectrum instance including rocks data look-up."""
+    wave = [1, 2, 3, 4]
+    refl = [1, 2, 3, 4]
+
+    spec = classy.Spectrum(wave, refl, target=1)
+    assert spec.target.name == "Ceres"
+
+    spec.set_target(2)
+    assert spec.target.name == "Pallas"
+
+
+def test_create_spectrum_with_arbitrary_arg():
+    """Create a single spectrum instance including rocks data look-up."""
+    wave = [1, 2, 3, 4]
+    refl = [1, 2, 3, 4]
+    spec = classy.Spectrum(wave, refl, arbitrary=1)
+    assert spec.arbitrary == 1
+
+
+def test_compute_phase_anlge():
+    """Test phase angle query from Miriade"""
+
+
+# ------
 # Spectra from index query
 def test_spectra_with_single_id():
     """Test creating a Spectra instance by passing an asteroid identifier."""
@@ -57,35 +142,6 @@ def test_doc_scenarios():
     # >>> classy.Spectra(family="Tirela,Watsonia", query="taxonomy != 'L'")
     # >>> classy.Spectra(family="Polana", feature="h")
     # >>> classy.Spectra(query='moid.EMB.value <= 0.05', H=',22')
-
-
-# ------
-# User creates spectrum
-def test_create_spectrum():
-    """Create a single spectrum instance including rocks data look-up."""
-    wave = [1, 2, 3, 4]
-    refl = [1, 2, 3, 4]
-    spec = classy.Spectrum(wave, refl)
-    assert len(spec) == 4
-
-
-def test_create_spectrum_invalid_data():
-    """Create a single spectrum instance passing invalid refl and wave values."""
-    wave = [-1, 2, 3, 4]
-    refl = [1, -2, 3, 4]
-    spec = classy.Spectrum(wave, refl, name=1)
-
-    # Negative values should be removed -> two points in spectrum gone
-    assert spec.wave.size == 2
-    assert spec.refl.size == 2
-
-
-def test_create_spectrum_with_rocks():
-    """Create a single spectrum instance including rocks data look-up."""
-    wave = [1, 2, 3, 4]
-    refl = [1, 2, 3, 4]
-    spec = classy.Spectrum(wave, refl, number=1)
-    assert spec.name == "Ceres"
 
 
 # ------
