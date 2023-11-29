@@ -16,7 +16,7 @@ Creating a ``Spectrum``
 -----------------------
 
 To create a ``Spectrum``, you require a list of wavelength values and a list of
-reflectance values. These are the mandatory arguments for the class.
+reflectance values:
 
 .. code-block:: python
 
@@ -42,10 +42,11 @@ Let's have a look at this spectrum.
  :class: only-dark
  :width: 600
 
-There are further optional keywords with a pre-defined meaning to
-``classy``. You can specify these when creating the ``Spectrum`` or
-at a later point via the dot-notation. For example, the ``refl_err`` attribute
-contains the reflectance errors.
+Besides the mandatory ``wave`` and ``refl`` arguments, there are optional
+arguments with a pre-defined meaning to ``classy``. You can specify these when
+creating the ``Spectrum`` or at a later point via the dot-notation (shown
+below). For example, the ``refl_err`` attribute contains the reflectance
+errors.
 
 
 .. code-block:: python
@@ -63,38 +64,40 @@ contains the reflectance errors.
  :class: only-dark
  :width: 600
 
-``classy`` automatically adds the error bars to the plot as it notices the
-``refl_err`` attribute. You can find a list of all required and optional
+``classy`` automatically adds the error bars to the plot as it recognises the
+``refl_err`` attribute. You can find a list of all mandatory and optional
 arguments with a pre-defined meaning for ``classy`` below.
 
 .. _predefined_keywords:
 
-+---------------------+-------------------+---------------------------------------------------------------------------------------------------------------------------------------------------------+
-| Parameter           | Accepted values   | Explanation                                                                                                                                             |
-+---------------------+-------------------+---------------------------------------------------------------------------------------------------------------------------------------------------------+
-| ``wave``            | ``list of float`` | The wavelength bins of the spectrum **in micron**.                                                                                                      |
-+---------------------+-------------------+---------------------------------------------------------------------------------------------------------------------------------------------------------+
-| ``refl``            | ``list of float`` | The reflectance values of the spectrum.                                                                                                                 |
-+---------------------+-------------------+---------------------------------------------------------------------------------------------------------------------------------------------------------+
-| ``refl_err``        | ``list of float`` | The uncertainty of the reflectance values of the spectrum.                                                                                              |
-+---------------------+-------------------+---------------------------------------------------------------------------------------------------------------------------------------------------------+
-| ``date_obs``        | ``str``           | Observation epoch of the spectrum in `ISOT format <https://en.wikipedia.org/wiki/ISO_8601>`_:                                                           |
-|                     |                   | ``YYYY-MM-DDTHH:MM:SS``.                                                                                                                                |
-+---------------------+-------------------+---------------------------------------------------------------------------------------------------------------------------------------------------------+
-| ``phase``           | ``float``         | The phase angle at the epoch of observation in degree.                                                                                                  |
-+---------------------+-------------------+---------------------------------------------------------------------------------------------------------------------------------------------------------+
++---------------------+---------------------+---------------------------------------------------------------------------------------------------------------------------------------------------------+
+| Parameter           | Accepted values     | Explanation                                                                                                                                             |
++---------------------+---------------------+---------------------------------------------------------------------------------------------------------------------------------------------------------+
+| ``wave``            | ``list of float``   | The wavelength bins of the spectrum **in micron**.                                                                                                      |
++---------------------+---------------------+---------------------------------------------------------------------------------------------------------------------------------------------------------+
+| ``refl``            | ``list of float``   | The reflectance values of the spectrum.                                                                                                                 |
++---------------------+---------------------+---------------------------------------------------------------------------------------------------------------------------------------------------------+
+| ``refl_err``        | ``list of float``   | The uncertainty of the reflectance values of the spectrum.                                                                                              |
++---------------------+---------------------+---------------------------------------------------------------------------------------------------------------------------------------------------------+
+| ``date_obs``        | ``str``             | Observation epoch of the spectrum in `ISOT format <https://en.wikipedia.org/wiki/ISO_8601>`_:                                                           |
+|                     |                     | ``YYYY-MM-DDTHH:MM:SS``.                                                                                                                                |
++---------------------+---------------------+---------------------------------------------------------------------------------------------------------------------------------------------------------+
+| ``phase``           | ``float``           | The phase angle at the epoch of observation in degree.                                                                                                  |
++---------------------+---------------------+---------------------------------------------------------------------------------------------------------------------------------------------------------+
+| ``target``           | ``str`` or ``int`` | Name, number, or designation of the asteroidal target of the observation.                                                                               |
++---------------------+---------------------+---------------------------------------------------------------------------------------------------------------------------------------------------------+
 
 All attributes can be accessed and edited via the dot notation.
 
 .. code-block:: python
 
   >>> spec.date_obs = '2020-02-01T00:00:00'  # adding metadata to existing spectrum
-
-  print(f"{spec.name} was observed on {spec.date_obs}.")  # accessing metadata via the dot-notation
+  >>> print(f"Spectrum acquired on {spec.date_obs}.")  # accessing metadata via the dot-notation
+  Spectrum acquired on 2020-02-01T00:00:00.
 
 Any other arguments you pass to ``classy.Spectrum`` or set via the dot-notation
 are automatically added to the ``Spectrum``, which is useful to define metadata
-relevant for your analysis, such as flags.
+relevant for your analysis, such as flags.\ [#f1]_
 
 .. code-block:: python
 
@@ -107,16 +110,19 @@ Assigning a Target
 ++++++++++++++++++
 
 Spectra in ``classy`` are typically associated to a minor body. You can specify
-the target of the observation using the ``set_target()`` method. ``classy``
-will then resolve the target's identity using `rocks
+the target of the observation or setting the ``target`` argument when
+instantiating the ``Spectrum`` instance or by calling the ``set_target()``
+method. Both require the name, number, or designation of the target. ``classy``
+then resolves the target's identity using `rocks
 <https://rocks.readthedocs.io/>`_ and retrieve its physical and dynamical
-properties. ``classy`` makes use of this information in various ways,
-therefore, it is generally beneficial to specify the target.
+properties, making them accessible via the ``target`` attribute. ``classy``
+makes use of this information in various ways, therefore, it is generally
+beneficial to specify the target.
 
 .. code-block:: python
 
    >>> spec.set_target('vesta')  # Assigns rocks.Rock instance to spec.target
-   >>> spec.target
+   >>> print(spec.target)
    Rock(number=4, name='Vesta')
    >>> print(spec.target.number)
    4
@@ -124,51 +130,71 @@ therefore, it is generally beneficial to specify the target.
    0.380
    >>> print(spec.target.class_)
    'MB>Inner'
-   >>> spec.plot()
 
-If target and observation date ``date_obs`` of a ``Spectrum`` are provided,
-``classy`` can query the phase angle at the time of observation from the
-`Miriade <https://ssp.imcce.fr/webservices/miriade/>`_ webservice. The query
-results are cached to speed up repeated queries.
+For example, if both the target and the observation date ``date_obs`` of a ``Spectrum`` are
+provided, ``classy`` can query the phase angle at the time of observation from
+the `Miriade <https://ssp.imcce.fr/webservices/miriade/>`_ webservice and make it accessible
+via the ``phase`` attribute.
 
 .. code-block:: python
 
-   >>> spec.query_phase()
+   >>> spec.date_obs = '2010-07-01T22:00:00'
+   >>> spec.compute_phase_angle()
    >>> print(f"{spec.target.name} was observed on {spec.date_obs} at a phase angle of {spec.phase:.2f}deg")
+   Vesta was observed on 2010-07-01T22:00:00 at a phase angle of 23.63deg
 
 Working with ``Spectra``
 ------------------------
 
 ``classy`` is connected to several :ref:`public repositories <public_data>` of asteroid reflectance spectra. The ``Spectra`` class
-allows to query these repositories for spectra matching a wide range of criteria to ingest them into your analysis.
+allows to query these repositories for spectra matching a wide range of criteria to ingest them into your analysis (or just to have a look around, which is fun, too).
 For example, you can query all databases for any spectra of an asteroid by providing its name or number.
 
 .. code-block:: python
 
   >>> spectra = classy.Spectra(221)  # look up spectra of (221) Eos
-  >>> print(f"Found {len(spectra)} spectra of (221) Eos)
+  >>> print(f"Found {len(spectra)} spectra of (221) Eos")
+  Found 11 spectra of (221) Eos
+  >>> spectra.plot()
 
-The ``Spectra`` class is essentially a list of ``Spectrum`` instances. You can the usual ``python`` indexing
-and iterations to access the individual spectra.
+.. TODO: INSERT PLOT
+
+The ``Spectra`` class is essentially a list of ``Spectrum`` instances. You can
+the usual ``python`` indexing and iteration operations to access the individual
+spectra.
 
 .. code-block:: python
 
     >>> for spec in spectra:
-    >>>     print(spec.source, spec.shortbib, spec.wave.min(), spec.wave.max())
-    >>> eos_gaia = spectra[4]
+    ...     print(f"{spec.source:>6} {spec.shortbib:>15} [{spec.wave.min():.3f}-{spec.wave.max():.3f}]")
+     ECAS   Zellner+ 1985 [0.337-1.041]
+    SMASS        Xu+ 1995 [0.457-1.002]
+     Gaia Galluccio+ 2022 [0.374-1.034]
+     DM09     DeMeo+ 2009 [0.435-2.485]
+     Misc     Clark+ 2009 [0.820-2.485]
+     Misc     Clark+ 2009 [0.820-2.490]
+     SCAS     Clark+ 1995 [0.913-2.300]
+    >>> eos_gaia = spectra[2]
+    >>> print(eos_gaia.shortbib)
+    Galluccio+ 2022
 
 More examples and advanced query criteria are outlined in the :ref:`Selecting Spectra <selecting_spectra>` chapter.
 
 All literature spectra have their corresponding target assigned automatically.
 
   >>> spectra = classy.Spectra(shortbib="Morate+ 2016")
-  >>> for spec in spectra:
+  >>> for spec in spectra[:5]:  # only print 5, Morate+ 2016 observed many more
   ...     print(spec.target.name)
+  2001 DC6
+  2003 YY12
+  1999 NE28
+  2000 YZ6
+  1999 FG51
 
-Besides the attributes of the ``Spectrum`` class given above, all public
-spectra further have the attributes below, while additional attributes are
-available on a per-source basis, as given in the :ref:`individual repository
-descriptions <public_data>`.
+Besides the attributes of the ``Spectrum`` class given in the table above, all
+public spectra further have the attributes below relating to their
+bibliography, while additional attributes are available on a per-source basis,
+as given in the :ref:`individual repository descriptions <public_data>`.
 
 +------------------------------+---------------------------------------------------------------------------------------------------------------------+
 | Attribute                    | Description                                                                                                         |
@@ -180,18 +206,38 @@ descriptions <public_data>`.
 | ``source``                   | String representing the source of the spectrum (e.g. ``'24CAS'``).                                                  |
 +------------------------------+---------------------------------------------------------------------------------------------------------------------+
 
-A lot of effort further went into extracting the ``date_obs`` parameters of
-these spectra from the literature. This is not possible in some cases. If the
-time of the day is not know, ``HH:MM:SS`` is set to ``00:00:00``. If the date
-is not know, the ``date_obs`` attribute is an empty string. If the spectrum is
-an average of observations at different dates, all dates are given, separated
-by a ``,``: ``2004-03-02T00:00:00,2004-05-16T00:00:00``.
+Dates of Observations
++++++++++++++++++++++
 
-Combining your observations with literature ones is straight-forward.
+*A lot* of effort further went into extracting the ``date_obs`` parameters of
+public spectra from the literature and storing them in `ISOT format
+<https://en.wikipedia.org/wiki/ISO_8601>`_: ``YYYY-MM-DDTHH:MM:SS``. If the
+literature does not provide the ``date_obs``, it is set to an empty string:
+``""``. If the time of the day is not know, ``HH:MM:SS`` is set to
+``00:00:00``.  If the spectrum is an average of observations at different
+dates, all dates are given, separated by a ``,``, e.g.
+``2004-03-02T00:00:00,2004-05-16T00:00:00``.
+
+Combining a ``Spectrum`` with many ``Spectra``
+++++++++++++++++++++++++++++++++++++++++++++++
+
+You can combine your observations (``Spectrum`` instances) with observations from the literature (``Spectra``)
+by simply adding them.
 
 .. code-block:: python
 
-    >>> my_lutetia = classy.Spectrum(...)
+    >>> my_lutetia = classy.Spectrum(wave=[0.3, 0.4, 0.55, 0.7], refl=[0.9, 0.8, 1, 1.3])
     >>> lutetia_literature = classy.Spectra(21, source='Gaia')
     >>> lutetia_spectra = my_lutetia + lutetia_literature  # add my_lutetia to the literature results
     >>> lutetia_spectra.plot()
+
+The benefit of combining them in a single ``Spectra`` instance is that most operations that can be done
+on a ``Spectrum`` (e.g. preprocessing, feature detection, see later chapters) can be done on a large number of ``Spectra`` by simply calling the
+corresponding function of the ``Spectra`` class. This saves efforts in typing and is useful when :ref:`plotting
+and exporting <export>` analysis results.
+
+
+.. rubric:: Footnotes
+   :caption:
+
+.. [#f1] With great power comes great responsibility: ``classy`` verifies the wavelength and reflectance values you pass and possibly adapts their shape, but it does not apply checks on optional arguments. You can find out more about the verification and possible pitfalls :ref:`here <sanity_checks>`.

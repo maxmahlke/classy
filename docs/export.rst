@@ -1,6 +1,6 @@
 :tocdepth: 2
 
-.. _plotting:
+.. _export:
 
 Plotting And Exporting
 ======================

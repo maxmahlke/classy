@@ -12,12 +12,9 @@
 
 .. role:: gray
 
-.. TODO: Update the general description once feature complete
-
-A ``python`` tool to classify asteroid reflectance spectra in the framework of the
-asteroid taxonomy presented in `Mahlke, Carry, and Mattei 2022
-<https://arxiv.org/abs/2203.11229>`_ and to compare with spectra in
-public repositories.\ [#f1]_
+A tool to acquire, explore, analyse, and classify asteroid reflectance spectra. Originally designed for classification in the taxonomy of
+`Mahlke, Carry, and Mattei 2022 <https://arxiv.org/abs/2203.11229>`_, it now offers multiple taxonomic systems and a suite of qualitfy-of-life features
+for spectroscopic analysis.\ [#f1]_
 
 .. image:: gfx/ceres_classification.png
  :align: center
@@ -29,13 +26,26 @@ public repositories.\ [#f1]_
  :class: only-dark
  :width: 1000
 
+.. card:: Classify Your Observation →
+  :text-align: center
+  :link: https://google.com
+
+  Coming soon.
 
 .. highlight:: python
 
-
 |br|
 
-:octicon:`telescope;1em` **Your spectra or the ones from public repositories**.
+:octicon:`telescope;1em` **Explore and compare.**
+
+link to examples of:
+
+select syntax
+combination of own and literature data
+feature detection
+public data
+classification
+plotting and exporting or preprocessing
 
 .. grid:: 2
 
@@ -43,18 +53,25 @@ public repositories.\ [#f1]_
       :link: public_data
       :link-type: ref
 
-      Who has observed spectra of (13) *Egeria*? In which wavelength range?
+      I have observed a spectrum of (13) *Egeria*. Who else has observed this asteroid?
+      In what wavelength ranges?
+
+
+      Search and explore public spectra based on spectra- and target properties.
+      68,250 public spectra and counting.
 
 
     .. grid-item-card::
       :link: public_data
       :link-type: ref
 
-      Automatic ingestion of relevant metadata such as flags and bibliographic
-      references.
+      How do my spectra of the *Polana* family compare to those in the literature?
+
+      Combine spectra in your analysis.
+      Full bibliographic references and ingestion of metadata of public spectra.
 
 |br|
-:octicon:`beaker;1em` **Taxonomic classification and more.**
+:octicon:`beaker;1em` **Analyse and classify.**
 
 .. grid:: 2
 
@@ -62,14 +79,19 @@ public repositories.\ [#f1]_
       :link: core
       :link-type: ref
 
-      Classify your own and public observations.
+      Which public spectra show hydration features?
+
+      Persistent pre-processing and Feature inspection
 
 
     .. grid-item-card::
       :link: plotting
       :link-type: ref
 
-      Visualize the classification results and store them to file.
+      What taxonomic class is my spectrum according to Tholen 1984, DeMeo+ 2009,
+      and Mahlke+ 2022?
+
+      Taxonomic classification in multiple systems
 
 |br|
 
@@ -81,19 +103,16 @@ public repositories.\ [#f1]_
       :link: getting_data
       :link-type: ref
 
-      Automatic retrieval of albedo and computation of phase angle.
+      Automatic retrieval of target properties such as albedo, family, and computation of phase angle at epoch of observation.
 
     .. grid-item-card::
       :link: public_data
       :link-type: ref
 
       Preprocess a spectrum once and then never again.
+      Simple and intuitive syntax.
 
 
-
-.. .. card:: Classify Your Observation →
-..     :text-align: center
-..     :link:
 
 .. rubric:: Footnotes
    :caption:
@@ -104,6 +123,7 @@ public repositories.\ [#f1]_
 .. toctree::
    :maxdepth: 2
    :hidden:
+   :caption: Welcome to classy
 
    Home<self>
    Getting Started<getting_started>
