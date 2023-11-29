@@ -180,8 +180,8 @@ class InteractiveFeatureFit(QtWidgets.QMainWindow):
 
         if self.feat.spec.is_smoothed:
             self.plotted_original_spec = self.plot_spec.plot(
-                self.feat.spec.wave_original,
-                self.feat.spec.refl_original,
+                self.feat.spec._wave_original,
+                self.feat.spec._refl_original,
                 pen=(100, 100, 100, 200),
             )
         # Plot original Spectrum
@@ -659,7 +659,7 @@ class InteractiveSmoothing(QtWidgets.QMainWindow):
 
         if params["smooth"]:
             self.spec.smooth(**params)
-            data_ghost = [self.spec.wave_original, self.spec.refl_original]
+            data_ghost = [self.spec._wave_original, self.spec._refl_original]
 
         else:
             data_ghost = [[], []]

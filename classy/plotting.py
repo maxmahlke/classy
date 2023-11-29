@@ -34,258 +34,267 @@ def get_colors(N, cmap="turbo"):
     return [mpl.colors.rgb2hex(COLORS(i)[:3]) for i in range(N)]
 
 
-def plot(data):
-    """
-    Plot the classified data in latent and data space inlcuding the class- and cluster probabilities.
+def plot_spectra(spectra, show=True, save=None):
+    """Plot one or many spectra.
 
     Parameters
     ----------
-    data : pd.DataFrame
-        The classified input data.
-    """
-    COLORS = get_colors(len(data))
-
-    fig, axes = plt.subplots(figsize=(15, 12), nrows=3, ncols=3)
-
-    # Load classy latent scores for background distribution
-    classy_data = classy.data.load("classy")
-
-    # Plot the distribution in latent space
-    for i in range(classy.defs.MODEL_PARAMETERS["d"] - 1):
-        for j in range(classy.defs.MODEL_PARAMETERS["d"] - 1):
-            dx = j  # latent dimension on x-axis
-            dy = i + 1  # latent dimension on y-axis
-
-            if dx >= dy:
-                continue
-
-            # Background
-            axes[i, j].scatter(
-                classy_data.loc[:, f"z{dx}"],
-                classy_data.loc[:, f"z{dy}"],
-                c="gray",
-                alpha=0.3,
-                marker=".",
-            )
-
-            # Highlight mean score
-            axes[i, j].axhline(0, ls=":", c="gray")
-            axes[i, j].axvline(0, ls=":", c="gray")
-
-            # Add scores of classified data
-            # Iterate as plt.scatter does not accept list of markers
-            for ind, obs in data.iterrows():
-                axes[i, j].scatter(obs[f"z{dx}"], obs[f"z{dy}"], alpha=0)
-                axes[i, j].text(
-                    obs[f"z{dx}"], obs[f"z{dy}"], str(ind), color=COLORS[ind], size=13
-                )
-
-    # Plot the input data
-    for ind, obs in data.iterrows():
-        axes[0, 1].plot(
-            classy.defs.WAVE_GRID,
-            np.exp(obs.loc[classy.defs.WAVE_GRID].astype(float)),
-            label=str(ind),
-            color=COLORS[ind],
-        )
-        axes[0, 1].scatter(
-            2.5, np.power(10, float(obs.loc["pV"])) + 1, color=COLORS[ind]
-        )
-
-    axes[0, 1].legend(frameon=False, ncol=len(data) if len(data) <= 5 else 4)
-    axes[0, 1].set(xlim=(0.45, 2.5))
-
-    # Add the cluster probabilities
-    for ind, obs in data.iterrows():
-        axes[0, 2].bar(
-            range(classy.defs.MODEL_PARAMETERS["k"]),
-            height=obs.loc[
-                [f"cluster_{i}" for i in range(classy.defs.MODEL_PARAMETERS["k"])]
-            ],
-            facecolor="none",
-            edgecolor=COLORS[ind],
-        )
-    axes[0, 2].set(ylim=(0, 1))
-
-    # And now the class probablities
-    CLASSES = classy.defs.CLASSES
-    # CLASSES.remove("Ch")
-
-    for ind, obs in data.iterrows():
-        axes[1, 2].bar(
-            CLASSES,
-            height=[obs[f"class_{c}"] for c in classy.defs.CLASSES],
-            facecolor="none",
-            edgecolor=COLORS[ind],
-        )
-    axes[1, 2].set(ylim=(0, 1))
-
-    # All done
-    fig.tight_layout()
-    plt.show()
-
-
-def _plot_spectrum(spectrum, show=True):
-    """Plot the spectrum.
-
-    Parameters
-    ----------
+    spectra : classy.Spectra or list of classy.Spectrum
+        The spectrum / spectra to plot.
     show : bool
-        Open the plot. Default is True.
-
-    Returns
-    -------
-    matplolib.figures.Figure
-    matplotlib.axes.Axis
+        Show plot immediately. Default is True.
+    save : str
+        Save figure to specified file path. If specified,
+        show is set to False.
     """
-
-    fig, ax = plt.subplots(figsize=(13, 7))
-
-    ax.plot(spectrum.wave, spectrum.refl, alpha=1, ls="-", c="black", label="Original")
-
-    if spectrum.refl_smoothed is not None:
-        ax.plot(
-            spectrum.wave,
-            spectrum.refl_smoothed,
-            marker="",
-            ls="-",
-            c="red",
-            label="Smoothed",
+    if save is not None and show:
+        logger.warning(
+            "If 'save' is specified, 'show' cannot be True. Setting it to False."
         )
 
-    # Shade atmospheric absorption bands
-    for lower, upper in classy.defs.TELLURIC_TROUBLE:
-        ax.axvspan(lower, upper, alpha=0.3, color="gray", edgecolor=None, linewidth=0)
+    # Ensure uniform plot appearance
+    mpl.rcParams.update(mpl.rcParamsDefault)
+    mpl.rcParams["axes.labelsize"] = 12
 
-    for limit in [classy.defs.LIMIT_VIS, classy.defs.LIMIT_NIR]:
-        ax.axvline(limit, ls="--", c="black")
+    # Add color information to spectrum
+    colors = get_colors(len(spectra), cmap="jet")
+    for i, spec in enumerate(spectra):
+        spec._color = colors[i]
 
-    ax.set(xlabel=r"Wavelength / micron", ylabel=r"Reflectance")
+    # ------
+    # Populate figure
+    fig, ax = plt.subplots(figsize=(10, 7))
 
-    if show:
+    for spec in spectra:
+        _plot_spectrum(ax, spec)
+
+    # Finish figure setup
+    ax.set(xlabel=r"Wavelength / µm", ylabel="Reflectance")
+    fig.tight_layout()
+
+    if save is not None:
+        fig.savefig(save)
+    elif show:
         plt.show()
 
     return fig, ax
 
+    return
+    lines, labels = [], []  # for the global legend
 
-def fit_feature():
-    fig, ax = plt.subplots()
+    # Build figure instance
+    if taxonomy is not None:
+        fig, axes = plt.subplots(
+            ncols=3, figsize=(16, 7), gridspec_kw={"width_ratios": [4, 1, 4]}
+        )
+        ax_spec, ax_pv, ax_classes = axes
+    else:
+        fig, ax_spec = plt.subplots(figsize=(10, 7))
 
-    (spectrum,) = ax.plot(wave, refl_no_continuum, ls="-", c="dimgray")
-    (band_fit,) = ax.plot(
-        xrange[xrange_fit],
-        band(xrange[xrange_fit]),
-        ls="--",
-        c="firebrick" if not present else "steelblue",
-        lw=2,
+    # 1. Plot spectra, grouped by source
+    _sources = sorted(set(spec.source for spec in spectra))
+
+    for source in _sources:
+        lines_source, labels_source = [], []
+        for spec in spectra:
+            if spec.source != source:
+                continue
+            if taxonomy == "mahlke" and spec.source != "Gaia":
+                # spec.wave_plot = spec._wave_pre_norm
+                # spec.refl_plot = spec._refl_pre_norm
+                spec._wave_preprocessed = spec._wave_pre_norm
+                spec._refl_preprocessed = spec._refl_pre_norm
+            if not hasattr(spec, "wave_plot"):
+                spec.wave_plot = spec.wave
+                spec.refl_plot = spec.refl
+
+            spec._color = colors.pop() if source != "Gaia" else "black"
+
+            if source == "Gaia":
+                user_line, user_label = plot_gaia_spectrum(ax_spec, spec)
+            else:
+                user_line, user_label = plot_user_spectrum(ax_spec, spec)
+
+            for line, label in zip(user_line, user_label):
+                lines_source.append(line)
+                labels_source.append(label)
+
+        (dummy,) = ax_spec.plot([], [], alpha=0)
+        lines += [dummy, dummy] + lines_source
+        labels += ["", source] + labels_source
+
+    # (dummy,) = ax_spec.plot([], [], alpha=0)
+    # (l1,) = ax_spec.plot([], [], ls="-", c="black", lw=1)
+    # (l2,) = ax_spec.plot([], [], ls="-", c="black", alpha=0.3, lw=3)
+    # lines += [dummy, l1, l2]
+    # labels += ["", "Reflectance", "Uncertainty"]
+
+    if taxonomy is not None:
+        (l3,) = ax_spec.plot([], [], ls=":", c="gray")
+        lines += [dummy, l3]
+        labels += ["", "Taxonomy Limits"]
+
+    if templates is not None:
+        plot_class_templates(ax_spec, taxonomy, templates)
+        if taxonomy is None or taxonomy == "mahlke":
+            scheme = "Mahlke+ 2022"
+        elif taxonomy == "bus":
+            scheme = "Bus and Binzel 2002"
+        elif taxonomy == "tholen":
+            scheme = "Tholen 1984"
+        elif taxonomy == "demeo":
+            scheme = "DeMeo+ 2009"
+        (l3,) = ax_spec.plot([], [], ls=(1, (1, 7)), alpha=0.3, c="gray")
+        lines += [dummy, dummy, l3]
+        labels += ["", "Class Templates", f"Complex {templates} - {scheme}"]
+
+    leg = ax_spec.legend(
+        lines,
+        labels,
+        edgecolor="none",
+        # ncols=4,
+        # loc="upper center",
+        # loc="lower left",
+        loc="center right",
+        # bbox_to_anchor=(0.5, 1.3),
+        fontsize=8,
+    )
+    ax_spec.add_artist(leg)
+
+    if taxonomy is not None:
+        wave = getattr(taxonomies, taxonomy).WAVE
+        lower, upper = min(wave), max(wave)
+        ax_spec.axvline(lower, ls=":", zorder=-10, c="gray")
+        ax_spec.axvline(upper, ls=":", zorder=-10, c="gray")
+
+    # ensure that there is space for the legend by adding empty space
+    xmin, xmax = ax_spec.get_xlim()
+    xmax += 1 / 2.8 * (xmax - xmin)
+
+    ymin, ymax = ax_spec.get_ylim()
+    if ymax - ymin < 0.1:
+        ymin -= 0.05
+        ymax += 0.05
+
+    ax_spec.set(
+        xlabel=r"Wavelength / µm",
+        ylabel="Reflectance",
+        xlim=(xmin, xmax),
+        ylim=(ymin, ymax),
     )
 
-    lambda_min = ax.axvline(FEATURE["lower"], ls=":", c="dimgray")
-    lambda_max = ax.axvline(FEATURE["upper"], ls=":", c="dimgray")
-    ax.axvline(FEATURE["center"][0], ls="--", c="black")
+    # 2. Add pV axis
+    if taxonomy is not None:
+        for i, spec in enumerate(spectra):
+            ax_pv.errorbar(
+                i, spec.pV, yerr=spec.pV_err, capsize=3, marker=".", c=spec._color
+            )
 
-    # Make interactive
-    ax_lower = plt.axes([0.15, 0.1, 0.25, 0.03])
-    lower_slider = Slider(
-        ax=ax_lower,
-        label="Lower",
-        valmin=0.45,
-        valmax=1.2,
-        valinit=FEATURE["lower"],
-    )
+        ticklabels = [
+            spec.shortbib if hasattr(spec, "shortbib") else "" for spec in spectra
+        ]
+        ax_pv.set_xticks(range(len(spectra)), ticklabels, rotation=90)
 
-    ax_upper = plt.axes([0.55, 0.1, 0.25, 0.03])
-    upper_slider = Slider(
-        ax=ax_upper,
-        label="Upper",
-        valmin=0.45,
-        valmax=1.2,
-        valinit=FEATURE["upper"],
-    )
+        ymin, ymax = ax_pv.get_ylim()
+        ymin = 0 if ymin < 0.1 else ymin
+        ymax += 0.051
 
-    def update_lower(lower_limit):
-        # Update limit value
-        FEATURE["lower"] = lower_limit
+        ax_pv.set(xlabel="pV", ylim=(ymin, ymax), xlim=(-0.5, len(spectra) - 0.5))
 
-        # Change v-line
-        lambda_min.set_data([FEATURE["lower"], FEATURE["lower"]], [0, 1])
+    # 3. Add classes
+    if taxonomy is not None:
+        if taxonomy == "mahlke":
+            width = 0.8 / len(spectra)
 
-        # Update continuum fit
-        slope = fit_continuum()
-        refl_no_continuum = remove_continuum(slope)
-        spectrum.set_ydata(refl_no_continuum)
+            for i, spec in enumerate(spectra):
+                if not hasattr(spec, "class_A"):
+                    continue  # spec was not classified following Mahlke+ 2022
+                for x, class_ in enumerate(classy.defs.CLASSES):
+                    ax_classes.bar(
+                        x - 0.3 + i * width if len(spectra) > 1 else x,
+                        getattr(spec, f"class_{class_}"),
+                        fill=True,
+                        color=spec._color,
+                        width=width,
+                        alpha=0.7,
+                        label=f"{spec.shortbib if hasattr(spec, 'shortbib') else ''}: {spec.class_}"
+                        if x == 0
+                        else None,
+                    )
+            ax_classes.set(ylim=(0, 1))
+            ax_classes.set_xticks(
+                [i for i, _ in enumerate(classy.defs.CLASSES)], classy.defs.CLASSES
+            )
+            ax_classes.legend(title="Most Likely Class", frameon=True, edgecolor="none")
+            ax_classes.grid(c="gray", alpha=0.4, zorder=-100)
+        elif "tholen" in taxonomy:
+            ax_classes = taxonomies.tholen.plot_pc_space(ax_classes, spectra)
+        elif "demeo" in taxonomy:
+            ax_classes = taxonomies.demeo.plot_pc_space(ax_classes, spectra)
 
-        # Update band fit
-        band = fit_band(refl_no_continuum)
+    if spec.name is not None:
+        ax_spec.set_title(f"({spec.number}) {spec.name}", loc="left", size=10)
+    if taxonomy is not None:
+        if taxonomy == "tholen":
+            taxonomy = "Tholen 1984"
+        if taxonomy == "mahlke":
+            taxonomy = "Mahlke+ 2022"
+        if taxonomy == "demeo":
+            taxonomy = "DeMeo+ 2009"
+        ax_classes.set_title(
+            f"Classification following {taxonomy}", loc="left", size=10
+        )
 
-        xrange_fit = (FEATURE["lower"] < xrange) & (FEATURE["upper"] > xrange)
-        band_fit.set_xdata(xrange[xrange_fit])
-        band_fit.set_ydata(band(xrange[xrange_fit]))
+    fig.tight_layout()
 
-        center, depth = get_band_center_and_depth(band)
-        snr = compute_snr(band, refl_no_continuum)
-        present = band_present(center, snr)
-        if present:
-            band_fit.set_color("steelblue")
-        else:
-            band_fit.set_color("firebrick")
-
-        print(f"Band center: {center:.3f}")
-        print(f"Band depth: {depth:.3f}")
-        print(f"SNR: {snr:.2f}")
-        print(f"Present: {present}")
-        # recompute the ax.dataLim
-        ax.relim()
-        # update ax.viewLim using the new dataLim
-        ax.autoscale_view()
-        fig.canvas.draw_idle()
-
-    def update_upper(upper_limit):
-        # Update limit value
-        FEATURE["upper"] = upper_limit
-
-        # Change v-line
-        lambda_max.set_data([FEATURE["upper"], FEATURE["upper"]], [0, 1])
-
-        # Update continuum fit
-        slope = fit_continuum()
-        refl_no_continuum = remove_continuum(slope)
-        spectrum.set_ydata(refl_no_continuum)
-
-        # Update band fit
-        band = fit_band(refl_no_continuum)
-
-        xrange_fit = (FEATURE["lower"] < xrange) & (FEATURE["upper"] > xrange)
-        band_fit.set_xdata(xrange[xrange_fit])
-        band_fit.set_ydata(band(xrange[xrange_fit]))
-
-        center, depth = get_band_center_and_depth(band)
-        snr = compute_snr(band, refl_no_continuum)
-        present = band_present(center, snr)
-        if present:
-            band_fit.set_color("steelblue")
-        else:
-            band_fit.set_color("firebrick")
-
-        print(f"Band center: {center:.3f}")
-        print(f"Band depth: {depth:.3f}")
-        print(f"SNR: {snr:.2f}")
-        print(f"Present: {present}")
-
-        # recompute the ax.dataLim
-        ax.relim()
-        # update ax.viewLim using the new dataLim
-        ax.autoscale_view()
-        fig.canvas.draw_idle()
-
-    # register the update function with each slider
-    lower_slider.on_changed(update_lower)
-    upper_slider.on_changed(update_upper)
-
-    plt.show()
+    if save is None:
+        plt.show()
+    else:
+        fig.savefig(save)
+        logger.info(f"Figure stored under {save}")
 
 
-def plot_spectra(spectra, taxonomy=None, save=None, templates=None):
+def _plot_spectrum(ax, spec, **kwargs):
+    """Plot the spectrum.
+
+    Parameters
+    ----------
+    spec
+
+    """
+
+    if hasattr(spec, "refl_err"):
+        # TODO: Use the alpha shaded region instead
+        ax.errorbar(
+            spec.wave, spec.refl, yerr=spec.refl_err, c=spec._color, capsize=3, ls=":"
+        )
+    else:
+        ax.plot(spec.wave, spec.refl, c=spec._color)
+
+    # if spectrum.refl_smoothed is not None:
+    #     ax.plot(
+    #         spectrum.wave,
+    #         spectrum.refl_smoothed,
+    #         marker="",
+    #         ls="-",
+    #         c="red",
+    #         label="Smoothed",
+    #     )
+    #
+    # # Shade atmospheric absorption bands
+    # for lower, upper in classy.defs.TELLURIC_TROUBLE:
+    #     ax.axvspan(lower, upper, alpha=0.3, color="gray", edgecolor=None, linewidth=0)
+    #
+    # for limit in [classy.defs.LIMIT_VIS, classy.defs.LIMIT_NIR]:
+    #     ax.axvline(limit, ls="--", c="black")
+
+    # if show:
+    #     plt.show()
+
+    # return fig, ax
+
+
+def current_plot_spectra(spectra, taxonomy=None, save=None, templates=None):
     """Plot spectra. Called by 'classy spectra [id]'.
 
     Parameters
@@ -765,8 +774,8 @@ def plot_user_spectrum(ax, spec):
             alpha=1,
         )
         ax.plot(
-            spec.wave_original,
-            spec.refl_original,
+            spec._wave_original,
+            spec._refl_original,
             c=spec._color,
             ls="-",
             alpha=0.3,

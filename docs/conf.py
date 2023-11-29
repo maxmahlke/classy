@@ -97,7 +97,7 @@ html_show_sphinx = False
 html_theme_options = {
     "sidebar_hide_name": True,
     "navigation_with_keys": True,
-    "top_of_page_button": None,
+    # "top_of_page_button": None,
     "light_logo": "logo_classy.svg",
     "dark_logo": "logo_classy_light.svg",
     # "logo_only": True,
