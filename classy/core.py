@@ -367,22 +367,6 @@ class Spectrum:
             self.wave, self.refl, translate_to
         )
 
-    def dropnan(self, include=[]):
-        """Drop NaN values in reflectance, wave, and error.
-
-        Parameters
-        ----------
-        include : list of str
-            List of attributes which should also be masked
-            using the NaN reflectance values. Attributes must be
-            numpy.ndarrays.
-        """
-
-        for param in ["wave", "refl_err"] + include:
-            setattr(self, param, getattr(self, param)[~np.isnan(self.refl)])
-
-        self.refl = self.refl[~np.isnan(self.refl)]
-
     def inspect_features(self, feature="all", force=False):
         """Run interactive inspection of e-, h-, and/or k-feature.
 
