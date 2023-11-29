@@ -442,7 +442,7 @@ def query(id=None, **kwargs):
         ).columns
 
         # Ensure valid column names and translate shortforms
-        cols_query = [BFT_SHORT[c] for c in cols_query if c in BFT_SHORT]
+        cols_query = [BFT_SHORT[c] if c in BFT_SHORT else c for c in cols_query]
         cols_query = [c for c in cols_query if c in bft_valid_cols or c in idx.columns]
 
     for col in list(kwargs) + cols_query:
@@ -479,6 +479,9 @@ def query(id=None, **kwargs):
             idx = idx.loc[idx[column] >= float(value)]
         # Pass query string directly
         elif column == "query":
+            # dots in columns have to be escaped
+            for col in bft_valid_cols:
+                value = value.replace(col, f"`{col}`")
             idx = idx.query(value)
         else:
             # All other cases: first check for comma-split
@@ -520,7 +523,7 @@ def query(id=None, **kwargs):
 
         # Only feature entries of feature we care about
         features = features.loc[features.feature.isin(ftrs)]
-        features = features[features.is_present == "Yes"]
+        features = features[features.is_present]
 
         idx = idx.loc[idx.index.isin(features.index)]
 

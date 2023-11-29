@@ -85,7 +85,7 @@ def _load_private_data(PATH):
     return data
 
 
-def load_spectrum(idx):
+def load_spectrum(idx, skip_target):
     """Load a cached spectrum. This general function applies host- and
     collection specific parameters defined in the colecction modules.
 
@@ -104,7 +104,10 @@ def load_spectrum(idx):
     data, meta = load_data(idx)
 
     # Add list-type attributes when instantiating
-    spec = core.Spectrum(target=idx["name"], **{col: data[col] for col in data.columns})
+    spec = core.Spectrum(
+        target=idx["name"] if not skip_target else None,
+        **{col: data[col] for col in data.columns},
+    )
 
     # Add metadata from index
     for attr in ["shortbib", "bibcode", "host", "source", "date_obs"]:

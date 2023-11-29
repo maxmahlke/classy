@@ -20,7 +20,7 @@ def load_mahlke_index():
 
 # ------
 # Load spectra from cache
-def load_spectra(idx_spectra):
+def load_spectra(idx_spectra, skip_target):
     """Load a spectrum from a known source.
 
     Returns
@@ -28,7 +28,9 @@ def load_spectra(idx_spectra):
     list of classy.core.Spectrum
     """
 
-    spectra = [sources.load_spectrum(spec) for _, spec in idx_spectra.iterrows()]
+    spectra = [
+        sources.load_spectrum(spec, skip_target) for _, spec in idx_spectra.iterrows()
+    ]
 
     return spectra
 
