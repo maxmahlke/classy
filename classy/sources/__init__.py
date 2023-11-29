@@ -104,7 +104,7 @@ def load_spectrum(idx):
     data, meta = load_data(idx)
 
     # Add list-type attributes when instantiating
-    spec = core.Spectrum(name=idx["name"], **{col: data[col] for col in data.columns})
+    spec = core.Spectrum(target=idx["name"], **{col: data[col] for col in data.columns})
 
     # Add metadata from index
     for attr in ["shortbib", "bibcode", "host", "source", "date_obs"]:

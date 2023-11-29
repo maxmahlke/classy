@@ -42,7 +42,7 @@ class Spectrum:
         self.wave, self.refl, self.refl_err = _basic_checks(wave, refl, refl_err)
 
         if target is not None:
-            self.target = target
+            self.set_target(target)
 
         # Store original attributes for restoration reasons
         self._wave_original = self.wave.copy()
@@ -68,10 +68,10 @@ class Spectrum:
         raise AttributeError(f"{type(self)} has no attribute '{attr}'")
 
     def reset_data(self):
-        self.wave = self.wave_original.copy()
-        self.refl = self.refl_original.copy()
+        self.wave = self._wave_original.copy()
+        self.refl = self._refl_original.copy()
         self.refl_err = (
-            None if self.refl_err_original is None else self.refl_err_original.copy()
+            None if self._refl_err_original is None else self._refl_err_original.copy()
         )
 
     def unsmooth(self):
@@ -157,18 +157,9 @@ class Spectrum:
         self.smooth_interactive()
         self.is_smoothed = True
 
-    @property
-    def target(self):
-        return self._target
-
-    @target.setter
-    def target(self, target):
+    def set_target(self, target):
         rock = rocks.Rock(target)
-        self.name = rock.name
-        self.number = rock.number
-        self.albedo = rock.albedo.value
-        self.albedo_err = rock.albedo.error
-        self._target = target
+        self.target = rock
 
     def truncate(self, wave_min=None, wave_max=None):
         """Truncate wavelength range to minimum and maximum value.
@@ -201,15 +192,15 @@ class Spectrum:
         Parameters
         ----------
         method : str
-            The method to use for the normalization. Choose from ["wave", "l2", "mixnorm"].
+            The method to use for the normalization. Choose from ["wave", "l2"].
             Default is "wave".
         at : float
-            The wavelength at which to normalize. Only relevant when method == "wave".
+            The wavelength at which to normalize. Only relevant if method == "wave".
         """
         if at is not None:
             self.refl = preprocessing._normalize_at(self.wave, self.refl, at)
-            self.refl_original = preprocessing._normalize_at(
-                self.wave_original, self.refl_original, at
+            self._refl_original = preprocessing._normalize_at(
+                self._wave_original, self._refl_original, at
             )
 
         if method == "l2":
@@ -228,9 +219,9 @@ class Spectrum:
             raise AttributeError(
                 "The spectrum requires a 'date_obs' attribute to compute the phase angle."
             )
-        if not hasattr(self, "name"):
+        if not hasattr(self, "target") or not isinstance(self.target, rocks.Rock):
             raise AttributeError(
-                "The spectrum requires a 'name' attribute to compute the phase angle."
+                "The spectrum requires a defined target. Use the 'set_target()' method to define it."
             )
 
         if not isinstance(self.date_obs, str) or not self.date_obs:
@@ -238,7 +229,7 @@ class Spectrum:
             self.phase = np.nan
             return
 
-        ephem = cache.miriade_ephems(self.name, self.date_obs.split(","))
+        ephem = cache.miriade_ephems(self.target.name, self.date_obs.split(","))
 
         if isinstance(ephem, bool):
             self.phase = np.nan
@@ -445,35 +436,33 @@ class Spectrum:
 
 # ------
 # Utility functions
-def _basic_checks(wave, refl, unc, flag):
+def _basic_checks(wave, refl, refl_err):
     """Basic quality checks for spectra."""
 
     # Ensure floats
     wave = np.array([float(w) for w in wave])
     refl = np.array([float(r) for r in refl])
-    flag = np.array([float(f) for f in flag])
 
-    if unc is not None:
-        unc = np.array([float(u) for u in unc])
+    if refl_err is not None:
+        refl_err = np.array([float(u) for u in refl_err])
 
     # Equal lengths?
     assert (
         wave.shape == refl.shape
     ), "The passed wavelength and reflectance arrays are of different shapes."
 
-    if unc is not None:
+    if refl_err is not None:
         assert (
-            refl.shape == unc.shape
+            refl.shape == refl_err.shape
         ), "The passed reflectance and uncertainty arrays are of different shapes."
 
     # Any NaN values in reflectance?
     if any([np.isnan(r) for r in refl]):
         logger.debug("Found NaN values in reflectance. Removing them.")
         wave = wave[[np.isfinite(r) for r in refl]]
-        flag = flag[[np.isfinite(r) for r in refl]]
 
-        if unc is not None:
-            unc = unc[[np.isfinite(r) for r in refl]]
+        if refl_err is not None:
+            refl_err = refl_err[[np.isfinite(r) for r in refl]]
 
         refl = refl[[np.isfinite(r) for r in refl]]
 
@@ -481,10 +470,9 @@ def _basic_checks(wave, refl, unc, flag):
     if any([r < 0 for r in refl]):
         logger.debug("Found negative values in reflectance. Removing them.")
         wave = wave[[r > 0 for r in refl]]
-        flag = flag[[r > 0 for r in refl]]
 
-        if unc is not None:
-            unc = unc[[r > 0 for r in refl]]
+        if refl_err is not None:
+            refl_err = refl_err[[r > 0 for r in refl]]
 
         refl = refl[[r > 0 for r in refl]]
 
@@ -492,10 +480,9 @@ def _basic_checks(wave, refl, unc, flag):
     if any([w < 0 for w in wave]):
         logger.debug("Found negative values in wavelength. Removing them.")
         refl = refl[[w > 0 for w in wave]]
-        flag = flag[[w > 0 for w in wave]]
 
-        if unc is not None:
-            unc = unc[[w > 0 for w in wave]]
+        if refl_err is not None:
+            refl_err = refl_err[[w > 0 for w in wave]]
 
         wave = wave[[w > 0 for w in wave]]
 
@@ -503,26 +490,27 @@ def _basic_checks(wave, refl, unc, flag):
     if any([np.isnan(w) for w in wave]):
         logger.debug("Found NaN values in wavelength. Removing them.")
         refl = refl[[np.isfinite(w) for w in wave]]
-        flag = flag[[np.isfinite(w) for w in wave]]
 
-        if unc is not None:
-            unc = unc[[np.isfinite(w) for w in wave]]
+        if refl_err is not None:
+            refl_err = refl_err[[np.isfinite(w) for w in wave]]
 
         wave = wave[[np.isfinite(w) for w in wave]]
 
     # Wavelength ordered ascending?
     if list(wave) != list(sorted(wave)):
-        # logger.warning("Wavelength values are not in ascending order. Ordering them.")
+        logger.warning("Wavelength values are not in ascending order. Ordering them.")
 
         refl = np.array([r for _, r in sorted(zip(wave, refl))])
-        flag = np.array([f for _, f in sorted(zip(wave, flag))])
 
-        if unc is not None:
-            unc = np.array([u for _, u in sorted(zip(wave, unc))])
+        if refl_err is not None:
+            refl_err = np.array([u for _, u in sorted(zip(wave, refl_err))])
 
         # sort wave last
         wave = np.array([w for _, w in sorted(zip(wave, wave))])
-    return wave, refl, unc, flag
+    return wave, refl, refl_err
+
+
+# TODO: mask_values
 
 
 class Spectra(list):
