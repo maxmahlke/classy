@@ -1,7 +1,5 @@
 """Implement the Spectrum class in classy."""
 
-from functools import singledispatchmethod
-
 import numpy as np
 import pandas as pd
 import rocks
@@ -105,11 +103,11 @@ class Spectrum:
         refl = refl[self.mask_valid]
 
         if refl_err is not None:
-            refl_err = refl_err[self.mask_invalid]
+            refl_err = refl_err[self.mask_valid]
 
         # Wavelength order ascending?
         if list(wave) != list(sorted(wave)):
-            logger.warning("'wave' values are not in ascending order. Ordering them.")
+            logger.debug("'wave' values are not in ascending order. Ordering them.")
 
             refl = np.array([r for _, r in sorted(zip(wave, refl))])
             if refl_err is not None:
@@ -223,6 +221,7 @@ class Spectrum:
         wave_max : float
             The upper wavelength to truncate at.
         """
+        # TODO: Move to preprocessing module
         if wave_min is None:
             wave_min = min(self.wave)
         if wave_max is None:
@@ -470,14 +469,10 @@ class Spectrum:
             result.to_csv("./classy_spec.csv", index=False)
 
 
-# ------
-# Utility functions
-
-
 class Spectra(list):
     """List of several spectra of individual asteroid."""
 
-    def __init__(self, id=None, **kwargs):
+    def __init__(self, id=None, skip_target=False, **kwargs):
         """Select spectra from classy index using matching criteria.
 
         Parameters
@@ -491,49 +486,13 @@ class Spectra(list):
         if isinstance(id, list) and all(isinstance(entry, Spectrum) for entry in id):
             for spec in id:
                 self.append(spec)
-                return
+            return
 
         spectra = index.query(id, **kwargs)
-        spectra = cache.load_spectra(spectra)
+        spectra = cache.load_spectra(spectra, skip_target)
 
         for spec in spectra:
             self.append(spec)
-
-    # @__init__.register(list)
-    # def _list(self, entries: list):
-    #     """Instantiate Spectra by passing a list of Spectrum instances or asteroid identifiers."""
-    #
-    #     # Need this check for __add__
-    #     if not isinstance(entries, list):
-    #         entries = [entries]
-    #
-    #     for entry in entries:
-    #         # If it's a spectrum, we're done
-    #         if isinstance(entry, Spectrum):
-    #             self.append(entry)
-    #             continue
-    #
-    #         # Otherwise, try to identify it
-    #         name, _ = rocks.id(entry)
-    #
-    #         if name is None:
-    #             raise ValueError(
-    #                 f"Expected classy.Spectrum or asteroid identifier, got '{entry}'."
-    #             )
-
-    # def _df(self, idx):
-    #     """Instantiate Spectra using entries from the classy spectra index."""
-    #     if isinstance(idx, pd.Series):
-    #         idx = pd.DataFrame(idx).transpose()
-    #
-    #     for _, entry in idx.iterrows():
-    #         spec = Spectra(
-    #             entry["name"],
-    #             source=entry["source"],
-    #             shortbib=entry["shortbib"],
-    #             filename=entry.name,
-    #         )[0]
-    #         self.append(spec)
 
     def __add__(self, rhs):
         if isinstance(rhs, Spectrum):
