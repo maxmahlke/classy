@@ -47,3 +47,7 @@ You can change the location by setting the
   .. tab-item :: Windows
 
     Start Menu -> Advanced System Settings -> Environment Variables
+
+.. extrapolation_limit::
+
+ This limit can be set via ``classy.defs.EXTRAPOLATION_LIMIT`` and is ``0.1`` (=10%) by default.

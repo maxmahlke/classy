@@ -237,6 +237,52 @@ corresponding function of the ``Spectra`` class. This saves efforts in typing an
 and exporting <export>` analysis results.
 
 
+Plotting
+--------
+
+Templates
+
+.. tab-set::
+
+    .. tab-item:: Command Line
+
+        The quickest way to visualize spectra of an asteroids is the command line.
+
+        .. code-block:: shell
+
+           $ classy spectra vesta
+
+        This will open a plot of the spectra. You can further instruct to ``-c|--classify``
+        the spectra in a given ``-t|--taxonomy``.
+
+        .. code-block:: shell
+
+           $ classy spectra vesta -c   # '--taxonomy mahlke' is the default
+           $ classy spectra vesta -c --taxonomy tholen
+
+        To only use spectra from one or many sources, use ``-s|--source``.
+
+        .. code-block:: shell
+
+           $ classy spectra vesta -c --taxonomy tholen --source ECAS --source Gaia
+
+        If you set ``--save``, the figure is stored in the current working directory.
+
+        .. code-block:: shell
+
+           $ classy spectra vesta -c --taxonomy tholen --source ECAS --source Gaia --save
+           INFO     [classy] Figure stored under sources/4_Vesta_classy.png
+
+    .. tab-item:: python
+
+        Both a ``Spectrum`` and many ``Spectra`` can be plotted using the ``.plot()`` method.
+
+        .. code-block:: python
+
+           >>> import classy
+           >>> spectra = classy.Spectra(43)
+           >>> spectra.plot()
+
 .. rubric:: Footnotes
    :caption:
 

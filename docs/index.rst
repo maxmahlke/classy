@@ -140,7 +140,6 @@ plotting and exporting or preprocessing
    Preprocessing<preprocessing>
    Feature Detection<features>
    Classifying<classifying>
-   Plotting and Exporting<export>
 
 .. toctree::
    :maxdepth: 2

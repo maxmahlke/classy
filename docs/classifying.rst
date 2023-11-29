@@ -1,23 +1,12 @@
 Classifying Spectra
 ===================
 
-This chapter assumes that you are familiar with the syntax of :ref:`selecting spectra <selecting_spectra>`.
-Classification results might be more reliable after :ref:`preprocessing <preprocessing>` the spectra and :ref:`identifying
-features <features>` relevant for the class assignment.
-
 ``classy`` can taxonomically classify asteroid spectra and return the
-classification results as well as visualize them. All tasks can be done via the
-command line interface and the ``python`` interface.
+classification results as well as visualize them. Classification results might
+be more reliable after :ref:`preprocessing <preprocessing>` the spectra and
+:ref:`identifying features <features>` relevant for the class assignment. All
+tasks can be done via the command line interface and the ``python`` interface.
 
-.. important::
-
-    When classifying, ``classy`` automatically applies the required preprocessing
-    (e.g. normalisation, resampling) for the respective taxonomic scheme. This
-    happens "under the hood" and does not change your data.
-
-.. important::
-
-   EXTRAPOLATION LIMIT
 
 .. tab-set::
 
@@ -29,7 +18,8 @@ command line interface and the ``python`` interface.
 
            $ classy classify vesta
 
-        By default, this prints a table of available spectra and their classification result.
+        By default, this prints a table of available spectra and their classification result. Use the ``--plot`` flag
+        to visualise the classification result.
 
     .. tab-item:: python
 
@@ -41,12 +31,17 @@ command line interface and the ``python`` interface.
            >>> spectra = classy.Spectra(4)
            >>> spectra.classify()
 
+        ``classy`` automatically applies the required preprocessing (e.g. normalising,
+        resampling) for the respective taxonomic scheme. This happens "under the hood"
+        and does not change the ``wave`` and ``refl`` attributes of the ``Spectrum``.
+
         Iterate over the list of spectra to inspect the classification result:
 
         .. code-block:: python
 
            >>> for spec in spectra:
            >>>     print(f"Spectrum of {spec.shortbib} is of class {spec.class_}")
+
 
 Taxonomy Selection
 ------------------
@@ -97,8 +92,7 @@ The default value is ``mahlke``.
            >>> spec.class_demeo
 
 If a spectrum cannot be classified in the chosen scheme due to :ref:`insufficient wavelength coverage <taxonomies>`, a warning is printed
-and the resulting class is an empty string ``""``.
-
+and the resulting class is an empty string ``""``.\ [#f1]_
 Classification by-products like principal component scores and class probabilities are also available depending on the chosen taxonomy.
 The products of each scheme can be found in the relevant sections of the :ref:`overview <taxonomies>`.
 
@@ -125,5 +119,51 @@ taxonomy are described in the :ref:`taxonomies <available_taxonomies>` section.
 Visualizing the Result
 ----------------------
 
+By default, only the spectra themselves are plotted. If you specify the ``taxonomy``
+keyword, the classification results in the specified taxonomic system are added to the
+figure. Note that you have to call ``.classify()`` before.
+
+.. code-block:: python
+
+    >>> spectra.classify()  # taxonomy='mahlke' is default
+    >>> spectra.classify(taxonomy='demeo')
+    >>> spectra.plot(taxonomy='mahlke')  # show classification results following Mahlke+ 2022
+    >>> spectra.plot(taxonomy='demeo')  # show classification results following DeMeo+ 2009
+
+By providing a filename to the ``save`` argument, you can instruct ``classy`` to save the figure
+to file instead of opening it.
+
+.. code-block:: python
+
+    >>> spectra.plot(save='figures/vesta_classified.png')
+
 Exporting the Result
 --------------------
+
+Both ``Spectrum`` and ``Spectra`` have a ``to_csv`` method which allows storing
+the classification results to ``csv`` format.
+
+.. code-block:: python
+
+   >>> import classy
+   >>> spectra = classy.Spectra(3)
+   ...  [classy] Found 1 spectrum in Gaia
+   ...  [classy] Found 5 spectra in SMASS
+   >>> spectra.classify()
+   ...  [classy] [(3) Juno] - [Gaia]: S
+   ...  [classy] [(3) Juno] - [spex/sp96]: S
+   ...  [classy] [(3) Juno] - [smass/smassir]: S
+   ...  [classy] [(3) Juno] - [smass/smass1]: S
+   ...  [classy] [(3) Juno] - [smass/smass2]: S
+   ...  [classy] [(3) Juno] - [smass/smass2]: S
+   >>> spectra.to_csv('class_juno.csv')
+
+.. rubric:: Footnotes
+   :caption:
+
+
+.. [#f1] If the missing part represents less than a given limit, the spectrum
+   will be extrapolated linearly to cover the required range for
+   classification. This is most useful for the Gaia DR3 spectra (0.374 - 1.034μm) and the Tholen
+   taxonomy (0.337 - 1.041µm). More on this limit and its configuration can be found :ref:`here
+   <extrapolation_limit>`.

@@ -30,7 +30,7 @@ Let's take this spectrum of (13) *Egeria* from Bus and Binzel 2002 as an example
 
    >>> import classy
    >>> spectra = classy.Spectra(13, shortbib="Bus and Binzel 2002")
-   >>> spec = spectra[0]  # only one match
+   >>> spec = spectra[0]  # Select first spectrum from list
    >>> spec.plot()
 
 .. image:: gfx/features/egeria_bb02.png
@@ -167,7 +167,7 @@ The inspection results are stored in the feature index. When you load the same s
 in another analysis, ``classy`` sets all relevant feature attributes and marks the spectrum directly
 as inspected.
 
-.. admonition:: Sharing is caring
+.. admonition:: Reproducibility
 
   The feature index makes it easy to share your work and results with other users of ``classy``.
   This increases reproducibility and prevents two people from having to inspect the same spectra.
