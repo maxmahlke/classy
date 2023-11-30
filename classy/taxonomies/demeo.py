@@ -58,8 +58,8 @@ def is_classifiable(spec):
         ):
             return True
 
-        logger.warning(
-            f"[{spec.source + '/' if hasattr(spec, 'source') else ''}{spec.name}]: Insufficient wavelength range for DeMeo taxonomy ({spec.wave.min()} - {spec.wave.max()})."
+        logger.debug(
+            f"[{spec._name}]: Insufficient wavelength range for DeMeo taxonomy."
         )
         return False
     return True

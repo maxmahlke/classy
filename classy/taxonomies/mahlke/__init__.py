@@ -34,11 +34,13 @@ def is_classifiable(spec):
     """
 
     # We need at least one observed data point
-    if any(min(WAVE) <= w <= max(WAVE) for w in spec.wave) or not np.isnan(spec.pV):
+    if any(min(WAVE) <= w <= max(WAVE) for w in spec.wave) or not np.isnan(
+        spec.albedo.value
+    ):
         return True
 
-    logger.warning(
-        f"[{spec.source + '/' if hasattr(spec, 'source') else ''}{spec.name}]: Insufficient wavelength range for Mahlke taxonomy ({spec.wave.min()} - {spec.wave.max()}) and no visual albedo."
+    logger.debug(
+        f"[{spec._name}]: Insufficient wavelength range for Mahlke taxonomy and no visual albedo."
     )
     return False
 
@@ -51,7 +53,7 @@ def preprocess(spec):
 
     spec.normalize(method="mixnorm")
 
-    spec.pV = np.log10(spec.pV)
+    spec.pV = np.log10(spec.target.albedo.value)
 
 
 def classify(spec):

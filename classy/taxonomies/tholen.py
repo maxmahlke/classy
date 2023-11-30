@@ -4,12 +4,10 @@ from functools import lru_cache
 import numpy as np
 import pandas as pd
 
-from classy import cache
 from classy import config
 from classy import core
 from classy.log import logger
 from classy import preprocessing
-from classy import sources
 from classy import tools
 from classy import taxonomies
 
@@ -37,8 +35,8 @@ def is_classifiable(spec):
         ):
             return True
 
-        logger.warning(
-            f"[{spec.source + '/' if hasattr(spec, 'source') else ''}{spec.name}]: Insufficient wavelength range for Tholen taxonomy ({spec.wave.min()} - {spec.wave.max()})"
+        logger.debug(
+            f"[{spec._name}]: Insufficient wavelength range for Tholen taxonomy."
         )
         return False
     return True
