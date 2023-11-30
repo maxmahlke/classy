@@ -35,7 +35,7 @@ def is_classifiable(spec):
         ):
             return True
 
-        logger.debug(
+        logger.warning(
             f"[{spec._name}]: Insufficient wavelength range for Tholen taxonomy."
         )
         return False
@@ -52,7 +52,7 @@ def preprocess(spec):
     spec : classy.Spectrum
         The spectrum to classify.
     """
-    spec.resample(WAVE)
+    spec.resample(WAVE, fill_value="extrapolate")
     spec.normalize(at=0.55)
 
 

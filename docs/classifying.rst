@@ -161,9 +161,4 @@ the classification results to ``csv`` format.
 .. rubric:: Footnotes
    :caption:
 
-
-.. [#f1] If the missing part represents less than a given limit, the spectrum
-   will be extrapolated linearly to cover the required range for
-   classification. This is most useful for the Gaia DR3 spectra (0.374 - 1.034μm) and the Tholen
-   taxonomy (0.337 - 1.041µm). More on this limit and its configuration can be found :ref:`here
-   <extrapolation_limit>`.
+.. [#f1] If the missing part represents less than a given limit, the spectrum will be extrapolated linearly to cover the required range for classification. This is most useful for the Gaia DR3 spectra (0.374 - 1.034μm) and the Tholen taxonomy (0.337 - 1.041µm). More on this limit and its configuration can be found :ref:`here <extrapolation_limit>`.

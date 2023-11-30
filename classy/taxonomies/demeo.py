@@ -58,7 +58,7 @@ def is_classifiable(spec):
         ):
             return True
 
-        logger.debug(
+        logger.warning(
             f"[{spec._name}]: Insufficient wavelength range for DeMeo taxonomy."
         )
         return False
@@ -90,7 +90,7 @@ def preprocess(spec):
     spec.remove_slope(translate_to=0.55)
 
     # Resample to DeMeo+ 2009 wavelength grid
-    spec.resample(WAVE)
+    spec.resample(WAVE, fill_value="extrapolate")
     # spec.detect_features()
 
 

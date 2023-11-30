@@ -48,6 +48,14 @@ You can change the location by setting the
 
     Start Menu -> Advanced System Settings -> Environment Variables
 
-.. extrapolation_limit::
+.. _extrapolation_limit:
 
- This limit can be set via ``classy.defs.EXTRAPOLATION_LIMIT`` and is ``0.1`` (=10%) by default.
+Extrapolation Limit
+-------------------
+
+The extrapolation limit is applied when classifying spectra in the Tholen or
+the DeMeo taxonomy. If the covered wavelength range is within a given
+percentage of the required range, ``classy`` will apply constant extrapolation
+to cover the entire range and enable the classification. This limit can be set
+via ``classy.defs.EXTRAPOLATION_LIMIT`` and is ``0.1`` (=10%) by default, meaning
+that spectra covering 90% of the required wavelength range will be classified.
