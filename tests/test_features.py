@@ -16,6 +16,11 @@ SPECTRA = [
     ("smass2_130.txt", "h"),
 ]
 
+# TODO: Test feature inspection of spectrum which is not read from file
+# Should just set the feature attributes without storing them
+
+# TODO: Test that feature parameters are loaded into GUI
+
 
 def test_is_covered():
     """Test the wavelength range check of the feature detection. Uses fake wavelength ranges."""
