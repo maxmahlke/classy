@@ -65,7 +65,11 @@ def _retrieve_spectra():
         PATH_ARCHIVE = PATH_PDS / URL.split("/")[-1]
 
         # Download repository
-        tools.download_archive(URL, PATH_ARCHIVE, encoding="zip")
+        if PATH_ARCHIVE.is_file():
+            logger.info(f"pds/{repo} - Using cached archive file at \n{PATH_ARCHIVE}")
+            continue
+
+        tools.download_archive(URL, PATH_ARCHIVE, encoding="zip", remove=False)
 
 
 def _build_index():
