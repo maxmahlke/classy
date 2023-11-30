@@ -26,6 +26,7 @@ import xml.etree.ElementTree as ET
 from classy import config
 from classy import sources
 from classy import tools
+from classy.log import logger
 
 REPOSITORIES = {
     "scas": "https://sbnarchive.psi.edu/pds4/non_mission/gbo.ast.7-color-survey.zip",
@@ -69,7 +70,8 @@ def _retrieve_spectra():
             logger.info(f"pds/{repo} - Using cached archive file at \n{PATH_ARCHIVE}")
             continue
 
-        tools.download_archive(URL, PATH_ARCHIVE, encoding="zip", remove=False)
+        tools.download(URL, PATH_ARCHIVE)
+        tools.unpack(PATH_ARCHIVE, encoding="zip")
 
 
 def _build_index():

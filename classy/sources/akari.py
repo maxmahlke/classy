@@ -31,7 +31,8 @@ def _retrieve_spectra():
     PATH.mkdir(parents=True, exist_ok=True)
 
     URL = "https://darts.isas.jaxa.jp/pub/akari/AKARI-IRC_Spectrum_Pointed_AcuA_1.0/AcuA_1.0.tar.gz"
-    tools.download_archive(URL, PATH / "AcuA_1.0.tar.gz", encoding="tar.gz")
+    tools.download(URL, PATH / "AcuA_1.0.tar.gz")
+    tools.unpack(PATH / "AcuA_1.0.tar.gz", encoding="tar.gz")
 
 
 def _build_index():

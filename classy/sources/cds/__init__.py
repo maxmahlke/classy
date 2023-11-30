@@ -21,12 +21,12 @@ def _retrieve_spectra():
         PATH_ARCHIVE.mkdir(parents=True, exist_ok=True)
 
         # Download repository
-        success = tools.download_archive(
-            URL, PATH_ARCHIVE / f"{repo}.tar.gz", encoding="tar.gz"
-        )
+        success = tools.download(URL, PATH_ARCHIVE / f"{repo}.tar.gz")
 
         if not success:
             continue
+
+        tools.unpack(PATH_ARCHIVE / f"{repo}.tar.gz", encoding="tar.gz")
 
 
 def _build_index():

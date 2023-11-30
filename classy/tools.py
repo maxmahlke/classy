@@ -36,9 +36,7 @@ def find_nearest(array, value):
     return idx
 
 
-def download_archive(
-    URL, PATH_ARCHIVE, unpack=True, remove=True, encoding=None, progress=True
-):
+def download(URL, PATH_ARCHIVE, remove=True, progress=True):
     """Download remote archive file to directory. Optionally unpack and remove the file.
 
     Parameters
@@ -47,18 +45,11 @@ def download_archive(
         The URl to the remote archive.
     PATH_ARCHIVE : pathlib.Path
         The path where the retrieved data/archive is stored.
-    unpack : bool
-        Whether to unpack the archive in place. Default is True.
     remove : bool
         Whether to remove the archive file after the download. Default is True.
-    encoding : str
-        The compression encoding. Default is None. Must be specified if unpack is True.
     progress : bool
         Whether to show a download progressbar. Default is True.
     """
-
-    if unpack and encoding is None:
-        raise ValueError("If unpacking, the encoding must be specified.")
 
     # Create progress bar
     download = Progress(
@@ -84,25 +75,31 @@ def download_archive(
         return False
 
     if unpack:
-        if encoding == "tar.gz":
-            with tarfile.open(PATH_ARCHIVE, mode="r:gz") as archive:
-                archive.extractall(PATH_ARCHIVE.parent)
-        elif encoding == "tar":
-            with tarfile.open(PATH_ARCHIVE, mode="r") as archive:
-                archive.extractall(PATH_ARCHIVE.parent)
-        elif encoding == "zip":
-            try:
-                with ZipFile(PATH_ARCHIVE, "r") as archive:
-                    archive.extractall(PATH_ARCHIVE.parent)
-            except BadZipFile:
-                logger.critical("The returned file is not a Zip file. Try again later.")
-                PATH_ARCHIVE.unlink()
-                return False
+        unpack(PATH_ARCHIVE)
 
     if remove:
         PATH_ARCHIVE.unlink()
 
     return True
+
+
+def unpack(PATH_ARCHIVE, encoding):
+    # encoding : str
+    #     The compression encoding. Default is None. Must be specified if unpack is True.
+    if encoding == "tar.gz":
+        with tarfile.open(PATH_ARCHIVE, mode="r:gz") as archive:
+            archive.extractall(PATH_ARCHIVE.parent)
+    elif encoding == "tar":
+        with tarfile.open(PATH_ARCHIVE, mode="r") as archive:
+            archive.extractall(PATH_ARCHIVE.parent)
+    elif encoding == "zip":
+        try:
+            with ZipFile(PATH_ARCHIVE, "r") as archive:
+                archive.extractall(PATH_ARCHIVE.parent)
+        except BadZipFile:
+            logger.critical("The returned file is not a Zip file. Try again later.")
+            PATH_ARCHIVE.unlink()
+            return False
 
 
 def copy_url(task, url, path, prog):
@@ -115,7 +112,7 @@ def copy_url(task, url, path, prog):
             "User-Agent",
             "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_10_0) AppleWebKit/600.1.17 (KHTML, like Gecko) Version/8.0 Safari/600.1.17",
         )
-        response = urlopen(req)
+        response = urlopen(req, timeout=10)
     except urllib.error.URLError:
         return False
 

@@ -58,7 +58,8 @@ def _retrieve_spectra():
 
     for file_, _, _, _ in ARCH_DIR_REF_BIB:
         url_archive = f"{URL}/{file_}.tar.gz"
-        tools.download_archive(url_archive, PATH / f"{file_}.tar.gz", encoding="tar.gz")
+        tools.download(url_archive, PATH / f"{file_}.tar.gz")
+        tools.unpack(PATH / f"{file_}.tar.gz", encoding="tar.gz")
 
 
 def _build_index():

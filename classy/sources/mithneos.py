@@ -98,9 +98,8 @@ def _retrieve_spectra():
     # Start with separate archives
     for dir, URL in DIR_URLS:
         (PATH / dir).mkdir(exist_ok=True, parents=True)
-        tools.download_archive(
-            URL, PATH / dir / URL.split("/")[-1], encoding=URL.split(".")[-1]
-        )
+        tools.download(URL, PATH / dir / URL.split("/")[-1])
+        tools.unpack(PATH / dir / URL.split("/")[-1], encoding=URL.split(".")[-1])
 
     # -------
     # Scrape all mithneos runs from website and check for unpublished spectra

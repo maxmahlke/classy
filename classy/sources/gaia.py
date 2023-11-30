@@ -105,10 +105,9 @@ def _retrieve_spectra():
         task = mofn.add_task("Gaia DR3", total=20)
 
         for idx in range(20):
-            tools.download_archive(
+            tools.download(
                 f"{URL}{idx:02}.csv.gz",
                 PATH_GAIA / f"{idx:02}.csv.gz",
-                unpack=False,
                 progress=False,
                 remove=False,
             )
