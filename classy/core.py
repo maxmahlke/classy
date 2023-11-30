@@ -440,7 +440,7 @@ class Spectrum:
         """
 
         self.refl = preprocessing.resample(self.wave, self.refl, wave_new, **kwargs)
-        self.wave = wave_new
+        self.wave = np.array(wave_new)
 
         if self.refl_err is not None:
             self.refl_err = None
