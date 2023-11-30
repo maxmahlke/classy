@@ -84,9 +84,9 @@ in increasing order. If they are not sorted yet, ``wave`` will be sorted
 and ``refl`` and ``refl_err`` will be sorted accordingly. To ensure that your
 metadata has the correct order, you can run
 
-.. code-block :: python
+.. code-block:: python
 
->>> flag = sorted(flag, key=wave)
+  >>> flag = sorted(flag, key=wave)
 
 prior to instantiation.
 

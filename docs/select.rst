@@ -22,7 +22,12 @@ covered in later chapters of this documentation.
 
            $ classy spectra vesta
 
-        By default, this prints a table of available spectra and relevant metadata.
+        By default, this prints a table of available spectra and relevant metadata. Use the ``--plot`` flag
+        to visualise the spectra.
+
+        .. code-block:: shell
+
+           $ classy spectra vesta --plot
 
     .. tab-item:: python
 

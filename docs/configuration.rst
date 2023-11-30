@@ -1,10 +1,10 @@
 Configuration
--------------
+=============
 
 .. _cache_directory:
 
 Data Directory
-++++++++++++++
+--------------
 
 ``classy`` requires a directory where it can store data on your machine. The
 default location depends on your platform and system language. For English

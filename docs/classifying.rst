@@ -119,46 +119,77 @@ taxonomy are described in the :ref:`taxonomies <available_taxonomies>` section.
 Visualizing the Result
 ----------------------
 
-By default, only the spectra themselves are plotted. If you specify the ``taxonomy``
-keyword, the classification results in the specified taxonomic system are added to the
-figure. Note that you have to call ``.classify()`` before.
+Passing the ``taxonomy`` argument to the ``plot`` method of the ``Spectrum`` and ``Spectra``
+classes adds a second panel next to the spectra showing the classification result. If ``taxonomy="mahlke"``
+is set, the results shows the class probabilities for each spectrum.
+
 
 .. code-block:: python
 
-    >>> spectra.classify()  # taxonomy='mahlke' is default
+    >>> spectra.classify()
     >>> spectra.classify(taxonomy='demeo')
-    >>> spectra.plot(taxonomy='mahlke')  # show classification results following Mahlke+ 2022
-    >>> spectra.plot(taxonomy='demeo')  # show classification results following DeMeo+ 2009
+    >>> spectra.plot(taxonomy='mahlke')
+    >>> spectra.plot(taxonomy='demeo')
 
-By providing a filename to the ``save`` argument, you can instruct ``classy`` to save the figure
-to file instead of opening it.
+..  TODO: Show output for all three taxonomies here
+
+If ``taxonomy="demeo"`` or ``taxonomy="tholen"``,
+it shows the projection of the spectra into the space spanned by the first and second principal components of the respective taxonomies.
+
+On the command line, the classification results can be visualised by specifying the ``--plot`` flag.
 
 .. code-block:: python
 
-    >>> spectra.plot(save='figures/vesta_classified.png')
+    $ classy classify 13 --plot
 
 Exporting the Result
 --------------------
 
-Both ``Spectrum`` and ``Spectra`` have a ``to_csv`` method which allows storing
-the classification results to ``csv`` format.
+Both ``Spectrum`` and ``Spectra`` have an ``export`` method which can be used
+to store any of their attributes to a ``csv`` file.
+The ``export`` method expects a ``filename`` as mandatory argument.
+The attributes to export can
+be specified using the optional ``columns`` argument. By default,\ [#f2]_
+
+.. code-block:: python
+
+   columns = ['name', 'target.name', 'class_mahlke', 'class_demeo', 'class_tholen', 'filename']
+
+Other columns of interest could be the presence of features or their parameters or the class probabilities following the Mahlke
+taxonomy (see :ref:`here <mahlke>`):
+
+.. code-block:: python
+
+   columns = ['target.name', 'class_mahlke', 'class_Q',  'class_S', 'h.is_present', 'h.center', 'shortbib']
+
+Let's see this in action:
 
 .. code-block:: python
 
    >>> import classy
-   >>> spectra = classy.Spectra(3)
-   ...  [classy] Found 1 spectrum in Gaia
-   ...  [classy] Found 5 spectra in SMASS
+   >>> spectra = classy.Spectra(214)
    >>> spectra.classify()
-   ...  [classy] [(3) Juno] - [Gaia]: S
-   ...  [classy] [(3) Juno] - [spex/sp96]: S
-   ...  [classy] [(3) Juno] - [smass/smassir]: S
-   ...  [classy] [(3) Juno] - [smass/smass1]: S
-   ...  [classy] [(3) Juno] - [smass/smass2]: S
-   ...  [classy] [(3) Juno] - [smass/smass2]: S
-   >>> spectra.to_csv('class_juno.csv')
+   >>> spectra.classify(taxonomy='demeo')
+   >>> spectra.classify(taxonomy='tholen')
+   >>> spectra.export('class_aschera.csv')
+
+which gives
+
+.. code-block:: shell
+
+   $ cat class_aschera.csv
+   name,target.name,class_mahlke,class_demeo,class_tholen,filename
+   ECAS/Aschera,Aschera,E,,E,pds/gbo.ast.ecas.phot/data/214.csv
+   Misc/Aschera,Aschera,E,,,pds/gbo.ast-mb.reddy.spectra/data/2006/214_aschera.tab
+   S3OS2/Aschera,Aschera,E,,,pds/EAR_A_I0052_8_S3OS2_V1_0/data/n00166_n00307/00214_aschera.tab
+   Gaia/Aschera,Aschera,E,,E,gaia/part05/aschera.csv
+   DM09/Aschera,Aschera,E,,E,demeo2009/a000214.sp33.txt
+   Misc/Aschera,Aschera,E,,,pds/gbo.ast.irtf-spex-collection.spectra/data/clarketal2004/214_030816t055017.tab
+   SMASS/Aschera,Aschera,S,,,smass/smass2/a000214.[2]
 
 .. rubric:: Footnotes
    :caption:
 
 .. [#f1] If the missing part represents less than a given limit, the spectrum will be extrapolated linearly to cover the required range for classification. This is most useful for the Gaia DR3 spectra (0.374 - 1.034μm) and the Tholen taxonomy (0.337 - 1.041µm). More on this limit and its configuration can be found :ref:`here <extrapolation_limit>`.
+
+.. [#f2] The ``name`` attribute represents the ``source`` of the spectrum and the name of its target, if specified, e.g. ``Gaia/Lutetia``.

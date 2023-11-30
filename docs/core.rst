@@ -84,7 +84,9 @@ arguments with a pre-defined meaning for ``classy`` below.
 +---------------------+---------------------+---------------------------------------------------------------------------------------------------------------------------------------------------------+
 | ``phase``           | ``float``           | The phase angle at the epoch of observation in degree.                                                                                                  |
 +---------------------+---------------------+---------------------------------------------------------------------------------------------------------------------------------------------------------+
-| ``target``           | ``str`` or ``int`` | Name, number, or designation of the asteroidal target of the observation.                                                                               |
+| ``target``          | ``str`` or ``int``  | Name, number, or designation of the asteroidal target of the observation.\ [#f1]_                                                                       |
++---------------------+---------------------+---------------------------------------------------------------------------------------------------------------------------------------------------------+
+| ``source``          | ``str``             | Short string representing the source of the spectrum. Default is 'User'.                                                                                |
 +---------------------+---------------------+---------------------------------------------------------------------------------------------------------------------------------------------------------+
 
 All attributes can be accessed and edited via the dot notation.
@@ -97,7 +99,7 @@ All attributes can be accessed and edited via the dot notation.
 
 Any other arguments you pass to ``classy.Spectrum`` or set via the dot-notation
 are automatically added to the ``Spectrum``, which is useful to define metadata
-relevant for your analysis, such as flags.\ [#f1]_
+relevant for your analysis, such as flags.\ [#f2]_
 
 .. code-block:: python
 
@@ -111,9 +113,9 @@ Assigning a Target
 
 Spectra in ``classy`` are typically associated to a minor body. You can specify
 the target of the observation or setting the ``target`` argument when
-instantiating the ``Spectrum`` instance or by calling the ``set_target()``
-method. Both require the name, number, or designation of the target. ``classy``
-then resolves the target's identity using `rocks
+instantiating the ``Spectrum`` instance (see table above) or by calling the
+``set_target()`` method. Both require the name, number, or designation of the
+target. ``classy`` then resolves the target's identity using `rocks
 <https://rocks.readthedocs.io/>`_ and retrieve its physical and dynamical
 properties, making them accessible via the ``target`` attribute. ``classy``
 makes use of this information in various ways, therefore, it is generally
@@ -142,6 +144,13 @@ via the ``phase`` attribute.
    >>> spec.compute_phase_angle()
    >>> print(f"{spec.target.name} was observed on {spec.date_obs} at a phase angle of {spec.phase:.2f}deg")
    Vesta was observed on 2010-07-01T22:00:00 at a phase angle of 23.63deg
+
+.. Note::
+
+   ``classy`` separates properties of the spectrum and properties of the
+   target. ``spec.name`` is the name of the spectrum, ``spec.target.name`` is
+   the name of the target. Similarly, properties like the albedo are accessed
+   via the target: ``spec.target.albedo.value``.
 
 Working with ``Spectra``
 ------------------------
@@ -237,53 +246,42 @@ corresponding function of the ``Spectra`` class. This saves efforts in typing an
 and exporting <export>` analysis results.
 
 
-Plotting
---------
+Plotting Spectra
+----------------
 
-Templates
+You can use the ``plot`` method of the ``Spectrum`` and ``Spectra`` classes to visualise the spectra.
 
-.. tab-set::
+.. code-block::
 
-    .. tab-item:: Command Line
+  >>> import classy
+  >>> spectra = classy.Spectra(43)
+  >>> spectra.plot()
 
-        The quickest way to visualize spectra of an asteroids is the command line.
+The method returns the ``matplotlib`` ``Figure`` and ``axis`` instances. If you
+want to adapt the figure before opening the plot, you can set ``show=False``.
+This can be useful e.g. if you would like to add :ref:`template spectra for different classes <taxonomies>`
+for comparison.
 
-        .. code-block:: shell
+.. code-block::
 
-           $ classy spectra vesta
+  >>> import matplotlib.pyplot as plt
+  >>> spectra = classy.Spectra(43)
+  >>> fig, ax = spectra.plot(show=False)
+  >>> templates = classy.taxonomies.mahlke.load_templates()
+  >>> ax.plot(templates['S'].wave, templates['S'].refl, label='Template S')
+  >>> ax.legend()
+  >>> plt.show()
 
-        This will open a plot of the spectra. You can further instruct to ``-c|--classify``
-        the spectra in a given ``-t|--taxonomy``.
+You can further save the figure to file by specifying the output filename with the ``save`` argument.
 
-        .. code-block:: shell
+.. code-block::
 
-           $ classy spectra vesta -c   # '--taxonomy mahlke' is the default
-           $ classy spectra vesta -c --taxonomy tholen
-
-        To only use spectra from one or many sources, use ``-s|--source``.
-
-        .. code-block:: shell
-
-           $ classy spectra vesta -c --taxonomy tholen --source ECAS --source Gaia
-
-        If you set ``--save``, the figure is stored in the current working directory.
-
-        .. code-block:: shell
-
-           $ classy spectra vesta -c --taxonomy tholen --source ECAS --source Gaia --save
-           INFO     [classy] Figure stored under sources/4_Vesta_classy.png
-
-    .. tab-item:: python
-
-        Both a ``Spectrum`` and many ``Spectra`` can be plotted using the ``.plot()`` method.
-
-        .. code-block:: python
-
-           >>> import classy
-           >>> spectra = classy.Spectra(43)
-           >>> spectra.plot()
+  >>> spectra = classy.Spectra(43)
+  >>> spectra.plot(show=False)
 
 .. rubric:: Footnotes
    :caption:
 
-.. [#f1] With great power comes great responsibility: ``classy`` verifies the wavelength and reflectance values you pass and possibly adapts their shape, but it does not apply checks on optional arguments. You can find out more about the verification and possible pitfalls :ref:`here <sanity_checks>`.
+.. [#f1] The string or integer you pass to the ``target`` argument is replaced by the ``rocks.Rock`` instance of the resolved target: ``type(spec.target)`` -> ``rocks.Rock``.
+
+.. [#f2] With great power comes great responsibility: ``classy`` verifies the wavelength and reflectance values you pass and possibly adapts their shape, but it does not apply checks on optional arguments. You can find out more about the verification and possible pitfalls :ref:`here <sanity_checks>`.
