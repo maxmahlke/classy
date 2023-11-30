@@ -64,7 +64,7 @@ def test_tholen(name, pV, class_expected):
     # Code copied from module because mocking pd.read_csv is hard
     obs = colors.loc[colors["name"] == name]
     wave = classy.sources.pds.ecas.WAVE
-    refl, refl_err = classy.sources.pds.ecas._compute_reflectance_from_colours(obs)
+    refl, refl_err = classy.sources.pds.ecas._compute_reflectance_from_colors(obs)
     flags = classy.sources.pds.ecas._add_flags(obs)
 
     data = pd.DataFrame(

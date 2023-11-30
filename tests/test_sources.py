@@ -1,4 +1,5 @@
 """Test source retrieval and access."""
+import numpy as np
 import pytest
 
 import classy
