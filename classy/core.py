@@ -55,6 +55,8 @@ class Spectrum:
         # TODO: Is this required?
         self.phase = np.nan
 
+        self.source = "User"
+
         # Assign arbitrary arguments
         self.__dict__.update(**kwargs)
 
@@ -199,8 +201,16 @@ class Spectrum:
 
         if self.has_smoothing_parameters and not force:
             params = self.load_smoothing_parameters()
+
+            params["polyorder"] = params["deg_savgol"]
+            params["window_length"] = params["window_savgol"]
+            params["k"] = params["deg_spline"]
+
             self.truncate(params["wave_min"], params["wave_max"])
-            self.smooth(**params)
+
+            # Should it even be smoothed?
+            if params["smooth"]:
+                self.smooth(**params)
             self.is_smoothed = True
             return
 
@@ -385,7 +395,7 @@ class Spectrum:
         classy.Feature
         """
         if feature == "all":
-            features = ["e", "h", "k"]
+            feature = ["e", "h", "k"]
 
         features = list(feature) if not isinstance(feature, list) else feature
 
@@ -403,6 +413,15 @@ class Spectrum:
 
             if feature.is_candidate or force:
                 feature.inspect()
+
+    @property
+    def name(self):
+        """A dynamic short description of the spectrum."""
+        if hasattr(self, "target") and isinstance(self.target, rocks.Rock):
+            name = self.target.name
+        else:
+            name = "Unknown"
+        return f"{self.source}/{name}"
 
     def add_feature_flags(self, data_classified):
         """Detect features in spectra and amend the classification."""
@@ -445,28 +464,9 @@ class Spectrum:
         if self.refl_err is not None:
             self.refl_err = None
 
-    def to_csv(self, path_out=None):
+    def export(self, filename, columns=None):
         """Store the classification results to file."""
-        result = {}
-
-        for attr in [
-            "name",
-            "number",
-            "class_",
-            *[f"class_{letter}" for letter in defs.CLASSES],
-            "class_tholen",
-            "class_demeo",
-        ]:
-            if hasattr(self, attr):
-                result[attr] = getattr(self, attr)
-
-        result = pd.DataFrame(data=result, index=[0])
-
-        if path_out is not None:
-            result.to_csv(path_out, index=False)
-        else:
-            logger.info("No 'path_out' provided, storing results to ./classy_spec.csv")
-            result.to_csv("./classy_spec.csv", index=False)
+        Spectra([self]).export(filename, columns)
 
 
 class Spectra(list):
@@ -638,7 +638,7 @@ class Spectra(list):
 
         if progress:
             with prog.mofn as mofn:
-                task = mofn.add_task("Smoothing..", total=len(self))
+                task = mofn.add_task("Inspecting Features..", total=len(self))
                 for spec in self:
                     if spec.has_smoothing_parameters:
                         spec.smooth()
@@ -650,31 +650,33 @@ class Spectra(list):
                     spec.smooth()
                 spec.inspect_features(feature, force)
 
-    def to_csv(self, path_out=None):
-        results = {}
+    def export(self, filename, columns=None):
+        def rgetattr(obj, attr, *args):
+            from functools import reduce
 
-        for attr in [
-            "name",
-            "number",
-            "class_",
-            *[f"class_{letter}" for letter in defs.CLASSES],
-            "class_tholen",
-            "class_demeo",
-        ]:
-            column = []
+            def _getattr(obj, attr):
+                return getattr(obj, attr, *args)
 
-            for spec in self:
-                if hasattr(spec, attr):
-                    column.append(getattr(spec, attr))
+            return reduce(_getattr, [obj] + attr.split("."))
 
-            results[attr] = column
+        if columns is None:
+            columns = [
+                "name",
+                "target.name",
+                "class_mahlke",
+                "class_demeo",
+                "class_tholen",
+                "filename",
+            ]
 
-        df = pd.DataFrame(data=results, index=[i for i, _ in enumerate(self)])
+        result = []
 
-        if path_out is not None:
-            df.to_csv(path_out, index=False)
-        else:
-            logger.info(
-                "No 'path_out' provided, storing results to ./classy_spectra.csv"
-            )
-            df.to_csv("./classy_spectra.csv", index=False)
+        for spec in self:
+            row = {}
+            for col in columns:
+                if hasattr(spec, col.split(".")[0]):
+                    row[col] = rgetattr(spec, col)
+            result.append(row)
+
+        result = pd.DataFrame(data=result, index=list(range(len(self))))
+        result.to_csv(filename, index=False)

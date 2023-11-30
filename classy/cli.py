@@ -67,13 +67,22 @@ def classify(args, taxonomy, plot, save):
     for spec in spectra:
         row = []
 
+        # TODO: Definition of code smell
         for c in columns:
-            if c not in ["wave_min", "wave_max"]:
-                row.append(str(getattr(spec, c)))
+            if c in ["name", "number", "albedo"]:
+                if hasattr(spec, "target"):
+                    if c == "albedo":
+                        row.append(str(spec.target.albedo.value))
+                    else:
+                        row.append(str(getattr(spec.target, c)))
+                else:
+                    row.append("-")
             elif c == "wave_min":
                 row.append(f"{spec.wave.min():.3f}")
             elif c == "wave_max":
                 row.append(f"{spec.wave.max():.3f}")
+            else:
+                row.append(str(getattr(spec, c)))
         table.add_row(*row)
 
     rich.print(table)

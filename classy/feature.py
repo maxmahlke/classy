@@ -40,6 +40,9 @@ class Feature:
         # Update parameters if present in feature index
         if self.has_parameters:
             self.load_parameters()
+        else:
+            self.center = np.nan
+            self.depth = np.nan
 
         # Set interpolation range for continuum, fit, and parameter estimation
         self.range_interp = np.arange(self.lower, self.upper, 0.001)
