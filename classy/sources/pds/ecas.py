@@ -70,9 +70,11 @@ def _compute_reflectance_from_colors(obs):
     refl_err = []
 
     for color in ["S_V", "U_V", "B_V"]:
-        refl_c = obs[f"{color}_MEAN"]
+        refl_c = obs[f"{color}_MEAN"].values[0]
         refl.append(np.power(10, -0.4 * (refl_c)))
-        re = np.abs(refl_c) * np.abs(0.4 * np.log(10) * obs[f"{color}_STD_DEV"])
+        re = np.abs(refl_c) * np.abs(
+            0.4 * np.log(10) * obs[f"{color}_STD_DEV"].values[0]
+        )
         refl_err.append(re)
 
     refl.append(1)  # v-filter
@@ -84,13 +86,14 @@ def _compute_reflectance_from_colors(obs):
         "V_P",
         "V_Z",
     ]:
-        refl_c = obs[f"{color}_MEAN"]
+        refl_c = obs[f"{color}_MEAN"].values[0]
         refl.append(np.power(10, -0.4 * (-refl_c)))
-        re = np.abs(refl_c) * np.abs(0.4 * np.log(10) * obs[f"{color}_STD_DEV"])
+        re = np.abs(refl_c) * np.abs(
+            0.4 * np.log(10) * obs[f"{color}_STD_DEV"].values[0]
+        )
         refl_err.append(re)
 
     refl = np.array(refl)
-
     refl_err = np.array(refl_err)
     return refl, refl_err
 

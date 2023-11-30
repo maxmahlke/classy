@@ -266,7 +266,7 @@ class Spectrum:
 
         if method == "l2":
             self.refl = preprocessing._normalize_l2(self.refl)
-            self.refl_original = preprocessing._normalize_l2(self.refl_original)
+            self._refl_original = preprocessing._normalize_l2(self._refl_original)
 
         elif method == "mixnorm":
             alpha = mixnorm.normalize(self)
