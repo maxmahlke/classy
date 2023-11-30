@@ -29,7 +29,7 @@ docs = ["sphinx", "sphinx-redactor-theme", "sphinx_design", "sphinx-hoverxref", 
 gui = ['pyside6', 'pyqtgraph']
 
 [tool.pytest.ini_options]
-addopts = "-v --cov=classy --cov-report html"
+addopts = "-v --cov=classy --cov-report html --html=tests/report.html"
 
 [tool.poetry.scripts]
 classy = "classy.cli:cli_classy"
