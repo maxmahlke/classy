@@ -36,7 +36,7 @@ def is_classifiable(spec):
             return True
 
         logger.warning(
-            f"[{spec._name}]: Insufficient wavelength range for Tholen taxonomy."
+            f"[{spec.name}]: Insufficient wavelength range for Tholen taxonomy."
         )
         return False
     return True

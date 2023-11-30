@@ -59,7 +59,7 @@ def is_classifiable(spec):
             return True
 
         logger.warning(
-            f"[{spec._name}]: Insufficient wavelength range for DeMeo taxonomy."
+            f"[{spec.name}]: Insufficient wavelength range for DeMeo taxonomy."
         )
         return False
     return True

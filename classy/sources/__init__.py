@@ -87,7 +87,7 @@ def _load_private_data(PATH):
 
 def load_spectrum(idx, skip_target):
     """Load a cached spectrum. This general function applies host- and
-    collection specific parameters defined in the colecction modules.
+    collection specific parameters defined in the collection modules.
 
     Parameters
     ----------

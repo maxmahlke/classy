@@ -86,9 +86,7 @@ class InteractiveFeatureFit(QtWidgets.QMainWindow):
         addL = self.layout.addLayout
         # right = QtCore.Qt.AlignRight
 
-        label_id = QtWidgets.QLabel(
-            f"({self.feat.spec.number}) {self.feat.spec.name} - {self.feat.spec.filename}"
-        )
+        label_id = QtWidgets.QLabel(self.feat.spec.name)
 
         addW(label_id, 0, 0, 1, 4)
         addW(self.notify, 0, 4, 1, 1)
@@ -192,8 +190,8 @@ class InteractiveFeatureFit(QtWidgets.QMainWindow):
         # Zoom out to show context
         if self.feat.spec.is_smoothed:
             ymin, ymax = (
-                self.feat.spec.refl_original.min(),
-                self.feat.spec.refl_original.max(),
+                self.feat.spec._refl_original.min(),
+                self.feat.spec._refl_original.max(),
             )
         else:
             ymin, ymax = self.feat.spec.refl.min(), self.feat.spec.refl.max()
@@ -407,11 +405,15 @@ class InteractiveFeatureFit(QtWidgets.QMainWindow):
 
         features.loc[id_, "type_continuum"] = self.feat.type_continuum
         features.loc[id_, "deg_poly"] = self.feat.deg_poly
-        features.loc[id_, "is_present"] = self.select_present.currentText()
+        features.loc[id_, "is_present"] = (
+            True if self.select_present.currentText() == "Yes" else False
+        )
 
         # Store metadata
-        for param in ["name", "number", "source", "shortbib", "bibcode"]:
+        for param in ["source", "shortbib", "bibcode"]:
             features.loc[id_, param] = getattr(self.feat.spec, param)
+        for param in ["name", "number"]:
+            features.loc[id_, param] = getattr(self.feat.spec.target, param)
 
         # Store feature index
         classy.index.store_features(features)
@@ -518,9 +520,7 @@ class InteractiveSmoothing(QtWidgets.QMainWindow):
 
         self.check_smooth.stateChanged.connect(self._update_smoothing)
 
-        label_id = QtWidgets.QLabel(
-            f"({self.spec.number}) {self.spec.name} - {self.spec.filename}"
-        )
+        label_id = QtWidgets.QLabel({self.spec.name})
 
         radio_savgol = QtWidgets.QRadioButton("Savitzky-Golay")
 
