@@ -1,8 +1,8 @@
 import warnings
 
-warnings.filterwarnings(
-    "ignore", message="Warning: converting a masked element to nan."
-)
+# warnings.filterwarnings(
+#     "ignore", message="Warning: converting a masked element to nan."
+# )
 
 import classy
 import matplotlib as mpl
@@ -70,188 +70,16 @@ def plot_spectra(spectra, show=True, save=None):
 
     # Finish figure setup
     ax.set(xlabel=r"Wavelength / µm", ylabel="Reflectance")
+    ax.legend(ncols=5, frameon=False, loc="upper center")
     fig.tight_layout()
 
     if save is not None:
         fig.savefig(save)
+        logger.info(f"Figure stored under {save}")
     elif show:
         plt.show()
 
     return fig, ax
-
-    return
-    lines, labels = [], []  # for the global legend
-
-    # Build figure instance
-    if taxonomy is not None:
-        fig, axes = plt.subplots(
-            ncols=3, figsize=(16, 7), gridspec_kw={"width_ratios": [4, 1, 4]}
-        )
-        ax_spec, ax_pv, ax_classes = axes
-    else:
-        fig, ax_spec = plt.subplots(figsize=(10, 7))
-
-    # 1. Plot spectra, grouped by source
-    _sources = sorted(set(spec.source for spec in spectra))
-
-    for source in _sources:
-        lines_source, labels_source = [], []
-        for spec in spectra:
-            if spec.source != source:
-                continue
-            if taxonomy == "mahlke" and spec.source != "Gaia":
-                # spec.wave_plot = spec._wave_pre_norm
-                # spec.refl_plot = spec._refl_pre_norm
-                spec._wave_preprocessed = spec._wave_pre_norm
-                spec._refl_preprocessed = spec._refl_pre_norm
-            if not hasattr(spec, "wave_plot"):
-                spec.wave_plot = spec.wave
-                spec.refl_plot = spec.refl
-
-            spec._color = colors.pop() if source != "Gaia" else "black"
-
-            if source == "Gaia":
-                user_line, user_label = plot_gaia_spectrum(ax_spec, spec)
-            else:
-                user_line, user_label = plot_user_spectrum(ax_spec, spec)
-
-            for line, label in zip(user_line, user_label):
-                lines_source.append(line)
-                labels_source.append(label)
-
-        (dummy,) = ax_spec.plot([], [], alpha=0)
-        lines += [dummy, dummy] + lines_source
-        labels += ["", source] + labels_source
-
-    # (dummy,) = ax_spec.plot([], [], alpha=0)
-    # (l1,) = ax_spec.plot([], [], ls="-", c="black", lw=1)
-    # (l2,) = ax_spec.plot([], [], ls="-", c="black", alpha=0.3, lw=3)
-    # lines += [dummy, l1, l2]
-    # labels += ["", "Reflectance", "Uncertainty"]
-
-    if taxonomy is not None:
-        (l3,) = ax_spec.plot([], [], ls=":", c="gray")
-        lines += [dummy, l3]
-        labels += ["", "Taxonomy Limits"]
-
-    if templates is not None:
-        plot_class_templates(ax_spec, taxonomy, templates)
-        if taxonomy is None or taxonomy == "mahlke":
-            scheme = "Mahlke+ 2022"
-        elif taxonomy == "bus":
-            scheme = "Bus and Binzel 2002"
-        elif taxonomy == "tholen":
-            scheme = "Tholen 1984"
-        elif taxonomy == "demeo":
-            scheme = "DeMeo+ 2009"
-        (l3,) = ax_spec.plot([], [], ls=(1, (1, 7)), alpha=0.3, c="gray")
-        lines += [dummy, dummy, l3]
-        labels += ["", "Class Templates", f"Complex {templates} - {scheme}"]
-
-    leg = ax_spec.legend(
-        lines,
-        labels,
-        edgecolor="none",
-        # ncols=4,
-        # loc="upper center",
-        # loc="lower left",
-        loc="center right",
-        # bbox_to_anchor=(0.5, 1.3),
-        fontsize=8,
-    )
-    ax_spec.add_artist(leg)
-
-    if taxonomy is not None:
-        wave = getattr(taxonomies, taxonomy).WAVE
-        lower, upper = min(wave), max(wave)
-        ax_spec.axvline(lower, ls=":", zorder=-10, c="gray")
-        ax_spec.axvline(upper, ls=":", zorder=-10, c="gray")
-
-    # ensure that there is space for the legend by adding empty space
-    xmin, xmax = ax_spec.get_xlim()
-    xmax += 1 / 2.8 * (xmax - xmin)
-
-    ymin, ymax = ax_spec.get_ylim()
-    if ymax - ymin < 0.1:
-        ymin -= 0.05
-        ymax += 0.05
-
-    ax_spec.set(
-        xlabel=r"Wavelength / µm",
-        ylabel="Reflectance",
-        xlim=(xmin, xmax),
-        ylim=(ymin, ymax),
-    )
-
-    # 2. Add pV axis
-    if taxonomy is not None:
-        for i, spec in enumerate(spectra):
-            ax_pv.errorbar(
-                i, spec.pV, yerr=spec.pV_err, capsize=3, marker=".", c=spec._color
-            )
-
-        ticklabels = [
-            spec.shortbib if hasattr(spec, "shortbib") else "" for spec in spectra
-        ]
-        ax_pv.set_xticks(range(len(spectra)), ticklabels, rotation=90)
-
-        ymin, ymax = ax_pv.get_ylim()
-        ymin = 0 if ymin < 0.1 else ymin
-        ymax += 0.051
-
-        ax_pv.set(xlabel="pV", ylim=(ymin, ymax), xlim=(-0.5, len(spectra) - 0.5))
-
-    # 3. Add classes
-    if taxonomy is not None:
-        if taxonomy == "mahlke":
-            width = 0.8 / len(spectra)
-
-            for i, spec in enumerate(spectra):
-                if not hasattr(spec, "class_A"):
-                    continue  # spec was not classified following Mahlke+ 2022
-                for x, class_ in enumerate(classy.defs.CLASSES):
-                    ax_classes.bar(
-                        x - 0.3 + i * width if len(spectra) > 1 else x,
-                        getattr(spec, f"class_{class_}"),
-                        fill=True,
-                        color=spec._color,
-                        width=width,
-                        alpha=0.7,
-                        label=f"{spec.shortbib if hasattr(spec, 'shortbib') else ''}: {spec.class_}"
-                        if x == 0
-                        else None,
-                    )
-            ax_classes.set(ylim=(0, 1))
-            ax_classes.set_xticks(
-                [i for i, _ in enumerate(classy.defs.CLASSES)], classy.defs.CLASSES
-            )
-            ax_classes.legend(title="Most Likely Class", frameon=True, edgecolor="none")
-            ax_classes.grid(c="gray", alpha=0.4, zorder=-100)
-        elif "tholen" in taxonomy:
-            ax_classes = taxonomies.tholen.plot_pc_space(ax_classes, spectra)
-        elif "demeo" in taxonomy:
-            ax_classes = taxonomies.demeo.plot_pc_space(ax_classes, spectra)
-
-    if spec.name is not None:
-        ax_spec.set_title(f"({spec.number}) {spec.name}", loc="left", size=10)
-    if taxonomy is not None:
-        if taxonomy == "tholen":
-            taxonomy = "Tholen 1984"
-        if taxonomy == "mahlke":
-            taxonomy = "Mahlke+ 2022"
-        if taxonomy == "demeo":
-            taxonomy = "DeMeo+ 2009"
-        ax_classes.set_title(
-            f"Classification following {taxonomy}", loc="left", size=10
-        )
-
-    fig.tight_layout()
-
-    if save is None:
-        plt.show()
-    else:
-        fig.savefig(save)
-        logger.info(f"Figure stored under {save}")
 
 
 def _plot_spectrum(ax, spec, **kwargs):
@@ -263,13 +91,17 @@ def _plot_spectrum(ax, spec, **kwargs):
 
     """
 
-    if hasattr(spec, "refl_err"):
-        # TODO: Use the alpha shaded region instead
-        ax.errorbar(
-            spec.wave, spec.refl, yerr=spec.refl_err, c=spec._color, capsize=3, ls=":"
+    ax.plot(spec.wave, spec.refl, c=spec._color, label=spec.name)
+
+    if spec.refl_err is not None:
+        ax.fill_between(
+            spec.wave,
+            spec.refl + spec.refl_err / 2,
+            spec.refl - spec.refl_err / 2,
+            color=spec._color,
+            alpha=0.3,
+            ec="none",
         )
-    else:
-        ax.plot(spec.wave, spec.refl, c=spec._color)
 
     # if spectrum.refl_smoothed is not None:
     #     ax.plot(

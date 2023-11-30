@@ -165,7 +165,7 @@ def _within_extrapolation_limit(wave_min, wave_max, grid_min, grid_max):
     missing_percent = delta_wave_min + delta_wave_max / (grid_max - grid_min)
 
     if missing_percent <= config.EXTRAPOLATION_LIMIT / 100 and missing_percent > 0:
-        logger.info(
+        logger.debug(
             f"Missing {missing_percent*100:.1f}% of wavelength range. Extrapolating edges with constant values."
         )
         return True
