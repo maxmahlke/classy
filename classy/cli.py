@@ -192,7 +192,7 @@ def status():
     )
 
     if decision == "1":
-        # Dache management diaglog
+        # Cache management dialog
         decision = prompt.Prompt.ask(
             "\nChoose one of these actions:\n"
             "[blue][0][/blue] Do nothing "
@@ -214,22 +214,27 @@ def status():
         #     index.add_phase_angles()
 
         if decision == "2":
-            decision = prompt.Prompt.ask(
+            confirm = prompt.Confirm.ask(
                 "\nThis will delete the cache directory and all its contents,\n"
                 "[bold]including the preprocessing- and feature parameters[/bold]. Are you sure?",
-                choices=["y", "n"],
-                show_choices=True,
             )
 
-        if decision in ["y"]:
+        if confirm:
             cache.remove()
 
     elif decision == "2":
         rich.print()
         rocks.set_log_level("CRITICAL")
-        classy.set_log_level("CRITICAL")
+        # classy.set_log_level("CRITICAL")
         sources._retrieve_spectra()
         index.build()
+
+        add_phase = prompt.Confirm.ask(
+            "\nAdd phase angles? [requires internet connection]"
+        )
+
+        if add_phase:
+            index.batch_phase()
 
 
 # ------

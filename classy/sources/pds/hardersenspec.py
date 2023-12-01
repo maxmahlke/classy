@@ -51,7 +51,7 @@ def _build_index(PATH_REPO):
                     "shortbib": shortbib,
                     "bibcode": bibcode,
                     "filename": file_.relative_to(config.PATH_DATA),
-                    "source": "PDS",
+                    "source": "Misc",
                     "host": "PDS",
                     "module": "hardersenspec",
                 },

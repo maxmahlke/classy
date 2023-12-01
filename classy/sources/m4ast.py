@@ -7,7 +7,6 @@ from classy import cache
 from classy import config
 from classy import index
 from classy import progress
-from classy import sources
 
 
 # ------

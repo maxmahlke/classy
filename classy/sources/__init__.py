@@ -26,7 +26,7 @@ SOURCES = [
 
 def _retrieve_spectra():
     """Retrieve all public spectra that classy knows about."""
-    for module in [pds, cds, m4ast, akari, smass, mithneos, gaia]:
+    for module in [smass]:  # pds, cds, m4ast, akari, smass, mithneos, gaia]:
         module._retrieve_spectra()
 
 

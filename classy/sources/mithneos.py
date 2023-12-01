@@ -154,7 +154,7 @@ def _build_index():
                 if file_.name in POLISHOOK_DATES:
                     date_obs = POLISHOOK_DATES[file_.name]
 
-            filename = str(file_).split("classy/")[-1]
+            filename = file_.relative_to(config.PATH_DATA)
 
             if pd.isna(date_obs):
                 bibcode = ""
@@ -190,7 +190,7 @@ def _build_index():
             if name is None:
                 continue
 
-            filename = str(file_).split("classy/")[-1]
+            filename = file_.relative_to(config.PATH_DATA)
 
             match = log.loc[(log.run == run) & (log["name"] == name)]
 
@@ -255,3 +255,4 @@ def _download(URL, PATH_OUT):
 
             PATH_OUT.mkdir(exist_ok=True, parents=True)
             urlretrieve(URL + l["href"], PATH_OUT / l["href"])
+            print(URL + l["href"])

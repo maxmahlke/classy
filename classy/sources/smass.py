@@ -6,6 +6,7 @@ import rocks
 from classy import config
 from classy import cache
 from classy import index
+from classy.log import logger
 from classy import tools
 
 # ------
@@ -32,6 +33,8 @@ AMBIGUOUS = {
     "a001862n1": 1862,
     "a001862n2": 1862,
     "a001862n": 1862,
+    "a538": 538,
+    "aPluto": 134340,
     "au2005JE46n1": "2005 JE46",
     "au2005JE46n": "2005 JE46",
     "au2005JE46n2": "2005 JE46",
@@ -58,8 +61,12 @@ def _retrieve_spectra():
 
     for file_, _, _, _ in ARCH_DIR_REF_BIB:
         url_archive = f"{URL}/{file_}.tar.gz"
-        tools.download(url_archive, PATH / f"{file_}.tar.gz")
-        tools.unpack(PATH / f"{file_}.tar.gz", encoding="tar.gz")
+        PATH_ARCHIVE = PATH / f"{file_}.tar.gz"
+        if PATH_ARCHIVE.is_file():
+            logger.info(f"smass - Using cached archive file at \n{PATH_ARCHIVE}")
+        else:
+            tools.download(url_archive, PATH_ARCHIVE)
+        tools.unpack(PATH_ARCHIVE, encoding="tar.gz")
 
 
 def _build_index():
@@ -164,7 +171,6 @@ def get_id_from_filename(file_):
             id_,
         )
         match = designation.group(0)
-
     # Asteroid: extract number
     elif id_.startswith("a"):
         id_ = id_.lstrip("a")

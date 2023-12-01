@@ -1,9 +1,223 @@
 import datetime
+import os
+from pathlib import Path
+import shutil
 
 import pandas as pd
 import pytest
 
-import classy
+PATH_DATA = Path() / "tests/data"
+
+
+def test_build_pds():
+    """Test building PDS source index."""
+    import classy
+
+    # Create a temporary classy data dir
+    PATH_TEST = Path("/tmp/classy_pds_test")
+    classy.config.PATH_DATA = PATH_TEST
+
+    # Start fresh
+    if PATH_TEST.is_dir():
+        shutil.rmtree(PATH_TEST)
+
+    PATH_TEST.mkdir()
+
+    # Copy cached PDS archives
+    shutil.copytree(PATH_DATA / "index/pds", PATH_TEST / "pds")
+
+    # And build
+    classy.sources.pds._retrieve_spectra()
+    classy.sources.pds._build_index()
+
+    # Assert based on number of spectra indexed
+    idx = pd.read_csv(PATH_TEST / "index.csv")
+
+    for source, count in [
+        ("Misc", 993),
+        ("S3OS2", 820),
+        ("ECAS", 589),
+        ("PRIMASS", 437),
+        ("24CAS", 285),
+        ("SCAS", 126),
+        ("52CAS", 119),
+    ]:
+        assert len(idx[idx.source == source]) == count
+
+
+def test_build_cds():
+    """Test building CDS source index."""
+    import classy
+
+    # Create a temporary classy data dir
+    PATH_TEST = Path("/tmp/classy_cds_test")
+    classy.config.PATH_DATA = PATH_TEST
+
+    # Start fresh
+    if PATH_TEST.is_dir():
+        shutil.rmtree(PATH_TEST)
+
+    PATH_TEST.mkdir()
+
+    # Copy cached PDS archives
+    shutil.copytree(PATH_DATA / "index/cds", PATH_TEST / "cds")
+
+    # And build
+    classy.sources.cds._retrieve_spectra()
+    classy.sources.cds._build_index()
+
+    # Assert based on number of spectra indexed
+    idx = pd.read_csv(PATH_TEST / "index.csv")
+
+    for source, count in [
+        ("Misc", 93),
+    ]:
+        assert len(idx[idx.source == source]) == count
+
+
+def test_build_m4ast():
+    """Test building M4AST source index."""
+
+    # Create a temporary classy data dir
+    PATH_TEST = Path("/tmp/classy_m4ast_test")
+
+    # Start fresh
+    if PATH_TEST.is_dir():
+        shutil.rmtree(PATH_TEST)
+
+    PATH_TEST.mkdir()
+
+    os.environ["CLASSY_DATA_DIR"] = str(PATH_TEST)
+    import classy
+
+    # Copy cached PDS archives
+    shutil.copytree(PATH_DATA / "index/m4ast", PATH_TEST / "m4ast")
+
+    # And build
+    # classy.sources.m4ast._retrieve_spectra() # requires internet
+    classy.sources.m4ast._build_index()
+
+    # Assert based on number of spectra indexed
+    idx = pd.read_csv(PATH_TEST / "index.csv")
+
+    for source, count in [("M4AST", 123)]:
+        assert len(idx[idx.source == source]) == count
+
+
+def test_build_akari():
+    """Test building akari source index."""
+
+    # Create a temporary classy data dir
+    PATH_TEST = Path("/tmp/classy_akari_test")
+
+    # Start fresh
+    if PATH_TEST.is_dir():
+        shutil.rmtree(PATH_TEST)
+
+    PATH_TEST.mkdir()
+
+    os.environ["CLASSY_DATA_DIR"] = str(PATH_TEST)
+    import classy
+
+    # Copy cached PDS archives
+    shutil.copytree(PATH_DATA / "index/akari", PATH_TEST / "akari")
+
+    # And build
+    classy.sources.akari._retrieve_spectra()
+    classy.sources.akari._build_index()
+
+    # Assert based on number of spectra indexed
+    idx = pd.read_csv(PATH_TEST / "index.csv")
+
+    for source, count in [("AKARI", 64)]:
+        assert len(idx[idx.source == source]) == count
+
+
+def test_build_smass():
+    """Test building smass source index."""
+
+    # Create a temporary classy data dir
+    PATH_TEST = Path("/tmp/classy_smass_test")
+
+    # Start fresh
+    if PATH_TEST.is_dir():
+        shutil.rmtree(PATH_TEST)
+
+    PATH_TEST.mkdir()
+
+    os.environ["CLASSY_DATA_DIR"] = str(PATH_TEST)
+    import classy
+
+    # Copy cached PDS archives
+    shutil.copytree(PATH_DATA / "index/smass", PATH_TEST / "smass")
+
+    # And build
+    classy.sources.smass._retrieve_spectra()
+    classy.sources.smass._build_index()
+
+    # Assert based on number of spectra indexed
+    idx = pd.read_csv(PATH_TEST / "index.csv")
+
+    for source, count in [("SMASS", 2256)]:
+        assert len(idx[idx.source == source]) == count
+
+
+def test_build_mithneos():
+    """Test building mithneos source index."""
+
+    # Create a temporary classy data dir
+    PATH_TEST = Path("/tmp/classy_mithneos_test")
+
+    # Start fresh
+    if PATH_TEST.is_dir():
+        shutil.rmtree(PATH_TEST)
+
+    PATH_TEST.mkdir()
+
+    os.environ["CLASSY_DATA_DIR"] = str(PATH_TEST)
+    import classy
+
+    # Copy cached PDS archives
+    shutil.copytree(PATH_DATA / "index/mithneos", PATH_TEST / "mithneos")
+
+    # And build
+    # classy.sources.mithneos._retrieve_spectra() # requires internet
+    classy.sources.mithneos._build_index()
+
+    # Assert based on number of spectra indexed
+    idx = pd.read_csv(PATH_TEST / "index.csv")
+
+    for source, count in [("MITHNEOS", 1905)]:
+        assert len(idx[idx.source == source]) == count
+
+
+def test_build_gaia():
+    """Test building gaia source index."""
+
+    # Create a temporary classy data dir
+    PATH_TEST = Path("/tmp/classy_gaia_test")
+
+    # Start fresh
+    if PATH_TEST.is_dir():
+        shutil.rmtree(PATH_TEST)
+
+    PATH_TEST.mkdir()
+
+    os.environ["CLASSY_DATA_DIR"] = str(PATH_TEST)
+    import classy
+
+    # Copy cached PDS archives
+    # shutil.copytree(PATH_DATA / "index/gaia", PATH_TEST / "gaia")
+
+    # And build
+    classy.sources.gaia._retrieve_spectra()
+    classy.sources.gaia._build_index()
+
+    # Assert based on number of spectra indexed
+    idx = pd.read_csv(PATH_TEST / "index.csv")
+
+    for source, count in [("GAIA", 1905)]:
+        assert len(idx[idx.source == source]) == count
 
 
 def test_compute_phase_anlge():

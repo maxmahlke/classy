@@ -41,7 +41,7 @@ def _build_index(PATH_REPO):
                     "date_obs": date_obs,
                     "shortbib": shortbib,
                     "bibcode": bibcode,
-                    "filename": str(file_).split("/classy/")[1],
+                    "filename": file_.relative_to(config.PATH_DATA),
                     "source": "Misc",
                     "host": "pds",
                     "module": "sawyer",

@@ -1,6 +1,10 @@
 from . import j_aa_568_l7, j_aa_627_a124
 
+from pathlib import Path
+import shutil
+
 from classy import config
+from classy.log import logger
 from classy import sources
 from classy import tools
 
@@ -17,16 +21,26 @@ def _retrieve_spectra():
     PATH_CDS = config.PATH_DATA / "cds/"
 
     for repo, URL in REPOSITORIES.items():
-        PATH_ARCHIVE = PATH_CDS / repo
-        PATH_ARCHIVE.mkdir(parents=True, exist_ok=True)
+        PATH_ARCHIVE = (PATH_CDS / repo).with_suffix(".tar.gz")
+        PATH_ARCHIVE.parent.mkdir(parents=True, exist_ok=True)
+
+        # The terrible concoction is necessary to remove the .tar.gz
+        PATH_DESTINATION = Path(PATH_ARCHIVE.parent / Path(PATH_ARCHIVE.stem).stem)
+
+        # One CDS folder is write-protected. Purge
+        if PATH_DESTINATION.is_dir():
+            shutil.rmtree(Path(PATH_ARCHIVE.parent / Path(PATH_ARCHIVE.stem).stem))
 
         # Download repository
-        success = tools.download(URL, PATH_ARCHIVE / f"{repo}.tar.gz")
+        if PATH_ARCHIVE.is_file():
+            logger.info(f"cds/{repo} - Using cached archive file at \n{PATH_ARCHIVE}")
+        else:
+            success = tools.download(URL, PATH_ARCHIVE)
 
-        if not success:
-            continue
+            if not success:
+                continue
 
-        tools.unpack(PATH_ARCHIVE / f"{repo}.tar.gz", encoding="tar.gz")
+        tools.unpack(PATH_ARCHIVE, encoding="tar.gz")
 
 
 def _build_index():

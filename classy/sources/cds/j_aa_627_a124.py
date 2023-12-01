@@ -32,10 +32,10 @@ def _build_index(PATH_REPO):
                 "date_obs": row.date_obs,
                 "shortbib": SHORTBIB,
                 "bibcode": BIBCODE,
-                "filename": (PATH_REPO / f"spec/{row.file}").relative_to(
-                    config.PATH_DATA
+                "filename": str(
+                    (PATH_REPO / f"spec/{row.file}").relative_to(config.PATH_DATA)
                 ),
-                "source": "CDS",
+                "source": "Misc",
                 "host": "CDS",
                 "module": "J_AA_627_A124",
             },

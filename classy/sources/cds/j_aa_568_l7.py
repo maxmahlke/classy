@@ -45,7 +45,7 @@ def _build_index(PATH_REPO):
                 "shortbib": SHORTBIB,
                 "bibcode": BIBCODE,
                 "filename": (PATH_REPO / filename).relative_to(config.PATH_DATA),
-                "source": "CDS",
+                "source": "Misc",
                 "host": "CDS",
                 "module": "J_AA_568_L7",
             },

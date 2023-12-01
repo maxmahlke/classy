@@ -1,4 +1,5 @@
 from functools import partial
+from pathlib import Path
 import tarfile
 import urllib
 from urllib.request import urlretrieve
@@ -36,7 +37,7 @@ def find_nearest(array, value):
     return idx
 
 
-def download(URL, PATH_ARCHIVE, remove=True, progress=True):
+def download(URL, PATH_ARCHIVE, remove=False, progress=True):
     """Download remote archive file to directory. Optionally unpack and remove the file.
 
     Parameters
@@ -71,11 +72,10 @@ def download(URL, PATH_ARCHIVE, remove=True, progress=True):
         success = copy_url(task, URL, PATH_ARCHIVE, prog)
 
     if not success:
-        logger.critical(f"The URL {URL} is currently not reachable. Try again later.")
+        logger.critical(
+            f"The URL below is currently not reachable. Try again later.\n{URL}"
+        )
         return False
-
-    if unpack:
-        unpack(PATH_ARCHIVE)
 
     if remove:
         PATH_ARCHIVE.unlink()
@@ -88,7 +88,13 @@ def unpack(PATH_ARCHIVE, encoding):
     #     The compression encoding. Default is None. Must be specified if unpack is True.
     if encoding == "tar.gz":
         with tarfile.open(PATH_ARCHIVE, mode="r:gz") as archive:
-            archive.extractall(PATH_ARCHIVE.parent)
+            dest = (
+                PATH_ARCHIVE.parent
+                if "/cds/" not in str(PATH_ARCHIVE)
+                else Path(PATH_ARCHIVE.parent / Path(PATH_ARCHIVE.stem).stem)
+            )
+            dest.mkdir(exist_ok=True)
+            archive.extractall(dest)
     elif encoding == "tar":
         with tarfile.open(PATH_ARCHIVE, mode="r") as archive:
             archive.extractall(PATH_ARCHIVE.parent)

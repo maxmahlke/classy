@@ -2,6 +2,7 @@ import pandas as pd
 
 from classy import config
 from classy import index
+from classy.log import logger
 from classy import tools
 
 # ------
@@ -31,8 +32,13 @@ def _retrieve_spectra():
     PATH.mkdir(parents=True, exist_ok=True)
 
     URL = "https://darts.isas.jaxa.jp/pub/akari/AKARI-IRC_Spectrum_Pointed_AcuA_1.0/AcuA_1.0.tar.gz"
-    tools.download(URL, PATH / "AcuA_1.0.tar.gz")
-    tools.unpack(PATH / "AcuA_1.0.tar.gz", encoding="tar.gz")
+    PATH_ARCHIVE = PATH / "AcuA_1.0.tar.gz"
+
+    if PATH_ARCHIVE.is_file():
+        logger.info(f"akari - Using cached archive file at \n{PATH_ARCHIVE}")
+    else:
+        tools.download(URL, PATH_ARCHIVE)
+    tools.unpack(PATH_ARCHIVE, encoding="tar.gz")
 
 
 def _build_index():

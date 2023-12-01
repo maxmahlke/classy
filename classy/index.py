@@ -79,6 +79,7 @@ def add(entries):
 
     # Add missing column
     entries["phase"] = np.nan
+    entries["err_phase"] = np.nan
 
     # Convert all observation epochs to ISO-T format
     entries["date_obs"] = entries["date_obs"].apply(lambda d: convert_to_isot(d))
@@ -96,12 +97,11 @@ def add(entries):
     index = load.__wrapped__()
 
     # Append new entries and drop duplicate filenames
-    index = index.reset_index()  # drop-duplicates does not work on index column...
+    index = index.reset_index()  # drop-duplicates does not work index
     entries = entries.reset_index()
 
     index = pd.concat([index, entries])
-    index = index.drop_duplicates(subset="filename", keep="last")
-    index = index.set_index("filename")
+    index = index.drop_duplicates(subset="filename", keep="last").set_index("filename")
 
     save(index)
 
@@ -111,7 +111,12 @@ def build():
     from rich import console
 
     with console.Console().status("Indexing spectra...", spinner="dots8Bit"):
-        for module in ["pds", "cds", "m4ast", "akari", "smass", "mithneos", "gaia"]:
+        for module in [
+            # "pds"
+            # "cds",
+            # "m4ast",
+            "smass",
+        ]:  #  "akari", "mithneos", "gaia"]:
             getattr(sources, module)._build_index()
 
 
@@ -134,29 +139,17 @@ def get_or_create_eventloop():
 
 
 def batch_phase():
-    idx = load()
-
-    idx["phase"] = np.nan
-    idx["epoch_im"] = np.nan
-    idx["sso"] = np.nan
+    # might have changed during runtime
+    idx = load.__wrapped__()
 
     # Get subindex with valid observation dates
     idx_phase = idx.loc[~pd.isna(idx.date_obs)][["name", "date_obs"]]
-
-    # Exclude those with multiple date_obs for now
-    # These are done in a second loop and get an err_phase != 0
-    # idx_phase = idx_phase[~idx_phase.date_obs.str.contains(",")]
-
-    # idx_phase = idx_phase.loc[idx_phase["name"] == "Iva"]
-    # idx_phase = idx_phase.loc[idx_phase["name"].isin(["Iva"])]
-    # idx_phase = idx_phase.loc[idx_phase["number"] == 25]
-    # idx_phase = idx_phase[:500]
 
     from rich.progress import Progress
 
     with Progress(disable=False) as progress_bar:
         progress = progress_bar.add_task(
-            "Add phase", total=len(idx_phase.groupby("name"))
+            "Querying Miriade", total=len(idx_phase.groupby("name"))
         )
 
         # Run async loop to get ssoCard
@@ -165,17 +158,9 @@ def batch_phase():
             _get_datacloud_catalogue(idx_phase, progress_bar, progress)
         )
 
-    # for entry in phases[0]:
-    # entry = list(entry)[0]
-    # index, phase, err_phase, epoch_im = entry
-    # for result in phases:
     for index, phase, err_phase in phases:
-        # print(index, phase)
         idx.loc[index, "phase"] = phase
         idx.loc[index, "err_phase"] = err_phase
-        # idx.loc[index, "epoch_im"] = epoch_im
-        # print(index, phase, idx.loc[index, "date_obs"], epoch_im)
-        # idx.loc[index, "sso_im"] = sso_im
 
     save(idx)
 
