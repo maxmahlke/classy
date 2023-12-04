@@ -3,15 +3,13 @@ from urllib.request import urlretrieve
 import pandas as pd
 import rocks
 
-
 from classy import cache
 from classy import config
+from classy.log import logger
 from classy import index
 from classy import progress
 from classy import sources
 from classy import tools
-
-BASE_URL = "http://smass.mit.edu/data"
 
 REFERENCES = {
     "demeo2019": ["DeMeo+ 2019", "2019Icar..322...13D"],
@@ -19,15 +17,12 @@ REFERENCES = {
 }
 
 DIR_URLS = [
-    ("demeo2019", f"{BASE_URL}/minus/DeMeo2019_spectra.tar"),
-    ("polishook2014", f"{BASE_URL}/minus/Spectra31AsteroidPairs_Polishook.zip"),
+    ("demeo2019", "http://smass.mit.edu/data/minus/DeMeo2019_spectra.tar"),
+    (
+        "polishook2014",
+        "http://smass.mit.edu/data/minus/Spectra31AsteroidPairs_Polishook.zip",
+    ),
 ]
-
-RUNS = (
-    [f"sp{num:>02}" for num in range(1, 131)]
-    + [f"sp{num:>02}" for num in range(200, 292)]
-    + [f"dm{num:>02}" for num in range(1, 20)]
-)
 
 PATH = config.PATH_DATA / "mithneos/"
 
@@ -98,17 +93,31 @@ def _retrieve_spectra():
     # Start with separate archives
     for dir, URL in DIR_URLS:
         (PATH / dir).mkdir(exist_ok=True, parents=True)
-        tools.download(URL, PATH / dir / URL.split("/")[-1])
-        tools.unpack(PATH / dir / URL.split("/")[-1], encoding=URL.split(".")[-1])
+
+        PATH_ARCHIVE = PATH / dir / URL.split("/")[-1]
+
+        if PATH_ARCHIVE.is_file():
+            logger.info(f"mithneos - Using cached archive file at \n{PATH_ARCHIVE}")
+            continue
+
+        tools.download(URL, PATH_ARCHIVE)
+        tools.unpack(PATH_ARCHIVE, encoding=URL.split(".")[-1])
 
     # -------
-    # Scrape all mithneos runs from website and check for unpublished spectra
+    # Get spectra from obslog
+    log = cache.load_cat("mithneos", "obslog")
 
     with progress.mofn as mofn:
-        task = mofn.add_task("MITHNEOS ObsRuns", total=len(RUNS))
-        for run in RUNS:
-            URL = f"{BASE_URL}/spex/{run}/"
-            _download(URL, PATH / run)
+        task = mofn.add_task("MITHNEOS", total=len(log))
+        for _, row in log.iterrows():
+            PATH_OUT = PATH / row.run / row.url.split("/")[-1]
+
+            if PATH_OUT.is_file():
+                mofn.update(task, advance=1)
+                continue
+
+            PATH_OUT.parent.mkdir(exist_ok=True, parents=True)
+            urlretrieve(row.url, PATH_OUT)
             mofn.update(task, advance=1)
 
 
@@ -176,83 +185,31 @@ def _build_index():
 
             entries.append(entry)
 
-    for run in RUNS:
-        # check for duplicates
-        for file_ in (PATH / run).glob("**/*txt"):
-            if "162117-note" in file_.name or "p2010h2" in file_.name:
-                continue
+    for _, row in log.iterrows():
+        name, number = row["name"], row["number"]
 
-            id_ = sources.smass.get_id_from_filename(file_)
-            if id_ is None:
-                continue
-            name, number = rocks.id(id_)
+        file_ = PATH / row.run / row.url.split("/")[-1]
+        filename = file_.relative_to(config.PATH_DATA)
 
-            if name is None:
-                continue
+        date_obs = row["date_obs"] if not pd.isna(row["date_obs"]) else ""
+        shortbib = row["shortbib"] if not pd.isna(row["shortbib"]) else "Unpublished"
+        bibcode = row["bibcode"] if not pd.isna(row["bibcode"]) else "Unpublished"
 
-            filename = file_.relative_to(config.PATH_DATA)
-
-            match = log.loc[(log.run == run) & (log["name"] == name)]
-
-            if not match.empty:
-                date_obs = match["date_obs"].values[0]
-                shortbib = match["shortbib"].values[0]
-                bibcode = match["bibcode"].values[0]
-            else:
-                date_obs = ""
-                shortbib = "Unpublished"
-                bibcode = "Unpublished"
-
-            if not shortbib:
-                shortbib = "Unpublished"
-            if not bibcode:
-                bibcode = "Unpublished"
-            if pd.isna(shortbib):
-                shortbib = "Unpublished"
-            if pd.isna(bibcode):
-                bibcode = "Unpublished"
-            if pd.isna(date_obs):
-                bibcode = ""
-
-            entry = pd.DataFrame(
-                data={
-                    "name": name,
-                    "number": number,
-                    "filename": filename,
-                    "shortbib": shortbib,
-                    "bibcode": bibcode,
-                    "date_obs": date_obs,
-                    "source": "MITHNEOS",
-                    "host": "mithneos",
-                    "module": "mithneos",
-                },
-                index=[0],
-            )
-            entries.append(entry)
+        entry = pd.DataFrame(
+            data={
+                "name": name,
+                "number": number,
+                "filename": filename,
+                "shortbib": shortbib,
+                "bibcode": bibcode,
+                "date_obs": date_obs,
+                "source": "MITHNEOS",
+                "host": "mithneos",
+                "module": "mithneos",
+            },
+            index=[0],
+        )
+        entries.append(entry)
 
     entries = pd.concat(entries)
     index.add(entries)
-
-
-def _download(URL, PATH_OUT):
-    import bs4
-    import requests
-
-    r = requests.get(URL)
-
-    if not r.ok:
-        return
-
-    data = bs4.BeautifulSoup(r.text, "html.parser")
-    for l in data.find_all("a"):
-        if l["href"].endswith("txt"):
-            if "README" in l["href"]:
-                continue
-            if "READ_ME" in l["href"]:
-                continue
-            if "speclib-edit-backup" in l["href"]:
-                continue
-
-            PATH_OUT.mkdir(exist_ok=True, parents=True)
-            urlretrieve(URL + l["href"], PATH_OUT / l["href"])
-            print(URL + l["href"])
