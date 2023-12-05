@@ -1,3 +1,16 @@
+import re
+import sys
+
+import numpy as np
+import pandas as pd
+import rocks
+
+from classy import config
+from classy import features
+from classy import sources
+from classy import utils
+from classy.utils.logging import logger
+
 COLUMNS = [
     "name",
     "number",
@@ -150,7 +163,7 @@ def query(id=None, **kwargs):
                             idx = idx.loc[idx[column] <= str(upper)]
                         continue
 
-                    if any(_is_int_or_float(limit) for limit in [lower, upper]):
+                    if any(utils._is_int_or_float(limit) for limit in [lower, upper]):
                         if lower:
                             idx = idx.loc[idx[column] >= float(lower)]
                         if upper:
@@ -164,18 +177,16 @@ def query(id=None, **kwargs):
             idx = idx.loc[idx[column].isin(value)]
 
     if "feature" in kwargs:
-        ftrs = kwargs["feature"].split(",")
-
         # Only feature entries of spectra we care about
-        features = load_features()
-        features = features.reset_index(level=1)
-        features = features.loc[features.index.isin(idx.index)]
+        ftrs = features.load()
+        ftrs = ftrs.reset_index(level=1)
+        ftrs = ftrs.loc[ftrs.index.isin(idx.index)]
 
         # Only feature entries of feature we care about
-        features = features.loc[features.feature.isin(ftrs)]
-        features = features[features.is_present]
+        ftrs = ftrs.loc[ftrs.feature.isin(kwargs["feature"].split(","))]
+        ftrs = ftrs[ftrs.is_present]
 
-        idx = idx.loc[idx.index.isin(features.index)]
+        idx = idx.loc[idx.index.isin(ftrs.index)]
 
     return idx.copy()  # return copy to fix SettingWithCopyWarning
 
@@ -203,7 +214,7 @@ def add(entries):
     entries["err_phase"] = np.nan
 
     # Convert all observation epochs to ISO-T format
-    entries["date_obs"] = entries["date_obs"].apply(lambda d: convert_to_isot(d))
+    entries["date_obs"] = entries["date_obs"].apply(lambda d: utils.convert_to_isot(d))
 
     # Add data columns
     entries = entries.set_index("filename")
