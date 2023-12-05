@@ -246,8 +246,8 @@ corresponding function of the ``Spectra`` class. This saves efforts in typing an
 and exporting <export>` analysis results.
 
 
-Plotting Spectra
-----------------
+Plotting ``Spectra``
+--------------------
 
 You can use the ``plot`` method of the ``Spectrum`` and ``Spectra`` classes to visualise the spectra.
 
@@ -278,6 +278,15 @@ You can further save the figure to file by specifying the output filename with t
 
   >>> spectra = classy.Spectra(43)
   >>> spectra.plot(show=False)
+
+Exporting ``Spectra``
+---------------------
+
+You can use the ``plot`` method of the ``Spectrum`` and ``Spectra`` classes to visualise the spectra.
+
+Online: button
+Offline: original data already on your system, export(raw=True)
+smoothed etc can be done with export(data=True)
 
 .. rubric:: Footnotes
    :caption:
