@@ -306,7 +306,7 @@ def demeo_c_and_x_complexes(spec):
     logger.warning(
         "DeMeo class is indeterminate C/X-complex member after VisIR resolution"
     )
-    return ""
+    return "CX"
 
 
 def add_classification_results(spec, results=None):

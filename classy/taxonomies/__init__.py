@@ -5,6 +5,8 @@ from classy.utils.logging import logger
 SYSTEMS = ["mahlke", "demeo", "tholen"]
 SYSTEMS_REF = ["Mahlke+ 2022", "DeMeo+ 2009", "Tholen 1984"]
 
+FORMAT = {s: r for s, r in zip(SYSTEMS, SYSTEMS_REF)}
+
 COMPLEXES = {
     "C": [
         "B",

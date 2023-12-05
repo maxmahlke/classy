@@ -39,6 +39,7 @@ def add(path):
     "--taxonomy",
     type=click.Choice(classy.taxonomies.SYSTEMS, case_sensitive=False),
     help="Taxonomic system shown in output plot.",
+    default="mahlke",
 )
 @click.option("-p", "--plot", is_flag=True, help="Plot the classification result.")
 @click.option("-s", "--save", help="Save plot under specified filename.")

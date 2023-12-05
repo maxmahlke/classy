@@ -11,7 +11,7 @@ from classy import sources
 from classy import utils
 from classy.utils.logging import logger
 
-from . import data
+from . import data, phase  # noqa
 
 COLUMNS = [
     "name",

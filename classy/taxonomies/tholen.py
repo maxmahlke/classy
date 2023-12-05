@@ -196,6 +196,10 @@ def decision_tree(spec):
     -----
     The spectrum must have the Tholen PC scores as ``scores_tholen`` attribute.
     """
+    if hasattr(spec, "target"):
+        spec.pV = spec.target.albedo.value
+    else:
+        spec.pV = np.nan
 
     # Load the PCs of all ECAS asteroids
     tholen = load_classification()
@@ -311,6 +315,7 @@ def plot_pc_space(ax, spectra):
     ax.axvline(0, ls=":", c="gray")
     ax.axhline(0, ls=":", c="gray")
     ax.legend()
+    ax.set(xlabel="Principal Score 1", ylabel="Principal Score 2")
 
     return ax
 

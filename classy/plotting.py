@@ -94,6 +94,12 @@ def plot_spectra(spectra, show=True, save=None, taxonomy=None):
             _plot_taxonomy_tholen(ax_class, spectra)
             _plot_albedo(ax_spec, spectra)
 
+        ax_class.set_title(
+            f"Classification following {taxonomies.FORMAT[taxonomy]}",
+            loc="left",
+            size=12,
+        )
+
     # ------
     # Save, show, return
     fig.tight_layout()
@@ -136,7 +142,7 @@ def _plot_spectrum(ax, spec, **kwargs):
         )
 
     ax.set(xlabel=r"Wavelength / µm", ylabel="Reflectance")
-    ax.legend(ncols=4, frameon=False, loc="upper center")
+    ax.legend(ncols=4, frameon=False)
 
 
 def plot_gaia_spectrum(ax, spec, **kwargs):
@@ -153,24 +159,24 @@ def plot_gaia_spectrum(ax, spec, **kwargs):
     # Line to guide the eye
     ax.plot(spec.wave, spec.refl, ls=":", lw=1, c="black", zorder=100, label=spec.name)
 
+    refl_err = np.array([0] * len(spec)) if spec.refl_err is None else spec.refl_err
+
     # Errorbars colour-coded by photometric flag
     props = dict(lw=1, capsize=3, ls="", zorder=100)
     props.update(kwargs)
 
-    ax.errorbar(spec.wave, spec.refl, yerr=spec.refl_err, c="black", **props)
+    ax.errorbar(spec.wave, spec.refl, yerr=refl_err, c="black", **props)
 
     f1 = spec.flag == 1
     f2 = spec.flag == 2
 
     if any(f1):
         ax.errorbar(
-            spec.wave[f1], spec.refl[f1], yerr=spec.refl_err[f1], c="orange", **props
+            spec.wave[f1], spec.refl[f1], yerr=refl_err[f1], c="orange", **props
         )
 
     if any(f2):
-        ax.errorbar(
-            spec.wave[f2], spec.refl[f2], yerr=spec.refl_err[f2], c="red", **props
-        )
+        ax.errorbar(spec.wave[f2], spec.refl[f2], yerr=refl_err[f2], c="red", **props)
 
 
 def _plot_taxonomy_mahlke(ax, spectra):
@@ -216,7 +222,7 @@ def _plot_taxonomy_tholen(ax, spectra):
 def _plot_albedo(ax, spectra):
     """Add albedo of spectra on inset-axis."""
 
-    ax_alb = ax.inset_axes([0.1, 0.8, 0.2, 0.05])
+    ax_alb = ax.inset_axes([0.05, 0.95, 0.2, 0.05])
 
     for spec in spectra:
         if not hasattr(spec, "target"):

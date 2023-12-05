@@ -1,3 +1,4 @@
+import numpy as np
 import pandas as pd
 import rocks
 
@@ -61,3 +62,11 @@ def _build_index(PATH_REPO):
             entries.append(entry)
     entries = pd.concat(entries)
     index.add(entries)
+
+
+def _transform_data(idx, data):
+    """Apply module-specific data transforms."""
+    data.loc[data.refl_err < 0, "refl_err"] = np.nan
+
+    meta = {}
+    return data, meta

@@ -1,9 +1,12 @@
 """Implement the Spectrum class in classy."""
+import shutil
 
 import numpy as np
 import pandas as pd
 import rocks
 
+from classy import config
+from classy import sources
 from classy.features import Feature
 from classy import index
 from classy.taxonomies.mahlke import mixnorm
@@ -445,9 +448,47 @@ class Spectrum:
         if self.refl_err is not None:
             self.refl_err = None
 
-    def export(self, filename, columns=None):
-        """Store the classification results to file."""
-        Spectra([self]).export(filename, columns)
+    def export(self, path, columns=None, raw=False):
+        """Export spectrum attributes to a csv file.
+
+        Parameters
+        ----------
+        path : str or pathlib.Path
+            The output path and filename of the exported file.
+        columns : list of str
+            List of attributes to export. Attributes must have the same
+            shape. Default is ['wave', 'refl', 'refl_err'].
+        raw : bool
+            Export the raw data of the spectrum. Default is False. If raw is
+            True, 'columns' is ignored.
+        """
+        if raw:
+            if not hasattr(self, "filename"):
+                raise AttributeError(
+                    "The spectrum does not have a 'filename' attribute that points to the original data file."
+                )
+
+            if self.source == "Gaia" and hasattr(self, "host") and self.host == "Gaia":
+                # Create virtual file and write to disk
+                data = sources.gaia._load_virtual_file(
+                    pd.Series(
+                        {"name": self.target.name, "number": self.target.number},
+                        name=self.filename,
+                    )
+                )
+                data.to_csv(path, index=False)
+                return
+
+            shutil.copy(config.PATH_DATA / self.filename, path)
+            return
+
+        if columns is None:
+            columns = ["wave", "refl", "refl_err"]
+
+        data = pd.DataFrame(
+            data={col: getattr(self, col) for col in columns}, index=range(len(self))
+        )
+        data.to_csv(path, index=False)
 
 
 class Spectra(list):
@@ -548,7 +589,7 @@ class Spectra(list):
                     spec.smooth()
                 spec.inspect_features(feature, force)
 
-    def export(self, filename, columns=None):
+    def export(self, path, columns=None):
         def rgetattr(obj, attr, *args):
             from functools import reduce
 
@@ -577,4 +618,4 @@ class Spectra(list):
             result.append(row)
 
         result = pd.DataFrame(data=result, index=list(range(len(self))))
-        result.to_csv(filename, index=False)
+        result.to_csv(path, index=False)

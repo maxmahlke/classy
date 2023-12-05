@@ -148,7 +148,7 @@ def load_spectrum(idx, skip_target):
     # Add list-type attributes when instantiating
     spec = core.Spectrum(
         target=idx["name"] if not skip_target else None,
-        **{col: data[col] for col in data.columns},
+        **{col: data[col].values for col in data.columns},
     )
 
     # Add metadata from index
