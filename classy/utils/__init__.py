@@ -6,7 +6,7 @@ from zipfile import BadZipFile, ZipFile
 import pandas as pd
 import numpy as np
 
-from classy.utils.loggging import logger
+from .logging import logger
 
 
 def find_nearest(array, value):

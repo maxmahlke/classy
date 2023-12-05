@@ -6,7 +6,7 @@ import pandas as pd
 
 from classy import index
 from classy import utils
-from classy.utils import logger
+from classy.utils.logging import logger
 
 
 # Limit of simultaneous queries
