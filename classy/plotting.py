@@ -51,6 +51,7 @@ def plot_spectra(spectra, show=True, save=None):
         logger.warning(
             "If 'save' is specified, 'show' cannot be True. Setting it to False."
         )
+        show = False
 
     # Ensure uniform plot appearance
     mpl.rcParams.update(mpl.rcParamsDefault)
@@ -92,6 +93,7 @@ def _plot_spectrum(ax, spec, **kwargs):
     """
 
     ax.plot(spec.wave, spec.refl, c=spec._color, label=spec.name)
+    print("plotted")
 
     if spec.refl_err is not None:
         ax.fill_between(
