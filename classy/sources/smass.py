@@ -63,7 +63,7 @@ def _retrieve_spectra():
         url_archive = f"{URL}/{file_}.tar.gz"
         PATH_ARCHIVE = PATH / f"{file_}.tar.gz"
         if PATH_ARCHIVE.is_file():
-            logger.info(f"smass - Using cached archive file at \n{PATH_ARCHIVE}")
+            logger.debug(f"smass - Using cached archive file at \n{PATH_ARCHIVE}")
         else:
             tools.download(url_archive, PATH_ARCHIVE)
         tools.unpack(PATH_ARCHIVE, encoding="tar.gz")

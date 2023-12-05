@@ -33,7 +33,7 @@ def _retrieve_spectra():
 
         # Download repository
         if PATH_ARCHIVE.is_file():
-            logger.info(f"cds/{repo} - Using cached archive file at \n{PATH_ARCHIVE}")
+            logger.debug(f"cds/{repo} - Using cached archive file at \n{PATH_ARCHIVE}")
         else:
             success = tools.download(URL, PATH_ARCHIVE)
 

@@ -50,7 +50,7 @@ def _build_index(PATH_REPO):
                     "bibcode": bibcode,
                     "filename": file_.relative_to(config.PATH_DATA),
                     "source": "Misc",
-                    "host": "pds",
+                    "host": "PDS",
                     "module": "reddy_nea_mc",
                 },
                 index=[0],

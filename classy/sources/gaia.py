@@ -1,3 +1,5 @@
+from pathlib import Path
+
 import pandas as pd
 import rocks
 
@@ -31,27 +33,15 @@ def _build_index():
         part["name"] = names
         part["number"] = numbers
 
-        # Adapt to classy naming scheme
-        part = part.rename(
-            columns={
-                "wavelength": "wave",
-                "reflectance_spectrum": "refl",
-                "reflectance_spectrum_err": "refl_err",
-                "reflectance_spectrum_flag": "flag",
-            }
-        )
-
-        # Use wavelenght in micron
-        part.wave /= 1000
-
-        _create_spectra_files(part, PATH_PART)
-
         part = part.drop_duplicates(subset="name")
         part["filename"] = part["denomination"].apply(
             lambda d: f"gaia/part{idx:02}/{d}.csv"
         )
 
         # Add metadata
+        part["wave_min"] = 0.374
+        part["wave_max"] = 1.034
+        part["N"] = 16
         part["shortbib"] = SHORTBIB
         part["bibcode"] = BIBCODE
         part["date_obs"] = ""
@@ -63,6 +53,31 @@ def _build_index():
 
     entries = pd.concat(entries)
     index.add(entries)
+
+
+def _load_virtual_file(idx):
+    """Make Gaia archive compatible with one-file-one-spectrum approach
+    without creating 65k actual files.
+    """
+
+    # Load part and select asteroid
+    part = str(Path(idx.name).parent.name).strip("part")
+    part = pd.read_csv(PATH / f"{part}.csv.gz", compression="gzip", comment="#")
+    part = part[(part.denomination == idx["name"]) | (part.number_mp == idx.number)]
+
+    # Adapt to classy naming scheme
+    part = part.rename(
+        columns={
+            "wavelength": "wave",
+            "reflectance_spectrum": "refl",
+            "reflectance_spectrum_err": "refl_err",
+            "reflectance_spectrum_flag": "flag",
+        }
+    )
+
+    part = part[~pd.isna(part.refl)]
+    part.wave /= 1000  # to micron
+    return part
 
 
 def _transform_data(_, data):
@@ -101,21 +116,17 @@ def _retrieve_spectra():
     URL = "http://cdn.gea.esac.esa.int/Gaia/gdr3/Solar_system/sso_reflectance_spectrum/SsoReflectanceSpectrum_"
 
     # Observations are split into 20 parts
-    with progress.mofn as mofn:
-        task = mofn.add_task("Gaia DR3", total=20)
+    for idx in range(20):
+        PATH_ARCHIVE = PATH_GAIA / f"{idx:02}.csv.gz"
 
-        for idx in range(20):
+        if not PATH_ARCHIVE.is_file():
             tools.download(
-                f"{URL}{idx:02}.csv.gz",
-                PATH_GAIA / f"{idx:02}.csv.gz",
-                progress=False,
-                remove=False,
+                f"{URL}{idx:02}.csv.gz", PATH_ARCHIVE, progress=False, remove=False
             )
-            mofn.update(task, advance=1)
 
 
-def _create_spectra_files(part, PATH_PART):
-    for denomination, obs in part.groupby("denomination"):
-        PATH_FILE = PATH_PART / f"{denomination}.csv"
-        if not PATH_FILE.is_file():
-            obs.to_csv(PATH_FILE, index=False)
+# def _create_spectra_files(part, PATH_PART):
+#     for denomination, obs in part.groupby("denomination"):
+#         PATH_FILE = PATH_PART / f"{denomination}.csv"
+#         if not PATH_FILE.is_file():
+#             obs.to_csv(PATH_FILE, index=False)

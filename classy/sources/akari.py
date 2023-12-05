@@ -35,7 +35,7 @@ def _retrieve_spectra():
     PATH_ARCHIVE = PATH / "AcuA_1.0.tar.gz"
 
     if PATH_ARCHIVE.is_file():
-        logger.info(f"akari - Using cached archive file at \n{PATH_ARCHIVE}")
+        logger.debug(f"akari - Using cached archive file at \n{PATH_ARCHIVE}")
     else:
         tools.download(URL, PATH_ARCHIVE)
     tools.unpack(PATH_ARCHIVE, encoding="tar.gz")

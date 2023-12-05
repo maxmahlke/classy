@@ -97,7 +97,7 @@ def _retrieve_spectra():
         PATH_ARCHIVE = PATH / dir / URL.split("/")[-1]
 
         if PATH_ARCHIVE.is_file():
-            logger.info(f"mithneos - Using cached archive file at \n{PATH_ARCHIVE}")
+            logger.debug(f"mithneos - Using cached archive file at \n{PATH_ARCHIVE}")
             continue
 
         tools.download(URL, PATH_ARCHIVE)
@@ -107,18 +107,14 @@ def _retrieve_spectra():
     # Get spectra from obslog
     log = cache.load_cat("mithneos", "obslog")
 
-    with progress.mofn as mofn:
-        task = mofn.add_task("MITHNEOS", total=len(log))
-        for _, row in log.iterrows():
-            PATH_OUT = PATH / row.run / row.url.split("/")[-1]
+    for _, row in log.iterrows():
+        PATH_OUT = PATH / row.run / row.url.split("/")[-1]
 
-            if PATH_OUT.is_file():
-                mofn.update(task, advance=1)
-                continue
+        if PATH_OUT.is_file():
+            continue
 
-            PATH_OUT.parent.mkdir(exist_ok=True, parents=True)
-            urlretrieve(row.url, PATH_OUT)
-            mofn.update(task, advance=1)
+        PATH_OUT.parent.mkdir(exist_ok=True, parents=True)
+        urlretrieve(row.url, PATH_OUT)
 
 
 def _build_index():

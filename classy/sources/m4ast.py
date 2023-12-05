@@ -47,13 +47,12 @@ def _retrieve_spectra():
 
     cat = load_catalog()
 
-    with progress.mofn as mofn:
-        task = mofn.add_task("M4AST", total=len(cat))
+    for _, row in cat.iterrows():
+        filename = row.access_url.split("/")[-1]
+        PATH_OUT = PATH / filename
 
-        for _, row in cat.iterrows():
-            filename = row.access_url.split("/")[-1]
-            urlretrieve(row.access_url, PATH / filename)
-            mofn.update(task, advance=1)
+        if not PATH_OUT.is_file():
+            urlretrieve(row.access_url, PATH_OUT)
 
 
 def load_catalog():
