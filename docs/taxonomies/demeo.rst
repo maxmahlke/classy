@@ -30,14 +30,7 @@ DeMeo+ 2009
     There are 24 main classes. The S-type and A and Q classes can carry a ``w``
     suffix indicating a weathered, reddened appearance.
 
-    The class templates for the complexes ``C``, ``S``, and ``X`` can be added
-    to spectra plots using the ``--templates`` argument of ``$ classy spectra``:
-
-    .. code-block:: bash
-
-      $ classy spectra Eos --templates M --taxonomy demeo
-
-    In a script, they can be loaded using the ``classy.taxonomies.demeo.load_templates()`` function,
+    The spectral class templates can be loaded using the  ``classy.taxonomies.demeo.load_templates()`` function,
     which returns a ``dict`` containing the classes as keys and the template spectra as values.
 
   .. tab-item:: Preprocessing
@@ -76,7 +69,7 @@ DeMeo+ 2009
 
     .. code-block:: bash
 
-       $ classy spectra nysa --classify --taxonomy demeo --source MITHNEOS
+       $ classy classify nysa --taxonomy demeo --source MITHNEOS
 
     .. image:: gfx/taxonomies/nysa_demeo.png
        :align: center

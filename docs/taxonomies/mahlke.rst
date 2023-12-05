@@ -37,14 +37,7 @@ Mahlke+ 2022
     The classes ``E``, ``M``, ``P`` (and ``X``) can further carry the feature flags ``e`` and ``k``. can further carry the feature flags ``e`` and ``k``
     if the corresponding features are present.
 
-    The class templates for the complexes ``C``, ``M``, and ``S`` can be added
-    to spectra plots using the ``--templates`` argument of ``$ classy spectra``:
-
-    .. code-block:: bash
-
-      $ classy spectra Eos --templates M
-
-    In a script, they can be loaded using the ``classy.taxonomies.mahlke.load_templates()`` function,
+    The spectral class templates can be loaded using the ``classy.taxonomies.mahlke.load_templates()`` function,
     which returns a ``dict`` containing the classes as keys and the template spectra as values.
 
   .. tab-item:: Preprocessing
@@ -74,7 +67,7 @@ Mahlke+ 2022
 
     .. code-block:: bash
 
-       $ classy spectra ceres --classify
+       $ classy classify ceres --plot --taxonomy mahlke
 
     .. image:: gfx/ceres_classification.png
        :align: center

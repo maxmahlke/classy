@@ -12,23 +12,42 @@ tasks can be done via the command line interface and the ``python`` interface.
 
     .. tab-item:: Command Line
 
-        Classify all available spectra of (4) *Vesta*.
+        Classify all available spectra of (21) *Lutetia*.
 
         .. code-block:: shell
 
-           $ classy classify vesta
+           $ classy classify lutetia
+           +---------+--------+----------+----------+--------+--------------+-------------+--------------+-------------------------+
+           | name    | number | wave_min | wave_max | albedo | class_mahlke | class_demeo | class_tholen | shortbib                |
+           +---------+--------+----------+----------+--------+--------------+-------------+--------------+-------------------------+
+           | Lutetia | 21     | 0.337    | 1.041    | 0.19   | K            |             | M            | Zellner+ 1985           |
+           | Lutetia | 21     | 2.515    | 4.997    | 0.19   | S            |             |              | Usui+ 2019              |
+           | Lutetia | 21     | 0.440    | 2.490    | 0.19   | M            | Xc          |              | Unpublished             |
+           | Lutetia | 21     | 0.435    | 2.450    | 0.19   | M            | X           | M            | Unpublished             |
+           | Lutetia | 21     | 0.440    | 2.450    | 0.19   | M            | Xc          |              | Unpublished             |
+           | Lutetia | 21     | 0.820    | 2.490    | 0.19   | M            |             |              | Ockert-Bell+ 2010       |
+           | Lutetia | 21     | 0.501    | 0.920    | 0.19   | L            |             |              | Lazzaro+ 2004           |
+           | Lutetia | 21     | 0.752    | 2.501    | 0.19   | M            |             |              | Hardersen+ 2011         |
+           | Lutetia | 21     | 0.374    | 1.034    | 0.19   | M            |             | M            | Galluccio+ 2022         |
+           | Lutetia | 21     | 0.440    | 2.490    | 0.19   | M            | Xc          |              | DeMeo+ 2009             |
+           | Lutetia | 21     | 0.913    | 2.300    | 0.19   | S            |             |              | Clark+ 1995             |
+           | Lutetia | 21     | 0.330    | 1.060    | 0.19   | M            |             | M            | Chapman and Gaffey 1979 |
+           | Lutetia | 21     | 0.435    | 0.925    | 0.19   | K            |             |              | Bus and Binzel 2002     |
+           | Lutetia | 21     | 0.874    | 1.640    | 0.19   | S            |             |              | Burbine and Binzel 2002 |
+           | Lutetia | 21     | 0.829    | 2.466    | 0.19   | L            |             |              | Bell+ 1988              |
+           +---------+--------+----------+----------+--------+--------------+-------------+--------------+-------------------------+
+                                                                 15 Spectra
 
-        By default, this prints a table of available spectra and their classification result. Use the ``--plot`` flag
-        to visualise the classification result.
+        By default, this prints a table of available spectra and their classification result.
 
     .. tab-item:: python
 
-        Classify all available spectra of (4) *Vesta*.
+        Classify all available spectra of (21) *Lutetia*.
 
         .. code-block:: python
 
            >>> import classy
-           >>> spectra = classy.Spectra(4)
+           >>> spectra = classy.Spectra(21)
            >>> spectra.classify()
 
         ``classy`` automatically applies the required preprocessing (e.g. normalising,
@@ -42,6 +61,9 @@ tasks can be done via the command line interface and the ``python`` interface.
            >>> for spec in spectra:
            >>>     print(f"Spectrum of {spec.shortbib} is of class {spec.class_}")
 
+For brevity, the outputs of the remaining examples in this section are not shown. After having completed
+the :ref:`Getting Started` section, all shown commands should run on your machine, and you can follow along
+by copy-pasting them.
 
 Taxonomy Selection
 ------------------
@@ -124,23 +146,34 @@ classes adds a second panel next to the spectra showing the classification resul
 is set, the results shows the class probabilities for each spectrum.
 
 
-.. code-block:: python
 
-    >>> spectra.classify()
-    >>> spectra.classify(taxonomy='demeo')
-    >>> spectra.plot(taxonomy='mahlke')
-    >>> spectra.plot(taxonomy='demeo')
-
-..  TODO: Show output for all three taxonomies here
-
-If ``taxonomy="demeo"`` or ``taxonomy="tholen"``,
-it shows the projection of the spectra into the space spanned by the first and second principal components of the respective taxonomies.
-
-On the command line, the classification results can be visualised by specifying the ``--plot`` flag.
+If ``taxonomy="demeo"`` or ``taxonomy="tholen"``, it shows the projection of
+the spectra into the space spanned by the first and second principal components
+of the respective taxonomies.
 
 .. code-block:: python
 
-    $ classy classify 13 --plot
+    >>> spectra = classy.Spectra(21)
+    >>> spectra.classify(taxonomy='tholen')
+    >>> spectra.plot(taxonomy='tholen')
+
+
+.. image:: gfx/classify/21_tholen.png
+ :align: center
+ :class: only-light
+ :width: 600
+
+.. image:: gfx/classify/21_tholen_dark.png
+ :align: center
+ :class: only-dark
+ :width: 600
+
+On the command line, the classification results can be visualised by specifying
+the ``--plot`` flag. Use the ``--taxonomy`` argument to provide the desired taxonomic scheme.
+
+.. code-block:: python
+
+    $ classy classify 13 --plot --taxonomy demeo
 
 .. _exporting_spectra:
 

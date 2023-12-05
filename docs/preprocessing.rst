@@ -161,25 +161,22 @@ which to resample the spectrum. All other arguments are passed on to the
  :class: only-dark
  :width: 600
 
-.. warning::
-
-   Resampling changes the shape of the wavelength and reflectance arrays (``spec.wave`` and ``spec.refl``).
-   The reflectance error ``spec.refl_err`` cannot be resampled, meaning that it would keep its original shape.
-   This can cause trouble in various places in ``classy``. The error attribute is therefore set to ``None``
-   when resampling. You can undo this by assigning the new list of reflectance errors to the error attribute:
-
-   .. code-block:: python
-
-      >>> spec.refl_err = [0.05] * len(wave_new)
-
-The following example shows how to do linear and constant extrapolation. You can find more information in the documentation
-of `scipy.interpolate.interp1d
+The following
+example shows how to do linear and constant extrapolation. You can find more
+information in the documentation of `scipy.interpolate.interp1d
 <https://docs.scipy.org/doc/scipy/reference/generated/scipy.interpolate.interp1d.html>`_.
 
 .. code-block:: python
 
    >>> spec.resample(wave_new, fill_value='extrapolate') # linear extrapolation
    >>> spec.resample(wave_new, bounds_error=False, fill_value=(spec.refl[0], spec.refl[-1]) # constant extrapolation.
+
+.. warning::
+
+   Resampling changes the shape of the wavelength and reflectance arrays (``spec.wave`` and ``spec.refl``).
+   The reflectance error ``spec.refl_err`` cannot be resampled, meaning that it would keep its original shape.
+   This can cause trouble in various places in ``classy``. The error attribute is therefore set to ``None``
+   when resampling.
 
 Truncating
 ----------

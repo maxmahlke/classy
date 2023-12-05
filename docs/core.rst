@@ -282,7 +282,7 @@ adapt the figure before opening the plot, you can set ``show=False``. This can
 be useful e.g. if you would like to add :ref:`template spectra of taxonomic
 classes <taxonomies>` for comparison.
 
-.. code-block::
+.. code-block:: python
 
   >>> import matplotlib.pyplot as plt
   >>> spectra = classy.Spectra(43)
@@ -321,24 +321,69 @@ By default, ``classy`` will write the current values of the ``wave``, ``refl``,
 and (if not ``None``) ``refl_err`` values to a ``csv`` file and save it under the provided
 ``path``, the mandatory argument of the ``export`` function.
 
-.. code-block::
+.. code-block:: python
 
-   >>> spec.export("44_nysa_smoothed.csv")
+   >>> spec = classy.Spectra(44, source="Gaia")[0]
+   >>> spec.export("44_nysa.csv")
+
+A preview of the exported file:
+
+.. code-block:: shell
+
+   $ head 44_nysa.csv
+   wave,refl,refl_err
+   0.374,0.9158446185000001,0.00070279953
+   0.418,0.941973123,0.0005009585
+   0.462,0.9665745012000001,0.0004947147
+   0.506,0.9972719497,0.0005286616
+   0.55,1.0,0.0005227076
+   0.594,1.0108662,0.0005877005
+   0.638,1.001265,0.00057106547
+   0.682,1.0139798,0.0005213781
+   0.726,1.0250095,0.0005411855
 
 You can specify which attributes to export by passing a list of attribute names to the ``columns`` argument.
 By default, this list is ``['wave', 'refl', 'refl_err']``. All attributes must have the same length.
 
-.. code-block::
+.. code-block:: python
 
-   >>> spect.export("44_nysa_smoothed.csv", columns=['wave', 'refl', 'flag'])
+   >>> spec.export("44_nysa_with_flag.csv", columns=['wave', 'refl', 'flag'])
+
+.. code-block:: shell
+
+   $ head 44_nysa_original.csv
+   wave,refl,flag
+   0.374,0.9158446185000001,0
+   0.418,0.941973123,0
+   0.462,0.9665745012000001,0
+   0.506,0.9972719497,0
+   0.55,1.0,0
+   0.594,1.0108662,0
+   0.638,1.001265,0
+   0.682,1.0139798,0
+   0.726,1.0250095,0
 
 To get the original data of the spectrum,  set ``raw=True``. In this case, ``classy``
 copies the data file of the spectrum from the ``classy`` data directory to the specified paths.
 The ``columns`` argument is ignored if ``raw=True``.
 
-.. code-block::
+.. code-block:: python
 
    >>> spec.export("44_nysa_original.csv", raw=True)
+
+.. code-block:: shell
+
+   $ head 44_nysa_original.csv
+   source_id,solution_id,number_mp,denomination,nb_samples,num_of_spectra,refl,refl_err,wave,flag
+   -4284966856,4167557769573408785,44,nysa,16,21,0.85592955,0.00070279953,0.374,0
+   -4284966856,4167557769573408785,44,nysa,16,21,0.89711726,0.0005009585,0.418,0
+   -4284966856,4167557769573408785,44,nysa,16,21,0.94762206,0.0004947147,0.462,0
+   -4284966856,4167557769573408785,44,nysa,16,21,0.98739797,0.0005286616,0.506,0
+   -4284966856,4167557769573408785,44,nysa,16,21,1.0,0.0005227076,0.55,0
+   -4284966856,4167557769573408785,44,nysa,16,21,1.0108662,0.0005877005,0.594,0
+   -4284966856,4167557769573408785,44,nysa,16,21,1.001265,0.00057106547,0.638,0
+   -4284966856,4167557769573408785,44,nysa,16,21,1.0139798,0.0005213781,0.682,0
+   -4284966856,4167557769573408785,44,nysa,16,21,1.0250095,0.0005411855,0.726,0
 
 The ``export`` method of the ``Spectra`` class behaves differently and is explained :ref:`later on <exporting_spectra>`.
 

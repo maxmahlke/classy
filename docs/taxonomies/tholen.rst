@@ -32,15 +32,9 @@ Tholen 1984
     There are 15 classes. Notation used to flag uncertain (U), indecisive (I),
     and noisy (:) data is not kept.
 
-    The class templates for the complexes ``C``, ``S``, and ``X`` can be added
-    to spectra plots using the ``--templates`` argument of ``$ classy spectra``:
-
-    .. code-block:: bash
-
-      $ classy spectra Eos --templates M --taxonomy tholen
-
-    In a script, they can be loaded using the ``classy.taxonomies.tholen.load_templates()`` function,
-    which returns a ``dict`` containing the classes as keys and the template spectra as values.
+    The spectral class templates can be loaded using the
+    ``classy.taxonomies.tholen.load_templates()`` function, which returns a
+    ``dict`` containing the classes as keys and the template spectra as values.
 
   .. tab-item:: Preprocessing
 
@@ -70,4 +64,4 @@ Tholen 1984
 
     .. code-block:: shell
 
-        $ classy spectra nysa --classify --taxonomy tholen
+        $ classy classify nysa --taxonomy tholen

@@ -21,9 +21,25 @@ covered in later chapters of this documentation.
         .. code-block:: shell
 
            $ classy spectra vesta
+           +-------+--------+----------+----------+----------+--------+---------------------+-------------------------+
+           | name  | number | wave_min | wave_max | source   | phase  | date_obs            | shortbib                |
+           +-------+--------+----------+----------+----------+--------+---------------------+-------------------------+
+           | Vesta | 4      | 0.337    | 1.041    | ECAS     | -      | -                   | Zellner+ 1985           |
+           | Vesta | 4      | 0.45     | 2.45     | MITHNEOS | 23.473 | 2009-11-18T15:48:34 | Unpublished             |
+           | Vesta | 4      | 0.645    | 2.553    | Misc     | 17.474 | 2010-03-27T07:45:35 | Reddy+ 2011             |
+           [...]
+           | Vesta | 4      | 0.374    | 1.034    | Gaia     | -      | -                   | Galluccio+ 2022         |
+           | Vesta | 4      | 0.435    | 2.49     | DM09     | 25.938 | 2000-10-09T00:00:00 | DeMeo+ 2009             |
+           | Vesta | 4      | 0.33     | 1.1      | 24CAS    | 21.286 | 1979-06-20T00:00:00 | Chapman and Gaffey 1979 |
+           | Vesta | 4      | 0.435    | 0.925    | SMASS    | 12.105 | 1996-04-18T00:00:00 | Bus and Binzel 2002     |
+           | Vesta | 4      | 0.902    | 1.644    | SMASS    | 1.346  | 1997-01-30T14:17:00 | Burbine and Binzel 2002 |
+           | Vesta | 4      | 0.829    | 2.57     | 52CAS    | 10.273 | 1985-05-05T00:00:00 | Bell+ 1988              |
+           +-------+--------+----------+----------+----------+--------+---------------------+-------------------------+
+                                                        33 Spectra
 
-        By default, this prints a table of available spectra and relevant metadata. Use the ``--plot`` flag
-        to visualise the spectra.
+        As shown above, by default, this prints a table of available spectra
+        and relevant metadata. Use the ``--plot`` flag to visualise the
+        spectra.
 
         .. code-block:: shell
 
@@ -36,7 +52,13 @@ covered in later chapters of this documentation.
         .. code-block:: python
 
            >>> import classy
-           >>> classy.Spectra(4)
+           >>> spectra = classy.Spectra(4)
+           >>> print(len(spectra))
+           33
+
+For brevity, the outputs of the remaining examples in this section are not shown. After having completed
+the :ref:`Getting Started` section, all shown commands should run on your machine, and you can follow along
+by copy-pasting them.
 
 .. _selection_syntax:
 
