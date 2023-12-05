@@ -3,7 +3,6 @@ import re
 import asyncio
 import aiohttp
 from datetime import datetime
-import functools
 import sys
 
 import numpy as np
@@ -32,7 +31,7 @@ COLUMNS = [
 ]
 
 
-@functools.cache
+# @functools.cache
 def load():
     """Load the global spectra index.
 
@@ -84,22 +83,23 @@ def add(entries):
     # Convert all observation epochs to ISO-T format
     entries["date_obs"] = entries["date_obs"].apply(lambda d: convert_to_isot(d))
 
-    # Format for adding to index
-    entries = entries.loc[
-        :, [c for c in COLUMNS if c not in ["N", "wave_min", "wave_max"]]
-    ]
-
     # Add data columns
     entries = entries.set_index("filename")
-    entries = sources._add_spectra_properties(entries)
+
+    if not entries.module.values[0] == "gaia":
+        entries = sources._add_spectra_properties(entries)
+    # else:
+    #     breakpoint()
 
     # Skip the cache of the load function as we change the index
-    index = load.__wrapped__()
+    index = load()  # .__wrapped__()
 
     # Append new entries and drop duplicate filenames
     index = index.reset_index()  # drop-duplicates does not work index
     entries = entries.reset_index()
 
+    # Format for adding to index
+    entries = entries[COLUMNS]
     index = pd.concat([index, entries])
     index = index.drop_duplicates(subset="filename", keep="last").set_index("filename")
 
@@ -108,16 +108,49 @@ def add(entries):
 
 def build():
     """Retrieve all public spectra that classy knows about."""
-    from rich import console
+    from rich import progress
 
-    with console.Console().status("Indexing spectra...", spinner="dots8Bit"):
-        for module in [
-            # "pds"
-            # "cds",
-            # "m4ast",
-            "smass",
-        ]:  #  "akari", "mithneos", "gaia"]:
+    # ------
+    # Retrieve index while showing spinner
+    MODULES = ["cds", "pds", "m4ast", "akari", "smass", "mithneos", "gaia"]
+    DESCS = {
+        "cds": f"[dim]{'[93] CDS':>22}[/dim]",
+        "pds": f"[dim]{'[3369] PDS':>22}[/dim]",
+        "m4ast": f"[dim]{'[123] M4AST':>22}[/dim]",
+        "akari": f"[dim]{'[64] AKARI':>22}[/dim]",
+        "smass": f"[dim]{'[1911] SMASS':>22}[/dim]",
+        "mithneos": f"[dim]{'[2256] MITHNEOS':>22}[/dim]",
+        "gaia": f"[dim]{'[60518] Gaia':>22}[/dim]",
+    }
+
+    with progress.Progress(
+        "[progress.description]{task.description}",
+        progress.BarColumn(),
+    ) as pbar:
+        overall_progress_task = pbar.add_task(
+            f"{'Indexing Spectra...':>22}", total=len(MODULES)
+        )
+        tasks = {}
+
+        for module in MODULES:
+            tasks[module] = pbar.add_task(
+                DESCS[module], visible=True, start=False, total=None
+            )
+
+        for i, module in enumerate(MODULES):
+            pbar.update(tasks[module], start=True)
             getattr(sources, module)._build_index()
+            pbar.update(tasks[module], visible=False)
+
+            # Update overall bar
+            pbar.update(overall_progress_task, completed=i + 1)
+
+        pbar.update(
+            overall_progress_task,
+            completed=len(MODULES),
+            total=len(MODULES),
+            description=f"{'All done!':>22}",
+        )
 
 
 # ------
@@ -140,7 +173,7 @@ def get_or_create_eventloop():
 
 def batch_phase():
     # might have changed during runtime
-    idx = load.__wrapped__()
+    idx = load()  # .__wrapped__()
 
     # Get subindex with valid observation dates
     idx_phase = idx.loc[~pd.isna(idx.date_obs)][["name", "date_obs"]]
@@ -149,7 +182,8 @@ def batch_phase():
 
     with Progress(disable=False) as progress_bar:
         progress = progress_bar.add_task(
-            "Querying Miriade", total=len(idx_phase.groupby("name"))
+            f"Querying Miriade for {len(idx_phase.groupby('name'))} asteroids",
+            total=len(idx_phase.groupby("name")),
         )
 
         # Run async loop to get ssoCard
@@ -219,7 +253,13 @@ async def _local_or_remote_catalogue(index, obs, session, progress_bar, progress
     async with sema:
         phases = []
         for epoch in epochs:
-            phase, _ = await _get_phase_angle(name, epoch, session)
+            try:
+                phase, _ = await _get_phase_angle(name, epoch, session)
+            except aiohttp.client_exceptions.ClientConnectorError:
+                logger.error(
+                    "The Miriade query for one asteroid-epoch pair failed. The corresponding phase is set to NaN."
+                )
+                phase = np.nan
             phases.append(phase)
         # phases, epoch_im = await _get_phase_angle(name, epochs, session)
 
@@ -324,18 +364,20 @@ def convert_to_isot(dates):
         "%Y-%m-%d",
     ]
 
-    for format in FORMATS:
-        try:
-            date_obs = ",".join(
-                [datetime.strptime(date, format).isoformat(sep="T") for date in dates]
-            )
-        except ValueError:
-            continue
-        else:
-            break
-    else:
-        raise ValueError(f"Unknown time format: {dates}. Expected ISO-T.")
+    converted = []
 
+    for date in dates:
+        for format in FORMATS:
+            try:
+                date = datetime.strptime(date, format).isoformat(sep="T")
+                converted.append(date)
+            except ValueError:
+                continue
+            else:
+                break
+        else:
+            raise ValueError(f"Unknown time format: {dates}. Expected ISO-T.")
+    date_obs = ",".join(converted)
     return date_obs
 
 
@@ -375,7 +417,10 @@ def load_features():
     if not (config.PATH_DATA / "features.csv").is_file():
         # Creating indices
         ind = pd.MultiIndex(
-            levels=[[], []], codes=[[], []], names=["filename", "feature"]
+            levels=[[], []],
+            codes=[[], []],
+            names=["filename", "feature"],
+            columns=["is_present"],
         )
         return pd.DataFrame(index=ind)
     return pd.read_csv(

@@ -7,4 +7,5 @@ mofn = progress.Progress(
     progress.BarColumn(bar_width=None),
     progress.MofNCompleteColumn(),
     disable=False,
+    transient=True,
 )
