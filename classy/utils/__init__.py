@@ -7,6 +7,7 @@ import pandas as pd
 import numpy as np
 
 from .logging import logger
+from .download import download  # noqa
 
 
 def find_nearest(array, value):
@@ -19,7 +20,7 @@ def find_nearest(array, value):
     return idx
 
 
-def unpack_archive(PATH_ARCHIVE, encoding):
+def unpack(PATH_ARCHIVE, encoding):
     # encoding : str
     #     The compression encoding. Default is None. Must be specified if unpack is True.
     if encoding == "tar.gz":

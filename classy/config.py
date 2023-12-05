@@ -3,7 +3,7 @@
 import os
 from pathlib import Path
 
-from classy.log import logger
+from classy.utils.logging import logger
 from platformdirs import user_cache_dir
 
 # Data Directory

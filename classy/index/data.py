@@ -11,9 +11,8 @@ import pandas as pd
 import rocks
 from sklearn.mixture import GaussianMixture
 
-from classy import cache
 from classy.taxonomies.mahlke import gmm
-from classy.log import logger
+from classy.utils.logging import logger
 from classy import index
 
 import shutil
@@ -22,7 +21,7 @@ import rich
 
 from classy import config
 from classy import sources
-from classy import tools
+from classy import utils
 
 
 # ------
@@ -248,5 +247,5 @@ def echo_inventory():
 def load_cat(host, which):
     PATH_CAT = config.PATH_DATA / f"{host}/{which}.csv"
     if not PATH_CAT.is_file():
-        tools._retrieve_from_github(host, which, path=PATH_CAT)
+        utils.download._retrieve_from_github(host, which, path=PATH_CAT)
     return pd.read_csv(PATH_CAT)

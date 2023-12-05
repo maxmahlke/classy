@@ -6,9 +6,9 @@ import pandas as pd
 
 from classy import config
 from classy import core
-from classy.log import logger
+from classy.utils.logging import logger
 from classy import preprocessing
-from classy import tools
+from classy import utils
 
 CLASSES = [
     "B",
@@ -335,7 +335,9 @@ def load_classification():
     PATH_DATA = config.PATH_DATA / "demeo2009/scores.csv"
 
     if not PATH_DATA.is_file():
-        tools._retrieve_from_github(host="demeo2009", which="scores", path=PATH_DATA)
+        utils.download._retrieve_from_github(
+            host="demeo2009", which="scores", path=PATH_DATA
+        )
 
     return pd.read_csv(PATH_DATA, dtype={"number": "Int64"})
 
@@ -353,7 +355,9 @@ def load_templates():
     PATH_DATA = config.PATH_DATA / "demeo2009/templates.csv"
 
     if not PATH_DATA.is_file():
-        tools._retrieve_from_github(host="demeo2009", which="templates", path=PATH_DATA)
+        utils.download._retrieve_from_github(
+            host="demeo2009", which="templates", path=PATH_DATA
+        )
 
     data = pd.read_csv(PATH_DATA)
     data = data.replace(-0.999, np.nan)

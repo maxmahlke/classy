@@ -11,6 +11,8 @@ from classy import sources
 from classy import utils
 from classy.utils.logging import logger
 
+from . import data
+
 COLUMNS = [
     "name",
     "number",

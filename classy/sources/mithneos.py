@@ -3,13 +3,11 @@ from urllib.request import urlretrieve
 import pandas as pd
 import rocks
 
-from classy import cache
 from classy import config
-from classy.log import logger
+from classy.utils.logging import logger
 from classy import index
-from classy import progress
 from classy import sources
-from classy import tools
+from classy import utils
 
 REFERENCES = {
     "demeo2019": ["DeMeo+ 2019", "2019Icar..322...13D"],
@@ -100,12 +98,12 @@ def _retrieve_spectra():
             logger.debug(f"mithneos - Using cached archive file at \n{PATH_ARCHIVE}")
             continue
 
-        tools.download(URL, PATH_ARCHIVE)
-        tools.unpack(PATH_ARCHIVE, encoding=URL.split(".")[-1])
+        utils.download(URL, PATH_ARCHIVE)
+        utils.unpack(PATH_ARCHIVE, encoding=URL.split(".")[-1])
 
     # -------
     # Get spectra from obslog
-    log = cache.load_cat("mithneos", "obslog")
+    log = index.data.load_cat("mithneos", "obslog")
 
     for _, row in log.iterrows():
         PATH_OUT = PATH / row.run / row.url.split("/")[-1]

@@ -3,7 +3,7 @@ from pathlib import Path
 import numpy as np
 import pytest
 
-from classy.feature import Feature
+from classy.features import Feature
 from classy import defs, Spectrum
 
 PATH_TEST_DATA = Path().home() / "astro/cclassy/tests/data/"

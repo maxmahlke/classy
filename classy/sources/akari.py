@@ -2,8 +2,8 @@ import pandas as pd
 
 from classy import config
 from classy import index
-from classy.log import logger
-from classy import tools
+from classy.utils.logging import logger
+from classy import utils
 
 # ------
 # Module definitions
@@ -37,8 +37,8 @@ def _retrieve_spectra():
     if PATH_ARCHIVE.is_file():
         logger.debug(f"akari - Using cached archive file at \n{PATH_ARCHIVE}")
     else:
-        tools.download(URL, PATH_ARCHIVE)
-    tools.unpack(PATH_ARCHIVE, encoding="tar.gz")
+        utils.download(URL, PATH_ARCHIVE)
+    utils.unpack(PATH_ARCHIVE, encoding="tar.gz")
 
 
 def _build_index():

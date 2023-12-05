@@ -5,8 +5,7 @@ import rocks
 
 from classy import config
 from classy import index
-from classy import progress
-from classy import tools
+from classy import utils
 
 SHORTBIB, BIBCODE = "Galluccio+ 2022", "2022arXiv220612174G"
 
@@ -120,7 +119,7 @@ def _retrieve_spectra():
         PATH_ARCHIVE = PATH_GAIA / f"{idx:02}.csv.gz"
 
         if not PATH_ARCHIVE.is_file():
-            tools.download(
+            utils.download(
                 f"{URL}{idx:02}.csv.gz", PATH_ARCHIVE, progress=False, remove=False
             )
 

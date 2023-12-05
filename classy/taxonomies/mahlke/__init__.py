@@ -8,8 +8,8 @@ from classy import core
 from classy import data
 from . import defs
 from classy.taxonomies.mahlke import decision_tree
-from classy.log import logger
-from classy import tools
+from classy.utils.logging import logger
+from classy import utils
 
 CLASSES = defs.CLASSES
 
@@ -150,7 +150,7 @@ def load_templates():
     PATH_DATA = config.PATH_DATA / "mahlke2022/templates.csv"
 
     if not PATH_DATA.is_file():
-        tools._retrieve_from_github(
+        utils.download._retrieve_from_github(
             host="mahlke2022", which="templates", path=PATH_DATA
         )
 

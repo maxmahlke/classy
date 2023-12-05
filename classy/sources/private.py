@@ -7,7 +7,7 @@ import rocks
 
 from classy import config
 from classy import index
-from classy.log import logger
+from classy.utils.logging import logger
 
 
 def parse_index(PATH_INDEX):

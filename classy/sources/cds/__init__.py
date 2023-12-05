@@ -4,9 +4,9 @@ from pathlib import Path
 import shutil
 
 from classy import config
-from classy.log import logger
+from classy.utils.logging import logger
 from classy import sources
-from classy import tools
+from classy import utils
 
 REPOSITORIES = {
     "J_AA_568_L7": "http://cdsarc.u-strasbg.fr/viz-bin/nph-Cat/tar.gz?J/A+A/568/L7",
@@ -35,12 +35,12 @@ def _retrieve_spectra():
         if PATH_ARCHIVE.is_file():
             logger.debug(f"cds/{repo} - Using cached archive file at \n{PATH_ARCHIVE}")
         else:
-            success = tools.download(URL, PATH_ARCHIVE)
+            success = utils.download(URL, PATH_ARCHIVE)
 
             if not success:
                 continue
 
-        tools.unpack(PATH_ARCHIVE, encoding="tar.gz")
+        utils.unpack(PATH_ARCHIVE, encoding="tar.gz")
 
 
 def _build_index():

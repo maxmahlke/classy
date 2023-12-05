@@ -3,10 +3,8 @@ from urllib.request import urlretrieve
 import pandas as pd
 import rocks
 
-from classy import cache
 from classy import config
 from classy import index
-from classy import progress
 
 
 # ------
@@ -63,7 +61,7 @@ def load_catalog():
     pd.DataFrame
         The M4AST spectra catalog.
     """
-    cat = cache.load_cat(host="m4ast", which="m4ast")
+    cat = index.data.load_cat(host="m4ast", which="m4ast")
 
     # Set bibliographic record
     cat.loc[pd.isna(cat.bib_reference), "shortbib"] = "Unpublished"

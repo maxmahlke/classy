@@ -8,7 +8,6 @@ from rich.table import Table
 import rocks
 
 import classy
-from classy import cache
 from classy import index
 from classy import sources
 
@@ -177,7 +176,7 @@ def status():
 
     # ------
     # Echo inventory
-    cache.echo_inventory()
+    index.data.echo_inventory()
 
     # ------
     # Download all or clear
@@ -220,7 +219,7 @@ def status():
             )
 
             if confirm:
-                cache.remove()
+                index.data.remove()
 
     elif decision == "2":
         rich.print()

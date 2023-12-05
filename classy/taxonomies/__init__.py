@@ -1,6 +1,6 @@
 from . import bus, demeo, mahlke, tholen
 
-from classy.log import logger
+from classy.utils.logging import logger
 
 SYSTEMS = ["mahlke", "demeo", "tholen"]
 SYSTEMS_REF = ["Mahlke+ 2022", "DeMeo+ 2009", "Tholen 1984"]

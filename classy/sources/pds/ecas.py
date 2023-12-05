@@ -5,7 +5,7 @@ import rocks
 from classy import config
 from classy import index
 from classy.sources import pds
-from classy import tools
+from classy import utils
 
 # ------
 # Module definitions

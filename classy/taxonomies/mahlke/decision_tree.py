@@ -1,9 +1,7 @@
-import pickle
-
 import numpy as np
 import pandas as pd
 
-from classy import defs
+from . import defs
 from classy.taxonomies.mahlke import gmm
 import classy
 

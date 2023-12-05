@@ -5,13 +5,13 @@ import pandas as pd
 import rocks
 
 from classy.features import Feature
-from classy.utils.logging import logger
 from classy import index
 from classy.taxonomies.mahlke import mixnorm
 from classy import plotting
-from classy import progress as prog
 from classy import preprocessing
 from classy import taxonomies
+from classy import utils
+from classy.utils.logging import logger
 
 
 class Spectrum:
@@ -593,7 +593,7 @@ class Spectra(list):
         """
 
         if progress:
-            with prog.mofn as mofn:
+            with utils.progress.mofn as mofn:
                 task = mofn.add_task("Smoothing..", total=len(self))
                 for spec in self:
                     spec.smooth(method, force, **kwargs)
@@ -618,7 +618,7 @@ class Spectra(list):
         """
 
         if progress:
-            with prog.mofn as mofn:
+            with utils.progress.mofn as mofn:
                 task = mofn.add_task("Inspecting Features..", total=len(self))
                 for spec in self:
                     if spec.has_smoothing_parameters:

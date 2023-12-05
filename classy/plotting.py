@@ -10,7 +10,7 @@ import matplotlib.pyplot as plt
 import numpy as np
 
 from classy import taxonomies
-from classy.log import logger
+from classy.utils.logging import logger
 
 
 def get_colors(N, cmap="turbo"):

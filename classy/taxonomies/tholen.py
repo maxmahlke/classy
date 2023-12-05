@@ -6,9 +6,9 @@ import pandas as pd
 
 from classy import config
 from classy import core
-from classy.log import logger
+from classy.utils.logging import logger
 from classy import preprocessing
-from classy import tools
+from classy import utils
 from classy import taxonomies
 
 CLASSES = ["A", "B", "C", "D", "E", "F", "G", "M", "P", "Q", "S", "R", "T", "V", "X"]
@@ -72,7 +72,9 @@ def load_classification():
     PATH_DATA = config.PATH_DATA / "tholen1984/scores.csv"
 
     if not PATH_DATA.is_file():
-        tools._retrieve_from_github(host="tholen1984", which="scores", path=PATH_DATA)
+        utils.download._retrieve_from_github(
+            host="tholen1984", which="scores", path=PATH_DATA
+        )
 
     return pd.read_csv(PATH_DATA, dtype={"number": "Int64"})
 

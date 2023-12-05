@@ -4,8 +4,8 @@ import sklearn
 
 from classy import config
 
-from classy.log import logger
-from classy import tools
+from classy.utils.logging import logger
+from classy import utils
 
 
 # ------
@@ -235,7 +235,7 @@ def _normalize_at(wave, refl, at):
     """Normalize at given wavelength."""
 
     # Find the closest wavelength to the provided one
-    idx = tools.find_nearest(wave, at)
+    idx = utils.find_nearest(wave, at)
     wave_norm = wave[idx]
 
     if wave_norm != at:

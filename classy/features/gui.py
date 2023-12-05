@@ -3,7 +3,7 @@
 import sys
 
 import classy
-from classy.log import logger
+from classy.utils.logging import logger
 
 try:
     import pyqtgraph as pg

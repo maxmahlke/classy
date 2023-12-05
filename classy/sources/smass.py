@@ -4,10 +4,9 @@ import pandas as pd
 import rocks
 
 from classy import config
-from classy import cache
 from classy import index
-from classy.log import logger
-from classy import tools
+from classy.utils.logging import logger
+from classy import utils
 
 # ------
 # Module definitions
@@ -65,8 +64,8 @@ def _retrieve_spectra():
         if PATH_ARCHIVE.is_file():
             logger.debug(f"smass - Using cached archive file at \n{PATH_ARCHIVE}")
         else:
-            tools.download(url_archive, PATH_ARCHIVE)
-        tools.unpack(PATH_ARCHIVE, encoding="tar.gz")
+            utils.download(url_archive, PATH_ARCHIVE)
+        utils.unpack(PATH_ARCHIVE, encoding="tar.gz")
 
 
 def _build_index():
@@ -74,7 +73,7 @@ def _build_index():
     rocks.set_log_level("CRITICAL")
     entries = []
 
-    log = cache.load_cat(host="smass", which="obslog")
+    log = index.data.load_cat(host="smass", which="obslog")
 
     for _, dir, ref, bib in ARCH_DIR_REF_BIB:
         PATH_DIR = PATH / dir
