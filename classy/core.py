@@ -424,7 +424,7 @@ class Spectrum:
         return f"{self.source}/{name}"
 
     def plot(self, **kwargs):
-        plotting.plot_spectra([self], **kwargs)
+        return plotting.plot_spectra([self], **kwargs)
 
     def resample(self, wave_new, **kwargs):
         """Resample the spectrum to another wavelength grid.
@@ -489,94 +489,11 @@ class Spectra(list):
         return Spectra([*self, *rhs])
 
     def plot(self, **kwargs):
-        plotting.plot_spectra(list(self), **kwargs)
+        return plotting.plot_spectra(list(self), **kwargs)
 
     def classify(self, taxonomy="mahlke"):
         for spec in self:
             spec.classify(taxonomy=taxonomy)
-
-    # def echo(self):
-    #     """Print list of Spectra using a nice table format."""
-    #     import rich
-    #     from rich.table import Table
-    #
-    #     if not len(self):
-    #         rich.print(f"No {parameter} on record for {rock.name}.")
-    #         return
-
-    # # Sort catalogue by year of reference
-    # if "year" in catalogue.columns:
-    #     catalogue = catalogue.sort_values("year").reset_index()
-    #
-    # # ------
-    # # Create table to echo
-    # if parameter in ["diameters", "albedos"]:
-    #     if parameter == "diameters":
-    #         catalogue = catalogue.dropna(subset=["diameter"])
-    #         preferred = catalogue.preferred_diameter
-    #     elif parameter == "albedos":
-    #         catalogue = catalogue.dropna(subset=["albedo"])
-    #         preferred = catalogue.preferred_albedo
-    # elif hasattr(catalogue, "preferred"):
-    #     preferred = catalogue.preferred
-    # else:
-    #     preferred = [False for _ in range(len(catalogue))]
-    #
-    # # Only show the caption if there is a preferred entry
-    # if any(preferred):
-    #     caption = "Green: preferred entry"
-    # else:
-    #     caption = None
-    #
-    # table = Table(
-    #     header_style="bold blue",
-    #     box=rich.box.SQUARE,
-    #     footer_style="dim",
-    #     title=f"({rock.number}) {rock.name}",
-    #     caption=caption,
-    # )
-    #
-    # # The columns depend on the catalogue
-    # columns = [""] + config.DATACLOUD[parameter]["print_columns"]
-    #
-    # for c in columns:
-    #     table.add_column(c)
-    #
-    # # Some catalogues do not have a "preferred" attribute
-    # # if not hasattr(catalogue, "preferred"):
-    # #     preferred = [False for _ in range(len(catalogue))]
-    # # else:
-    #
-    # # Add rows to table, styling by preferred-state of entry
-    # for i, pref in enumerate(preferred):
-    #     if parameter in ["diamalbedos"]:
-    #         if pref:
-    #             if (
-    #                 catalogue.preferred_albedo[i]
-    #                 and not catalogue.preferred_diameter[i]
-    #             ):
-    #                 style = "bold yellow"
-    #             elif (
-    #                 not catalogue.preferred_albedo[i]
-    #                 and catalogue.preferred_diameter[i]
-    #             ):
-    #                 style = "bold blue"
-    #             else:
-    #                 style = "bold green"
-    #         else:
-    #             style = "white"
-    #
-    #     else:
-    #         style = "bold green" if pref else "white"
-    #
-    #     table.add_row(
-    #         *[str(catalogue[c].values[i]) if c else str(i + 1) for c in columns],
-    #         style=style,
-    #     )
-    #
-    # rich.print(table)
-    #     for spec in self:
-    #         print(spec)
 
     def smooth(self, method="interactive", force=False, progress=True, **kwargs):
         """Smooth spectrum using a Savitzky-Golay filter or univariate spline.
