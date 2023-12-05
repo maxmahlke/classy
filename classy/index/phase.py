@@ -1,134 +1,108 @@
-# Asynch phase angle query
-def get_or_create_eventloop():
-    """Enable asyncio to get the event loop in a thread other than the main thread
+import aiohttp
+import asyncio
 
-    Returns
-    --------
-    out: asyncio.unix_events._UnixSelectorEventLoop
-    """
-    try:
-        return asyncio.get_event_loop()
-    except RuntimeError as ex:
-        if "There is no current event loop in thread" in str(ex):
-            loop = asyncio.new_event_loop()
-            asyncio.set_event_loop(loop)
-            return asyncio.get_event_loop()
+import numpy as np
+import pandas as pd
+
+from classy import index
+from classy import utils
+from classy.utils import logger
 
 
-def batch_phase():
-    # might have changed during runtime
-    idx = load()  # .__wrapped__()
+# Limit of simultaneous queries
+SEMA = asyncio.Semaphore(50)
+
+
+def add_phase_to_index():
+    """Add phase angle information to classy index by quering the Miriade service."""
 
     # Get subindex with valid observation dates
+    idx = index.load()
     idx_phase = idx.loc[~pd.isna(idx.date_obs)][["name", "date_obs"]]
 
-    from rich.progress import Progress
+    # Run async loop to get phase info while displaying progress
+    with utils.progress.mofn as mofn:
+        task = mofn.add_task("Querying Miriade", total=len(idx_phase.groupby("name")))
 
-    with Progress(disable=False) as progress_bar:
-        progress = progress_bar.add_task(
-            f"Querying Miriade for {len(idx_phase.groupby('name'))} asteroids",
-            total=len(idx_phase.groupby("name")),
-        )
-
-        # Run async loop to get ssoCard
         loop = get_or_create_eventloop()
-        phases = loop.run_until_complete(
-            _get_datacloud_catalogue(idx_phase, progress_bar, progress)
-        )
+        phases = loop.run_until_complete(_run_async_loop(idx_phase, mofn, task))
 
-    for index, phase, err_phase in phases:
-        idx.loc[index, "phase"] = phase
-        idx.loc[index, "err_phase"] = err_phase
+    # Store results in index
+    for i, phase, err_phase in phases:
+        idx.loc[i, "phase"] = phase
+        idx.loc[i, "err_phase"] = err_phase
 
-    save(idx)
+    index.save(idx)
 
 
-async def _get_datacloud_catalogue(idx_phase, progress_bar, progress):
-    """Get catalogue asynchronously. First attempt local lookup, then query SsODNet.
+async def _run_async_loop(idx_phase, mofn, progress):
+    """Run the asyncronous phase-query event loop.
 
     Parameters
     ----------
-    id_catalogue : list
-        Asteroid - catalogue combinations.
-    progress : bool or tdqm.std.tqdm
-        If progress is True, this is a progress bar instance. Else, it's False.
-    local : bool
-        If False, forces the remote query of the ssoCard. Default is True.
+    idx_phase : pd.DataFrame
+        Subset of classy index that contains date_obs information.
+    mofn : rich.progress.Progress
+        Progress bar instance showing progress.
+    task : progress task
+        Progress task ID for external updates.
 
     Returns
     -------
-    list of dict
-        list containing len(id_) list with dictionaries corresponding to the
-    catalogues of the passed identifiers. If the catalogue is not available, the dict
-    is empty.
+    list of [idx_phase, phase, err_phase]
     """
     async with aiohttp.ClientSession(timeout=aiohttp.ClientTimeout()) as session:
         tasks = [
             asyncio.ensure_future(
-                _local_or_remote_catalogue(ind, obs, session, progress_bar, progress)
+                _get_phase_asyncronous(ind, obs, session, mofn, progress)
             )
-            # for name, obs in idx_phase.groupby("name")
+            # NOTE: Grouping by asteroid and sending multiple epochs not possible with async framework
             for ind, obs in idx_phase.iterrows()
         ]
-
         results = await asyncio.gather(*tasks)
     return results
 
 
-sema = asyncio.Semaphore(50)
-# lock = asyncio.Lock()
+async def _get_phase_asyncronous(idx, obs, session, mofn, progress):
+    """Get phase angle asynchronously from Miriade.
 
+    Parameters
+    ----------
+    idx : float
+        Index number from classy index referring to this spectrum.
+    obs : pd.Series
+        Row from classy index containing one asteroid and one or more epochs.
+    session : aiohttp.ClientSession
+        The ongoing http session.
+    mofn : rich.progress.Progress
+        Progress bar instance showing progress.
+    task : progress task
+        Progress task ID for external updates.
 
-async def _local_or_remote_catalogue(index, obs, session, progress_bar, progress):
-    """Check for presence of ssoCard in cache directory. Else, query from SsODNet."""
-    # print(obs)
+    Returns
+    -------
+    idx, float, float
+        The unchanged obervation index and the corresponding phase and uncertainty.
+    """
 
-    # epochs = obs.date_obs.values
+    # There might be more than one epochs
     epoch = obs.date_obs
     epochs = epoch.split(",")
-    name = obs["name"]
-    # index = obs.index
 
-    # Handle multi-epoch spectra by recording number of epochs per spectrum
-    # n_epochs = [len(epoch.split(",")) for epoch in epochs]
-    # epochs = [epoch.split(",") for epoch in epochs]
-    # epochs = [e for epoch in epochs for e in epoch]
-
-    async with sema:
+    async with SEMA:
         phases = []
         for epoch in epochs:
             try:
-                phase, _ = await _get_phase_angle(name, epoch, session)
+                phase, _ = await _get_phase_angle(obs["name"], epoch, session)
             except aiohttp.client_exceptions.ClientConnectorError:
                 logger.error(
                     "The Miriade query for one asteroid-epoch pair failed. The corresponding phase is set to NaN."
                 )
                 phase = np.nan
             phases.append(phase)
-        # phases, epoch_im = await _get_phase_angle(name, epochs, session)
 
-    # print(list(zip(epochs, epoch_im)))
-
-    # Average multi-epoch spectra
-    # from itertools import islice
-    #
-    # res = [
-    #     list(islice(phases, sum(n_epochs[:i]), sum(n_epochs[:i]) + ele))
-    #     for i, ele in enumerate(n_epochs)
-    # ]
-    #
-    # print(phases)
-    # breakpoint()
-    # print(list(zip(index, phases, epoch_im)))
-    # phases = [np.mean(r) for r in res]
-    # err_phases = [np.std(r) for r in res]
-
-    # err_phases = phases
-    phase = np.mean(phases)
-    err_phase = np.std(phases)
-    #
-    progress_bar.update(progress, advance=1)
-    return index, phase, err_phase
+    mofn.update(progress, advance=1)
+    return idx, np.nanmean(phases), np.nanstd(phases)
 
 
 async def _get_phase_angle(name, epochs, session):
@@ -162,23 +136,23 @@ async def _get_phase_angle(name, epochs, session):
         "-ep": epochs,
     }
 
-    # print(params)
-    # epochs = {"epochs": io.StringIO("\n".join(epochs))}
-    # epochs_file = {"epochs": str.encode("\n".join(epochs))}
-    # async with session.post(url=URL, params=params, data=epochs_file) as response:
     async with session.post(url=URL, params=params) as response:
         response_json = await response.json()
-    # response = await
 
-    # if not response.ok:
-    #     return {"data": {"phase": np.nan}}, ""
+    return [data["phase"] for data in response_json["data"]]
 
-    # response_json = await response.json()
-    phase = [data["phase"] for data in response_json["data"]]
-    # print(phase)
-    epoch_im = [data["epoch"][:-3] for data in response_json["data"]]
-    # if any(ep_im not in epochs for ep_im in epoch_im):
-    #     print(list(zip(epochs, epoch_im)))
-    #     breakpoint()
-    # # sso = response_json["sso"]["name"]
-    return phase, epoch_im  # , sso
+
+def get_or_create_eventloop():
+    """Enable asyncio to get the event loop in a thread other than the main thread
+
+    Returns
+    --------
+    asyncio.unix_events._UnixSelectorEventLoop
+    """
+    try:
+        return asyncio.get_event_loop()
+    except RuntimeError as ex:
+        if "There is no current event loop in thread" in str(ex):
+            loop = asyncio.new_event_loop()
+            asyncio.set_event_loop(loop)
+            return asyncio.get_event_loop()
