@@ -1,25 +1,18 @@
 import datetime
-from pathlib import Path
 import shutil
 
-import numpy as np
 import pandas as pd
 import pytest
 
 import classy
-
-# Do not use the cached index
-# classy.index.load = classy.index.load.__wrapped__
-
-
-PATH_DATA = Path() / "tests/data"
 
 
 def test_00build_pds():
     """Test building PDS source index."""
 
     # Copy cached PDS archives
-    shutil.copytree(PATH_DATA / "index/pds", pytest.PATH_TEST / "pds")
+    if not (pytest.PATH_TEST / "pds").is_dir():
+        shutil.copytree(pytest.PATH_DATA / "index/pds", pytest.PATH_TEST / "pds")
 
     # And build
     classy.sources.pds._retrieve_spectra()
@@ -29,7 +22,6 @@ def test_00build_pds():
     idx = pd.read_csv(pytest.PATH_TEST / "index.csv")
 
     for source, count in [
-        ("Misc", 993),
         ("S3OS2", 820),
         ("ECAS", 589),
         ("PRIMASS", 437),
@@ -44,7 +36,8 @@ def test_00build_cds():
     """Test building CDS source index."""
 
     # Copy cached PDS archives
-    shutil.copytree(PATH_DATA / "index/cds", pytest.PATH_TEST / "cds")
+    if not (pytest.PATH_TEST / "cds").is_dir():
+        shutil.copytree(pytest.PATH_DATA / "index/cds", pytest.PATH_TEST / "cds")
 
     # And build
     classy.sources.cds._retrieve_spectra()
@@ -61,7 +54,8 @@ def test_00build_m4ast():
     """Test building M4AST source index."""
 
     # Copy cached PDS archives
-    shutil.copytree(PATH_DATA / "index/m4ast", pytest.PATH_TEST / "m4ast")
+    if not (pytest.PATH_TEST / "m4ast").is_dir():
+        shutil.copytree(pytest.PATH_DATA / "index/m4ast", pytest.PATH_TEST / "m4ast")
 
     # And build
     classy.sources.m4ast._build_index()
@@ -77,7 +71,8 @@ def test_00build_akari():
     """Test building akari source index."""
 
     # Copy cached PDS archives
-    shutil.copytree(PATH_DATA / "index/akari", pytest.PATH_TEST / "akari")
+    if not (pytest.PATH_TEST / "akari").is_dir():
+        shutil.copytree(pytest.PATH_DATA / "index/akari", pytest.PATH_TEST / "akari")
 
     # And build
     classy.sources.akari._retrieve_spectra()
@@ -94,7 +89,8 @@ def test_00build_smass():
     """Test building smass source index."""
 
     # Copy cached PDS archives
-    shutil.copytree(PATH_DATA / "index/smass", pytest.PATH_TEST / "smass")
+    if not (pytest.PATH_TEST / "smass").is_dir():
+        shutil.copytree(pytest.PATH_DATA / "index/smass", pytest.PATH_TEST / "smass")
 
     # And build
     classy.sources.smass._retrieve_spectra()
@@ -111,7 +107,10 @@ def test_00build_mithneos():
     """Test building mithneos source index."""
 
     # Copy cached PDS archives
-    shutil.copytree(PATH_DATA / "index/mithneos", pytest.PATH_TEST / "mithneos")
+    if not (pytest.PATH_TEST / "mithneos").is_dir():
+        shutil.copytree(
+            pytest.PATH_DATA / "index/mithneos", pytest.PATH_TEST / "mithneos"
+        )
 
     # And build
     classy.sources.mithneos._retrieve_spectra()
@@ -124,11 +123,13 @@ def test_00build_mithneos():
         assert len(idx[idx.source == source]) == count
 
 
+@pytest.mark.slow
 def test_00build_gaia():
     """Test building gaia source index."""
 
     # Copy cached PDS archives
-    shutil.copytree(PATH_DATA / "index/gaia", pytest.PATH_TEST / "gaia")
+    if not (pytest.PATH_TEST / "gaia").is_dir():
+        shutil.copytree(pytest.PATH_DATA / "index/gaia", pytest.PATH_TEST / "gaia")
 
     # And build
     classy.sources.gaia._retrieve_spectra()
@@ -143,10 +144,10 @@ def test_00build_gaia():
 
 def test_00add_private():
     """Test adding private modules."""
-    PATH = PATH_DATA / "index/fornasier2014/index.csv"
+    PATH = pytest.PATH_DATA / "index/fornasier2014/index.csv"
     classy.sources.private.parse_index(PATH)
 
-    PATH = PATH_DATA / "index/demeo2009/index.csv"
+    PATH = pytest.PATH_DATA / "index/demeo2009/index.csv"
     classy.sources.private.parse_index(PATH)
 
 

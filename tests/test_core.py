@@ -152,26 +152,39 @@ def test_spectra_from_list():
 
 
 def test_adding_spectra():
-    """Test different spectra addition cases.
-
-    Spectrum + Spectrum -> Spectra
-    Spectra + Spectrum -> Spectra
-    Spectra + Spectra -> Spectra
-    """
+    """Test different spectra addition cases."""
     wave = [1, 2, 3, 4]
     refl = [1, 2, 3, 4]
 
     spec_a = classy.Spectrum(wave, refl)
     spec_b = classy.Spectrum(wave, refl)
 
+    # Spectrum + Spectrum -> Spectra
     spectra = spec_a + spec_b
     assert isinstance(spectra, classy.Spectra)
     assert len(spectra) == 2
 
+    # Spectra + Spectrum -> Spectra
     spectra = spectra + spec_a
     assert isinstance(spectra, classy.Spectra)
     assert len(spectra) == 3
 
+    # Spectra + Spectra -> Spectra
     spectra = spectra + spectra
     assert isinstance(spectra, classy.Spectra)
     assert len(spectra) == 6
+
+
+# ------
+# Spectra functionality
+def test_export():
+    """Test export functionality"""
+
+    def mock_to_csv(*args, **kwargs):
+        pass
+
+    pd.DataFrame.to_csv = mock_to_csv
+
+    spectra = classy.Spectra(31)
+    spectra.classify()
+    spectra.export("testing.csv")

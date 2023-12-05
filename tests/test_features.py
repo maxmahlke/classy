@@ -1,13 +1,3 @@
-from pathlib import Path
-
-import numpy as np
-import pytest
-
-from classy.features import Feature
-from classy import defs, Spectrum
-
-PATH_TEST_DATA = Path().home() / "astro/cclassy/tests/data/"
-
 SPECTRA = [
     ("smass2_13.txt", "h"),
     ("smass2_19.txt", "h"),

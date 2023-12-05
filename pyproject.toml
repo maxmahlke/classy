@@ -30,6 +30,10 @@ gui = ['pyside6', 'pyqtgraph']
 
 [tool.pytest.ini_options]
 addopts = "-v --cov=classy --cov-report=html:tests/htmlcov --html=tests/report.html"
+markers = [
+  "slow: marks tests as slow (deselect with '-m \"not slow\"')",
+  "from_scratch: require empty CLASSY_DATA_DIR",
+]
 
 [tool.poetry.scripts]
 classy = "classy.cli:cli_classy"

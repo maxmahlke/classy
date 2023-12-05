@@ -7,19 +7,6 @@ import pytest
 import classy
 
 
-def test_export():
-    """Test export functionality"""
-
-    def mock_to_csv(*args, **kwargs):
-        pass
-
-    pd.DataFrame.to_csv = mock_to_csv
-
-    spectra = classy.Spectra(31)
-    spectra.classify()
-    spectra.export("testing.csv")
-
-
 PATH_TEST_DATA = Path().home() / "astro/cclassy/tests/data/"
 
 

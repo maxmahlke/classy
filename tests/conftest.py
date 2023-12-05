@@ -7,6 +7,9 @@ os.environ["CLASSY_DATA_DIR"] = str(PATH_TEST)
 
 PATH_TEST.mkdir(exist_ok=True)
 
+# Data required to run some tests
+PATH_DATA = Path() / "tests/data"
+
 import pytest  # noqa
 import classy  # noqa
 
