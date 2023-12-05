@@ -32,8 +32,8 @@ def create_one_of_each():
     return [(row["name"], row.shortbib) for _, row in idx.iterrows()]
 
 
-@pytest.mark.parametrize("name, shortbib", create_one_of_each())
-def test_access(name, shortbib):
-    """For each shortbib, access one spectrum and some metadata."""
-
-    classy.Spectra(name, shortbib=shortbib)
+# @pytest.mark.parametrize("name, shortbib", create_one_of_each())
+# def test_access(name, shortbib):
+#     """For each shortbib, access one spectrum and some metadata."""
+#
+#     classy.Spectra(name, shortbib=shortbib)

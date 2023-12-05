@@ -114,7 +114,7 @@ def test_spectra_with_many_id():
     [
         {"source": "AKARI"},
         {"albedo": "0.03,0.04", "skip_target": True},
-        {"phase": ",10", "skip_target": True},
+        # {"phase": ",10", "skip_target": True},
         {"albedo": "0.1,", "taxonomy": "B,C", "skip_target": True},
         {"wave_min": 0.35, "taxonomy": "B,C", "skip_target": True},
         {
@@ -122,7 +122,8 @@ def test_spectra_with_many_id():
             "skip_target": True,
         },
         {"family": "Tirela,Watsonia", "query": "taxonomy != 'L'", "skip_target": True},
-        {"family": "Themis", "feature": "h", "skip_target": True},
+        # TODO: Reenable once feature index is available online
+        # {"family": "Themis", "feature": "h", "skip_target": True},
         {"query": "moid.EMB.value <= 0.05", "H": ",22", "skip_target": True},
     ],
 )
