@@ -26,8 +26,48 @@ SOURCES = [
 
 def _retrieve_spectra():
     """Retrieve all public spectra that classy knows about."""
-    for module in [smass]:  # pds, cds, m4ast, akari, smass, mithneos, gaia]:
-        module._retrieve_spectra()
+    from rich import progress
+
+    # TODO: Add proper progress per source by passing tasks
+    MODULES = [cds, pds, m4ast, akari, smass, mithneos, gaia]
+
+    DESCS = {
+        cds: f"[dim]{'[93] CDS':>22}[/dim]",
+        pds: f"[dim]{'[3369] PDS':>22}[/dim]",
+        m4ast: f"[dim]{'[123] M4AST':>22}[/dim]",
+        akari: f"[dim]{'[64] AKARI':>22}[/dim]",
+        smass: f"[dim]{'[1911] SMASS':>22}[/dim]",
+        mithneos: f"[dim]{'[2256] MITHNEOS':>22}[/dim]",
+        gaia: f"[dim]{'[60518] Gaia':>22}[/dim]",
+    }
+
+    with progress.Progress(
+        "[progress.description]{task.description}",
+        progress.BarColumn(),
+        transient=True,
+    ) as pbar:
+        overall = pbar.add_task("Downloading Spectra...", total=len(MODULES))
+
+        tasks = {}
+
+        for module in MODULES:
+            tasks[module] = pbar.add_task(
+                DESCS[module], visible=True, start=False, total=None
+            )
+
+        for i, module in enumerate(MODULES):
+            pbar.update(tasks[module], start=True)
+            module._retrieve_spectra()
+            pbar.update(tasks[module], visible=False)
+
+            # Update overall bar
+            pbar.update(overall, completed=i + 1)
+
+        pbar.update(
+            overall,
+            completed=len(MODULES),
+            total=len(MODULES),
+        )
 
 
 def load_data(idx):
@@ -55,10 +95,12 @@ def load_data(idx):
     # Load spectrum data file
     PATH_DATA = config.PATH_DATA / idx.name
 
-    if module is not private:
-        data = pd.read_csv(PATH_DATA, **module.DATA_KWARGS)
-    else:
+    if module is private:
         data = _load_private_data(PATH_DATA)
+    elif module is gaia:
+        data = gaia._load_virtual_file(idx)
+    else:
+        data = pd.read_csv(PATH_DATA, **module.DATA_KWARGS)
     data = data[data.wave > 0]
 
     # Apply module specific data transforms and get metadata if necessary
@@ -123,7 +165,6 @@ def load_spectrum(idx, skip_target):
 
 def _add_spectra_properties(entries):
     """Add the spectral range properties to a dataframe of index entries."""
-
     for ind, entry in entries.iterrows():
         data, _ = load_data(entry)
         entries.loc[ind, "wave_min"] = min(data["wave"])
