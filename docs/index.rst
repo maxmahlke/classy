@@ -31,7 +31,7 @@ for spectroscopic analysis.\ [#f1]_
       :link: getting_started
       :link-type: ref
 
-      Learn how to setup and run ``classy`` on your machine.
+      Install and use ``classy`` on your machine.
 
 .. highlight:: python
 
@@ -147,15 +147,16 @@ Quick-look plots at any step to verify your analysis.
         Coming soon.
 
 
-.. image:: gfx/ceres_classification.png
+.. image:: gfx/index/spectra_classified.png
  :align: center
  :class: only-light
  :width: 1000
 
-.. image:: gfx/ceres_classification_dark.png
+.. image:: gfx/index/spectra_classified_dark.png
  :align: center
  :class: only-dark
  :width: 1000
+
 .. And more →
 
 .. - Automatic retrieval of target properties such as albedo, family, and computation of phase angle at epoch of observation.
@@ -252,6 +253,7 @@ Quick-look plots at any step to verify your analysis.
 ..       Simple and intuitive syntax.
 
 
+|br|
 
 .. rubric:: Footnotes
    :caption:

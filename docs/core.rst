@@ -42,16 +42,18 @@ Let's have a look at this spectrum.
  :class: only-dark
  :width: 600
 
+The plot legend gives the source and the target name for each spectrum, as explained below.
+As we have not yet set a target, it is shown as "Unknown".
+
 Besides the mandatory ``wave`` and ``refl`` arguments, there are optional
-arguments with a pre-defined meaning to ``classy``. You can specify these when
-creating the ``Spectrum`` or at a later point via the dot-notation (shown
-below). For example, the ``refl_err`` attribute contains the reflectance
-errors.
+arguments with a pre-defined meaning to ``classy``. For example, the
+``refl_err`` attribute contains the reflectance errors.
 
 
 .. code-block:: python
 
-   >>> spec.refl_err = [0.05, 0.04, 0.03, 0.05, 0.06, 0.03, 0.03, 0.04, 0.07]
+   >>> refl_err = [0.05, 0.04, 0.03, 0.05, 0.06, 0.03, 0.03, 0.04, 0.07]
+   >>> spec = classy.Spectrum(wave=wave, refl=refl, refl_err=refl_err)
    >>> spec.plot()
 
 .. image:: gfx/core/spectrum_with_error.png
@@ -89,7 +91,9 @@ arguments with a pre-defined meaning for ``classy`` below.
 | ``source``          | ``str``             | Short string representing the source of the spectrum. Default is 'User'.                                                                                |
 +---------------------+---------------------+---------------------------------------------------------------------------------------------------------------------------------------------------------+
 
-All attributes can be accessed and edited via the dot notation.
+You can specify these when creating the ``Spectrum`` or at a later point via
+the dot-notation. All attributes can be accessed and edited via the
+dot-notation.
 
 .. code-block:: python
 
@@ -166,7 +170,16 @@ For example, you can query all databases for any spectra of an asteroid by provi
   Found 11 spectra of (221) Eos
   >>> spectra.plot()
 
-.. TODO: INSERT PLOT
+.. image:: gfx/core/spectra_eos.png
+ :align: center
+ :class: only-light
+ :width: 600
+
+.. image:: gfx/core/spectra_eos_dark.png
+ :align: center
+ :class: only-dark
+ :width: 600
+
 
 The ``Spectra`` class is essentially a list of ``Spectrum`` instances. You can
 the usual ``python`` indexing and iteration operations to access the individual
@@ -235,32 +248,39 @@ by simply adding them.
 
 .. code-block:: python
 
-    >>> my_lutetia = classy.Spectrum(wave=[0.3, 0.4, 0.55, 0.7], refl=[0.9, 0.8, 1, 1.3])
+    >>> my_lutetia = classy.Spectrum(wave=[0.3, 0.4, 0.55, 0.7], refl=[0.9, 0.94, 1, 1.1], target="Lutetia")
     >>> lutetia_literature = classy.Spectra(21, source='Gaia')
     >>> lutetia_spectra = my_lutetia + lutetia_literature  # add my_lutetia to the literature results
     >>> lutetia_spectra.plot()
+
+.. image:: gfx/core/spectra_lutetia.png
+ :align: center
+ :class: only-light
+ :width: 600
+
+.. image:: gfx/core/spectra_lutetia_dark.png
+ :align: center
+ :class: only-dark
+ :width: 600
+
+.. Given that they are so numerous, Gaia spectra have a unique display style in
+.. ``classy``, color-coding the ``flag`` value of the different wavelength bins
+.. (``0`` = black, ``1`` = orange, ``2`` = red).
 
 The benefit of combining them in a single ``Spectra`` instance is that most operations that can be done
 on a ``Spectrum`` (e.g. preprocessing, feature detection, see later chapters) can be done on a large number of ``Spectra`` by simply calling the
 corresponding function of the ``Spectra`` class. This saves efforts in typing and is useful when :ref:`plotting
 and exporting <export>` analysis results.
 
-
 Plotting ``Spectra``
 --------------------
 
-You can use the ``plot`` method of the ``Spectrum`` and ``Spectra`` classes to visualise the spectra.
-
-.. code-block::
-
-  >>> import classy
-  >>> spectra = classy.Spectra(43)
-  >>> spectra.plot()
-
-The method returns the ``matplotlib`` ``Figure`` and ``axis`` instances. If you
-want to adapt the figure before opening the plot, you can set ``show=False``.
-This can be useful e.g. if you would like to add :ref:`template spectra for different classes <taxonomies>`
-for comparison.
+This chapter already demonstrated taht you can use the ``plot`` method of the
+``Spectrum`` and ``Spectra`` classes to visualise the spectra. The method
+returns the ``matplotlib`` ``Figure`` and ``axis`` instances. If you want to
+adapt the figure before opening the plot, you can set ``show=False``. This can
+be useful e.g. if you would like to add :ref:`template spectra of taxonomic
+classes <taxonomies>` for comparison.
 
 .. code-block::
 
@@ -268,16 +288,26 @@ for comparison.
   >>> spectra = classy.Spectra(43)
   >>> fig, ax = spectra.plot(show=False)
   >>> templates = classy.taxonomies.mahlke.load_templates()
-  >>> ax.plot(templates['S'].wave, templates['S'].refl, label='Template S')
+  >>> ax.plot(templates['S'].wave, templates['S'].refl, label='Template S', ls=":")
   >>> ax.legend()
   >>> plt.show()
 
-You can further save the figure to file by specifying the output filename with the ``save`` argument.
+.. image:: gfx/core/spectra_with_template.png
+ :align: center
+ :class: only-light
+ :width: 600
+
+.. image:: gfx/core/spectra_with_template_dark.png
+ :align: center
+ :class: only-dark
+ :width: 600
+
+
+You can save the figure to file by specifying the output filename with the ``save`` argument.
 
 .. code-block::
 
-  >>> spectra = classy.Spectra(43)
-  >>> spectra.plot(show=False)
+  >>> spectra.plot(save="43_with_mahlke_s_template.png")
 
 .. _exporting_spectrum:
 
