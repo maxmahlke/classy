@@ -140,3 +140,53 @@ def copy_url(task, url, path, prog):
             dest_file.write(data)
             prog.update(task, advance=len(data))
     return True
+
+
+def _is_int_or_float(number):
+    """Like isnumeric() for str but supports float."""
+    try:
+        float(number)
+        return True
+    except ValueError:
+        return False
+
+
+def convert_to_isot(dates):
+    """Convert list of dates to ISOT format.
+
+    Parameters
+    ----------
+    dates : str or list of str
+        The dates to convert.
+    format : str
+        The current format string of the dates.
+    """
+    if pd.isna(dates) or not dates:
+        return ""
+
+    if isinstance(dates, str):
+        dates = dates.split(",")
+
+    FORMATS = [
+        "%Y-%m-%dT%H:%M:%S",
+        "%Y/%m/%d_%H:%M:%S",
+        "%Y-%m-%dT%H:%M",
+        "%Y-%m-%d %H:%M",
+        "%Y-%m-%d",
+    ]
+
+    converted = []
+
+    for date in dates:
+        for format in FORMATS:
+            try:
+                date = datetime.strptime(date, format).isoformat(sep="T")
+                converted.append(date)
+            except ValueError:
+                continue
+            else:
+                break
+        else:
+            raise ValueError(f"Unknown time format: {dates}. Expected ISO-T.")
+    date_obs = ",".join(converted)
+    return date_obs

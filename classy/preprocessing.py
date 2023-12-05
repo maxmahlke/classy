@@ -139,6 +139,30 @@ def resample(wave, refl, grid, **kwargs):
     return refl_interp(grid)
 
 
+def load_smoothing():
+    """Load the feature index."""
+    if not (config.PATH_DATA / "smoothing.csv").is_file():
+        return pd.DataFrame()
+    return pd.read_csv(
+        config.PATH_DATA / "smoothing.csv",
+        index_col="filename",
+        dtype={
+            "deg_savgol": int,
+            "deg_spline": int,
+            "window_savgol": int,
+        },
+    )
+
+
+def store_smoothing(smoothing):
+    """Store the feature index after copying metadata from the spectra index."""
+    with np.errstate(invalid="ignore"):
+        smoothing["number"] = smoothing["number"].astype("Int64")
+    smoothing.to_csv(
+        config.PATH_DATA / "smoothing.csv", index=True, index_label="filename"
+    )
+
+
 def _within_extrapolation_limit(wave_min, wave_max, grid_min, grid_max):
     """Compute whether a spectrum is within the user-defined extrapolation limit.
 
