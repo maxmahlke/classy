@@ -97,26 +97,10 @@ prior to instantiation.
 Sharing feature index entires
 -----------------------------
 
-Shortforms for target properties
-
-Columns of the Spectra Index
-----------------------------
-
-Available for selection
-
-filename
-index
-name
-source
-host
-number
-shortbib
-date_obs
-bibcode
-module
-phase
-wave_min
-wave_max
-N
+Locate the ``features.csv`` file in your ``CLASSY_DATA_DIR`` (default locations are given :ref:`here <cache_directory>`).
+Each line represents one feature (column ``feature``) in a given spectrum (identified by the ``filename`` column).
+All the necessary data to parametrize the feature using ``classy`` is contained in these single lines. To share
+the parametrization of certain features, select the corresponding lines from the ``features.csv`` index file and share
+them with your collaborators.
 
 .. TODO: Insert link to SsODNet BFT column names

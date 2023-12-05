@@ -36,8 +36,7 @@ Tutorials
         # We simplify by removing the list and getting the first entry
         ceres = ceres[0]  # returns classy.Spectrum instance
 
-        # Preprocess, classify and plot the result
-        ceres.preprocess()
+        # Classify and plot the result
         ceres.classify()
         ceres.plot(taxonomy='mahlke')
 
@@ -49,27 +48,26 @@ Tutorials
         ceres.refl[-1] = np.nan
 
         # Preprocess, classify and plot again
-        ceres.preprocess()
         ceres.classify()
         ceres.plot(taxonomy='mahlke')
 
-.. dropdown:: Classifying all asteroids in Gaia
-
-    ``Lines of code: 5``
-
-    ``Estimated execution time: 16h``
-
-    ``Level of Fun: High``
-
-    I will make a catalogue of classifications available via ``classy`` soon.
-
-    .. code-block:: python
-
-        >>> import classy
-        >>> gaia = classy.cache.load_gaia_index() # Get list of asteroids in Gaia
-        >>> for _, asteroid in gaia.iterrows():
-        ...     spec = classy.Spectra(asteroid['name'], source="Gaia")[0]
-        ...     spec.classify()
+.. .. dropdown:: Classifying all asteroids in Gaia
+..
+..     ``Lines of code: 5``
+..
+..     ``Estimated execution time: 16h``
+..
+..     ``Level of Fun: High``
+..
+..     I will make a catalogue of classifications available via ``classy`` soon.
+..
+..     .. code-block:: python
+..
+..         >>> import classy
+..         >>> gaia = classy.cache.load_gaia_index() # Get list of asteroids in Gaia
+..         >>> for _, asteroid in gaia.iterrows():
+..         ...     spec = classy.Spectra(asteroid['name'], source="Gaia")[0]
+..         ...     spec.classify()
 
 .. dropdown:: From spectrum to classification
 
@@ -318,7 +316,7 @@ Tutorials
        :align: center
        :width: 600
 
-.. dropdown:: Duplicate a Spectrum
+.. dropdown:: Duplicating a Spectrum
 
    To compare different preprocessing strategies, it might be useful
    to create a copy of an existing ``Spectrum``. Use the ``python`` built-in

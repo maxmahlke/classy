@@ -279,14 +279,38 @@ You can further save the figure to file by specifying the output filename with t
   >>> spectra = classy.Spectra(43)
   >>> spectra.plot(show=False)
 
-Exporting ``Spectra``
----------------------
+.. _exporting_spectrum:
 
-You can use the ``plot`` method of the ``Spectrum`` and ``Spectra`` classes to visualise the spectra.
+Exporting a ``Spectrum``
+------------------------
 
-Online: button
-Offline: original data already on your system, export(raw=True)
-smoothed etc can be done with export(data=True)
+You can use the ``export`` method of the ``Spectrum`` class to export the
+spectral data.
+
+By default, ``classy`` will write the current values of the ``wave``, ``refl``,
+and (if not ``None``) ``refl_err`` values to a ``csv`` file and save it under the provided
+``path``, the mandatory argument of the ``export`` function.
+
+.. code-block::
+
+   >>> spec.export("44_nysa_smoothed.csv")
+
+You can specify which attributes to export by passing a list of attribute names to the ``columns`` argument.
+By default, this list is ``['wave', 'refl', 'refl_err']``. All attributes must have the same length.
+
+.. code-block::
+
+   >>> spect.export("44_nysa_smoothed.csv", columns=['wave', 'refl', 'flag'])
+
+To get the original data of the spectrum,  set ``raw=True``. In this case, ``classy``
+copies the data file of the spectrum from the ``classy`` data directory to the specified paths.
+The ``columns`` argument is ignored if ``raw=True``.
+
+.. code-block::
+
+   >>> spec.export("44_nysa_original.csv", raw=True)
+
+The ``export`` method of the ``Spectra`` class behaves differently and is explained :ref:`later on <exporting_spectra>`.
 
 .. rubric:: Footnotes
    :caption:

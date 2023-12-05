@@ -142,14 +142,20 @@ On the command line, the classification results can be visualised by specifying 
 
     $ classy classify 13 --plot
 
+.. _exporting_spectra:
+
 Exporting the Result
 --------------------
 
 Both ``Spectrum`` and ``Spectra`` have an ``export`` method which can be used
-to store any of their attributes to a ``csv`` file.
-The ``export`` method expects a ``filename`` as mandatory argument.
-The attributes to export can
-be specified using the optional ``columns`` argument. By default,\ [#f2]_
+to store any of their attributes to a ``csv`` file. By default, the ``Spectrum.export``
+method stores the spectral data (wavelength, reflectance), while the ``Spectra.export``
+method stores metadata attributes like the classification results, bibliography, or filenames.
+The usage of the ``Spectrum.export`` method is described :ref:`here <exporting_spectrum>`.
+
+The ``Spectra.export`` method expects a ``filename`` as mandatory argument. The
+attributes to export can be specified using the optional ``columns`` argument.
+By default,\ [#f2]_
 
 .. code-block:: python
 
@@ -186,6 +192,22 @@ which gives
    DM09/Aschera,Aschera,E,,E,demeo2009/a000214.sp33.txt
    Misc/Aschera,Aschera,E,,,pds/gbo.ast.irtf-spex-collection.spectra/data/clarketal2004/214_030816t055017.tab
    SMASS/Aschera,Aschera,S,,,smass/smass2/a000214.[2]
+
+The only practical difference between ``Spectrum.export`` and
+``Spectra.export`` is thus the default value of the ``columns`` argument. You
+can export the the classification results of a single ``Spectrum`` by
+specifying the ``columns`` argument:
+
+.. code-block:: python
+
+   >>> spec.export("44_nysa_smoothed.csv", columns=["name", "target.name", "class_mahlke", "class_demeo", "class_tholen", "filename"])
+
+To export the spectral data of many ``Spectra``, run the ``Spectrum.export`` method in a loop:
+
+.. code-block:: python
+
+   >>> for spec in spectra:
+   ...     spec.export(f"{spec.name}.csv")
 
 .. rubric:: Footnotes
    :caption:
