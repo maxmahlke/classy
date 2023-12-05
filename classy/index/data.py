@@ -88,7 +88,7 @@ def load(resource, cluster=None):
 
 def _get_path_data():
     """Return the absolute path to the classy data directory."""
-    return resources.files(__package__) / "data"
+    return resources.files(__package__) / "../data"
 
 
 def _load_classy():
@@ -99,7 +99,7 @@ def _load_classy():
     pd.DataFrame
         The classified classy data.
     """
-    return pd.read_csv(_get_path_data() / f"classy/classy_data.csv")
+    return pd.read_csv(_get_path_data() / "classy/classy_data.csv")
 
 
 def _load_mcfa():

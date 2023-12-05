@@ -1,9 +1,8 @@
-import pickle
-
 import numpy as np
+import pandas as pd
 from sklearn.mixture import GaussianMixture
 
-import classy
+from classy import index
 
 import warnings
 
@@ -32,8 +31,7 @@ def load_mixture_models():
         cluster,
         gmm_function,
     ) in FIT_CLUSTER_FUNCTIONS.items():
-
-        gmm, classes = classy.data.load("gmm", cluster=cluster)
+        gmm, classes = index.data.load("gmm", cluster=cluster)
 
         # Not sure that we should be refitting if files are missing
         # Possibly better to throw an error
@@ -60,7 +58,7 @@ def fit_cluster_4():
     list
         The classes represented in order by the model components.
     """
-    data = classy.data.load()
+    data = index.data.load()
 
     gmm_23_40 = GaussianMixture(n_components=2, random_state=17).fit(
         data.loc[data.cluster.isin([23, 40]), ["z2", "z3"]]
@@ -82,7 +80,7 @@ def fit_cluster_8():
     list
         The classes represented in order by the model components.
     """
-    data = classy.data.load()
+    data = index.data.load()
 
     gmm_0_34 = GaussianMixture(n_components=2, random_state=17).fit(
         data.loc[data.cluster.isin([0, 34]), ["z1", "z3"]]
@@ -104,7 +102,7 @@ def fit_cluster_10():
     list
         The classes represented in order by the model components.
     """
-    data = classy.data.load()
+    data = index.data.load()
 
     gmm = GaussianMixture(n_components=2, random_state=17).fit(
         data.loc[data.cluster.isin([10]), ["z0", "z1"]]
@@ -126,7 +124,7 @@ def fit_cluster_13():
         The classes represented in order by the model components.
     """
 
-    data = classy.data.load()
+    data = index.data.load()
     X13 = data.loc[data.cluster == 13, ["z1", "z3"]]
 
     gmm = GaussianMixture(n_components=3, random_state=17).fit(X13)
@@ -150,7 +148,7 @@ def fit_cluster_19():
         The classes represented in order by the model components.
     """
 
-    data = classy.data.load()
+    data = index.data.load()
     data = data[data.cluster == 19]
 
     gmm_19 = GaussianMixture(
@@ -174,7 +172,7 @@ def fit_cluster_23():
         The classes represented in order by the model components.
     """
 
-    data = classy.data.load()
+    data = index.data.load()
     X23 = data.loc[data.cluster == 23, ["z0", "z3"]]
 
     gmm_23 = GaussianMixture(
@@ -200,7 +198,7 @@ def fit_cluster_24():
         The classes represented in order by the model components.
     """
 
-    data = classy.data.load()
+    data = index.data.load()
     X24 = data.loc[data.cluster == 24, ["z2", "z3"]]
 
     gmm_24 = GaussianMixture(
@@ -260,7 +258,7 @@ def fit_cluster_31():
     list
         The classes represented in order by the model components.
     """
-    data = classy.data.load()
+    data = index.data.load()
     X31 = data.loc[data.cluster.isin([23, 24]), ["z2", "z3"]]
 
     gmm_31 = GaussianMixture(
@@ -283,7 +281,7 @@ def fit_cluster_37():
     list
         The classes represented in order by the model components.
     """
-    data = classy.data.load()
+    data = index.data.load()
     X37 = data.loc[data.cluster.isin([23, 46]), ["z1", "z3"]]
 
     gmm_37 = GaussianMixture(
@@ -306,7 +304,7 @@ def fit_cluster_41():
     list
         The classes represented in order by the model components.
     """
-    data = classy.data.load()
+    data = index.data.load()
     X41 = data.loc[data.cluster == 41, ["z0", "z1"]]
 
     gmm_41 = GaussianMixture(
@@ -329,7 +327,7 @@ def fit_cluster_43():
     list
         The classes represented in order by the model components.
     """
-    data = classy.data.load()
+    data = index.data.load()
     X43 = data.loc[data.cluster == 43, ["z1", "z3"]]
 
     gmm_43 = GaussianMixture(
@@ -352,7 +350,7 @@ def fit_cluster_44():
     list
         The classes represented in order by the model components.
     """
-    data = classy.data.load()
+    data = index.data.load()
     X44 = data.loc[data.cluster == 44]
     X44 = X44.loc[~pd.isna(data_cluster.pV), "pV"].values.reshape(-1, 1)
 
@@ -378,7 +376,7 @@ def fit_complex_emp():
     """
 
     # Get original classy input data
-    data = classy.data.load()
+    data = index.data.load()
     data_x = data.loc[data.cluster.isin(classy.ML_SETUP.X_COMPLEX)]
     x_pV = data_x.loc[~pd.isna(data_x.pV), "pV"].values
 

@@ -1,9 +1,11 @@
 import numpy as np
 import pandas as pd
 
+from sklearn.mixture import GaussianMixture
+
 from . import defs
+from classy import index
 from classy.taxonomies.mahlke import gmm
-import classy
 
 
 def assign_classes(data):
@@ -98,7 +100,7 @@ def assign_classes(data):
     )
 
     # Build class GMM for cluster 29 resolution
-    GMM_29, CLASSES_29 = classy.data.load("gmm", 29)
+    GMM_29, CLASSES_29 = index.data.load("gmm", 29)
 
     data = data.apply(
         lambda sample: resolve_cluster_29(sample, GMM_29, CLASSES_29), axis=1
@@ -106,14 +108,14 @@ def assign_classes(data):
 
     # Redo this after 29 was assigned, should not change much
     data["class_"] = data.apply(
-        lambda sample: classy.defs.CLASSES[
-            np.argmax([sample[f"class_{class_}"] for class_ in classy.defs.CLASSES])
+        lambda sample: defs.CLASSES[
+            np.argmax([sample[f"class_{class_}"] for class_ in defs.CLASSES])
         ],
         axis=1,
     )
 
     data["DIFFUSE"] = data["cluster"].apply(
-        lambda cluster: True if cluster in classy.defs.DIFFUSE_CLUSTER else False
+        lambda cluster: True if cluster in defs.DIFFUSE_CLUSTER else False
     )
 
     return data
@@ -163,7 +165,7 @@ def resolve_cluster_4(sample, GMM_23_40, CLASSES):
 
     for j, class_ in enumerate(CLASSES):
         # Add class probabilites scaled by cluster probability
-        sample[f"class_{class_}"] += probs[0][j] * sample[f"cluster_4"]
+        sample[f"class_{class_}"] += probs[0][j] * sample["cluster_4"]
 
     return sample
 
@@ -174,7 +176,7 @@ def resolve_cluster_8(sample, GMM_0_34, CLASSES):
 
     for j, class_ in enumerate(CLASSES):
         # Add class probabilites scaled by cluster probability
-        sample[f"class_{class_}"] += probs[0][j] * sample[f"cluster_8"]
+        sample[f"class_{class_}"] += probs[0][j] * sample["cluster_8"]
 
     return sample
 
@@ -185,7 +187,7 @@ def resolve_cluster_10(sample, GMM, CLASSES):
 
     for j, class_ in enumerate(CLASSES):
         # Add class probabilites scaled by cluster probability
-        sample[f"class_{class_}"] += probs[0][j] * sample[f"cluster_10"]
+        sample[f"class_{class_}"] += probs[0][j] * sample["cluster_10"]
 
     return sample
 
@@ -196,7 +198,7 @@ def resolve_cluster_13(sample, GMM_13, CLASSES):
 
     for j, class_ in enumerate(CLASSES):
         # Add class probabilites scaled by cluster probability
-        sample[f"class_{class_}"] += probs[0][j] * sample[f"cluster_13"]
+        sample[f"class_{class_}"] += probs[0][j] * sample["cluster_13"]
 
     return sample
 
@@ -212,7 +214,7 @@ def resolve_cluster_19(sample, GMM_19, CLASSES):
 
     for j, class_ in enumerate(CLASSES):
         # Add class probabilites scaled by cluster probability
-        sample[f"class_{class_}"] += probs[0][j] * sample[f"cluster_19"]
+        sample[f"class_{class_}"] += probs[0][j] * sample["cluster_19"]
 
     return sample
 
@@ -223,7 +225,7 @@ def resolve_cluster_23(sample, GMM_23, CLASSES):
 
     for j, class_ in enumerate(CLASSES):
         # Add class probabilites scaled by cluster probability
-        sample[f"class_{class_}"] += probs[0][j] * sample[f"cluster_23"]
+        sample[f"class_{class_}"] += probs[0][j] * sample["cluster_23"]
 
     return sample
 
@@ -234,7 +236,7 @@ def resolve_cluster_24(sample, GMM_24, CLASSES):
 
     for j, class_ in enumerate(CLASSES):
         # Add class probabilites scaled by cluster probability
-        sample[f"class_{class_}"] += probs[0][j] * sample[f"cluster_24"]
+        sample[f"class_{class_}"] += probs[0][j] * sample["cluster_24"]
 
     return sample
 
@@ -245,7 +247,7 @@ def resolve_cluster_31(sample, GMM_31, CLASSES):
 
     for j, class_ in enumerate(CLASSES):
         # Add class probabilites scaled by cluster probability
-        sample[f"class_{class_}"] += probs[0][j] * sample[f"cluster_31"]
+        sample[f"class_{class_}"] += probs[0][j] * sample["cluster_31"]
 
     return sample
 
@@ -256,7 +258,7 @@ def resolve_cluster_41(sample, GMM_41, CLASSES):
 
     for j, class_ in enumerate(CLASSES):
         # Add class probabilites scaled by cluster probability
-        sample[f"class_{class_}"] += probs[0][j] * sample[f"cluster_41"]
+        sample[f"class_{class_}"] += probs[0][j] * sample["cluster_41"]
 
     return sample
 
@@ -267,7 +269,7 @@ def resolve_cluster_43(sample, GMM_43, CLASSES):
 
     for j, class_ in enumerate(CLASSES):
         # Add class probabilites scaled by cluster probability
-        sample[f"class_{class_}"] += probs[0][j] * sample[f"cluster_43"]
+        sample[f"class_{class_}"] += probs[0][j] * sample["cluster_43"]
 
     return sample
 
@@ -282,7 +284,7 @@ def resolve_cluster_44(sample, GMM_44, CLASSES):
 
     for j, class_ in enumerate(CLASSES):
         # Add class probabilites scaled by cluster probability
-        sample[f"class_{class_}"] += probs[0][j] * sample[f"cluster_44"]
+        sample[f"class_{class_}"] += probs[0][j] * sample["cluster_44"]
 
     return sample
 
@@ -297,12 +299,12 @@ def resolve_cluster_29(sample, GMM, CLASSES):
 
     for j, class_ in enumerate(CLASSES):
         # Add class probabilites scaled by cluster probability
-        sample[f"class_{class_}"] += probs[0][j] * sample[f"cluster_29"]
+        sample[f"class_{class_}"] += probs[0][j] * sample["cluster_29"]
     return sample
 
 
 def resolve_cluster_37():
-    data, _ = classy.ml.load_data()
+    data, _ = ml.load_data()
     data_cluster = data[data.cluster.isin([23, 46])]
     X37 = data_cluster[["z1", "z3"]]
 
@@ -328,8 +330,8 @@ def resolve_complex_emp():
     """
 
     # Get data
-    data, _ = classy.ml.load_data()
-    data_x = data.loc[data.cluster.isin(classy.defs.X_COMPLEX)]
+    data, _ = ml.load_data()
+    data_x = data.loc[data.cluster.isin(defs.X_COMPLEX)]
     x_pV = data_x.loc[~pd.isna(data_x.pV), "pV"].values
 
     # Fit E, M, P

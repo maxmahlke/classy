@@ -48,9 +48,8 @@ def load():
             levels=[[], []],
             codes=[[], []],
             names=["filename", "feature"],
-            columns=["is_present"],
         )
-        return pd.DataFrame(index=ind)
+        return pd.DataFrame(index=ind, columns=["is_present"])
     return pd.read_csv(
         config.PATH_DATA / "features.csv",
         index_col=["filename", "feature"],
@@ -139,13 +138,13 @@ class Feature:
         if not hasattr(self.spec, "filename"):
             return False
 
-        features = index.load_features()
+        features = load()
         ind = (self.spec.filename, self.name)
         return ind in features.index
 
     def load_parameters(self):
         """Load and set previously stored fit parameters from index."""
-        features = index.load_features()
+        features = load()
 
         ind = (self.spec.filename, self.name)
 

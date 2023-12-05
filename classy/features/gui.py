@@ -394,7 +394,7 @@ class InteractiveFeatureFit(QtWidgets.QMainWindow):
             if ret == qm.No:
                 return
         # Load feature index
-        features = classy.index.load_features()
+        features = classy.features.load()
 
         # Use classy index number as identifier
         id_ = (self.feat.spec.filename, self.feat.name)

@@ -5,7 +5,8 @@ import pandas as pd
 
 from classy import config
 from classy import core
-from classy import data
+from classy import features
+from classy import index
 from . import defs
 from classy.taxonomies.mahlke import decision_tree
 from classy.utils.logging import logger
@@ -58,7 +59,7 @@ def preprocess(spec):
 
 def classify(spec):
     # Instantiate MCFA model instance if not done yet
-    model = data.load("mcfa")
+    model = index.data.load("mcfa")
 
     # Get only the classification columns
     data_input = np.concatenate([spec.refl, [spec.pV]])[:, np.newaxis].T
@@ -88,7 +89,7 @@ def classify(spec):
     spec.data_classified = decision_tree.assign_classes(input_data)
 
     # Detect features
-    spec.data_classified = spec.add_feature_flags(spec.data_classified)
+    spec.data_classified = add_feature_flags(spec, spec.data_classified)
     setattr(spec, "class_", spec.data_classified["class_"].values[0])
 
     for class_ in defs.CLASSES:
@@ -180,7 +181,7 @@ def add_feature_flags(spec, data_classified):
     """Detect features in spectra and amend the classification."""
 
     for i, sample in data_classified.reset_index(drop=True).iterrows():
-        for feature, props in defs.FEATURE.items():
+        for feature, props in features.FEATURE.items():
             if sample.class_ in props["candidates"]:
                 if (
                     getattr(spec, feature).is_covered

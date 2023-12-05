@@ -1,10 +1,8 @@
-import pickle
-
 import numpy as np
-import pandas as pd
 from sklearn import preprocessing
 
-import classy.data
+from classy import index
+from . import defs
 
 
 COLORS = []
@@ -28,10 +26,10 @@ def normalize(spec):
         return np.nan
 
     # Load the trained normalization instance
-    normalization, neighbours = classy.data.load("mixnorm")
+    normalization, neighbours = index.data.load("mixnorm")
 
     # Compute model initalization parameters by nearest neighbour search among classy spectra
-    neighbours_spectra = neighbours[classy.defs.WAVE_GRID_STR].values
+    neighbours_spectra = neighbours[defs.WAVE_GRID_STR].values
     idx_nearest_neighbours = _find_nearest_neighbours(spec, neighbours_spectra, N=5)
 
     # Compute most probable alpha as weighted average of the nearest neighbours
@@ -57,7 +55,7 @@ def normalize(spec):
     spec.refl = (
         spec.refl
         / np.nanmean(spec.refl)
-        * np.nanmean(neighbours.loc[idx_nearest_neighbours, classy.defs.WAVE_GRID_STR])
+        * np.nanmean(neighbours.loc[idx_nearest_neighbours, defs.WAVE_GRID_STR])
     )
     # plt.plot(
     #     spec.wave,
@@ -69,7 +67,7 @@ def normalize(spec):
     return alpha
 
     # Create gamma_init by finding spectrum closest to the new one
-    data_complete = ml_master[classy.ML_SETUP.COLUMNS["spectra"]].values
+    data_complete = ml_master[defs.COLUMNS["spectra"]].values
 
     gamma_init = []
     alpha_init = []
@@ -100,7 +98,7 @@ def normalize(spec):
         # the spectra to normalize are already log-transformed
         diff = norm_value / spec[norm_idx]
 
-        data.loc[ind, classy.ML_SETUP.COLUMNS["spectra"]] *= diff
+        data.loc[ind, defs.COLUMNS["spectra"]] *= diff
 
     # ------
     # Compute alpha_init by next-neighbour search
@@ -125,10 +123,8 @@ def normalize(spec):
 
     # ------
     # Normalize
-    data[classy.ML_SETUP.COLUMNS["spectra"]] = np.log(
-        data[classy.ML_SETUP.COLUMNS["spectra"]]
-    )
-    X = data[classy.ML_SETUP.COLUMNS["spectra"]].values
+    data[defs.COLUMNS["spectra"]] = np.log(data[defs.COLUMNS["spectra"]])
+    X = data[defs.COLUMNS["spectra"]].values
     X = np.ma.masked_array(X, mask=np.isnan(X))
     alpha, gamma, _ = gem_mixnorm_eval(
         X,

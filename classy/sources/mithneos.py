@@ -118,7 +118,7 @@ def _retrieve_spectra():
 def _build_index():
     # Create index for these archives
 
-    log = cache.load_cat("mithneos", "obslog")
+    log = index.data.load_cat("mithneos", "obslog")
     entries = []
 
     for dir, _ in DIR_URLS:
