@@ -18,7 +18,6 @@ from classy import index
 
 import shutil
 
-import requests
 import rich
 
 from classy import config
@@ -244,54 +243,6 @@ def echo_inventory():
                 rich.print()
         else:
             rich.print("\n")
-
-
-# @cache
-def miriade_ephems(name, epochs):
-    """Gets asteroid ephemerides from IMCCE Miriade.
-
-    Parameters
-    ----------
-    name : str
-        Name or designation of asteroid.
-    epochs : list
-        List of observation epochs in iso format.
-
-    Returns
-    -------
-    :returns: pd.DataFrame - Input dataframe with ephemerides columns appended
-                     False - If query failed somehow
-    """
-
-    # Pass sorted list of epochs to speed up query
-    files = {"epochs": ("epochs", "\n".join(sorted(epochs)))}
-
-    # ------
-    # Query Miriade for phase angles
-    url = "http://vo.imcce.fr/webservices/miriade/ephemcc_query.php"
-
-    params = {
-        "-name": f"a:{name}",
-        "-mime": "json",
-        "-tcoor": "5",
-        "-output": "--jul",
-        "-tscale": "UTC",
-    }
-
-    # Execute query
-    try:
-        r = requests.post(url, params=params, files=files, timeout=50)
-    except requests.exceptions.ReadTimeout:
-        return False
-    j = r.json()
-
-    # Read JSON response
-    try:
-        ephem = pd.DataFrame.from_dict(j["data"])
-    except KeyError:
-        return False
-
-    return ephem
 
 
 def load_cat(host, which):

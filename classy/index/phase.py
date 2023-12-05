@@ -3,6 +3,7 @@ import asyncio
 
 import numpy as np
 import pandas as pd
+import requests
 
 from classy import index
 from classy import utils
@@ -156,3 +157,52 @@ def get_or_create_eventloop():
             loop = asyncio.new_event_loop()
             asyncio.set_event_loop(loop)
             return asyncio.get_event_loop()
+
+
+def query_miriade_syncronously(name, epochs):
+    """Gets asteroid ephemerides from IMCCE Miriade.
+
+    Parameters
+    ----------
+    name : str
+        Name or designation of asteroid.
+    epochs : list
+        List of observation epochs in iso format.
+
+    Returns
+    -------
+    :returns: pd.DataFrame - Input dataframe with ephemerides columns appended
+                     False - If query failed somehow
+    """
+
+    # Pass sorted list of epochs to speed up query
+    files = {"epochs": ("epochs", "\n".join(sorted(epochs)))}
+
+    # ------
+    # Query Miriade for phase angles
+    url = "http://vo.imcce.fr/webservices/miriade/ephemcc_query.php"
+
+    params = {
+        "-name": f"a:{name}",
+        "-mime": "json",
+        "-tcoor": "5",
+        "-output": "--jul",
+        "-tscale": "UTC",
+    }
+
+    # Execute query
+    try:
+        # TODO: Use urllib instead to remove requests dependency
+        # or use only requests throughout classy
+        r = requests.post(url, params=params, files=files, timeout=50)
+    except requests.exceptions.ReadTimeout:
+        return False
+    j = r.json()
+
+    # Read JSON response
+    try:
+        ephem = pd.DataFrame.from_dict(j["data"])
+    except KeyError:
+        return False
+
+    return ephem

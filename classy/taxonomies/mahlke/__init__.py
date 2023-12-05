@@ -6,7 +6,7 @@ import pandas as pd
 from classy import config
 from classy import core
 from classy import data
-from classy import defs
+from . import defs
 from classy.taxonomies.mahlke import decision_tree
 from classy.log import logger
 from classy import tools
@@ -174,6 +174,26 @@ def load_templates():
         )
         templates[class_] = template
     return templates
+
+
+def add_feature_flags(spec, data_classified):
+    """Detect features in spectra and amend the classification."""
+
+    for i, sample in data_classified.reset_index(drop=True).iterrows():
+        for feature, props in defs.FEATURE.items():
+            if sample.class_ in props["candidates"]:
+                if (
+                    getattr(spec, feature).is_covered
+                    and getattr(spec, feature).is_present
+                ):
+                    if feature == "h":
+                        data_classified.loc[i, "class_"] = "Ch"
+                        break
+                    else:
+                        data_classified.loc[i, "class_"] = (
+                            data_classified.loc[i, "class_"] + feature
+                        )
+    return data_classified
 
 
 # ------

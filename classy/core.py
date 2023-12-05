@@ -4,10 +4,8 @@ import numpy as np
 import pandas as pd
 import rocks
 
-from classy import cache
-from classy import defs
-from classy.feature import Feature
-from classy.log import logger
+from classy.features import Feature
+from classy.utils.logging import logger
 from classy import index
 from classy.taxonomies.mahlke import mixnorm
 from classy import plotting
@@ -290,7 +288,9 @@ class Spectrum:
             self.phase = np.nan
             return
 
-        ephem = cache.miriade_ephems(self.target.name, self.date_obs.split(","))
+        ephem = index.phase.query_miriade_syncronously(
+            self.target.name, self.date_obs.split(",")
+        )
 
         if isinstance(ephem, bool):
             self.phase = np.nan
@@ -423,25 +423,6 @@ class Spectrum:
             name = "Unknown"
         return f"{self.source}/{name}"
 
-    def add_feature_flags(self, data_classified):
-        """Detect features in spectra and amend the classification."""
-
-        for i, sample in data_classified.reset_index(drop=True).iterrows():
-            for feature, props in defs.FEATURE.items():
-                if sample.class_ in props["candidates"]:
-                    if (
-                        getattr(self, feature).is_covered
-                        and getattr(self, feature).is_present
-                    ):
-                        if feature == "h":
-                            data_classified.loc[i, "class_"] = "Ch"
-                            break
-                        else:
-                            data_classified.loc[i, "class_"] = (
-                                data_classified.loc[i, "class_"] + feature
-                            )
-        return data_classified
-
     def plot(self, **kwargs):
         plotting.plot_spectra([self], **kwargs)
 
@@ -489,7 +470,7 @@ class Spectra(list):
             return
 
         spectra = index.query(id, **kwargs)
-        spectra = cache.load_spectra(spectra, skip_target)
+        spectra = index.data.load_spectra(spectra, skip_target)
 
         for spec in spectra:
             self.append(spec)
