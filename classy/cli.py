@@ -184,8 +184,8 @@ def status():
     decision = prompt.Prompt.ask(
         "Choose one of these actions:\n"
         "[blue][0][/blue] Do nothing "
-        "[blue][1][/blue] Manage the cache "
-        "[blue][2][/blue] Retrieve all public spectra",
+        "[blue][1][/blue] Manage cache "
+        "[blue][2][/blue] Retrieve public spectra",
         choices=["0", "1", "2"],
         show_choices=False,
         default="0",
@@ -196,9 +196,9 @@ def status():
         decision = prompt.Prompt.ask(
             "\nChoose one of these actions:\n"
             "[blue][0][/blue] Do nothing "
-            "[blue][1][/blue] Rebuild the index "
-            # "[blue][2][/blue] Add phase angles "
-            "[blue][2][/blue] Clear the cache",
+            "[blue][1][/blue] Rebuild index "
+            "[blue][2][/blue] Add phase angles "
+            "[blue][3][/blue] Clear cache",
             choices=["0", "1", "2", "3"],
             show_choices=False,
             default="0",
@@ -210,17 +210,17 @@ def status():
             classy.set_log_level("CRITICAL")
             index.build()
 
-        # if decision == "2":
-        #     index.add_phase_angles()
-
         if decision == "2":
+            index.add_phase_angles()
+
+        if decision == "3":
             confirm = prompt.Confirm.ask(
                 "\nThis will delete the cache directory and all its contents,\n"
                 "[bold]including the preprocessing- and feature parameters[/bold]. Are you sure?",
             )
 
-        if confirm:
-            cache.remove()
+            if confirm:
+                cache.remove()
 
     elif decision == "2":
         rich.print()
