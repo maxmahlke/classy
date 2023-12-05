@@ -9,3 +9,10 @@ mofn = progress.Progress(
     disable=False,
     transient=True,
 )
+
+# Progress bar for downloads
+download = progress.Progress(
+    progress.TextColumn("{task.fields[desc]}"),
+    progress.BarColumn(bar_width=None),
+    progress.DownloadColumn(),
+)
