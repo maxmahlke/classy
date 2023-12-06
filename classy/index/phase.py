@@ -48,7 +48,9 @@ async def _run_async_loop(idx_phase, mofn, progress):
     -------
     list of [idx_phase, phase, err_phase]
     """
-    async with aiohttp.ClientSession(timeout=aiohttp.ClientTimeout()) as session:
+    async with aiohttp.ClientSession(
+        timeout=aiohttp.ClientTimeout(sock_connect=10, sock_read=10)
+    ) as session:
         tasks = [
             asyncio.ensure_future(
                 _get_phase_asyncronous(ind, obs, session, mofn, progress)
@@ -91,10 +93,10 @@ async def _get_phase_asyncronous(idx, obs, session, mofn, progress):
         phases = []
         for epoch in epochs:
             try:
-                phase, _ = await _get_phase_angle(obs["name"], epoch, session)
+                phase = await _get_phase_angle(obs["name"], epoch, session)
             except aiohttp.client_exceptions.ClientConnectorError:
                 logger.error(
-                    "The Miriade query for one asteroid-epoch pair failed. The corresponding phase is set to NaN."
+                    "The Miriade query for an asteroid-epoch pair failed. The corresponding phase is set to NaN."
                 )
                 phase = np.nan
             phases.append(phase)
@@ -134,8 +136,20 @@ async def _get_phase_angle(name, epochs, session):
         "-ep": epochs,
     }
 
-    async with session.post(url=URL, params=params) as response:
-        response_json = await response.json()
+    try:
+        async with session.post(url=URL, params=params) as response:
+            try:
+                response_json = await response.json()
+            except aiohttp.client_exceptions.ContentTypeError:
+                logger.error(
+                    "The Miriade query for an asteroid-epoch pair failed. The corresponding phase is set to NaN."
+                )
+                return [np.nan]
+    except aiohttp.client_exceptions.ServerTimeoutError:
+        logger.error(
+            "The Miriade server did not respond to the query in time. Setting phase to NaN."
+        )
+        return [np.nan]
 
     return [data["phase"] for data in response_json["data"]]
 
