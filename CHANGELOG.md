@@ -1,3 +1,9 @@
+# 0.8.1 - 2023-12-06
+- Fix shadowing of download function and module name
+- Add error handling for Miriade connection timeouts
+- Move async semaphore inside async function scope
+- Fix classification of spectra without specified targets in Mahlke scheme
+
 # 0.8 - 2023-12-06
 - Split functionality of `$ classy spectra` into two commands: `$ classy spectra` and `$ classy classify`
 - Add query language: spectra can now be selected based on properties of the spectrum (e.g. wavelength coverage, bibliography) and those of the target (e.g. family, taxonomy)
