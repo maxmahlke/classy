@@ -62,7 +62,7 @@ Adding Spectra
 
 ``classy`` revolves around reflectance spectra. To get started, you can
 retrieve all `public asteroid spectra <public_data>`_ using the ``$ classy
-status`` command.\ [#f1]_
+status`` command. At the shown prompt, type ``2`` and hit Enter to download public spectra.\ [#f1]_
 
 .. code-block:: shell
 
@@ -70,12 +70,7 @@ status`` command.\ [#f1]_
 
   Contents of /home/max/.cache/classy:
 
-      68356 asteroid reflectance spectra from 14 sources
-
-      24CAS      286    52CAS      146    AKARI       64    CDS         93
-      ECAS       589    Gaia     60518    M4AST      123    MITHNEOS  1905
-      Misc       902    PDS         91    PRIMASS    437    S3OS2      820
-      SCAS       126    SMASS     2256
+      0 asteroid reflectance spectra from 0 sources
 
   Choose one of these actions:
   [0] Do nothing [1] Manage the cache [2] Retrieve all spectra (0): 2
