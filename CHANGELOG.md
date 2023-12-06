@@ -1,13 +1,11 @@
-# 0.8
+# 0.8 - 2023-12-06
+- Split functionality of `$ classy spectra` into two commands: `$ classy spectra` and `$ classy classify`
+- Add query language: spectra can now be selected based on properties of the spectrum (e.g. wavelength coverage, bibliography) and those of the target (e.g. family, taxonomy)
+- Add graphical user interface for smoothing and feature-detection
+- Add `export` functionality to export raw and processed spectral data and metadata
+- Complete rework of documentation
+- Major code refactoring
 
-ToDo:
-
-- NaN values in reflectance are no longer removed when reading in a spectrum
-- Negative reflectance values are no longer removed when reading in a spectrum
-- Warnings are emitted when spectrum is instantiated with negative or NaN reflectance values
-- NaN or negative wavelengths are removed
-
-- If date_obs -> automatically query phase angle
 
 # 0.7.1 - 2023-11-18
 - Separate gui-dependencies into optional package install
