@@ -15,4 +15,5 @@ import classy  # noqa
 
 
 def pytest_configure():
+    pytest.PATH_DATA = PATH_DATA
     pytest.PATH_TEST = PATH_TEST
