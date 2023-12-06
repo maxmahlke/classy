@@ -10,10 +10,6 @@ from classy import utils
 from classy.utils.logging import logger
 
 
-# Limit of simultaneous queries
-SEMA = asyncio.Semaphore(50)
-
-
 def add_phase_to_index():
     """Add phase angle information to classy index by quering the Miriade service."""
 
@@ -90,7 +86,8 @@ async def _get_phase_asyncronous(idx, obs, session, mofn, progress):
     epoch = obs.date_obs
     epochs = epoch.split(",")
 
-    async with SEMA:
+    # Limit number of simultaneous queries
+    async with asyncio.Semaphore(50):
         phases = []
         for epoch in epochs:
             try:
