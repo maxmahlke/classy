@@ -7,7 +7,8 @@ import pandas as pd
 import numpy as np
 
 from .logging import logger
-from .download import download  # noqa
+from . import download  # noqa
+from . import progress  # noqa
 
 
 def find_nearest(array, value):

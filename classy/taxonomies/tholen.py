@@ -72,9 +72,7 @@ def load_classification():
     PATH_DATA = config.PATH_DATA / "tholen1984/scores.csv"
 
     if not PATH_DATA.is_file():
-        utils.download._retrieve_from_github(
-            host="tholen1984", which="scores", path=PATH_DATA
-        )
+        utils.download.from_github(host="tholen1984", which="scores", path=PATH_DATA)
 
     return pd.read_csv(PATH_DATA, dtype={"number": "Int64"})
 

@@ -64,7 +64,7 @@ def _retrieve_spectra():
         if PATH_ARCHIVE.is_file():
             logger.debug(f"smass - Using cached archive file at \n{PATH_ARCHIVE}")
         else:
-            utils.download(url_archive, PATH_ARCHIVE)
+            utils.download.archive(url_archive, PATH_ARCHIVE)
         utils.unpack(PATH_ARCHIVE, encoding="tar.gz")
 
 

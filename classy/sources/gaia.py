@@ -119,7 +119,7 @@ def _retrieve_spectra():
         PATH_ARCHIVE = PATH_GAIA / f"{idx:02}.csv.gz"
 
         if not PATH_ARCHIVE.is_file():
-            utils.download(
+            utils.download.archive(
                 f"{URL}{idx:02}.csv.gz", PATH_ARCHIVE, progress=False, remove=False
             )
 

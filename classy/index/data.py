@@ -26,33 +26,33 @@ from classy import utils
 
 # ------
 # Spectra
-def load_spectra(name, source):
-    """Load spectra of a given asteroid either from cache or from an online repository.
-
-    Parameters
-    ----------
-    name : str
-        The name of the asteroid.
-    source : list of str
-        List of online repositories to check. Must be complete or subset of data.SOURCES.
-
-    Returns
-    -------
-    list of classy.Spectrum
-    """
-    classy_index = index.load()
-    index_spectra = classy_index[
-        (classy_index["name"] == name) & classy_index["source"].isin(source)
-    ]
-
-    if index_spectra.empty:
-        name, number = rocks.id(name)
-        logger.warning(
-            f"Did not find any spectra of ({number}) {name} in {', '.join(source)} "
-        )
-        return []
-
-    return cache.load_spectra(index_spectra)
+# def load_spectra(name, source):
+#     """Load spectra of a given asteroid either from cache or from an online repository.
+#
+#     Parameters
+#     ----------
+#     name : str
+#         The name of the asteroid.
+#     source : list of str
+#         List of online repositories to check. Must be complete or subset of data.SOURCES.
+#
+#     Returns
+#     -------
+#     list of classy.Spectrum
+#     """
+#     classy_index = index.load()
+#     index_spectra = classy_index[
+#         (classy_index["name"] == name) & classy_index["source"].isin(source)
+#     ]
+#
+#     if index_spectra.empty:
+#         name, number = rocks.id(name)
+#         logger.warning(
+#             f"Did not find any spectra of ({number}) {name} in {', '.join(source)} "
+#         )
+#         return []
+#
+#     return cache.load_spectra(index_spectra)
 
 
 # ------
@@ -198,7 +198,6 @@ def load_spectra(idx_spectra, skip_target):
     -------
     list of classy.core.Spectrum
     """
-
     spectra = [
         sources.load_spectrum(spec, skip_target) for _, spec in idx_spectra.iterrows()
     ]
@@ -247,5 +246,5 @@ def echo_inventory():
 def load_cat(host, which):
     PATH_CAT = config.PATH_DATA / f"{host}/{which}.csv"
     if not PATH_CAT.is_file():
-        utils.download._retrieve_from_github(host, which, path=PATH_CAT)
+        utils.download.from_github(host, which, path=PATH_CAT)
     return pd.read_csv(PATH_CAT)

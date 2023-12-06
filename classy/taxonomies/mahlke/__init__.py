@@ -2,6 +2,7 @@ from functools import lru_cache
 
 import numpy as np
 import pandas as pd
+import rocks
 
 from classy import config
 from classy import core
@@ -54,7 +55,10 @@ def preprocess(spec):
 
     spec.normalize(method="mixnorm")
 
-    spec.pV = np.log10(spec.target.albedo.value)
+    if hasattr(spec, "target") and isinstance(spec.target, rocks.Rock):
+        spec.pV = np.log10(spec.target.albedo.value)
+    else:
+        spec.pV = np.nan
 
 
 def classify(spec):
@@ -151,9 +155,7 @@ def load_templates():
     PATH_DATA = config.PATH_DATA / "mahlke2022/templates.csv"
 
     if not PATH_DATA.is_file():
-        utils.download._retrieve_from_github(
-            host="mahlke2022", which="templates", path=PATH_DATA
-        )
+        utils.download.from_github(host="mahlke2022", which="templates", path=PATH_DATA)
 
     data = pd.read_csv(PATH_DATA)
 

@@ -211,7 +211,7 @@ def status():
             index.build()
 
         if decision == "2":
-            index.add_phase_angles()
+            index.phase.add_phase_to_index()
 
         if decision == "3":
             confirm = prompt.Confirm.ask(
@@ -234,7 +234,7 @@ def status():
         )
 
         if add_phase:
-            index.batch_phase()
+            index.phase.add_phase_to_index()
 
 
 # ------

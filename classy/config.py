@@ -10,6 +10,7 @@ from platformdirs import user_cache_dir
 if "CLASSY_DATA_DIR" in os.environ:
     PATH_DATA = Path(os.environ["CLASSY_DATA_DIR"]).expanduser().absolute()
 
+    # TODO: Make greeting like for rocks if PATH_DATA does not exist
     if not PATH_DATA.is_dir():
         raise ValueError(f"Path {PATH_DATA} does not exist.")
 else:

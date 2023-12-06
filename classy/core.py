@@ -589,7 +589,8 @@ class Spectra(list):
                     spec.smooth()
                 spec.inspect_features(feature, force)
 
-    def export(self, path, columns=None):
+    def export(self, path=None, columns=None):
+        # TODO: Update doc: path no longer required
         def rgetattr(obj, attr, *args):
             from functools import reduce
 
@@ -618,4 +619,6 @@ class Spectra(list):
             result.append(row)
 
         result = pd.DataFrame(data=result, index=list(range(len(self))))
-        result.to_csv(path, index=False)
+        if path is not None:
+            result.to_csv(path, index=False)
+        return result

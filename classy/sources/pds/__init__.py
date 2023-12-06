@@ -69,7 +69,7 @@ def _retrieve_spectra():
         if PATH_ARCHIVE.is_file():
             logger.debug(f"pds/{repo} - Using cached archive file at \n{PATH_ARCHIVE}")
         else:
-            utils.download(URL, PATH_ARCHIVE)
+            utils.download.archive(URL, PATH_ARCHIVE)
         utils.unpack(PATH_ARCHIVE, encoding="zip")
 
 

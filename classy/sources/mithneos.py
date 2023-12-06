@@ -98,7 +98,7 @@ def _retrieve_spectra():
             logger.debug(f"mithneos - Using cached archive file at \n{PATH_ARCHIVE}")
             continue
 
-        utils.download(URL, PATH_ARCHIVE)
+        utils.download.archive(URL, PATH_ARCHIVE)
         utils.unpack(PATH_ARCHIVE, encoding=URL.split(".")[-1])
 
     # -------
