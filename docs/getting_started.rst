@@ -3,6 +3,10 @@
 Getting Started
 ===============
 
+A word on notation: All example code preceded by a ``$`` is to be run on your terminal,
+while ``>>>`` indicates that this code should be run in a ``python`` interpreter or a ``python``
+script.
+
 Installation
 ------------
 
@@ -11,22 +15,26 @@ Installation
 
 .. code-block:: bash
 
-   $ pip install space-classy[gui]
+   $ pip install space-classy[gui]  # install complete version
 
 The feature detection and preprocessing modules of ``classy`` require the
 ``pyqtgraph`` and ``pyside6`` packages, which depend on the large (in terms of
 filesize) ``Qt`` library. You might want to opt out of these installs if you do
 not intend to make use of these parts of ``classy`` (though usage will be quite
-limited!). In this case, you can run
+limited). In this case, you can run
 
 .. code-block:: bash
 
-   $ pip install space-classy
+   $ pip install space-classy  # install lite version
 
-The minimum ``python`` version is ``3.8``. After installing, the ``classy``
-executable is available system-wide and the ``classy`` ``python`` module can be
-imported.
+The minimum ``python`` version is ``3.8``.
 
+
+After installing, the ``classy`` command is available on your command line.
+If you run it without argument, the help text will appear, as shown below. Typically, you will
+later add an argument such as ``status``, ``spectra``, or ``classify``, which are explained in
+later parts of this documentation.
+In ``python``, you can import the ``classy`` module after installation.
 
 .. tab-set::
 
@@ -34,20 +42,24 @@ imported.
 
     .. code-block:: bash
 
-       $ classy
-       Usage: classy [OPTIONS] COMMAND [ARGS]...
+      $ classy
 
-         CLI for minor body classification.
+      Usage: classy [OPTIONS] COMMAND [ARGS]...
 
-       Options:
-         --version  Show the version and exit.
-         --help     Show this message and exit.
+        CLI for minor body classification.
 
-       Commands:
-         add      Add a private spectra collection.
-         docs     Open the classy documentation in browser.
-         spectra  Retrieve, plot, classify spectra of an individual asteroid.
-         status   Manage the index of asteroid spectra.
+      Options:
+        --version  Show the version and exit.
+        --help     Show this message and exit.
+
+      Commands:
+        add       Add a local spectra collection.
+        classify  Classify spectra in classy index.
+        docs      Open documentation in browser.
+        features  Run interactive feature detection for selected spectra.
+        smooth    Run interactive smoothing for selected spectra.
+        spectra   Search for spectra in classy index.
+        status    Manage the index of asteroid spectra.
 
   .. tab-item :: python
 
@@ -61,8 +73,14 @@ Adding Spectra
 --------------
 
 ``classy`` revolves around reflectance spectra. To get started, you can
-retrieve all `public asteroid spectra <public_data>`_ using the ``$ classy
-status`` command. At the shown prompt, type ``2`` and hit Enter to download public spectra.\ [#f1]_
+retrieve all `public asteroid spectra <public_data>`_ by running the following
+command on your terminal:
+
+.. code-block:: shell
+
+  $ classy status
+
+At the shown prompt, type ``2`` and hit Enter to download public spectra.\ [#f1]_
 
 .. code-block:: shell
 

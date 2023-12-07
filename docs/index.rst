@@ -23,8 +23,9 @@ for spectroscopic analysis.\ [#f1]_
 
     .. grid-item-card::  Classify Your Observation →
       :text-align: center
+      :link: https://classy.streamlit.app
 
-      Use the ``classy`` web interface. Coming soon.
+      Using the ``classy`` web interface.
 
     .. grid-item-card:: Get started →
       :text-align: center
@@ -37,7 +38,12 @@ for spectroscopic analysis.\ [#f1]_
 
 |br|
 
-.. Things that ``classy`` tries to do well:
+Showcase
+++++++++
+
+Things that ``classy`` tries to do well.
+
+|br|
 
 :octicon:`telescope;1em` **Explore and compare.**
 
