@@ -18,5 +18,8 @@ else:
 
 logger.debug(f"classy data directory: {PATH_DATA}")
 
+# Is this run in the classy web interface?
+APP_MODE = False
+
 # Maximum missing wavelength range to extrapolate for classification
 EXTRAPOLATION_LIMIT = 10  # in percent

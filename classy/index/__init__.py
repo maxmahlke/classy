@@ -118,13 +118,21 @@ def query(id=None, **kwargs):
                 col = BFT_SHORT[col]
             cols_bft.append(col)
 
-    if cols_bft:
-        bft = rocks.load_bft(columns=cols_bft + ["sso_name"])
-        bft = bft.rename(columns={v: k for k, v in BFT_SHORT.items()})
-        idx = idx.reset_index(names="filename")
-        idx = idx.merge(bft, left_on="name", right_on="sso_name")
+    if config.APP_MODE:
+        # In app mode, we always want the added bft to avoid rocks queries
+        idx = pd.read_parquet(
+            config.PATH_DATA / "idx_extended.parquet",
+        )
         idx = idx.set_index("filename")
-        idx = idx.drop(columns=["sso_name"])
+        idx = idx.rename(columns={v: k for k, v in BFT_SHORT.items()})
+    else:
+        if cols_bft:
+            bft = rocks.load_bft(columns=cols_bft + ["sso_name"])
+            bft = bft.rename(columns={v: k for k, v in BFT_SHORT.items()})
+            idx = idx.reset_index(names="filename")
+            idx = idx.merge(bft, left_on="name", right_on="sso_name")
+            idx = idx.set_index("filename")
+            idx = idx.drop(columns=["sso_name"])
 
     # Filter based on passed selection criteria
     for column, value in kwargs.items():
