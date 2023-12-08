@@ -1,3 +1,6 @@
+# 0.8.2
+- Use up-to-date Miriade server URL
+
 # 0.8.1 - 2023-12-06
 - Fix shadowing of download function and module name
 - Add error handling for Miriade connection timeouts

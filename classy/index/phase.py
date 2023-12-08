@@ -49,7 +49,7 @@ async def _run_async_loop(idx_phase, mofn, progress):
     list of [idx_phase, phase, err_phase]
     """
     async with aiohttp.ClientSession(
-        timeout=aiohttp.ClientTimeout(sock_connect=10, sock_read=10)
+        timeout=aiohttp.ClientTimeout(sock_connect=10)
     ) as session:
         tasks = [
             asyncio.ensure_future(
@@ -126,7 +126,7 @@ async def _get_phase_angle(name, epochs, session):
 
     # ------
     # Query Miriade for phase angles
-    URL = "http://vo.imcce.fr/webservices/miriade/ephemcc_query.php"
+    URL = "http://ssp.imcce.fr/webservices/miriade/api/ephemcc.php"
 
     params = {
         "-name": f"a:{name}",
@@ -151,7 +151,7 @@ async def _get_phase_angle(name, epochs, session):
         )
         return [np.nan]
 
-    return [data["phase"] for data in response_json["data"]]
+    return [data["Phase"] for data in response_json["data"]]
 
 
 def get_or_create_eventloop():
