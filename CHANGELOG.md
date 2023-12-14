@@ -1,4 +1,4 @@
-# 0.8.2
+# 0.8.2 - 2023-12-14
 - Use up-to-date Miriade server URL
 
 # 0.8.1 - 2023-12-06
