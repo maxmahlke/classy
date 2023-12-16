@@ -3,7 +3,7 @@
 </p>
 
 <p align="center">
-  <a href="https://github.com/maxmahlke/classy#features"> Features </a> - <a href="https://github.com/maxmahlke/classy#install"> Install </a> - <a href="https://github.com/maxmahlke/classy#documentation"> Documentation </a>
+  <a href="https://github.com/maxmahlke/classy#features"> Showcase </a> - <a href="https://github.com/maxmahlke/classy#install"> Install </a> - <a href="https://github.com/maxmahlke/classy#documentation"> Documentation </a>
 </p>
 
 <br>
@@ -25,40 +25,73 @@
 
 <br>
 
-![Classification of (1) Ceres using data from Gaia/SMASS/MITHNEOS](https://classy.readthedocs.io/en/latest/_images/ceres_classification_dark.png)
+A tool to explore, download, analyse, and classify asteroid reflectance
+spectra. Originally designed for classification in the taxonomy of [Mahlke,
+Carry, and Mattei 2022](https://arxiv.org/abs/2203.11229>), it now offers
+multiple taxonomic systems and a suite of quality-of-life features for
+spectroscopic analysis.\ [#f1]_
 
-# Features
 
-- Classify asteroid reflectance spectra in the taxonomic scheme by [Mahlke, Carry, and Mattei 2022](https://arxiv.org/abs/2203.11229).
+[Classify Your Observation →](https://classy.streamlit.app) -- [Get started →](Install and use ``classy`` on your machine.)
 
-- Add spectra from public repositories for comparison
+# Showcase
 
-- Explore data via the command line, build an analysis with the ``python`` interface
+Things that ``classy`` tries to do well. All functionality is available via the command line and the `python` interface.
+Some functionality is available via the [web interface](https://classy.streamlit.app).
 
-- Simple syntax: specify the asteroid to analyse, ``classy`` takes care of the rest
+**Explore and compare.**
 
-``` sh
+Quickly find and download spectra in public repositories.
 
-$ classy spectra juno --classify
+/Example/: List all spectra of asteroids in the Themis family with albedos up to 0.06 that cover the 0.45-1.8μm range.
 
+```shell
+$ classy spectra --wave_min 0.45 --wave_max 1.8 --family Themis --albedo ,0.06
++-----------+--------+----------+----------+--------+---------------------+--------+--------+-----------------+
+| name      | number | wave_min | wave_max | phase  | date_obs            | family | albedo | shortbib        |
++-----------+--------+----------+----------+--------+---------------------+--------+--------+-----------------+
+| Themis    | 24     | 0.435    | 2.49     | 12.917 | 2005-10-08T05:28:30 | Themis | 0.051  | MITHNEOS Unpub. |
+| Themis    | 24     | 0.45     | 2.4      | -      | -                   | Themis | 0.051  | Fornasier+ 2016 |
+| Themis    | 24     | 0.435    | 2.49     | 12.876 | 2005-10-08T00:00:00 | Themis | 0.051  | DeMeo+ 2009     |
+| Adorea    | 268    | 0.44     | 2.4      | -      | -                   | Themis | 0.039  | Fornasier+ 2016 |
+| Lipperta  | 846    | 0.45     | 2.39     | -      | -                   | Themis | 0.05   | Fornasier+ 2016 |
+| Lermontov | 2222   | 0.45     | 2.38     | -      | -                   | Themis | 0.051  | Fornasier+ 2016 |
++-----------+--------+----------+----------+--------+---------------------+--------+--------+-----------------+
+                                                    6 Spectra
 ```
 
-or
+**Analyse and classify.**
 
-``` python
->>> import classy
->>> spectra = classy.Spectra(3)
-... [classy] Found 1 spectrum in Gaia
-... [classy] Found 5 spectra in SMASS
->>> spectra.classify()
-... [classy] [(3) Juno] - [Gaia]: S
-... [classy] [(3) Juno] - [spex/sp96]: S
-... [classy] [(3) Juno] - [smass/smassir]: S
-... [classy] [(3) Juno] - [smass/smass1]: S
-... [classy] [(3) Juno] - [smass/smass2]: S
-... [classy] [(3) Juno] - [smass/smass2]: S
->>> spectra.to_csv('class_juno.csv')
+Persistent preprocessing and feature recognition for quick classification.
+
+/Example/: Classify the spectra above following Mahlke+ 2022, DeMeo+ 2009, and Tholen 1984.
+
+```shell
+$ classy classify --wave_min 0.45 --wave_max 1.8 --family Themis --albedo ,0.06
++-----------+--------+----------+----------+--------+--------------+-------------+--------------+-----------------+
+| name      | number | wave_min | wave_max | albedo | class_mahlke | class_demeo | class_tholen | shortbib        |
++-----------+--------+----------+----------+--------+--------------+-------------+--------------+-----------------+
+| Themis    | 24     | 0.435    | 2.490    | 0.0507 | C            | C           | G            | MITHNEOS Unpub. |
+| Themis    | 24     | 0.450    | 2.400    | 0.0507 | C            | C           |              | Fornasier+ 2016 |
+| Themis    | 24     | 0.435    | 2.490    | 0.0507 | C            | C           | G            | DeMeo+ 2009     |
+| Adorea    | 268    | 0.440    | 2.400    | 0.0389 | S            |             |              | Fornasier+ 2016 |
+| Lipperta  | 846    | 0.450    | 2.390    | 0.0504 | P            | X           |              | Fornasier+ 2016 |
+| Lermontov | 2222   | 0.450    | 2.380    | 0.0513 | P            | C           |              | Fornasier+ 2016 |
++-----------+--------+----------+----------+--------+--------------+-------------+--------------+-----------------+
+                                                      6 Spectra
 ```
+
+:octicon:`zap;1em` **Visualise and export.**
+
+Quick-look plots at any step to verify your analysis.
+
+*Example*: Show the spectra and the classification results.
+
+```shell
+$ classy classify --wave_min 0.45 --wave_max 1.8 --family Themis --albedo ,0.06 --plot
+```
+
+![Classified spectra](https://classy.readthedocs.io/en/latest/_images/spectra_classified_dark.png)
 
 # Install
 
@@ -68,38 +101,13 @@ or
 $ pip install space-classy
 ```
 
-To use interactive GUI features, you'll also need to install one of these packages to work with pyqtgraph: PyQt5, PyQt6, PySide2, or PySide6. Running `pip install space-classy[gui]` will automatically install space-classy alone with one of the necessary GUI libraries.
+To use interactive GUI features, you'll also need to install one of these
+packages to work with pyqtgraph: PyQt5, PyQt6, PySide2, or PySide6. Running
+`pip install space-classy[gui]` will automatically install space-classy alone
+with one of the necessary GUI libraries.
 
 # Documentation
 
-Check out the documentation at [classy.readthedocs.io](https://classy.readthedocs.io/en/latest/).
-or run
+Check out the documentation at [classy.readthedocs.io](https://classy.readthedocs.io/en/latest/) or run
 
      $ classy docs
-
-# Data
-
-The following data files are provided in this repository (format `csv` and `txt`) and at the CDS (format `txt`):
-
-| File `csv` | File `txt` |  Content | Description|
-|-----------|--------|----|------------|
-| `class_templates.csv` | `template.txt` | Class templates |  Mean and standard deviation of the VisNIR spectra and visual albedos for each class. |
-| `class_visnir.csv` | `classvni.txt` | Classifications of the VisNIR sample. |  Classes derived for the 2983 input observations used to derive the taxonomy. |
-| `class_vis.csv` | `classvis.txt` | Classifications of the vis-only sample. |  Classes derived for the 2923 input observations containing only visible spectra and albedos. |
-| `class_asteroid.csv` | `asteroid.txt` | Class per asteroid |  Aggregated classifications in VisNIR and vis-only samples with one class per asteroid. |
-| `ref_spectra.csv` | `refspect.txt` | References of spectra | The key to the spectra references used in the classification tables. |
-| `ref_albedo.csv` | `refalbed.txt` | References of albedos |  The key to the albedo references used in the classification tables. |
-
-More information on each file can be found in the [data/mahlke2022/ReadMe](https://github.com/maxmahlke/classy/blob/main/data/ReadMe).
-
-<!-- # Development -->
-<!---->
-<!-- To be implemented: -->
-<!---->
-<!-- - [ ] Graphical User Interface -->
-<!-- - [ ] Optional automatic addition of SMASS spectra to observations -->
-<!-- - [ ] Automatic determination of best smoothing parameters -->
-
-<!-- # Contribute -->
-
-<!-- Computation of asteroid class by weighted average -->
