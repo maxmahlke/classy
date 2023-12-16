@@ -29,10 +29,7 @@ A tool to explore, download, analyse, and classify asteroid reflectance
 spectra. Originally designed for classification in the taxonomy of [Mahlke,
 Carry, and Mattei 2022](https://arxiv.org/abs/2203.11229>), it now offers
 multiple taxonomic systems and a suite of quality-of-life features for
-spectroscopic analysis.\ [#f1]_
-
-
-[Classify Your Observation →](https://classy.streamlit.app) -- [Get started →](Install and use ``classy`` on your machine.)
+spectroscopic analysis.
 
 # Showcase
 
@@ -43,7 +40,7 @@ Some functionality is available via the [web interface](https://classy.streamlit
 
 Quickly find and download spectra in public repositories.
 
-/Example/: List all spectra of asteroids in the Themis family with albedos up to 0.06 that cover the 0.45-1.8μm range.
+*Example*: List all spectra of asteroids in the Themis family with albedos up to 0.06 that cover the 0.45-1.8μm range.
 
 ```shell
 $ classy spectra --wave_min 0.45 --wave_max 1.8 --family Themis --albedo ,0.06
@@ -64,7 +61,7 @@ $ classy spectra --wave_min 0.45 --wave_max 1.8 --family Themis --albedo ,0.06
 
 Persistent preprocessing and feature recognition for quick classification.
 
-/Example/: Classify the spectra above following Mahlke+ 2022, DeMeo+ 2009, and Tholen 1984.
+*Example*: Classify the spectra above following Mahlke+ 2022, DeMeo+ 2009, and Tholen 1984.
 
 ```shell
 $ classy classify --wave_min 0.45 --wave_max 1.8 --family Themis --albedo ,0.06
@@ -81,7 +78,7 @@ $ classy classify --wave_min 0.45 --wave_max 1.8 --family Themis --albedo ,0.06
                                                       6 Spectra
 ```
 
-:octicon:`zap;1em` **Visualise and export.**
+**Visualise and export.**
 
 Quick-look plots at any step to verify your analysis.
 
@@ -95,16 +92,11 @@ $ classy classify --wave_min 0.45 --wave_max 1.8 --family Themis --albedo ,0.06 
 
 # Install
 
-`classy` is available on the [python package index](https://pypi.org) as *space-classy*:
+`classy` is available on the [python package index](https://pypi.org) as `space-classy`:
 
 ``` sh
-$ pip install space-classy
+$ pip install space-classy[gui]
 ```
-
-To use interactive GUI features, you'll also need to install one of these
-packages to work with pyqtgraph: PyQt5, PyQt6, PySide2, or PySide6. Running
-`pip install space-classy[gui]` will automatically install space-classy alone
-with one of the necessary GUI libraries.
 
 # Documentation
 
