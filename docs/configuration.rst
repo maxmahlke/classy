@@ -57,5 +57,6 @@ The extrapolation limit is applied when classifying spectra in the Tholen or
 the DeMeo taxonomy. If the covered wavelength range is within a given
 percentage of the required range, ``classy`` will apply constant extrapolation
 to cover the entire range and enable the classification. This limit can be set
-via ``classy.defs.EXTRAPOLATION_LIMIT`` and is ``0.1`` (=10%) by default, meaning
-that spectra covering 90% of the required wavelength range will be classified.
+via ``classy.defs.EXTRAPOLATION_LIMIT`` and is ``4.7`` (=4.7%) by default, meaning
+that spectra covering 95.3% of the required wavelength range will be classified.
+This number was chosen as it just allows to classify Gaia DR3 spectra in the Tholen taxonomy.
