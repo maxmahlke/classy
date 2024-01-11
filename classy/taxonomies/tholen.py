@@ -3,6 +3,7 @@ from functools import lru_cache
 
 import numpy as np
 import pandas as pd
+import rocks
 
 from classy import config
 from classy import core
@@ -33,6 +34,10 @@ def is_classifiable(spec):
         if preprocessing._within_extrapolation_limit(
             spec.wave.min(), spec.wave.max(), min(WAVE), max(WAVE)
         ):
+            logger.warning(
+                f"{spec.name} will be extrapolated for Tholen classification."
+            )
+            spec._extrapolated_for_tholen = True
             return True
 
         logger.warning(
@@ -194,8 +199,10 @@ def decision_tree(spec):
     -----
     The spectrum must have the Tholen PC scores as ``scores_tholen`` attribute.
     """
-    if hasattr(spec, "target"):
-        spec.pV = spec.target.albedo.value
+    if hasattr(spec, "pV"):
+        spec.pV = np.log10(spec.pV)
+    elif hasattr(spec, "target") and isinstance(spec.target, rocks.Rock):
+        spec.pV = np.log10(spec.target.albedo.value)
     else:
         spec.pV = np.nan
 

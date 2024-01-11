@@ -48,14 +48,14 @@ def is_classifiable(spec):
 
 
 def preprocess(spec):
-    # spec.detect_features()
     spec._wave_pre_norm = spec.wave.copy()
     spec._refl_pre_norm = spec.refl.copy()
     spec.resample(WAVE, fill_value=np.nan, bounds_error=False)
-
     spec.normalize(method="mixnorm")
 
-    if hasattr(spec, "target") and isinstance(spec.target, rocks.Rock):
+    if hasattr(spec, "pV"):
+        spec.pV = np.log10(spec.pV)
+    elif hasattr(spec, "target") and isinstance(spec.target, rocks.Rock):
         spec.pV = np.log10(spec.target.albedo.value)
     else:
         spec.pV = np.nan
@@ -116,6 +116,7 @@ def classify(spec):
     ][0]
     results = {"class_mahlke": class_, "class_": class_}
     results["prob"] = max(probs)
+    results["scores"] = spec.data_latent[0]
     results["scores_mahlke"] = spec.data_latent[0]
 
     for class_ in defs.CLASSES:
