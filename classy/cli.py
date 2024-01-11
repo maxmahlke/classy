@@ -43,8 +43,15 @@ def add(path):
 )
 @click.option("-p", "--plot", is_flag=True, help="Plot the classification result.")
 @click.option("-s", "--save", help="Save plot under specified filename.")
-def classify(args, taxonomy, plot, save):
+@click.option("-v", "--verbose", help="Print debugging statements and warnings.", is_flag=True)
+def classify(args, taxonomy, plot, save, verbose):
     """Classify spectra in classy index."""
+    if verbose:
+        classy.set_log_level("DEBUG")
+        rocks.set_log_level("DEBUG")
+    else:
+        classy.set_log_level("CRITICAL")
+        rocks.set_log_level("CRITICAL")
 
     if not args:
         raise ValueError("No query parameters were specified.")
@@ -56,10 +63,8 @@ def classify(args, taxonomy, plot, save):
         click.echo("No spectra matching these criteria found.")
         sys.exit()
 
-    classy.set_log_level("CRITICAL")
     for t in ["mahlke", "demeo", "tholen"]:
         spectra.classify(taxonomy=t)
-    classy.set_log_level("WARNING")
 
     # Echo result
     table, columns = _create_table(spectra, classify=True)
@@ -144,8 +149,15 @@ def smooth(args, force):
 @click.argument("args", type=click.UNPROCESSED, nargs=-1)
 @click.option("-p", "--plot", is_flag=True, help="Plot the spectra.")
 @click.option("-s", "--save", help="Save plot under specified filename.")
-def spectra(args, plot, save):
+@click.option("-v", "--verbose", help="Print debugging statements and warnings.", is_flag=True)
+def spectra(args, plot, save, verbose):
     """Search for spectra in classy index."""
+    if verbose:
+        classy.set_log_level("DEBUG")
+        rocks.set_log_level("DEBUG")
+    else:
+        classy.set_log_level("CRITICAL")
+        rocks.set_log_level("CRITICAL")
 
     if not args:
         raise ValueError("No query parameters were specified.")
