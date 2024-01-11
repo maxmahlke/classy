@@ -22,4 +22,4 @@ logger.debug(f"classy data directory: {PATH_DATA}")
 APP_MODE = False
 
 # Maximum missing wavelength range to extrapolate for classification
-EXTRAPOLATION_LIMIT = 10  # in percent
+EXTRAPOLATION_LIMIT = 4.7  # in percent
