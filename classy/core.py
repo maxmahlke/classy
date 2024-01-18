@@ -441,6 +441,7 @@ class Spectrum:
         -----
         Any additional parameters are passed to the ``scipy.interpoalte.interp1d`` function.
         """
+        wave_new = sorted(wave_new)
 
         self.refl = preprocessing.resample(self.wave, self.refl, wave_new, **kwargs)
         self.wave = np.array(wave_new)
