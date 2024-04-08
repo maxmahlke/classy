@@ -22,7 +22,7 @@ numpy = ">=1.22.3"
 pandas = ">=1.4.2"
 rich = ">=12.2.0"
 scikit-learn = ">=1.2.1"
-space-rocks = ">=1.7.2"
+space-rocks = ">=1.9.7"
 
 [tool.poetry.extras]
 docs = ["sphinx", "sphinx-redactor-theme", "sphinx_design", "sphinx-hoverxref", "jinja2", 'furo', "sphinx-copybutton"]
