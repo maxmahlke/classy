@@ -27,7 +27,7 @@
 
 A tool to explore, download, analyse, and classify asteroid reflectance
 spectra. Originally designed for classification in the taxonomy of [Mahlke,
-Carry, and Mattei 2022](https://arxiv.org/abs/2203.11229>), it now offers
+Carry, and Mattei 2022](https://arxiv.org/abs/2203.11229), it now offers
 multiple taxonomic systems and a suite of quality-of-life features for
 spectroscopic analysis.
 
