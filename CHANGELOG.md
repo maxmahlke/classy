@@ -3,6 +3,7 @@
 - Change extrapolation limit from 10% to 4.7%
 - Do not overwrite `pV` attribute when classifying in Mahlke/Tholen
 - Sort new wavelength grid prior to resampling
+- Add matplotlib to required packages, fix import error regarding matplotlib
 
 # 0.8.2 - 2023-12-14
 - Use up-to-date Miriade server URL

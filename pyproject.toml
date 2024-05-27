@@ -8,7 +8,7 @@ readme = "README.md"
 homepage = "https://github.com/maxmahlke/classy"
 documentation = "https://classy.readthedocs.io/en/latest/"
 repository = "https://github.com/maxmahlke/classy.git"
-packages = [{'include' = 'classy'}]
+packages = [{ 'include' = 'classy' }]
 include = ["data/mixnorm", 'data/mcfa']
 
 [tool.poetry.dependencies]
@@ -17,6 +17,7 @@ aiohttp = ">=3.8"
 click = ">=8.1.2"
 importlib-resources = ">=5.10.2"
 lmfit = ">=1.2.0"
+matplotlib = ">=3.7.0"
 mcfa = "^0.1"
 numpy = ">=1.22.3"
 pandas = ">=1.4.2"
@@ -25,7 +26,15 @@ scikit-learn = ">=1.2.1"
 space-rocks = ">=1.9.7"
 
 [tool.poetry.extras]
-docs = ["sphinx", "sphinx-redactor-theme", "sphinx_design", "sphinx-hoverxref", "jinja2", 'furo', "sphinx-copybutton"]
+docs = [
+  "sphinx",
+  "sphinx-redactor-theme",
+  "sphinx_design",
+  "sphinx-hoverxref",
+  "jinja2",
+  'furo',
+  "sphinx-copybutton",
+]
 gui = ['pyside6', 'pyqtgraph']
 
 [tool.pytest.ini_options]

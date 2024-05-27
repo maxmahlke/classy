@@ -6,6 +6,7 @@
 
 import classy
 import matplotlib as mpl
+import matplotlib.cm
 import matplotlib.pyplot as plt
 import numpy as np
 
