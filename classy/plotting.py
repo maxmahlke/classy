@@ -6,7 +6,6 @@
 
 import classy
 import matplotlib as mpl
-import matplotlib.cm
 import matplotlib.pyplot as plt
 import numpy as np
 
@@ -31,7 +30,10 @@ def get_colors(N, cmap="turbo"):
         A list of color-hexcodes.
 
     """
-    COLORS = matplotlib.cm.get_cmap(cmap, N)
+    try:
+        COLORS = mpl.cm.get_cmap(cmap, N)
+    except AttributeError:  # matplotlib>=3.9.0
+        COLORS = mpl.colormaps.get_cmap(cmap, N)
     return [mpl.colors.rgb2hex(COLORS(i)[:3]) for i in range(N)]
 
 
