@@ -1,6 +1,7 @@
 # 0.8.3 -
 - Add -v|--verbose option to `classy classify` and `classy spectra`
 - Change extrapolation limit from 10% to 4.7%
+- Add 'debug' command to CLI
 - Do not overwrite `pV` attribute when classifying in Mahlke/Tholen
 - Sort new wavelength grid prior to resampling
 - Add matplotlib to required packages, fix import error regarding matplotlib

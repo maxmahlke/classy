@@ -1,3 +1,4 @@
+import os
 from pathlib import Path
 import sys
 import webbrowser
@@ -43,7 +44,9 @@ def add(path):
 )
 @click.option("-p", "--plot", is_flag=True, help="Plot the classification result.")
 @click.option("-s", "--save", help="Save plot under specified filename.")
-@click.option("-v", "--verbose", help="Print debugging statements and warnings.", is_flag=True)
+@click.option(
+    "-v", "--verbose", help="Print debugging statements and warnings.", is_flag=True
+)
 def classify(args, taxonomy, plot, save, verbose):
     """Classify spectra in classy index."""
     if verbose:
@@ -149,7 +152,9 @@ def smooth(args, force):
 @click.argument("args", type=click.UNPROCESSED, nargs=-1)
 @click.option("-p", "--plot", is_flag=True, help="Plot the spectra.")
 @click.option("-s", "--save", help="Save plot under specified filename.")
-@click.option("-v", "--verbose", help="Print debugging statements and warnings.", is_flag=True)
+@click.option(
+    "-v", "--verbose", help="Print debugging statements and warnings.", is_flag=True
+)
 def spectra(args, plot, save, verbose):
     """Search for spectra in classy index."""
     if verbose:
@@ -247,6 +252,20 @@ def status():
 
         if add_phase:
             index.phase.add_phase_to_index()
+
+
+@cli_classy.command(hidden=True)
+def debug():
+    """Echo classy configuration variables."""
+
+    rich.print("--- data")
+    classy_cache_dir_set = "CLASSY_DATA_DIR" in os.environ
+    rich.print(f"CLASSY_DATA_DIR set: {classy_cache_dir_set}")
+
+    if classy_cache_dir_set:
+        rich.print(f"CLASSY_DATA_DIR value: {os.environ['CLASSY_DATA_DIR']}")
+
+    rich.print(f"\ndata directory: {classy.config.PATH_DATA}")
 
 
 # ------
