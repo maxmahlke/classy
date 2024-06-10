@@ -21,7 +21,7 @@ def add_phase_to_index():
     # Run async loop to get phase info while displaying progress
     with utils.progress.mofn as mofn:
         print("")
-        task = mofn.add_task("Querying Miriade", total=len(idx_phase.groupby("name")))
+        task = mofn.add_task("Querying Miriade", total=len(idx_phase))
 
         loop = get_or_create_eventloop()
         phases = loop.run_until_complete(_run_async_loop(idx_phase, mofn, task))
@@ -96,7 +96,12 @@ async def _get_phase_asyncronous(idx, obs, session, mofn, progress):
         for epoch in epochs:
             try:
                 phase = await _get_phase_angle(obs["name"], epoch, session)
-            except (aiohttp.client_exceptions.ClientConnectorError, KeyError):
+            except (
+                aiohttp.client_exceptions.ClientConnectorError,
+                aiohttp.client_exceptions.ContentTypeError,
+                aiohttp.client_exceptions.ServerTimeoutError,
+                KeyError,
+            ):
                 logger.error(
                     f"The following Miriade query failed (phase is set to NaN): {obs['name']} - {epoch}"
                 )
@@ -105,11 +110,9 @@ async def _get_phase_asyncronous(idx, obs, session, mofn, progress):
 
     mofn.update(progress, advance=1)
 
-    with warnings.catch_warnings():
+    with warnings.catch_warnings():  # hides warnings if phase = [np.nan]
         warnings.simplefilter("ignore")
-        mean = np.nanmean(phases)
-        err = np.nanstd(phases)
-    return idx, mean, err
+        return idx, np.nanmean(phases), np.nanstd(phases)
 
 
 async def _get_phase_angle(name, epochs, session):
@@ -143,22 +146,10 @@ async def _get_phase_angle(name, epochs, session):
         "-ep": epochs,
     }
 
-    try:
-        async with session.post(url=URL, params=params) as response:
-            try:
-                response_json = await response.json()
-            except aiohttp.client_exceptions.ContentTypeError:
-                logger.error(
-                    "The Miriade query for an asteroid-epoch pair failed. The corresponding phase is set to NaN."
-                )
-                return [np.nan]
-    except aiohttp.client_exceptions.ServerTimeoutError:
-        logger.error(
-            "The Miriade server did not respond to the query in time. Setting phase to NaN."
-        )
-        return [np.nan]
+    async with session.post(url=URL, params=params) as response:
+        response_json = await response.json()
 
-    return [data["Phase"] for data in response_json["data"]]
+    return response_json["data"][0]["Phase"]
 
 
 def get_or_create_eventloop():

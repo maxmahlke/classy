@@ -158,6 +158,9 @@ def load_spectrum(idx, skip_target):
     for attr in ["shortbib", "bibcode", "host", "source", "date_obs"]:
         setattr(spec, attr, idx[attr])
 
+    if "phase" in idx:
+        setattr(spec, "phase", idx["phase"])
+
     spec.filename = idx.name
 
     # Add collection-specific metadata

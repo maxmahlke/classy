@@ -1,3 +1,7 @@
+# 0.8.4 -
+- Miriade query for phase angle is now more stable
+- Fix phase-angle attribute of Spectrum class
+
 # 0.8.3 - 2024-06-10
 - Add -v|--verbose option to `classy classify` and `classy spectra`
 - Change extrapolation limit from 10% to 4.7%
