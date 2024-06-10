@@ -1,4 +1,5 @@
 """Taxonomic classification of asteroid reflectance spectra."""
+
 import os
 
 os.environ["TF_CPP_MIN_LOG_LEVEL"] = "3"
@@ -8,4 +9,4 @@ from .core import Spectrum  # noqa
 from .core import Spectra  # noqa
 
 # Welcome to classy
-__version__ = "0.8.2"
+__version__ = "0.8.3"

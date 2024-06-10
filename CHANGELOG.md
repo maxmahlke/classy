@@ -1,10 +1,11 @@
-# 0.8.3 -
+# 0.8.3 - 2024-06-10
 - Add -v|--verbose option to `classy classify` and `classy spectra`
 - Change extrapolation limit from 10% to 4.7%
 - Add 'debug' command to CLI
 - Do not overwrite `pV` attribute when classifying in Mahlke/Tholen
 - Sort new wavelength grid prior to resampling
 - Add matplotlib to required packages, fix import error regarding matplotlib
+- Catch failed Miriade queries for phase computation
 
 # 0.8.2 - 2023-12-14
 - Use up-to-date Miriade server URL
