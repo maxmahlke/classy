@@ -1,5 +1,6 @@
 import aiohttp
 import asyncio
+import warnings
 
 import numpy as np
 import pandas as pd
@@ -19,6 +20,7 @@ def add_phase_to_index():
 
     # Run async loop to get phase info while displaying progress
     with utils.progress.mofn as mofn:
+        print("")
         task = mofn.add_task("Querying Miriade", total=len(idx_phase.groupby("name")))
 
         loop = get_or_create_eventloop()
@@ -94,15 +96,20 @@ async def _get_phase_asyncronous(idx, obs, session, mofn, progress):
         for epoch in epochs:
             try:
                 phase = await _get_phase_angle(obs["name"], epoch, session)
-            except aiohttp.client_exceptions.ClientConnectorError:
+            except (aiohttp.client_exceptions.ClientConnectorError, KeyError):
                 logger.error(
-                    "The Miriade query for an asteroid-epoch pair failed. The corresponding phase is set to NaN."
+                    f"The following Miriade query failed (phase is set to NaN): {obs['name']} - {epoch}"
                 )
                 phase = np.nan
             phases.append(phase)
 
     mofn.update(progress, advance=1)
-    return idx, np.nanmean(phases), np.nanstd(phases)
+
+    with warnings.catch_warnings():
+        warnings.simplefilter("ignore")
+        mean = np.nanmean(phases)
+        err = np.nanstd(phases)
+    return idx, mean, err
 
 
 async def _get_phase_angle(name, epochs, session):
