@@ -1,4 +1,5 @@
 """Implement the Spectrum class in classy."""
+
 import shutil
 
 import numpy as np
@@ -72,8 +73,8 @@ class Spectrum:
         """Check the validity of passed values for spectra."""
 
         # Ensure floats and np.ndarrays
-        wave = np.array([float(w) for w in wave])
-        refl = np.array([float(r) for r in refl])
+        wave = np.array(wave, dtype=float)
+        refl = np.array(refl, dtype=float)
 
         if refl_err is not None:
             refl_err = np.array([float(r) for r in refl_err])
