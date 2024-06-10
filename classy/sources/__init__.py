@@ -15,6 +15,7 @@ SOURCES = [
     "ECAS",
     "Gaia",
     "M4AST",
+    # "MANOS",
     "MITHNEOS",
     "Misc",
     "PRIMASS",
@@ -34,6 +35,7 @@ def _retrieve_spectra():
     DESCS = {
         cds: f"[dim]{'[93] CDS':>22}[/dim]",
         pds: f"[dim]{'[3369] PDS':>22}[/dim]",
+        # manos: f"[dim]{'[>215] MANOS':>22}[/dim]",
         m4ast: f"[dim]{'[123] M4AST':>22}[/dim]",
         akari: f"[dim]{'[64] AKARI':>22}[/dim]",
         smass: f"[dim]{'[1911] SMASS':>22}[/dim]",
@@ -45,6 +47,7 @@ def _retrieve_spectra():
         "[progress.description]{task.description}",
         progress.BarColumn(),
         transient=True,
+        disable=False,
     ) as pbar:
         overall = pbar.add_task("Downloading Spectra...", total=len(MODULES))
 

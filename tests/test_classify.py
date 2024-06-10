@@ -42,7 +42,6 @@ def _create_name_expected_class_list():
         ("Dembowska", 0.23, "R"),
     ],
 )
-@pytest.mark.skip(reason="currently broken")
 def test_tholen(name, pV, class_expected):
     """Classify locally stored ECAS data and verify the most-likely Tholen class."""
 
@@ -52,7 +51,9 @@ def test_tholen(name, pV, class_expected):
     # Code copied from module because mocking pd.read_csv is hard
     obs = colors.loc[colors["name"] == name]
     wave = classy.sources.pds.ecas.WAVE
-    refl, refl_err = classy.sources.pds.ecas._compute_reflectance_from_colors(obs)
+    refl, refl_err = classy.sources.pds.ecas._compute_reflectance_from_colors(
+        obs.squeeze()
+    )
     flags = classy.sources.pds.ecas._add_flags(obs)
 
     data = pd.DataFrame(

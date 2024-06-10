@@ -56,6 +56,7 @@ def is_classifiable(spec):
         if preprocessing._within_extrapolation_limit(
             spec.wave.min(), spec.wave.max(), min(WAVE), max(WAVE)
         ):
+            spec._extrapolated_for_demeo = True
             return True
 
         logger.warning(
