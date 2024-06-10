@@ -36,9 +36,12 @@ def _retrieve_spectra():
 
     if PATH_ARCHIVE.is_file():
         logger.debug(f"akari - Using cached archive file at \n{PATH_ARCHIVE}")
+        success = True
     else:
-        utils.download.archive(URL, PATH_ARCHIVE)
-    utils.unpack(PATH_ARCHIVE, encoding="tar.gz")
+        success = utils.download.archive(URL, PATH_ARCHIVE)
+
+    if success:
+        utils.unpack(PATH_ARCHIVE, encoding="tar.gz")
 
 
 def _build_index():
