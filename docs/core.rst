@@ -289,8 +289,8 @@ query the phase angle.
    >>> spec.phase
    13.811
 
-Combining a ``Spectrum`` with many ``Spectra``
-++++++++++++++++++++++++++++++++++++++++++++++
+``Spectrum`` + ``Spectra``
+++++++++++++++++++++++++++
 
 You can combine your observations (``Spectrum`` instances) with observations from the literature (``Spectra``)
 by simply adding them.
