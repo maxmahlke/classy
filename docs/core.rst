@@ -242,6 +242,53 @@ literature does not provide the ``date_obs``, it is set to an empty string:
 dates, all dates are given, separated by a ``,``, e.g.
 ``2004-03-02T00:00:00,2004-05-16T00:00:00``.
 
+Phase Angles
+++++++++++++
+
+Using the dates of observations, ``classy`` can query the phase angle of the
+asteroid at the time of observation. You can do this for all spectra in the
+``classy`` index using the ``classy status`` command, then pressing ``1`` to
+manage the cache followed by ``2`` to add phase angle information to all
+spectra with known dates of observations. This information is permanently
+stored in the cache and available via the ``phase`` attribute of the
+``Spectrum`` class.
+
+.. code-block:: shell
+
+    $ classy status
+
+    Contents of /home/mmahlke/astro/data/classy:
+
+        69525 asteroid reflectance spectra from 32 sources [public|private]
+
+        24CAS      285    52CAS      119    AKARI       64    B07         10
+        BCU         11    CDS         88    D18         14    DM09       366
+        E11         66    EB03        13    ECAS       589    F14        100
+        G12         30    Gaia     60518    HARTSS      82    M4AST      123
+        MANOS      225    MITHNEOS  1905    Misc       907    P11          7
+        P18        146    PDS         91    PRIMASS    437    S08          1
+        S3OS2      820    SCAS       126    SMASS     2256    TE12         3
+        W17         25    YJ07         5    YJ11        20    dL10        73
+
+
+    Choose one of these actions:
+    [0] Do nothing [1] Manage cache [2] Retrieve public spectra (0): 1
+
+    Choose one of these actions:
+    [0] Do nothing [1] Rebuild index [2] Add phase angles [3] Clear cache (0): 2
+
+    Querying Miriade [=====                                         ] 792 / 7406
+
+Alternatively, for a given ``Spectrum`` with a known ``target`` and ``date_obs``, you can use the ``compute_phase_angle()`` method to
+query the phase angle.
+
+.. code-block:: python
+
+   >>> spec = classy.Spectrum(wave=[0.45, 0.5, 0.55], refl=[0.85, 0.94, 1.01], target="Vesta", date_obs="2024-06-11T07:51:10")
+   >>> spec.compute_phase_angle()
+   >>> spec.phase
+   13.811
+
 Combining a ``Spectrum`` with many ``Spectra``
 ++++++++++++++++++++++++++++++++++++++++++++++
 
