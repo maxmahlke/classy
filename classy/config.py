@@ -12,7 +12,9 @@ if "CLASSY_DATA_DIR" in os.environ:
 
     # TODO: Make greeting like for rocks if PATH_DATA does not exist
     if not PATH_DATA.is_dir():
-        raise ValueError(f"Path {PATH_DATA} does not exist.")
+        raise ValueError(
+            f"CLASSY_DATA_DIR is set to '{PATH_DATA}' but this path does not exist."
+        )
 else:
     PATH_DATA = Path(user_cache_dir()) / "classy"
 
