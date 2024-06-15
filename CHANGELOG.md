@@ -1,4 +1,5 @@
 # 0.8.4 -
+- Add MANOS collection
 - Miriade query for phase angle is now more stable
 - Fix phase-angle attribute of Spectrum class
 

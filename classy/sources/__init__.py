@@ -5,7 +5,7 @@ from classy import config
 from classy import core
 from classy import sources
 
-from . import akari, cds, gaia, m4ast, mithneos, pds, private, smass
+from . import akari, cds, gaia, m4ast, manos, mithneos, pds, private, smass
 
 SOURCES = [
     "24CAS",
@@ -15,7 +15,7 @@ SOURCES = [
     "ECAS",
     "Gaia",
     "M4AST",
-    # "MANOS",
+    "MANOS",
     "MITHNEOS",
     "Misc",
     "PRIMASS",
@@ -31,11 +31,12 @@ def _retrieve_spectra():
 
     # TODO: Add proper progress per source by passing tasks
     MODULES = [cds, pds, m4ast, akari, smass, mithneos, gaia]
+    MODULES = [manos]
 
     DESCS = {
         cds: f"[dim]{'[93] CDS':>22}[/dim]",
         pds: f"[dim]{'[3369] PDS':>22}[/dim]",
-        # manos: f"[dim]{'[>215] MANOS':>22}[/dim]",
+        manos: f"[dim]{'[197] MANOS':>22}[/dim]",
         m4ast: f"[dim]{'[123] M4AST':>22}[/dim]",
         akari: f"[dim]{'[64] AKARI':>22}[/dim]",
         smass: f"[dim]{'[1911] SMASS':>22}[/dim]",
@@ -53,15 +54,11 @@ def _retrieve_spectra():
 
         tasks = {}
 
-        for module in MODULES:
-            tasks[module] = pbar.add_task(
-                DESCS[module], visible=True, start=False, total=None
-            )
-
         for i, module in enumerate(MODULES):
-            pbar.update(tasks[module], start=True)
+            tasks[module] = pbar.add_task(DESCS[module], visible=True, total=None)
             module._retrieve_spectra()
-            pbar.update(tasks[module], visible=False)
+            pbar.update(tasks[module], total=1)
+            pbar.advance(tasks[module])
 
             # Update overall bar
             pbar.update(overall, completed=i + 1)

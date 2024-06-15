@@ -257,10 +257,11 @@ def build():
 
     # ------
     # Retrieve index while showing spinner
-    MODULES = ["cds", "pds", "m4ast", "akari", "smass", "mithneos", "gaia"]
+    MODULES = ["cds", "pds", "m4ast", "akari", "smass", "manos", "mithneos", "gaia"]
     DESCS = {
         "cds": f"[dim]{'[93] CDS':>22}[/dim]",
         "pds": f"[dim]{'[3369] PDS':>22}[/dim]",
+        "manos": f"[dim]{'[197] MANOS':>22}[/dim]",
         "m4ast": f"[dim]{'[123] M4AST':>22}[/dim]",
         "akari": f"[dim]{'[64] AKARI':>22}[/dim]",
         "smass": f"[dim]{'[1911] SMASS':>22}[/dim]",
@@ -283,8 +284,10 @@ def build():
             )
 
         for i, module in enumerate(MODULES):
-            pbar.update(tasks[module], start=True)
-            getattr(sources, module)._build_index()
+            try:
+                getattr(sources, module)._build_index()
+            except FileNotFoundError:
+                pass
             pbar.update(tasks[module], visible=False)
 
             # Update overall bar
