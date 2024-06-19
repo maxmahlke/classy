@@ -104,6 +104,7 @@ def query(id=None, **kwargs):
         kwargs["name"] = id
 
     idx = load()
+    idx["filename"] = idx.index.values  # ensure that filename is searchable as well
 
     # Separate requested columns into domains
     cols_bft = []

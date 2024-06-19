@@ -1,5 +1,7 @@
 # 0.8.4 -
 - Add MANOS collection
+- classy.Spectra now accepts subset of classy index as search input
+- classy.Spectra now accepts "filename" as search parameter
 - Miriade query for phase angle is now more stable
 - Fix phase-angle attribute of Spectrum class
 

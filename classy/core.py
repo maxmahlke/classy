@@ -512,7 +512,12 @@ class Spectra(list):
                 self.append(spec)
             return
 
-        spectra = index.query(id, **kwargs)
+        # Is it a subset of the classy index?
+        if isinstance(id, pd.DataFrame):
+            spectra = id
+        else:
+            spectra = index.query(id, **kwargs)
+
         spectra = index.data.load_spectra(spectra, skip_target)
 
         for spec in spectra:
