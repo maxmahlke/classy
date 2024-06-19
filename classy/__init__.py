@@ -9,4 +9,4 @@ from .core import Spectrum  # noqa
 from .core import Spectra  # noqa
 
 # Welcome to classy
-__version__ = "0.8.3"
+__version__ = "0.8.4"

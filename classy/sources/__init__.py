@@ -30,8 +30,7 @@ def _retrieve_spectra():
     from rich import progress
 
     # TODO: Add proper progress per source by passing tasks
-    MODULES = [cds, pds, m4ast, akari, smass, mithneos, gaia]
-    MODULES = [manos]
+    MODULES = [cds, pds, m4ast, akari, smass, manos, mithneos, gaia]
 
     DESCS = {
         cds: f"[dim]{'[93] CDS':>22}[/dim]",

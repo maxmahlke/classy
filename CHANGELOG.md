@@ -1,4 +1,4 @@
-# 0.8.4 -
+# 0.8.4 - 2024-06-19
 - Add MANOS collection
 - classy.Spectra now accepts subset of classy index as search input
 - classy.Spectra now accepts "filename" as search parameter
@@ -25,7 +25,8 @@
 
 # 0.8 - 2023-12-06
 - Split functionality of `$ classy spectra` into two commands: `$ classy spectra` and `$ classy classify`
-- Add query language: spectra can now be selected based on properties of the spectrum (e.g. wavelength coverage, bibliography) and those of the target (e.g. family, taxonomy)
+- Add query language: spectra can now be selected based on properties of the spectrum (e.g. wavelength coverage, bibliography)
+  and those of the target (e.g. family, taxonomy)
 - Add graphical user interface for smoothing and feature-detection
 - Add `export` functionality to export raw and processed spectral data and metadata
 - Complete rework of documentation
