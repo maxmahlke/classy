@@ -132,6 +132,10 @@ def query(id=None, **kwargs):
     if cols_bft and not config.APP_MODE:
         bft = rocks.load_bft(columns=cols_bft + ["sso_name"])
         bft = bft.rename(columns={v: k for k, v in BFT_SHORT.items()})
+
+        if "filename" in idx.columns:
+            idx.drop(columns=["filename"], inplace=True)
+
         idx = idx.reset_index(names="filename")
         idx = idx.merge(bft, left_on="name", right_on="sso_name")
         idx = idx.set_index("filename")

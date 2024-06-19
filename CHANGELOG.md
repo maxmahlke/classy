@@ -1,3 +1,6 @@
+# 0.8.5 -
+- Fix bug in filename spectra look-up
+
 # 0.8.4 - 2024-06-19
 - Add MANOS collection
 - classy.Spectra now accepts subset of classy index as search input
