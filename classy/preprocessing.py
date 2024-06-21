@@ -1,5 +1,7 @@
 import numpy as np
+import pandas as pd
 from scipy import interpolate, signal
+from scipy.spatial import ConvexHull
 import sklearn
 
 from classy import config
@@ -137,6 +139,24 @@ def resample(wave, refl, grid, **kwargs):
 
     refl_interp = interpolate.interp1d(wave, refl, **kwargs)
     return refl_interp(grid)
+
+
+def compute_convex_hull(spec):
+    # from StackOverflow
+    x = spec.wave[~np.isnan(spec.refl)]
+    y = spec.refl[~np.isnan(spec.refl)]
+
+    points = np.c_[x, y]
+    augmented = np.concatenate(
+        [points, [(x[0], np.min(y) - 1), (x[-1], np.min(y) - 1)]], axis=0
+    )
+
+    hull = ConvexHull(augmented, qhull_options="")
+    continuum_points = points[np.sort([v for v in hull.vertices if v < len(points)])]
+    continuum_function = interpolate.interp1d(
+        *continuum_points.T, fill_value="extrapolate"
+    )
+    return continuum_function
 
 
 def load_smoothing():

@@ -450,6 +450,15 @@ class Spectrum:
         if self.refl_err is not None:
             self.refl_err = None
 
+    def compute_continuum(self):
+        """Compute the convex-hull continuum of the spectrum.
+
+        Notes
+        -----
+        The continuum is stored as a callable in the 'continuum' attribute.
+        """
+        self.continuum = preprocessing.compute_convex_hull(self)
+
     def export(self, path, columns=None, raw=False):
         """Export spectrum attributes to a csv file.
 

@@ -189,6 +189,7 @@ class Feature:
         )
         return np.poly1d(continuum)
 
+    # TODO: This should be a method of the parent Spectrum class
     def _compute_hull_continuum(self):
         """Compute the continuum of a spectrum using convex-hull."""
 
