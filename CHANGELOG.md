@@ -1,4 +1,4 @@
-# 0.8.5 -
+# 0.8.5 - 2024-06-21
 - Add convex-hull continuum computation to classy.Spectrum class
 - Fix bug in filename spectra look-up
 
