@@ -34,6 +34,8 @@ command.
 
 .. include:: sources/m4ast.rst
 
+.. include:: sources/manos.rst
+
 .. include:: sources/mithneos.rst
 
 .. include:: sources/misc.rst
@@ -55,3 +57,5 @@ command.
    spectra you would like to see inlcuded, please `suggest it
    <https://github.com/maxmahlke/classy/issues>`_ and it will be added if
    possible.
+
+.. [#f2] 210 spectra were published in Devogèle et al. (2019) but not all are available in the `online database <https://manos.lowell.edu/observations/summary>`_.
