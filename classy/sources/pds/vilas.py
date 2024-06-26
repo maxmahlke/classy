@@ -62,7 +62,7 @@ def _build_index(PATH_REPO):
 
 def _transform_data(idx, data):
     """Apply module-specific data transforms."""
-    data.refl_err[data.refl_err == -9.999] = np.nan
+    data.loc[data.refl_err == -9.999, "refl_err"] = np.nan
 
     meta = {}
     return data, meta
