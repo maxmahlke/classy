@@ -158,6 +158,84 @@ via the ``phase`` attribute.
    the name of the target. Similarly, properties like the albedo are accessed
    via the target: ``spec.target.albedo.value``.
 
+.. _exporting_spectrum:
+
+Exporting a ``Spectrum``
+++++++++++++++++++++++++
+
+You can use the ``export`` method of the ``Spectrum`` class to export the
+spectral data.
+
+By default, ``classy`` will write the current values of the ``wave``, ``refl``,
+and (if not ``None``) ``refl_err`` values to a ``csv`` file and save it under the provided
+``path``, the mandatory argument of the ``export`` function.
+
+.. code-block:: python
+
+   >>> spec = classy.Spectra(44, source="Gaia")[0]
+   >>> spec.export("44_nysa.csv")
+
+A preview of the exported file:
+
+.. code-block:: shell
+
+   $ head 44_nysa.csv
+   wave,refl,refl_err
+   0.374,0.9158446185000001,0.00070279953
+   0.418,0.941973123,0.0005009585
+   0.462,0.9665745012000001,0.0004947147
+   0.506,0.9972719497,0.0005286616
+   0.55,1.0,0.0005227076
+   0.594,1.0108662,0.0005877005
+   0.638,1.001265,0.00057106547
+   0.682,1.0139798,0.0005213781
+   0.726,1.0250095,0.0005411855
+
+You can specify which attributes to export by passing a list of attribute names to the ``columns`` argument.
+By default, this list is ``['wave', 'refl', 'refl_err']``. All attributes must have the same length.
+
+.. code-block:: python
+
+   >>> spec.export("44_nysa_with_flag.csv", columns=['wave', 'refl', 'flag'])
+
+.. code-block:: shell
+
+   $ head 44_nysa_original.csv
+   wave,refl,flag
+   0.374,0.9158446185000001,0
+   0.418,0.941973123,0
+   0.462,0.9665745012000001,0
+   0.506,0.9972719497,0
+   0.55,1.0,0
+   0.594,1.0108662,0
+   0.638,1.001265,0
+   0.682,1.0139798,0
+   0.726,1.0250095,0
+
+To get the original data of the spectrum,  set ``raw=True``. In this case, ``classy``
+copies the data file of the spectrum from the ``classy`` data directory to the specified paths.
+The ``columns`` argument is ignored if ``raw=True``.
+
+.. code-block:: python
+
+   >>> spec.export("44_nysa_original.csv", raw=True)
+
+.. code-block:: shell
+
+   $ head 44_nysa_original.csv
+   source_id,solution_id,number_mp,denomination,nb_samples,num_of_spectra,refl,refl_err,wave,flag
+   -4284966856,4167557769573408785,44,nysa,16,21,0.85592955,0.00070279953,0.374,0
+   -4284966856,4167557769573408785,44,nysa,16,21,0.89711726,0.0005009585,0.418,0
+   -4284966856,4167557769573408785,44,nysa,16,21,0.94762206,0.0004947147,0.462,0
+   -4284966856,4167557769573408785,44,nysa,16,21,0.98739797,0.0005286616,0.506,0
+   -4284966856,4167557769573408785,44,nysa,16,21,1.0,0.0005227076,0.55,0
+   -4284966856,4167557769573408785,44,nysa,16,21,1.0108662,0.0005877005,0.594,0
+   -4284966856,4167557769573408785,44,nysa,16,21,1.001265,0.00057106547,0.638,0
+   -4284966856,4167557769573408785,44,nysa,16,21,1.0139798,0.0005213781,0.682,0
+   -4284966856,4167557769573408785,44,nysa,16,21,1.0250095,0.0005411855,0.726,0
+
+The ``export`` method of the ``Spectra`` class behaves differently and is explained :ref:`later on <exporting_spectra>`.
+
 Working with ``Spectra``
 ------------------------
 
@@ -322,7 +400,7 @@ corresponding function of the ``Spectra`` class. This saves efforts in typing an
 and exporting <export>` analysis results.
 
 Plotting ``Spectra``
---------------------
+++++++++++++++++++++
 
 This chapter already demonstrated taht you can use the ``plot`` method of the
 ``Spectrum`` and ``Spectra`` classes to visualise the spectra. The method
@@ -358,83 +436,49 @@ You can save the figure to file by specifying the output filename with the ``sav
 
   >>> spectra.plot(save="43_with_mahlke_s_template.png")
 
-.. _exporting_spectrum:
+Selecting many ``Spectra``
+++++++++++++++++++++++++++
 
-Exporting a ``Spectrum``
-------------------------
-
-You can use the ``export`` method of the ``Spectrum`` class to export the
-spectral data.
-
-By default, ``classy`` will write the current values of the ``wave``, ``refl``,
-and (if not ``None``) ``refl_err`` values to a ``csv`` file and save it under the provided
-``path``, the mandatory argument of the ``export`` function.
+If you pass a query that matches many spectra to the ``Spectra`` class, it can take a while to load all
+the data and the corresponding target information. If you are primarily interested in the spectra metadata or you
+would like to refine your search quickly, you can search the ``classy`` spectra index with the same syntax. Instead of spectra,
+this method returns a ``pandas.DataFrame`` with the metadata of the matching spectra.
 
 .. code-block:: python
 
-   >>> spec = classy.Spectra(44, source="Gaia")[0]
-   >>> spec.export("44_nysa.csv")
+    >>> classy.index.query(source="MITHNEOS", wave_min=0.9)
+                                           name    source  ... err_phase                          filename
+    filename                                               ...
+    mithneos/sp61/a000364.sp61.txt        Isara  MITHNEOS  ...       NaN    mithneos/sp61/a000364.sp61.txt
+    mithneos/sp68/a000006.sp68.txt         Hebe  MITHNEOS  ...       0.0    mithneos/sp68/a000006.sp68.txt
+    mithneos/sp75/a000245.sp75.txt         Vera  MITHNEOS  ...       0.0    mithneos/sp75/a000245.sp75.txt
+    mithneos/sp75/a000079.sp75.txt     Eurynome  MITHNEOS  ...       0.0    mithneos/sp75/a000079.sp75.txt
+    mithneos/sp92/a000057.sp92.txt    Mnemosyne  MITHNEOS  ...       0.0    mithneos/sp92/a000057.sp92.txt
+    ...                                     ...       ...  ...       ...                               ...
+    mithneos/dm19/a316934.dm19n1.txt  2001 AA52  MITHNEOS  ...       0.0  mithneos/dm19/a316934.dm19n1.txt
+    mithneos/dm19/a283319.dm19n2.txt   1992 WR4  MITHNEOS  ...       0.0  mithneos/dm19/a283319.dm19n2.txt
+    mithneos/dm19/a409995.dm19n1.txt   2006 WV3  MITHNEOS  ...       0.0  mithneos/dm19/a409995.dm19n1.txt
+    mithneos/dm19/a412976.dm19n2.txt    1987 WC  MITHNEOS  ...       0.0  mithneos/dm19/a412976.dm19n2.txt
+    mithneos/dm19/a363505.dm19n1.txt  2003 UC20  MITHNEOS  ...       0.0  mithneos/dm19/a363505.dm19n1.txt
 
-A preview of the exported file:
+    [1905 rows x 14 columns]
 
-.. code-block:: shell
+    >>> # that's a lot of specra, let's refine the search
+    >>> classy.index.query(source='MITHNEOS', wave_min=0.9, family="Themis")
+                                       name    source      host  number  ...    N      phase err_phase  family
+    filename                                                             ...
+    mithneos/sp44/a000090.sp44.txt  Antiope  MITHNEOS  mithneos      90  ...  499  19.266976       0.0  Themis
+    mithneos/sp45/a000024.sp45.txt   Themis  MITHNEOS  mithneos      24  ...  508  12.913816       0.0  Themis
+    mithneos/sp56/a002919.sp56.txt     Dali  MITHNEOS  mithneos    2919  ...  302   2.191100       0.0  Themis
+    mithneos/sp84/a000268.sp84.txt   Adorea  MITHNEOS  mithneos     268  ...  327  12.258761       0.0  Themis
+    mithneos/sp84/a000062.sp84.txt    Erato  MITHNEOS  mithneos      62  ...  503   6.851461       0.0  Themis
+    mithneos/sp93/a000316.sp93.txt  Goberta  MITHNEOS  mithneos     316  ...  322   9.771457       0.0  Themis
 
-   $ head 44_nysa.csv
-   wave,refl,refl_err
-   0.374,0.9158446185000001,0.00070279953
-   0.418,0.941973123,0.0005009585
-   0.462,0.9665745012000001,0.0004947147
-   0.506,0.9972719497,0.0005286616
-   0.55,1.0,0.0005227076
-   0.594,1.0108662,0.0005877005
-   0.638,1.001265,0.00057106547
-   0.682,1.0139798,0.0005213781
-   0.726,1.0250095,0.0005411855
+    [6 rows x 14 columns]
 
-You can specify which attributes to export by passing a list of attribute names to the ``columns`` argument.
-By default, this list is ``['wave', 'refl', 'refl_err']``. All attributes must have the same length.
+    >>> # that's better, let's get the spectra
+    >>> classy.Spectra(source='MITHNEOS', wave_min=0.9, family="Themis")
 
-.. code-block:: python
-
-   >>> spec.export("44_nysa_with_flag.csv", columns=['wave', 'refl', 'flag'])
-
-.. code-block:: shell
-
-   $ head 44_nysa_original.csv
-   wave,refl,flag
-   0.374,0.9158446185000001,0
-   0.418,0.941973123,0
-   0.462,0.9665745012000001,0
-   0.506,0.9972719497,0
-   0.55,1.0,0
-   0.594,1.0108662,0
-   0.638,1.001265,0
-   0.682,1.0139798,0
-   0.726,1.0250095,0
-
-To get the original data of the spectrum,  set ``raw=True``. In this case, ``classy``
-copies the data file of the spectrum from the ``classy`` data directory to the specified paths.
-The ``columns`` argument is ignored if ``raw=True``.
-
-.. code-block:: python
-
-   >>> spec.export("44_nysa_original.csv", raw=True)
-
-.. code-block:: shell
-
-   $ head 44_nysa_original.csv
-   source_id,solution_id,number_mp,denomination,nb_samples,num_of_spectra,refl,refl_err,wave,flag
-   -4284966856,4167557769573408785,44,nysa,16,21,0.85592955,0.00070279953,0.374,0
-   -4284966856,4167557769573408785,44,nysa,16,21,0.89711726,0.0005009585,0.418,0
-   -4284966856,4167557769573408785,44,nysa,16,21,0.94762206,0.0004947147,0.462,0
-   -4284966856,4167557769573408785,44,nysa,16,21,0.98739797,0.0005286616,0.506,0
-   -4284966856,4167557769573408785,44,nysa,16,21,1.0,0.0005227076,0.55,0
-   -4284966856,4167557769573408785,44,nysa,16,21,1.0108662,0.0005877005,0.594,0
-   -4284966856,4167557769573408785,44,nysa,16,21,1.001265,0.00057106547,0.638,0
-   -4284966856,4167557769573408785,44,nysa,16,21,1.0139798,0.0005213781,0.682,0
-   -4284966856,4167557769573408785,44,nysa,16,21,1.0250095,0.0005411855,0.726,0
-
-The ``export`` method of the ``Spectra`` class behaves differently and is explained :ref:`later on <exporting_spectra>`.
 
 .. rubric:: Footnotes
    :caption:
