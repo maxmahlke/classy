@@ -101,7 +101,7 @@ class Spectrum:
         if any(refl_invalid):
             logger.debug("Found NaN values in reflectance. Removing them.")
         if any(refl < 0):
-            logger.debug("Found negative values in reflectance. Ignoring them.")
+            logger.debug("Found negative values in reflectance.")
 
         wave = wave[self.mask_valid]
         refl = refl[self.mask_valid]

@@ -100,7 +100,10 @@ def load_data(idx):
         data = gaia._load_virtual_file(idx)
     else:
         data = pd.read_csv(PATH_DATA, **module.DATA_KWARGS)
+
+    # Remove invalid data points
     data = data[data.wave > 0]
+    data = data[data.refl > 0]
 
     # Apply module specific data transforms and get metadata if necessary
     if hasattr(module, "_transform_data"):

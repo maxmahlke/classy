@@ -76,6 +76,9 @@ def load_catalog():
 
     # Do not index these spectra - already in SMASS/PRIMASS
     cat = cat[~cat.shortbib.isin(["Binzel+ 2001", "Morate+ 2016"])]
+
+    # This spectrum is a copy of 24CAS
+    cat = cat[cat["target_name"] != "Oljato"]
     return cat
 
 
