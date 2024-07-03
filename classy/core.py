@@ -440,7 +440,7 @@ class Spectrum:
 
         Notes
         -----
-        Any additional parameters are passed to the ``scipy.interpoalte.interp1d`` function.
+        Any additional parameters are passed to the ``scipy.interpolate.interp1d`` function.
         """
         wave_new = sorted(wave_new)
 
