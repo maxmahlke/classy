@@ -58,6 +58,9 @@ def _build_index(PATH_REPO):
     entries = _load_tfcas(PATH_REPO / "data/data0/24color.tab")
     entries["name"], entries["number"] = zip(*rocks.identify(entries.number))
 
+    # All-NaN entry
+    entries = entries[~entries["name"].isin(["Cerberus"])]
+
     entries["source"] = "24CAS"
     entries["host"] = "PDS"
     entries["module"] = "tfcas"
