@@ -80,10 +80,21 @@ def _build_index(PATH_REPO):
     entries = entries.replace(-99, np.nan)
     entries = entries.replace(-9, np.nan)
 
+    for col in [
+        "S_V_STD_DEV",
+        "U_V_STD_DEV",
+        "B_V_STD_DEV",
+        "V_W_STD_DEV",
+        "V_X_STD_DEV",
+        "V_P_STD_DEV",
+        "V_Z_STD_DEV",
+    ]:
+        entries[col] /= 1000
+
     # Verify identification
     entries["name"], entries["number"] = zip(*rocks.id(entries.number))
 
-    for name, spectra in entries.groupby("name"):
+    for _, spectra in entries.groupby("name"):
         for i, (_, spec) in enumerate(spectra.iterrows()):
             entries.loc[spec.name, "count"] = i
 
@@ -133,8 +144,7 @@ def _compute_reflectance_from_colors(obs):
         # refl_c = obs[f"{color}_MEAN"]
         refl_c = obs[f"{color}"]
         refl.append(np.power(10, -0.4 * (refl_c)))
-        # re = np.abs(refl_c) * np.abs(0.4 * np.log(10) * obs[f"{color}_STD_DEV"])
-        re = 0
+        re = np.abs(refl_c) * np.abs(0.4 * np.log(10) * obs[f"{color}_STD_DEV"])
         refl_err.append(re)
 
     refl.append(1)  # v-filter
@@ -148,8 +158,7 @@ def _compute_reflectance_from_colors(obs):
     ]:
         refl_c = obs[f"{color}"]
         refl.append(np.power(10, -0.4 * (-refl_c)))
-        # re = np.abs(refl_c) * np.abs(0.4 * np.log(10) * obs[f"{color}_STD_DEV"])
-        re = 0
+        re = np.abs(refl_c) * np.abs(0.4 * np.log(10) * obs[f"{color}_STD_DEV"])
         refl_err.append(re)
 
     refl = np.array(refl)
@@ -157,18 +166,45 @@ def _compute_reflectance_from_colors(obs):
     return refl, refl_err
 
 
-def _add_flags(obs):
-    flags = []
-
-    for color in ["S_V", "U_V", "B_V", "V_V", "V_W", "V_X", "V_P", "V_Z"]:
-        if color == "V_V":
-            flag_value = 0
-        else:
-            flag_value = int(obs[f"flag_{color}"])
-        flags.append(flag_value)
-
-    flags = np.array(flags)
-    return flags
+# def _add_flags(refl, refl_err):
+#     flags = []
+#
+#     for color in ["S_V", "U_V", "B_V", "V_V", "V_W", "V_X", "V_P", "V_Z"]:
+#         if color == "V_V":
+#             flag_value = 0
+#             continue
+#         else:
+#             flag_value = int(obs[f"flag_{color}"])
+#
+#     mean.loc[
+#         (mean.S_V_STD_DEV > 0.095)
+#         | (mean.U_V_STD_DEV > 0.074)
+#         | (mean.B_V_STD_DEV > 0.039)
+#         | (mean.V_W_STD_DEV > 0.034)
+#         | (mean.V_X_STD_DEV > 0.039)
+#         | (mean.V_P_STD_DEV > 0.044)
+#         | (mean.V_Z_STD_DEV > 0.051),
+#         "flag",
+#     ] = 1
+#
+#     for color, limit in zip(
+#         [
+#             "S_V_STD_DEV",
+#             "U_V_STD_DEV",
+#             "B_V_STD_DEV",
+#             "V_W_STD_DEV",
+#             "V_X_STD_DEV",
+#             "V_P_STD_DEV",
+#             "V_Z_STD_DEV",
+#         ],
+#         [0.095, 0.074, 0.039, 0.034, 0.039, 0.044, 0.051],
+#     ):
+#         mean.loc[mean[color] > limit, f"flag_{color[:3]}"] = 1
+#         mean.loc[mean[color] <= limit, f"flag_{color[:3]}"] = 0
+#     flags.append(flag_value)
+#
+# flags = np.array(flags)
+# return flags
 
 
 # def _create_mean_colors_file(PATH_REPO):
