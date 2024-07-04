@@ -62,7 +62,7 @@ def _build_index(PATH_REPO):
                 data={
                     "name": name,
                     "number": number,
-                    "date_obs": "",
+                    "date_obs": date_obs,
                     "shortbib": shortbib,
                     "bibcode": bibcode,
                     "filename": file_.relative_to(config.PATH_DATA),

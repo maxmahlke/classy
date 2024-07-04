@@ -1,5 +1,6 @@
 # 0.8.6 - 2024-07-01
-- Split ECAS dataset into single- rather than mean spectra
+- Split ECAS dataset into single-epoch rather than averaged spectra
+- Add observation date to PRIMASS spectra
 - Ignore reflectance values below 0 in public spectra
 - Fix code throwing a DeprectationWarning in PDS source module
 
