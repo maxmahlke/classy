@@ -1,4 +1,4 @@
-# 0.8.6 - 2024-07-01
+# 0.8.6 - 2024-07-04
 - Split ECAS dataset into single-epoch rather than averaged spectra
 - Add observation date to PRIMASS spectra
 - Ignore reflectance values below 0 in public spectra
