@@ -84,6 +84,9 @@ def plot_spectra(spectra, show=True, save=None, taxonomy=None):
     for spec in spectra:
         _plot_spectrum(ax_spec, spec)
 
+    ax_spec.set(xlabel=r"Wavelength / µm", ylabel="Reflectance")
+    ax_spec.legend(ncols=4, frameon=False)
+
     if taxonomy is not None:
         if taxonomy == "mahlke":
             _plot_taxonomy_mahlke(ax_class, spectra)
