@@ -1,5 +1,5 @@
-"""
-"""
+""" """
+
 import sys
 
 import classy
@@ -244,7 +244,7 @@ class InteractiveFeatureFit(QtWidgets.QMainWindow):
 
     def _plot_continuum(self):
         """Plot the continuum function."""
-        self.feat.compute_continuum(self.feat.type_continuum)
+        self.feat.compute_continuum(method=self.feat.type_continuum)
         data = (self.feat.wave, self.feat.continuum(self.feat.wave))
         if hasattr(self, "plot_cont"):
             self.plot_cont.setData(data[0], data[1])
@@ -325,8 +325,14 @@ class InteractiveFeatureFit(QtWidgets.QMainWindow):
     def _change_continuum_type(self):
         """Function for radio buttons to switch continuum types."""
         button = self.sender()
+
         if button.isChecked():
-            self.continuum_type = button.type_
+            self.feat.type_continuum = (
+                "linear" if button.text() == "Linear Fit" else "convex_hull"
+            )
+        else:
+            # only update if something has changed
+            return
 
         self._plot_continuum()
 
@@ -730,22 +736,8 @@ def main(feature):
 
 
 def smooth(spec):
-    # global app
-    # app = QtGui.QGuiApplication.instance()
-    # if app is None:
-    #     app = QtGui.QGuiApplication(sys.argv)
-    # # foo = Foo(sys.argv)
-    # fioo = InteractiveSmoothing(spec)
-    # fioo.show()
-    # app.exit(app.exec_())
-    #
     qapp = pg.mkQApp(name="classy")
-    # qapp = QtWidgets.QApplication(sys.argv)
     app = InteractiveSmoothing(spec)
     app.show()
-    # print(1)
-    #
-    # # print(2)
     qapp.exec_()
     qapp.quit()
-    # app.close()

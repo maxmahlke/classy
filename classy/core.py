@@ -143,7 +143,7 @@ class Spectrum:
         if not hasattr(self, "filename"):
             return False
 
-        smoothing = index.load_smoothing()
+        smoothing = preprocessing.load_smoothing()
 
         if self.filename in smoothing.index.values:
             return True

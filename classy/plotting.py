@@ -144,9 +144,6 @@ def _plot_spectrum(ax, spec, **kwargs):
             ec="none",
         )
 
-    ax.set(xlabel=r"Wavelength / µm", ylabel="Reflectance")
-    ax.legend(ncols=4, frameon=False)
-
 
 def plot_gaia_spectrum(ax, spec, **kwargs):
     """Plot a Gaia spectrum.
