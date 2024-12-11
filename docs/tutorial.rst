@@ -16,6 +16,31 @@ Tutorials
     for spec in smass:
         print(spec.target.name, spec.target.number)
 
+.. role:: raw-html(raw)
+    :format: html
+
+.. dropdown:: Loop over all spectra in ``classy`` index
+
+  To loop over all spectra in your ``classy`` index, you can load the index and pass it to ``Spectra``.
+  As the index can be quite large, it's recommended to do this in chunks.
+
+  .. code-block:: python
+
+    idx = classy.index.load() # returns classy index as pd.DataFrame
+
+    # Load spectra in chunks of 100
+    N = 10
+
+    for i in range(0, len(idx), N):
+        specs = classy.Spectra(idx.iloc[i:i+N])
+
+  You can set `skip_target=True` to skip target resolution via ``rocks`` and significantly speed up the process.
+
+  .. code-block:: python
+
+    for i in range(0, len(idx), N):
+        specs = classy.Spectra(idx.iloc[i:i+N], skip_target=True)
+
 
 .. _excluding_refl:
 
