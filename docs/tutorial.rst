@@ -34,7 +34,7 @@ Tutorials
     for i in range(0, len(idx), N):
         specs = classy.Spectra(idx.iloc[i:i+N])
 
-  You can set `skip_target=True` to skip target resolution via ``rocks`` and significantly speed up the process.
+  You can set ``skip_target=True`` to skip target resolution via ``rocks`` and significantly speed up the process.
 
   .. code-block:: python
 
