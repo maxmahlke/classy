@@ -1,3 +1,7 @@
+# 0.8.7 -
+- Fix bug in continuum-computation method change in feature-fitting GUI
+- Fix bug in smoothing-index load function
+
 # 0.8.6 - 2024-07-04
 - Split ECAS dataset into single-epoch rather than averaged spectra
 - Add observation date to PRIMASS spectra

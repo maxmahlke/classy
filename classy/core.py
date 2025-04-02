@@ -150,7 +150,7 @@ class Spectrum:
         return False
 
     def load_smoothing_parameters(self):
-        smoothing = index.load_smoothing()
+        smoothing = preprocessing.load_smoothing()
         return smoothing.loc[self.filename].to_dict()
 
     def smooth_interactive(self):
