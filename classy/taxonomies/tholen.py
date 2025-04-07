@@ -245,6 +245,8 @@ def decision_tree(spec):
             return "C"
         return "B"
 
+    # Reset albedo
+    spec.pV = np.power(10, spec.pV)
     return class_
 
 

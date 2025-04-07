@@ -1,4 +1,5 @@
 # 0.8.7 -
+- Correctly reset classy.Spectrum.pV after Tholen classification
 - Fix bug in continuum-computation method change in feature-fitting GUI
 - Fix bug in smoothing-index load function
 
