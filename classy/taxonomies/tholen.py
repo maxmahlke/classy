@@ -200,9 +200,9 @@ def decision_tree(spec):
     The spectrum must have the Tholen PC scores as ``scores_tholen`` attribute.
     """
     if hasattr(spec, "pV"):
-        spec.pV = np.log10(spec.pV)
+        spec.pV = spec.pV
     elif hasattr(spec, "target") and isinstance(spec.target, rocks.Rock):
-        spec.pV = np.log10(spec.target.albedo.value)
+        spec.pV = spec.target.albedo.value
     else:
         spec.pV = np.nan
 
@@ -245,8 +245,6 @@ def decision_tree(spec):
             return "C"
         return "B"
 
-    # Reset albedo
-    spec.pV = np.power(10, spec.pV)
     return class_
 
 
