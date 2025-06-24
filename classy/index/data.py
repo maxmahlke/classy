@@ -5,6 +5,7 @@ if sys.version_info[1] < 9:
     import importlib_resources as resources
 else:
     import importlib.resources as resources
+from functools import lru_cache
 import pickle
 
 import pandas as pd
@@ -102,6 +103,7 @@ def _load_classy():
     return pd.read_csv(_get_path_data() / "classy/classy_data.csv")
 
 
+@lru_cache()
 def _load_mcfa():
     """Load the trained MCFA model of the classy taxonomy.
 
