@@ -23,8 +23,11 @@ def assign_classes(data):
     """
 
     # Instantiate the class probability columns
-    for class_ in defs.CLASSES:
-        data[f"class_{class_}"] = 0
+    columns_class = {f"class_{class_}": 0.0 for class_ in defs.CLASSES}
+    columns_class["class_"] = ""
+    columns_class["DIFFUSE"] = False
+
+    data = pd.concat([data, pd.DataFrame(columns_class, index=data.index)], axis=1)
 
     # Load trained mixture models
     GMMS, CLASSES = gmm.load_mixture_models()
@@ -64,7 +67,7 @@ def assign_classes(data):
                 axis=1,
             )
             # Rest goes to L-Types
-            data.loc[LMASK, "class_L"] += data.loc[LMASK, "cluster_37"]
+            data.loc[LMASK, "class_L"] += data.loc[LMASK, "cluster_37"].astype(float)
             continue
 
         data = data.apply(
@@ -114,9 +117,7 @@ def assign_classes(data):
         axis=1,
     )
 
-    data["DIFFUSE"] = data["cluster"].apply(
-        lambda cluster: True if cluster in defs.DIFFUSE_CLUSTER else False
-    )
+    data["DIFFUSE"] = data["cluster"].isin(defs.DIFFUSE_CLUSTER)
 
     return data
 
