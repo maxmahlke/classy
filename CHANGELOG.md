@@ -1,7 +1,9 @@
-# 0.8.7 -
+# 0.8.7 - 2025-06-24
 - Correctly reset classy.Spectrum.pV after Tholen classification
 - Fix bug in continuum-computation method change in feature-fitting GUI
 - Fix bug in smoothing-index load function
+- Fix erroneous albedo conversion in Tholen classification
+- Improve pandas performance in taxonomy/mahlke module
 
 # 0.8.6 - 2024-07-04
 - Split ECAS dataset into single-epoch rather than averaged spectra
