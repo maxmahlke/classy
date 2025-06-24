@@ -249,7 +249,7 @@ class Spectrum:
         if self.wave.size == 0:
             logger.error("No wavelength bins left in spectrum after truncating.")
 
-    def normalize(self, method="wave", at=None):
+    def normalize(self, at=None, method="wave"):
         """Normalize the spectrum.
 
         Parameters
@@ -311,7 +311,7 @@ class Spectrum:
         Parameters
         ----------
         taxonomy : str
-            The taxonomic system to use. Choose from ['mahlke', 'demeo', 'bus', 'tholen'].
+            The taxonomic system to use. Choose from ['mahlke', 'demeo', 'tholen'].
             Default is 'mahlke'.
 
         Notes
