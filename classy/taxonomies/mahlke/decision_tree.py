@@ -221,12 +221,25 @@ def resolve_cluster_19(sample, GMM_19, CLASSES):
 
 
 def resolve_cluster_23(sample, GMM_23, CLASSES):
-    # Class probabilities for L, M
-    probs = GMM_23.predict_proba(np.array(sample[["z0", "z3"]]).reshape(1, -1))
+    # hard cut based on z3, following Mahlke+ 2025
+    if sample.z3 < -0.25:
+        sample.class_L += sample.cluster_23
+        return sample
+    else:
+        sample.class_M += sample.cluster_23
+        return sample
 
-    for j, class_ in enumerate(CLASSES):
-        # Add class probabilites scaled by cluster probability
-        sample[f"class_{class_}"] += probs[0][j] * sample["cluster_23"]
+    # ------
+    # The code below was applied in the original version
+    # In Mahlke+ 2025, it is concluded that this cluster is mostly L types
+    # and the cluster split in L versus M was changed. The code below is
+    # kept here for reference.
+
+    # Class probabilities for L, M
+    # probs = GMM_23.predict_proba(np.array(sample[["z0", "z3"]]).reshape(1, -1))
+    # for j, class_ in enumerate(CLASSES):
+    #     # Add class probabilites scaled by cluster probability
+    #     sample[f"class_{class_}"] += probs[0][j] * sample["cluster_23"]
 
     return sample
 

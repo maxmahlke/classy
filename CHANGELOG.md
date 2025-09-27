@@ -1,3 +1,7 @@
+# 0.8.8
+- Adapt decision tree to assign cluster 23 predominantly to L, not M as in
+  previous version (Mahlke+ 2025, A&A)
+
 # 0.8.7 - 2025-06-24
 - Correctly reset classy.Spectrum.pV after Tholen classification
 - Fix bug in continuum-computation method change in feature-fitting GUI
