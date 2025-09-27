@@ -1,4 +1,5 @@
 """Classification of asteroids following DeMeo+ 2009."""
+
 from functools import lru_cache
 
 import numpy as np
@@ -321,7 +322,6 @@ def add_classification_results(spec, results=None):
 
 
 # ------
-# Functions for plotting
 # Functions for classification
 @lru_cache(maxsize=None)
 def load_classification():
@@ -398,7 +398,7 @@ def _compute_template_correlation(spec, classes):
     return coeffs
 
 
-def plot_pc_space(ax, spectra):
+def plot_pc_space(ax, spectra, x=1, y=2):
     """Plot the distribution of classified spectra and the SMASS spectra in the DeMeo PC space.
 
     Parameters
@@ -407,6 +407,10 @@ def plot_pc_space(ax, spectra):
         The matplotlib axis instance to plot to.
     spectra : classy.Spectra or list of classy.Spectrum
         One or more spectra which were previously classified in the DeMeo system.
+    x : int, optional
+        The x-axis PC score to plot. Default is 1.
+    y : int, optional
+        The y-axis PC score to plot. Default is 2.
 
     Returns
     -------
@@ -422,10 +426,10 @@ def plot_pc_space(ax, spectra):
 
     for _, ast in demeo.iterrows():
         # Dummy to ensure proper plot limits
-        ax.scatter(ast.PC1, ast.PC2, alpha=0)
+        ax.scatter(ast[f"PC{x}"], ast[f"PC{y}"], c="lightgray", s=1, zorder=0)
 
         # Add asteroid position in PC space represented by its number
-        ax.text(ast.PC1, ast.PC2, str(ast.number), color="lightgray", **opts_text)
+        # ax.text(ast.PC1, ast.PC2, str(ast.number), color="lightgray", **opts_text)
 
     # ------
     # Add the mean positions of the main classes
@@ -434,39 +438,33 @@ def plot_pc_space(ax, spectra):
         if len(class_) > 1:
             continue
 
-        pc0 = np.mean(pcs.PC1)
-        pc1 = np.mean(pcs.PC2)
-
-        # Small offsets for readability
-        if class_ == "E":
-            pc0 += 0.05
-        elif class_ == "P":
-            pc0 += 0.09
+        pc0 = np.mean(pcs[f"PC{x}"])
+        pc1 = np.mean(pcs[f"PC{y}"])
 
         # Add class indicator
-        ax.text(pc0, pc1, class_, size=14, color="black", **opts_text)
+        ax.text(pc0, pc1, class_, size=10, color="black", **opts_text)
 
     # ------
     # Add classified spectra
-    for spec in spectra:
-        if not spec.class_demeo:
-            logger.debug(f"[{spec.name}]: Not classified in DeMeo+ 2009 system.")
-            continue
-
-        ax.scatter(
-            spec.scores_demeo[0],
-            spec.scores_demeo[1],
-            marker="d",
-            c=spec._color,
-            s=40,
-            label=f"{spec.source + ': ' if hasattr(spec, 'source') else ''}{spec.class_demeo}",
-            zorder=100,
-        )
+    # for spec in spectra:
+    #     if not spec.class_demeo:
+    #         logger.debug(f"[{spec.name}]: Not classified in DeMeo+ 2009 system.")
+    #         continue
+    #
+    #     ax.scatter(
+    #         spec.scores_demeo[0],
+    #         spec.scores_demeo[1],
+    #         marker="d",
+    #         c=spec._color,
+    #         s=40,
+    #         label=f"{spec.source + ': ' if hasattr(spec, 'source') else ''}{spec.class_demeo}",
+    #         zorder=100,
+    #     )
 
     # ------
     # Final additions et voila
-    ax.axvline(0, ls=":", c="gray")
-    ax.axhline(0, ls=":", c="gray")
+    # ax.axvline(0, ls=":", c="gray")
+    # ax.axhline(0, ls=":", c="gray")
     ax.legend()
 
     return ax
