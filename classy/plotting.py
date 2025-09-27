@@ -75,7 +75,8 @@ def plot_spectra(spectra, show=True, save=None, taxonomy=None):
     # ------
     # Populate figure
     if taxonomy is None:
-        fig, ax = plt.subplots(figsize=(10, 7))
+        # fig, ax = plt.subplots(figsize=(10, 7))
+        fig, ax = plt.subplots(figsize=(5, 3))
         ax_spec = ax
     else:
         fig, ax = plt.subplots(figsize=(20, 7), ncols=2)
@@ -155,17 +156,20 @@ def plot_gaia_spectrum(ax, spec, **kwargs):
     spec : classy.spectra.Spectrum
         The Gaia spectrum to plot.
     """
+    color = kwargs["color"] if "color" in kwargs else "black"
 
     # Line to guide the eye
-    ax.plot(spec.wave, spec.refl, ls=":", lw=1, c="black", zorder=100, label=spec.name)
+    ax.plot(spec.wave, spec.refl, ls=":", lw=1, c=color, zorder=100, label=spec.name)
 
     refl_err = np.array([0] * len(spec)) if spec.refl_err is None else spec.refl_err
 
     # Errorbars colour-coded by photometric flag
     props = dict(lw=1, capsize=3, ls="", zorder=100)
     props.update(kwargs)
+    if "color" in props:
+        props.pop("color")
 
-    ax.errorbar(spec.wave, spec.refl, yerr=refl_err, c="black", **props)
+    ax.errorbar(spec.wave, spec.refl, yerr=refl_err, color=color, **props)
 
     f1 = spec.flag == 1
     f2 = spec.flag == 2

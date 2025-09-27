@@ -526,7 +526,7 @@ class InteractiveSmoothing(QtWidgets.QMainWindow):
 
         self.check_smooth.stateChanged.connect(self._update_smoothing)
 
-        label_id = QtWidgets.QLabel({self.spec.name})
+        label_id = QtWidgets.QLabel(self.spec.name)
 
         radio_savgol = QtWidgets.QRadioButton("Savitzky-Golay")
 

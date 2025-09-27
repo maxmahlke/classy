@@ -187,11 +187,15 @@ def query(id=None, **kwargs):
                             idx = idx.loc[idx[column] <= float(upper)]
                         continue
 
-            # Categorical value: Apply as "is-in"
+            # categorical value matching
             if not isinstance(value, (list, tuple)):
                 value = [value]
 
-            idx = idx.loc[idx[column].isin(value)]
+            # strict or startswith matching?
+            if column in ["sso_class"]:
+                idx = idx.loc[idx[column].str.startswith(value[0])]
+            else:
+                idx = idx.loc[idx[column].isin(value)]
 
     if "feature" in kwargs:
         # Only feature entries of spectra we care about

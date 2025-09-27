@@ -210,7 +210,7 @@ def _within_extrapolation_limit(wave_min, wave_max, grid_min, grid_max):
 
     if missing_percent <= config.EXTRAPOLATION_LIMIT / 100 and missing_percent > 0:
         logger.debug(
-            f"Missing {missing_percent*100:.1f}% of wavelength range. Extrapolating edges with constant values."
+            f"Missing {missing_percent * 100:.1f}% of wavelength range. Extrapolating edges with constant values."
         )
         return True
     return False
@@ -258,7 +258,7 @@ def _normalize_at(wave, refl, at):
     idx = utils.find_nearest(wave, at)
     wave_norm = wave[idx]
 
-    if wave_norm != at:
+    if wave_norm <= at - 0.03 or wave_norm >= at + 0.03:
         logger.warning(f"Normalizing at {wave_norm} rather than at {at}.")
 
     return refl / refl[idx]
@@ -271,6 +271,6 @@ def _normalize_l2(refl):
 
 def smooth_interactive(spec):
     """"""
-    from classy import gui
+    from classy.features import gui
 
     gui.smooth(spec)
