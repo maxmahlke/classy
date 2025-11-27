@@ -5,6 +5,7 @@ import shutil
 import numpy as np
 import pandas as pd
 import rocks
+import rich
 
 from classy import config
 from classy import sources
@@ -17,6 +18,7 @@ from classy import taxonomies
 from classy import utils
 from classy.utils.logging import logger
 
+_console = rich.console.Console() # Resuable console object
 
 class Spectrum:
     def __init__(self, wave, refl, refl_err=None, target=None, **kwargs):
@@ -379,6 +381,16 @@ class Spectrum:
         self.refl, self.slope = preprocessing.remove_slope(
             self.wave, self.refl, translate_to
         )
+    
+    def remove_continuum(self):
+        """Remove the continuum from the spectrum.
+
+        Note
+        ----
+        The reflectance will be after the continuum is removed.
+        Use spectra._refl_original to get the original reflectance.
+        """
+        self.refl /= preprocessing.compute_convex_hull(self)(self.wave)
 
     def inspect_features(self, feature="all", force=False):
         """Run interactive inspection of e-, h-, and/or k-feature.
@@ -526,7 +538,10 @@ class Spectra(list):
             spectra = id
         else:
             spectra = index.query(id, **kwargs)
+        
 
+        self.spectra_df = spectra.copy() # align with cli.py
+        self.is_classified = False
         spectra = index.data.load_spectra(spectra, skip_target)
 
         for spec in spectra:
@@ -545,12 +560,14 @@ class Spectra(list):
             )
         return Spectra([*self, *rhs])
 
+    
     def plot(self, **kwargs):
         return plotting.plot_spectra(list(self), **kwargs)
 
     def classify(self, taxonomy="mahlke"):
         for spec in self:
             spec.classify(taxonomy=taxonomy)
+        self.is_classified = True
 
     def smooth(self, method="interactive", force=False, progress=True, **kwargs):
         """Smooth spectrum using a Savitzky-Golay filter or univariate spline.
