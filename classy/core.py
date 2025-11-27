@@ -560,6 +560,63 @@ class Spectra(list):
             )
         return Spectra([*self, *rhs])
 
+    def __str__(self):
+        table = rich.table.Table(
+            box=rich.box.ASCII2,
+            caption=f"{len(self)} Spectr{'a' if len(self) > 1 else 'um'}"
+        )
+        # Construct column setup
+        columns = ["name", "number", "wave_min", "wave_max"]
+
+        if not self.is_classified:
+            for c in ["date_obs", "phase", "source"]:
+                columns.insert(4, c)
+            for col in self.spectra_df.columns:
+                if col not in index.COLUMNS:
+                    columns += [col]
+            for c in columns:
+                if self.spectra_df[c].dtype == "float64":
+                    self.spectra_df[c] = self.spectra_df[c].round(3)
+                if self.spectra_df[c].dtype in ["float64", "object"]:
+                    self.spectra_df[c] = self.spectra_df[c].fillna("-")
+        else:
+            columns += ["albedo", "class_mahlke", "class_demeo", "class_tholen"]
+
+        columns += ["shortbib"]
+        for c in columns:
+            table.add_column(c)
+        
+        if self.is_classified:
+            for spec in self:
+                row = []
+
+                # TODO: Definition of code smell
+                for c in columns:
+                    if c in ["name", "number", "albedo"]:
+                        if hasattr(spec, "target"):
+                            if c == "albedo":
+                                row.append(str(spec.target.albedo.value))
+                            else:
+                                row.append(str(getattr(spec.target, c)))
+                        else:
+                            row.append("-")
+                    elif c == "wave_min":
+                        row.append(f"{spec.wave.min():.3f}")
+                    elif c == "wave_max":
+                        row.append(f"{spec.wave.max():.3f}")
+                    else:
+                        try:
+                            row.append(str(getattr(spec, c)))
+                        except AttributeError:
+                            row.append(" ")
+                table.add_row(*row)
+        else:
+            for _, spec in self.spectra_df.iterrows():
+                table.add_row(*spec[columns].astype(str))
+
+        with _console.capture() as capture:
+                _console.print(table)
+        return capture.get()
     
     def plot(self, **kwargs):
         return plotting.plot_spectra(list(self), **kwargs)
