@@ -17,6 +17,10 @@ from classy import taxonomies
 from classy import utils
 from classy.utils.logging import logger
 
+import rich
+
+_console = rich.console.Console() # Reusable console for rich output
+
 
 class Spectrum:
     def __init__(self, wave, refl, refl_err=None, target=None, **kwargs):
