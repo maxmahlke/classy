@@ -5,7 +5,6 @@ import shutil
 import numpy as np
 import pandas as pd
 import rocks
-import rich
 
 from classy import config
 from classy import sources
@@ -18,7 +17,6 @@ from classy import taxonomies
 from classy import utils
 from classy.utils.logging import logger
 
-_console = rich.console.Console() # Resuable console object
 
 class Spectrum:
     def __init__(self, wave, refl, refl_err=None, target=None, **kwargs):
