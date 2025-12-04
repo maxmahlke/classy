@@ -1,5 +1,6 @@
 import classy
 
+
 def test_minimal():
     """Functional test of Spectrum with wave and refl"""
 
@@ -8,7 +9,6 @@ def test_minimal():
     refl = [0.85, 0.94, 1.01, 1.05, 1.04, 1.02, 1.04, 1.07, 1.1]
 
     spec = classy.Spectrum(wave=wave, refl=refl)
-    spec.remove_continuum()
     spec.plot(show=False)
 
 
