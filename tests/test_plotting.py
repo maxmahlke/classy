@@ -10,3 +10,18 @@ def test_minimal():
 
     spec = classy.Spectrum(wave=wave, refl=refl)
     spec.plot(show=False)
+
+
+def test_spectra_print():
+    spec = classy.Spectra(16)
+    print(spec) # it should be the same as cli: classy spectra 16
+    spec.classify(taxonomy="mahlke")
+    print(spec) # it should be the same as cli: classy classify 16 --taxonomy mahlke
+    spec.classify(taxonomy="demeo")
+    print(spec) # results should contain mahlke and demeo classifications
+    spec.classify(taxonomy="tholen")
+    print(spec) # it should be the same as cli: classy classify 16
+
+# if __name__ == "__main__":
+#     test_minimal()
+#     test_spectra_print()
