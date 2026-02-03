@@ -531,6 +531,8 @@ class Spectra(list):
         else:
             spectra = index.query(id, **kwargs)
 
+        self.spectra_df = spectra.copy()
+        self.is_classified = False
         spectra = index.data.load_spectra(spectra, skip_target)
 
         for spec in spectra:
@@ -613,6 +615,7 @@ class Spectra(list):
     def classify(self, taxonomy="mahlke"):
         for spec in self:
             spec.classify(taxonomy=taxonomy)
+        self.is_classified = True
 
     def smooth(self, method="interactive", force=False, progress=True, **kwargs):
         """Smooth spectrum using a Savitzky-Golay filter or univariate spline.
