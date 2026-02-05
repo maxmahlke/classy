@@ -379,6 +379,16 @@ class Spectrum:
         self.refl, self.slope = preprocessing.remove_slope(
             self.wave, self.refl, translate_to
         )
+    
+    def remove_continuum(self):
+        """Remove the continuum from the spectrum.
+
+        Note
+        ----
+        The reflectance will be after the continuum is removed.
+        Use spectra._refl_original to get the original reflectance.
+        """
+        self.refl /= self.compute_continuum()(self.wave)
 
     def inspect_features(self, feature="all", force=False):
         """Run interactive inspection of e-, h-, and/or k-feature.
@@ -526,6 +536,7 @@ class Spectra(list):
             spectra = id
         else:
             spectra = index.query(id, **kwargs)
+        
 
         spectra = index.data.load_spectra(spectra, skip_target)
 
@@ -545,6 +556,7 @@ class Spectra(list):
             )
         return Spectra([*self, *rhs])
 
+    
     def plot(self, **kwargs):
         return plotting.plot_spectra(list(self), **kwargs)
 
