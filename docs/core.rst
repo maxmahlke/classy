@@ -409,6 +409,10 @@ adapt the figure before opening the plot, you can set ``show=False``. This can
 be useful e.g. if you would like to add :ref:`template spectra of taxonomic
 classes <taxonomies>` for comparison.
 
+If you encounter issues with custom plots in Jupyter Notebooks, add `%matplotlib inline`
+at the first line of your notebook. Also, append a `;` after any plot-invoking code to
+prevent automatic plot display and ensure the final plt.show() works correctly.
+
 .. code-block:: python
 
   >>> import matplotlib.pyplot as plt
@@ -416,6 +420,9 @@ classes <taxonomies>` for comparison.
   >>> fig, ax = spectra.plot(show=False)
   >>> templates = classy.taxonomies.mahlke.load_templates()
   >>> ax.plot(templates['S'].wave, templates['S'].refl, label='Template S', ls=":")
+  >>> # if you are using a Jupyter notebook, you should use the following line insead
+  >>> # fig, ax = spectra.plot(show=False); <-- note the ';' at the end
+  >>> # ax.plot(templates['S'].wave, templates['S'].refl, label='Template S', ls=":"); <-- note the ';' at the end
   >>> ax.legend()
   >>> plt.show()
 
