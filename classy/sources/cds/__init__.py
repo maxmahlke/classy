@@ -35,12 +35,18 @@ def _retrieve_spectra():
         if PATH_ARCHIVE.is_file():
             logger.debug(f"cds/{repo} - Using cached archive file at \n{PATH_ARCHIVE}")
         else:
-            success = utils.download.archive(URL, PATH_ARCHIVE)
+            try:
+                success = utils.download.archive(URL, PATH_ARCHIVE)
+            except:
+                logger.error(f"cds/{repo} - Download failed, skipping.")
 
             if not success:
                 continue
 
-        utils.unpack(PATH_ARCHIVE, encoding="tar.gz")
+        try:
+            utils.unpack(PATH_ARCHIVE, encoding="tar.gz")
+        except:
+            logger.error(f"cds/{repo} - Unpacking failed, skipping.")
 
 
 def _build_index():
