@@ -226,3 +226,25 @@ attribute of the spectrum:
  :align: center
  :class: only-dark
  :width: 600
+
+Remove Continuum
+------------
+
+Removing the continuum of a spectrum means fitting a convex hull to the spectrum and dividing the reflectance values by the continuum.
+The reflectance will be overwritten. Use spectra._refl_original to get the original reflectance.
+
+.. code-block:: python
+
+  >>> spec  = classy.Spectra(16)[-2]
+  >>> spec.remove_continuum() 
+
+.. image:: gfx/preprocessing/psyche_continuum_removed.png
+ :align: center
+ :class: only-light
+ :width: 600
+
+.. image:: gfx/preprocessing/psyche_continuum_removed_dark.png
+ :align: center
+ :class: only-dark
+ :width: 600
+
