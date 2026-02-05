@@ -1,6 +1,7 @@
-# 0.8.8
-- Adapt decision tree to assign cluster 23 predominantly to L, not M as in
-  previous version (Mahlke+ 2025, A&A)
+# 0.8.8 - 2026-02-05
+- Add remove_continuum method for spectra (#15)
+- Fail graciously when CDS files are unavailable or corrupted
+- Adapt decision tree to assign cluster 23 predominantly to L, not M
 
 # 0.8.7 - 2025-06-24
 - Correctly reset classy.Spectrum.pV after Tholen classification
