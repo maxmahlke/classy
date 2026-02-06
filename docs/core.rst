@@ -420,7 +420,7 @@ prevent automatic plot display and ensure the final plt.show() works correctly.
   >>> fig, ax = spectra.plot(show=False)
   >>> templates = classy.taxonomies.mahlke.load_templates()
   >>> ax.plot(templates['S'].wave, templates['S'].refl, label='Template S', ls=":")
-  >>> # if you are using a Jupyter notebook, you should use the following line insead
+  >>> # if you are using a Jupyter notebook, you should use the following line instead
   >>> # fig, ax = spectra.plot(show=False); <-- note the ';' at the end
   >>> # ax.plot(templates['S'].wave, templates['S'].refl, label='Template S', ls=":"); <-- note the ';' at the end
   >>> ax.legend()
