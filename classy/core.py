@@ -5,6 +5,7 @@ import shutil
 import numpy as np
 import pandas as pd
 import rocks
+from scipy.interpolate import interp1d 
 
 from classy import config
 from classy import sources
@@ -460,7 +461,7 @@ class Spectrum:
         if self.refl_err is not None:
             self.refl_err = None
 
-    def compute_continuum(self):
+    def compute_continuum(self)->interp1d:
         """Compute the convex-hull continuum of the spectrum.
 
         Notes
@@ -468,6 +469,7 @@ class Spectrum:
         The continuum is stored as a callable in the 'continuum' attribute.
         """
         self.continuum = preprocessing.compute_convex_hull(self)
+        return self.continuum
 
     def export(self, path, columns=None, raw=False):
         """Export spectrum attributes to a csv file.
